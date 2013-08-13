@@ -1,11 +1,12 @@
 package org.grameenfoundation.search.settings;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Charles
- * Date: 8/13/13
- * Time: 8:10 AM
- * To change this template use File | Settings | File Templates.
+ * Contains constants that represents settings of the application.
  */
-public class SettingsConstants {
+public final class SettingsConstants {
+    private SettingsConstants() {
+    }
+
+    public static final String KEY_SERVER = "server";
+
 }

@@ -1,11 +1,31 @@
 package org.grameenfoundation.search;
 
+import android.content.Context;
+
 /**
- * Created with IntelliJ IDEA.
- * User: Charles
- * Date: 8/12/13
- * Time: 5:20 PM
- * To change this template use File | Settings | File Templates.
+ * Utility class that shares data across the entire application
  */
-public class ApplicationRegistry {
+public final class ApplicationRegistry {
+    private ApplicationRegistry() {
+    }
+
+    private static Context applicationContext;
+
+    /**
+     * gets the application context
+     *
+     * @return
+     */
+    public static Context getApplicationContext() {
+        return applicationContext;
+    }
+
+    /**
+     * sets the application context
+     *
+     * @param applicationContext
+     */
+    public static void setApplicationContext(Context applicationContext) {
+        ApplicationRegistry.applicationContext = applicationContext;
+    }
 }

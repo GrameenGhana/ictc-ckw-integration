@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
-</PreferenceScreen>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <header android:fragment="org.grameenfoundation.search.settings.SettingsActivity$ConnectionFragment"
+            android:title="@string/setting_connection"
+            android:summary="@string/summary_connection"/>
+</preference-headers>
