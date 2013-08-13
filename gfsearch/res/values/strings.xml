@@ -16,7 +16,12 @@
     <string name="setting_connection">Connection</string>
     <string name="summary_connection">Connection Related Settings</string>
     <string name="connection_preferences">Connection</string>
-
+    <string name="action_search">Search</string>
+    <string name="action_new_search">New Search</string>
+    <string name="farmer_id_text">Farmer Id</string>
+    <string name="recent_searches">Recent Searches</string>
+    <string name="favourite_searches">Favourite Searches</string>
+    <string name="synchronise">Synchronise</string>
 
 
 </resources>

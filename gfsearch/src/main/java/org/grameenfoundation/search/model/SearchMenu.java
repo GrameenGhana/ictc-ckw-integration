@@ -1,11 +1,47 @@
 package org.grameenfoundation.search.model;
 
 /**
- * Created with IntelliJ IDEA.
- * User: Charles
- * Date: 8/12/13
- * Time: 5:34 PM
- * To change this template use File | Settings | File Templates.
+ * Represents a menu
+ *
+ * @author Charles Tumwebaze
  */
 public class SearchMenu {
+    private String id;
+    private String label;
+
+    /**
+     * gets the id of this menu
+     *
+     * @return
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * sets the id of this search menu
+     *
+     * @param id
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
+     * gets the label of this menu
+     *
+     * @return
+     */
+    public String getLabel() {
+        return label;
+    }
+
+    /**
+     * sets the label of the search menu.
+     *
+     * @param label
+     */
+    public void setLabel(String label) {
+        this.label = label;
+    }
 }
