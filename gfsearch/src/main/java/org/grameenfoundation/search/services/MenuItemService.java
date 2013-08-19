@@ -6,6 +6,7 @@ import org.grameenfoundation.search.model.SearchMenu;
 import org.grameenfoundation.search.model.SearchMenuItem;
 import org.grameenfoundation.search.storage.DatabaseHelperConstants;
 import org.grameenfoundation.search.storage.StorageManager;
+import org.grameenfoundation.search.storage.search.Search;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,21 @@ public class MenuItemService {
      * @return
      */
     public List<SearchMenu> getAllSearchMenus() {
-        return null;
+        Cursor cursor = StorageManager.getInstance().getAllRecords(DatabaseHelperConstants.MENU_TABLE_NAME);
+        List<SearchMenu> searchMenus = buildSearchMenus(cursor);
+        return searchMenus;
+    }
+
+    private List<SearchMenu> buildSearchMenus(Cursor cursor) {
+        List<SearchMenu> searchMenus = new ArrayList<SearchMenu>();
+        while (cursor.moveToNext()) {
+            SearchMenu searchMenu = new SearchMenu();
+            searchMenu.setId(cursor.getString(cursor.getColumnIndex(DatabaseHelperConstants.MENU_ROWID_COLUMN)));
+            searchMenu.setLabel(cursor.getString(cursor.getColumnIndex(DatabaseHelperConstants.MENU_LABEL_COLUMN)));
+
+            searchMenus.add(searchMenu);
+        }
+        return searchMenus;
     }
 
     /**
@@ -34,7 +49,13 @@ public class MenuItemService {
      * @return
      */
     public List<SearchMenu> getSearchMenus(int offset, int limit) {
-        return null;
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.MENU_TABLE_NAME);
+        search.setFirstResult(offset);
+        search.setMaxResults(limit);
+
+        Cursor cursor = StorageManager.getInstance().getRecords(search);
+        return buildSearchMenus(cursor);
     }
 
     /**
@@ -52,7 +73,21 @@ public class MenuItemService {
      * @param searchMenus
      */
     public void save(SearchMenu... searchMenus) {
+        List<ContentValues> values = getContentValues(searchMenus);
+        StorageManager.getInstance().replace(DatabaseHelperConstants.MENU_TABLE_NAME,
+                values.toArray(new ContentValues[]{}));
+    }
 
+    private List<ContentValues> getContentValues(SearchMenu[] searchMenus) {
+        List<ContentValues> values = new ArrayList<ContentValues>();
+        for (SearchMenu item : searchMenus) {
+            ContentValues contentValue = new ContentValues();
+            contentValue.put(DatabaseHelperConstants.MENU_ROWID_COLUMN, item.getId());
+            contentValue.put(DatabaseHelperConstants.MENU_LABEL_COLUMN, item.getLabel());
+
+            values.add(contentValue);
+        }
+        return values;
     }
 
     /**
@@ -61,7 +96,44 @@ public class MenuItemService {
      * @return
      */
     public List<SearchMenuItem> getAllSearchMenuItems() {
-        return null;
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
+        Cursor cursor = StorageManager.getInstance().getRecords(search);
+        return buildSearchMenuItems(cursor);
+    }
+
+    /**
+     * builds a list of search menu items from the given cursor.
+     *
+     * @param cursor
+     * @return
+     */
+    private List<SearchMenuItem> buildSearchMenuItems(Cursor cursor) {
+        List<SearchMenuItem> searchMenuItems = new ArrayList<SearchMenuItem>();
+        while (cursor.moveToNext()) {
+            SearchMenuItem searchMenuItem = new SearchMenuItem();
+            searchMenuItem.setId(cursor.getString(cursor.
+                    getColumnIndex(DatabaseHelperConstants.MENU_ITEM_ROWID_COLUMN)));
+            searchMenuItem.setLabel(cursor.getString(cursor.
+                    getColumnIndex(DatabaseHelperConstants.MENU_ITEM_LABEL_COLUMN)));
+            searchMenuItem.setPosition(cursor.getInt(cursor.
+                    getColumnIndex(DatabaseHelperConstants.MENU_ITEM_POSITION_COLUMN)));
+
+            searchMenuItem.setContent(cursor.getString(cursor.
+                    getColumnIndex(DatabaseHelperConstants.MENU_ITEM_CONTENT_COLUMN)));
+
+            searchMenuItem.setParentId(cursor.getString(cursor.
+                    getColumnIndex(DatabaseHelperConstants.MENU_ITEM_PARENTID_COLUMN)));
+
+            searchMenuItem.setMenuId(cursor.getString(cursor.
+                    getColumnIndex(DatabaseHelperConstants.MENU_ITEM_MENUID_COLUMN)));
+
+            searchMenuItem.setAttachmentId(cursor.getString(cursor.
+                    getColumnIndex(DatabaseHelperConstants.MENU_ITEM_ATTACHMENTID_COLUMN)));
+
+            searchMenuItems.add(searchMenuItem);
+        }
+        return searchMenuItems;
     }
 
     /**
@@ -72,7 +144,13 @@ public class MenuItemService {
      * @return
      */
     public List<SearchMenuItem> getSearchMenuItems(int offset, int limit) {
-        return null;
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
+        search.setFirstResult(offset);
+        search.setMaxResults(limit);
+
+        Cursor cursor = StorageManager.getInstance().getRecords(search);
+        return buildSearchMenuItems(cursor);
     }
 
     /**
@@ -82,6 +160,18 @@ public class MenuItemService {
      */
     public int countSearchMenuItems() {
         return StorageManager.getInstance().recordCount(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
+    }
+
+    public List<SearchMenuItem> getSearchMenuItems(String parentMenuItemId, int offset, int limit) {
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
+        search.addFilterEqual(DatabaseHelperConstants.MENU_ITEM_PARENTID_COLUMN, parentMenuItemId);
+        search.addSortAsc(DatabaseHelperConstants.MENU_ITEM_POSITION_COLUMN);
+        search.setFirstResult(offset);
+        search.setMaxResults(limit);
+
+        Cursor cursor = StorageManager.getInstance().getRecords(search);
+        return buildSearchMenuItems(cursor);
     }
 
     /**

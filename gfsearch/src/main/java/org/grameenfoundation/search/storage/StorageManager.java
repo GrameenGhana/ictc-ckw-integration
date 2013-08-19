@@ -5,22 +5,27 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import org.grameenfoundation.search.ApplicationRegistry;
+import org.grameenfoundation.search.storage.search.Search;
 
 /**
- * handles local storage
+ * A Facade that handles data storage operations like storage, retrieval etc.
+ * It abstracts the underlying data store from the callers and provides methods that
+ * can be called to perform necessary operations.
  *
- * @author ctumwebaze@gmail.com
+ * @author Charles Tumwebaze
  */
 public class StorageManager {
     private DatabaseHelper databaseHelper;
     private SQLiteDatabase database;
     private final Context context;
+    private SQLiteSearchProcessor sqLiteSearchProcessor;
     private static final StorageManager instance = new StorageManager();
 
     private StorageManager() {
         this.context = ApplicationRegistry.getApplicationContext();
         this.databaseHelper = new DatabaseHelper(this.context);
         this.database = databaseHelper.getWritableDatabase();
+        this.sqLiteSearchProcessor = new SQLiteSearchProcessor(this.database);
     }
 
     /**
@@ -180,6 +185,45 @@ public class StorageManager {
      */
     public int recordCount(String tableName) {
         Cursor cursor = database.rawQuery("SELECT COUNT(*) as total FROM " + tableName, null);
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+
+        cursor.close();
+        return count;
+    }
+
+    /**
+     * gets all the records in a particular table.
+     *
+     * @param tableName table for which all the records are required.
+     * @return Cursor from which to read the records.
+     */
+    public Cursor getAllRecords(String tableName) {
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM ");
+        queryBuilder.append(tableName);
+
+        return sqlSearch(queryBuilder.toString());
+    }
+
+    /**
+     * gets a Cursor for the records in the given search.
+     *
+     * @see Cursor
+     */
+    public Cursor getRecords(Search search) {
+        String query = this.sqLiteSearchProcessor.generateQuery(search);
+        return database.rawQuery(query, null);
+    }
+
+    /**
+     * gets the record count for the results that are returned in the given
+     * search.
+     */
+    public int recordCount(Search search) {
+        String query = this.sqLiteSearchProcessor.generateRowCountQuery(search);
+        Cursor cursor = database.rawQuery(query, null);
         int count = 0;
         if (cursor.moveToFirst()) {
             count = cursor.getInt(0);
