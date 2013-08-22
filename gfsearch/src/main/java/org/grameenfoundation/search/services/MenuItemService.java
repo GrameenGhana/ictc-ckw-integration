@@ -223,4 +223,29 @@ public class MenuItemService {
         }
         return values;
     }
+
+    public void deleteSearchMenuItems(SearchMenuItem... searchMenuItems) {
+        for (SearchMenuItem searchMenuItem : searchMenuItems) {
+            StorageManager.getInstance().execSql("DELETE FROM " + DatabaseHelperConstants.MENU_ITEM_TABLE_NAME +
+                    " WHERE " + DatabaseHelperConstants.MENU_ITEM_ROWID_COLUMN + " ='" + searchMenuItem.getId() + "'");
+        }
+    }
+
+    public void deleteSearchMenus(SearchMenu... searchMenus) {
+        for (SearchMenu searchMenu : searchMenus) {
+            StorageManager.getInstance().execSql("DELETE FROM " + DatabaseHelperConstants.MENU_TABLE_NAME +
+                    " WHERE " + DatabaseHelperConstants.MENU_ROWID_COLUMN + " ='" + searchMenu.getId() + "'");
+        }
+    }
+
+
+    /**
+     * delete search menu items for the given search menu.
+     *
+     * @param searchMenu
+     */
+    public void deleteSearchMenuItems(SearchMenu searchMenu) {
+        StorageManager.getInstance().execSql("DELETE FROM " + DatabaseHelperConstants.MENU_ITEM_TABLE_NAME +
+                " WHERE " + DatabaseHelperConstants.MENU_ITEM_MENUID_COLUMN + " ='" + searchMenu.getId() + "'");
+    }
 }

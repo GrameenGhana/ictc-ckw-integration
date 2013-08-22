@@ -9,12 +9,15 @@
     <string name="action_about">About</string>
     <string name="action_help">Help</string>
     <string name="settingSummary">Application Preferences</string>
-    <string name="synchronization_progress_bar_title">Synchronization Progress</string>
+    <string name="synchronization_progress_bar_title">Synchronizing</string>
     <string name="error_title">Error !</string>
     <string name="country_code_download_msg">Downloading CountryCode please wait...</string>
     <string name="upload_search_logs_download_msg">Uploading Search Logs please wait...</string>
     <string name="keyword_download_msg">Downloading keywords please wait...</string>
     <string name="synchronization_complete_msg">Synchronization Complete.</string>
+    <string name="processing_keywords_msg">Processing Keywords</string>
+    <string name="removing_keywords_msg">Removing Old Keywords</string>
+    <string name="downloading_images_msg">Downloading Images</string>
 
     <!-- Connection strings-->
     <string name="server_url">http://ckwapps.applab.org:8888/</string>
@@ -31,5 +34,6 @@
     <string name="synchronise">Synchronize</string>
     <string name="country_code_server_url_path">search/getCountryCode</string>
     <string name="keyword_server_url_path">search/getsearchkeywords</string>
+    <string name="image_server_url_path">search/getsfimages?imageId=</string>
 
 </resources>

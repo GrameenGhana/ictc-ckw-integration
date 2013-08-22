@@ -12,6 +12,7 @@ import org.grameenfoundation.search.services.MenuItemService;
 import org.grameenfoundation.search.settings.SettingsConstants;
 import org.grameenfoundation.search.settings.SettingsManager;
 import org.grameenfoundation.search.utils.HttpHelpers;
+import org.grameenfoundation.search.utils.ImageUtils;
 import org.grameenfoundation.search.utils.JsonSimpleBaseParser;
 import org.grameenfoundation.search.utils.XmlEntityBuilder;
 import org.json.simple.parser.JSONParser;
@@ -37,6 +38,7 @@ public class SynchronizationManager {
     private final static String CURRENT_MENU_IDS = "menuIds";
     private final static String DEFAULT_KEYWORDS_VERSION = "2010-04-04 00:00:00";
     private final static String DEFAULT_IMAGES_VERSION = "2010-04-04 00:00:00";
+    private MenuItemService menuItemService = new MenuItemService();
 
     private boolean synchronizing = false;
     private static final SynchronizationManager INSTANCE = new SynchronizationManager();
@@ -140,91 +142,194 @@ public class SynchronizationManager {
             FileInputStream fileInputStream = new FileInputStream(cacheFile);
 
             if (downloadComplete && fileInputStream != null) {
-                parseSearchMenus(fileInputStream);
+                processKeywords(fileInputStream);
             }
 
         } catch (Exception ex) {
             Log.e(SynchronizationManager.class.getName(), "Error downloading keywords", ex);
+            notifySynchronizationListeners("onSynchronizationError", ex);
         }
     }
 
-    private void parseSearchMenus(FileInputStream fileInputStream) throws IOException, ParseException {
+    private void processKeywords(FileInputStream fileInputStream) throws IOException, ParseException {
         final List<SearchMenu> searchMenus = new ArrayList<SearchMenu>();
+        List<SearchMenu> oldSearchMenus = menuItemService.getAllSearchMenus();
         final List<SearchMenuItem> searchMenuItems = new ArrayList<SearchMenuItem>();
         final List<SearchMenuItem> deletedSearchMenuItems = new ArrayList<SearchMenuItem>();
+        final List<String> imageIdz = new ArrayList<String>();
+        final List<String> deleteImageIz = new ArrayList<String>();
         final String[] keywordVersion = new String[1];
         final String[] imagesVersion = new String[1];
         final int[] keywordCount = new int[1];
 
-        new JSONParser().parse(new InputStreamReader(fileInputStream), new JsonSimpleBaseParser() {
-            private Object keywordObject = null;
-            private String keywordType = "";
+        try {
+            new JSONParser().parse(new InputStreamReader(fileInputStream), new JsonSimpleBaseParser() {
+                private Object keywordObject = null;
+                private String keywordType = "";
+                private int keywordCounter = 0;
 
-            @Override
-            public boolean primitive(Object value) throws ParseException, IOException {
-                if (null != key && value != null) {
-                    if (key.equals("Version")) {
-                        keywordVersion[0] = value.toString();
-                        imagesVersion[0] = value.toString();
-                    } else if (key.equals("Total")) {
-                        keywordCount[0] = Integer.parseInt(value.toString());
-                    } else {
-                        if (keywordObject instanceof SearchMenu) {
-                            populateSearchMenu((SearchMenu) keywordObject, key, value.toString());
-                        } else if (keywordObject instanceof SearchMenuItem) {
-                            populateSearchMenuItem((SearchMenuItem) keywordObject, key, value.toString());
+                @Override
+                public boolean primitive(Object value) throws ParseException, IOException {
+                    if (null != key && value != null) {
+                        if (key.equals("Version")) {
+                            keywordVersion[0] = value.toString();
+                            imagesVersion[0] = value.toString();
+                        } else if (key.equals("Total")) {
+                            keywordCount[0] = Integer.parseInt(value.toString());
+
+                            notifySynchronizationListeners("synchronizationUpdate", keywordCounter++, keywordCount[0],
+                                    ApplicationRegistry.getApplicationContext().
+                                            getResources().getString(R.string.processing_keywords_msg), true);
+                        } else {
+                            if (keywordObject instanceof SearchMenu) {
+                                populateSearchMenu((SearchMenu) keywordObject, key, value.toString());
+                            } else if (keywordObject instanceof SearchMenuItem) {
+                                populateSearchMenuItem((SearchMenuItem) keywordObject, key, value.toString());
+                            }
                         }
                     }
+
+                    key = null;
+                    return true;
                 }
 
-                key = null;
-                return true;
-            }
-
-            @Override
-            public boolean startArray() throws ParseException, IOException {
-                keywordType = key;
-                return true;
-            }
-
-            @Override
-            public boolean startObject() throws ParseException, IOException {
-                if ("Menus".equalsIgnoreCase(key)) {
-                    keywordObject = new SearchMenu();
-                } else if ("MenuItems".equalsIgnoreCase(key) || "DeletedMenuItems".equalsIgnoreCase(key)) {
-                    keywordObject = new SearchMenuItem();
-                } else if ("Images".equalsIgnoreCase(key)) {
-
-                } else if ("DeletedImages".equalsIgnoreCase(key)) {
-
+                @Override
+                public boolean startArray() throws ParseException, IOException {
+                    keywordType = key;
+                    return true;
                 }
 
-                return true;
-            }
-
-            @Override
-            public boolean endObject() throws ParseException, IOException {
-                if (keywordObject != null) {
-                    if (keywordObject instanceof SearchMenu) {
-                        searchMenus.add((SearchMenu) keywordObject);
-                    } else if (keywordObject instanceof SearchMenuItem &&
-                            keywordType.equalsIgnoreCase("MenuItems")) {
-                        searchMenuItems.add((SearchMenuItem) keywordObject);
-                    } else if (keywordObject instanceof SearchMenuItem &&
-                            keywordType.equalsIgnoreCase("DeletedMenuItems")) {
-                        deletedSearchMenuItems.add((SearchMenuItem) keywordObject);
+                @Override
+                public boolean startObject() throws ParseException, IOException {
+                    if ("Menus".equalsIgnoreCase(keywordType)) {
+                        keywordObject = new SearchMenu();
+                    } else if ("MenuItems".equalsIgnoreCase(keywordType)
+                            || "DeletedMenuItems".equalsIgnoreCase(keywordType)) {
+                        keywordObject = new SearchMenuItem();
+                    } else if ("Images".equalsIgnoreCase(keywordType)) {
+                        keywordObject = new String();
+                    } else if ("DeletedImages".equalsIgnoreCase(keywordType)) {
+                        keywordObject = new String();
                     }
+
+                    return true;
                 }
 
-                keywordObject = null;
-                return true;
+                @Override
+                public boolean endObject() throws ParseException, IOException {
+                    if (keywordObject != null) {
+                        if (keywordObject instanceof SearchMenu) {
+                            searchMenus.add((SearchMenu) keywordObject);
+
+                            menuItemService.save((SearchMenu) keywordObject);
+                        } else if (keywordObject instanceof SearchMenuItem &&
+                                keywordType.equalsIgnoreCase("MenuItems")) {
+                            //searchMenuItems.add((SearchMenuItem) keywordObject);
+                            menuItemService.save((SearchMenuItem) keywordObject);
+
+                            notifySynchronizationListeners("synchronizationUpdate", keywordCounter++, keywordCount[0],
+                                    ApplicationRegistry.getApplicationContext().
+                                            getResources().getString(R.string.processing_keywords_msg), true);
+
+                        } else if (keywordObject instanceof SearchMenuItem &&
+                                keywordType.equalsIgnoreCase("DeletedMenuItems")) {
+                            //deletedSearchMenuItems.add((SearchMenuItem) keywordObject);
+                            notifySynchronizationListeners("synchronizationUpdate", 1, 1,
+                                    ApplicationRegistry.getApplicationContext().
+                                            getResources().getString(R.string.removing_keywords_msg), true);
+
+                            menuItemService.deleteSearchMenuItems((SearchMenuItem) keywordObject);
+                        } else if (keywordObject instanceof String &&
+                                keywordType.equalsIgnoreCase("Images")) {
+                            imageIdz.add((String) keywordObject);
+                        } else if (keywordObject instanceof String &&
+                                keywordType.equalsIgnoreCase("DeletedImages")) {
+                            deleteImageIz.add((String) keywordObject);
+                        }
+                    }
+
+                    keywordObject = null;
+                    return true;
+                }
+            });
+        } catch (Exception ex) {
+            Log.e(SynchronizationManager.class.getName(), "Parsing Error", ex);
+        }
+
+        deleteOldMenus(oldSearchMenus, searchMenus);
+        SettingsManager.getInstance().setValue(SettingsConstants.KEY_KEYWORDS_VERSION, keywordVersion[0]);
+        SettingsManager.getInstance().setValue(SettingsConstants.KEY_IMAGES_VERSION, imagesVersion[0]);
+
+        downloadImages(imageIdz);
+        deleteUnusedImages(deleteImageIz);
+    }
+
+    private void deleteUnusedImages(List<String> deleteImageIz) {
+        if (deleteImageIz != null) {
+            for (String imageId : deleteImageIz) {
+                File file = new File(ImageUtils.IMAGE_ROOT, imageId + ".jpg");
+                ImageUtils.deleteFile(file);
             }
-        });
+        }
+    }
+
+    private void downloadImages(List<String> imageIds) {
+        if (imageIds != null) {
+            int count = imageIds.size(), counter = 0;
+
+            for (String imageId : imageIds) {
+                try {
+                    notifySynchronizationListeners("synchronizationUpdate", counter++, count,
+                            ApplicationRegistry.getApplicationContext().
+                                    getResources().getString(R.string.downloading_images_msg), true);
+
+                    // Only download image if image does not already exist!
+                    if (!ImageUtils.imageExists(imageId.toLowerCase(), false)) {
+                        Log.d("Image Download", "Getting " + imageId);
+                        String url = SettingsManager.getInstance().getValue(SettingsConstants.KEY_SERVER) +
+                                ApplicationRegistry.getApplicationContext().getString(R.string.image_server_url_path) +
+                                imageId;
+
+                        InputStream image = HttpHelpers.getResource(url);
+                        ImageUtils.writeFile(imageId + ".jpg", image);
+                    }
+                } catch (IOException e) {
+                    Log.e("IOException", e.getMessage());
+                    notifySynchronizationListeners("onSynchronizationError", e);
+                }
+            }
+        }
+    }
+
+    private void deleteOldMenus(List<SearchMenu> oldSearchMenus, List<SearchMenu> searchMenus) {
+        for (SearchMenu searchMenu : oldSearchMenus) {
+            boolean exists = false;
+            for (SearchMenu newSearchMenu : searchMenus) {
+                if (newSearchMenu.getId().equalsIgnoreCase(searchMenu.getId())) {
+                    exists = true;
+                }
+            }
+
+            if (!exists) {
+                menuItemService.deleteSearchMenus(searchMenu);
+                menuItemService.deleteSearchMenuItems(searchMenu);
+            }
+        }
     }
 
     private void populateSearchMenuItem(SearchMenuItem searchMenuItem, String property, String value) {
         if ("id".equalsIgnoreCase(property)) {
             searchMenuItem.setId(value);
+        } else if ("position".equalsIgnoreCase(property)) {
+            searchMenuItem.setPosition(Integer.parseInt(value));
+        } else if ("parent_id".equalsIgnoreCase(property)) {
+            searchMenuItem.setParentId(value);
+        } else if ("menu_id".equalsIgnoreCase(property)) {
+            searchMenuItem.setMenuId(value);
+        } else if ("label".equalsIgnoreCase(property)) {
+            searchMenuItem.setLabel(value);
+        } else if ("content".equalsIgnoreCase(value)) {
+            searchMenuItem.setContent(value);
         }
     }
 

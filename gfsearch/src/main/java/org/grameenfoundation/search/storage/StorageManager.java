@@ -25,6 +25,7 @@ public class StorageManager {
         this.context = ApplicationRegistry.getApplicationContext();
         this.databaseHelper = new DatabaseHelper(this.context);
         this.database = databaseHelper.getWritableDatabase();
+
         this.sqLiteSearchProcessor = new SQLiteSearchProcessor(this.database);
     }
 
@@ -79,6 +80,13 @@ public class StorageManager {
     }
 
     /**
+     * @param sql
+     */
+    public void execSql(String sql) {
+        database.execSQL(sql);
+    }
+
+    /**
      * inserts the given content values into the given table
      *
      * @param table         table in which to insert values.
@@ -105,6 +113,7 @@ public class StorageManager {
             }
 
             database.setTransactionSuccessful();
+            database.endTransaction();
             return true;
         } finally {
             database.endTransaction();
