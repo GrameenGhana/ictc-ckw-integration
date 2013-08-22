@@ -16,8 +16,9 @@ public interface SynchronizationListener {
      * @param step
      * @param max
      * @param message
+     * @param reset   value indicating whether to reset the progress update.
      */
-    void synchronizationUpdate(Integer step, Integer max, String message);
+    void synchronizationUpdate(Integer step, Integer max, String message, Boolean reset);
 
     /**
      * called when the synchronization process has completed.
