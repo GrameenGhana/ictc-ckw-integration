@@ -38,5 +38,6 @@
     <string name="image_server_url_path">search/getsfimages?imageId=</string>
     <string name="action_back">Back</string>
     <string name="action_forward">Forward</string>
+    <string name="sample_text">sample text</string>
 
 </resources>

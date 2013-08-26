@@ -5,7 +5,7 @@ package org.grameenfoundation.search.model;
  *
  * @author Charles Tumwebaze
  */
-public class SearchMenuItem extends ListObject{
+public class SearchMenuItem extends ListObject {
     private String label;
     private int position;
     private String content;
@@ -101,5 +101,10 @@ public class SearchMenuItem extends ListObject{
      */
     public void setAttachmentId(String attachmentId) {
         this.attachmentId = attachmentId;
+    }
+
+    @Override
+    public String getDescription() {
+        return this.getContent();
     }
 }

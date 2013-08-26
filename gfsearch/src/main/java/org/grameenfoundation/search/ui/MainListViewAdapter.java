@@ -13,6 +13,7 @@ import org.grameenfoundation.search.model.ListObject;
 import org.grameenfoundation.search.model.SearchMenu;
 import org.grameenfoundation.search.model.SearchMenuItem;
 import org.grameenfoundation.search.services.MenuItemService;
+import org.grameenfoundation.search.utils.ImageUtils;
 
 import java.util.List;
 
@@ -92,9 +93,17 @@ public class MainListViewAdapter extends BaseAdapter {
         ListObject listObject = (ListObject) getItem(position);
         if (listObject != null) {
             titleView.setText(listObject.getLabel());
-            descriptionView.setText(listObject.getDescription());
+            if (listObject.getDescription() == null || listObject.getDescription().trim().length() == 0) {
+                descriptionView.setVisibility(TextView.INVISIBLE);
+            } else {
+                descriptionView.setText(listObject.getDescription());
+                descriptionView.setVisibility(TextView.VISIBLE);
+            }
             rowView.setTag(listObject);
         }
+
+        imageView.setImageDrawable(ImageUtils.drawRandomColorImageWithText(this.context,
+                listObject.getLabel().substring(0, 1).toUpperCase(), 50, 50));
 
         return rowView;
     }
@@ -108,27 +117,14 @@ public class MainListViewAdapter extends BaseAdapter {
 
         if (this.selectedObject instanceof SearchMenu) {
             items = menuItemService.getTopLevelSearchMenuItems((SearchMenu) this.selectedObject);
-            //notifyDataChanges();
             notifyDataSetChanged();
         } else if (this.selectedObject instanceof SearchMenuItem) {
             items = menuItemService.getSearchMenuItems((SearchMenuItem) this.selectedObject);
-            //notifyDataChanges();
             notifyDataSetChanged();
         } else {
             items = menuItemService.getAllSearchMenus();
-            //notifyDataChanges();
             notifyDataSetChanged();
         }
-    }
-
-    private void notifyDataChanges() {
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                //notifyDataSetInvalidated();
-                notifyDataSetChanged();
-            }
-        });
     }
 
     @Override

@@ -328,7 +328,7 @@ public class SynchronizationManager {
             searchMenuItem.setMenuId(value);
         } else if ("label".equalsIgnoreCase(property)) {
             searchMenuItem.setLabel(value);
-        } else if ("content".equalsIgnoreCase(value)) {
+        } else if ("content".equalsIgnoreCase(property)) {
             searchMenuItem.setContent(value);
         }
     }

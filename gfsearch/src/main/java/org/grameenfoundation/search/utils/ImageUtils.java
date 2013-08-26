@@ -11,10 +11,12 @@
  */
 package org.grameenfoundation.search.utils;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.Context;
+import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.os.Environment;
 import android.util.Log;
 
@@ -23,6 +25,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Contains methods for managing image files on the file system.
@@ -233,5 +236,34 @@ public class ImageUtils {
                 return null;
             }
         }
+    }
+
+    public static Drawable drawRandomColorImageWithText(Context context, String substring, int width, int height) {
+        int[] colors = new int[]{0xff67BF74, 0xffE4C62E, 0xff2093CD, 0xff59A2BE, 0xffF9A43A};
+
+        int randomIndex = new Random().nextInt(colors.length);
+        Bitmap canvasBitmap = Bitmap.createBitmap(width, height,
+                Bitmap.Config.ARGB_8888);
+
+        ShapeDrawable drawable = new ShapeDrawable(new RectShape());
+        drawable.setBounds(0, 0, width, height);
+        drawable.getPaint().setColor(colors[randomIndex]);
+
+        Canvas canvas = new Canvas(canvasBitmap);
+        drawable.draw(canvas);
+
+        // Set up the paint for use with our Canvas
+        Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        textPaint.setTextAlign(Paint.Align.CENTER);
+        textPaint.setTextSize(35f);
+        textPaint.setAntiAlias(true);
+        //textPaint.setStyle(Paint.Style.FILL);
+        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/roboto/Roboto-Light.ttf");
+        textPaint.setTypeface(myTypeface);
+        //textPaint.setStrokeWidth(0.01f);
+        textPaint.setColor(0xffFFFFFF);
+
+        canvas.drawText(substring, width / 2, (height / 1.4f), textPaint);
+        return new BitmapDrawable(context.getResources(), canvasBitmap);
     }
 }

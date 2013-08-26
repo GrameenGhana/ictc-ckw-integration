@@ -2,37 +2,38 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dip">
-    <LinearLayout android:id="@+id/thumbnail"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:padding="3dip"
-                  android:layout_alignParentLeft="true"
-                  android:layout_marginRight="5dip">
-        <ImageView android:id="@+id/img"
-                   android:layout_width="50dip"
-                   android:layout_height="50dip"/>
-    </LinearLayout>
+                android:layout_height="wrap_content" android:padding="6dip">
+
+    <ImageView android:id="@+id/img"
+               android:layout_width="50dip"
+               android:layout_height="50dip"
+               android:layout_marginRight="6dip"
+               android:layout_alignParentTop="true"
+               android:layout_alignParentBottom="true"
+               android:background="#dddddd"/>
 
     <TextView android:id="@+id/title"
-              android:layout_width="wrap_content"
+              android:layout_width="fill_parent"
               android:layout_height="wrap_content"
               android:layout_alignTop="@+id/img"
               android:layout_toRightOf="@+id/img"
+              android:layout_alignParentRight="true"
+              android:layout_alignParentTop="true"
+              android:singleLine="true"
+              android:ellipsize="marquee"
               android:textStyle="bold"
-              android:textSize="15dip"/>
+              android:textSize="15dip"
+              android:layout_alignWithParentIfMissing="true"/>
 
     <TextView android:id="@+id/description"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_below="@+id/title"
-              android:layout_toRightOf="@+id/img"
-              android:layout_gravity="center"
-              android:layout_marginTop="2dip"
-              android:gravity="right"
-              android:textSize="10dip"
-              android:textColor="#343434"
-              android:textStyle="italic"/>
+              android:layout_width="fill_parent"
+              android:layout_height="match_parent"
+              android:layout_toRightOf="@id/img"
+              android:layout_alignBottom="@id/title"
+              android:layout_alignParentRight="true"
+              android:layout_alignParentBottom="true"
+              android:textSize="13dip"
+              android:textStyle="italic"
+              android:ellipsize="marquee"/>
 
 </RelativeLayout>
