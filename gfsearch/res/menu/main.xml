@@ -1,36 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/action_search_view"
-          android:title="@string/farmer_id_text"
-          android:showAsAction="always|collapseActionView"
-          android:icon="@drawable/content_edit"
-          android:actionViewClass="android.widget.SearchView"/>
-
-    <item android:id="@+id/action_new_search" android:orderInCategory="100" android:showAsAction="always"
-          android:title="@string/action_new_search" android:icon="@drawable/content_new"></item>
-
-    <item android:id="@+id/action_search" android:orderInCategory="100" android:showAsAction="always"
-          android:title="@string/action_search" android:icon="@drawable/action_search"></item>
-
     <item
             android:id="@+id/action_settings"
             android:orderInCategory="100"
             android:showAsAction="never"
-            android:title="@string/action_settings"/>
+            android:title="@string/action_settings" android:icon="@drawable/action_settings"/>
 
     <item android:id="@+id/action_about" android:orderInCategory="100" android:showAsAction="never"
-          android:title="@string/action_about"></item>
-
-    <item android:id="@+id/action_help" android:orderInCategory="100" android:showAsAction="never"
-          android:title="@string/action_help"></item>
-
-    <item android:id="@+id/action_recent_searches" android:showAsAction="never"
-          android:title="@string/recent_searches"/>
-
-    <item android:id="@+id/action_favourite_searches" android:showAsAction="never"
-          android:title="@string/favourite_searches"/>
+          android:title="@string/action_about" android:icon="@drawable/action_about"/>
 
     <item android:id="@+id/action_synchronise" android:showAsAction="never"
-          android:title="@string/synchronise"/>
+          android:title="@string/synchronise" android:icon="@drawable/ic_refresh"/>
 
 </menu>
