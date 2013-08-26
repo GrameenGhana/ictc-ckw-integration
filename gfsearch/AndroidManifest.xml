@@ -23,6 +23,11 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value="org.grameenfoundation.search.MainActivity"/>
         </activity>
+        <activity android:name=".ui.AboutActivity" android:icon="@drawable/action_about"
+                  android:parentActivityName="org.grameenfoundation.search.MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value="org.grameenfoundation.search.MainActivity"/>
+        </activity>
     </application>
 
     <!-- Application Permissions-->

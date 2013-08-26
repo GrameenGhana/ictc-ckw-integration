@@ -3,6 +3,7 @@
 
     <string name="app_name">GF Search</string>
     <string name="app_version">1.0.0-SNAPSHOT</string>
+    <string name="app_version_about">Version 1.0.0-SNAPSHOT</string>
     <string name="hello">Hello gfsearch!</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>

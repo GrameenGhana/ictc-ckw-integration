@@ -16,6 +16,7 @@ import org.grameenfoundation.search.model.ListObject;
 import org.grameenfoundation.search.settings.SettingsActivity;
 import org.grameenfoundation.search.synchronization.SynchronizationListener;
 import org.grameenfoundation.search.synchronization.SynchronizationManager;
+import org.grameenfoundation.search.ui.AboutActivity;
 import org.grameenfoundation.search.ui.MainListViewAdapter;
 import org.grameenfoundation.search.ui.OnSwipeTouchListener;
 import org.grameenfoundation.search.utils.DeviceMetadata;
@@ -135,6 +136,9 @@ public class MainActivity extends Activity {
                 listViewBackNavigation();
             } else if (item.getItemId() == R.id.action_synchronise) {
                 startSynchronization();
+            } else if (item.getItemId() == R.id.action_about) {
+                Intent intent = new Intent().setClass(this, AboutActivity.class);
+                this.startActivityForResult(intent, 0);
             }
         } catch (Exception ex) {
             Log.e(MainActivity.class.getName(), "", ex);
