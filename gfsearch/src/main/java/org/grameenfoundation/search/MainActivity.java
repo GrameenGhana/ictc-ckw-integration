@@ -9,13 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SearchView;
 import org.grameenfoundation.search.model.ListObject;
 import org.grameenfoundation.search.settings.SettingsActivity;
 import org.grameenfoundation.search.synchronization.SynchronizationListener;
@@ -31,6 +27,8 @@ public class MainActivity extends Activity {
     private Handler handler = null;
     private Context activityContext;
     private Stack<ListObject> listObjectNavigationStack = null;
+    private ListView mainListView;
+    private MenuItem backNavigationMenuItem = null;
 
     /**
      * Called when the activity is first created.
@@ -61,22 +59,24 @@ public class MainActivity extends Activity {
 
             listObjectNavigationStack = new Stack<ListObject>();
 
-            final ListView listView = (ListView) this.findViewById(R.id.main_list);
+            mainListView = (ListView) this.findViewById(R.id.main_list);
             final MainListViewAdapter listViewAdapter = new MainListViewAdapter(this);
-            listView.setAdapter(listViewAdapter);
+            mainListView.setAdapter(listViewAdapter);
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     ListObject itemToSelect = (ListObject) listViewAdapter.getItem(position);
                     listViewAdapter.setSelectedObject(itemToSelect);
-                    //if (itemToSelect instanceof SearchMenuItem) {
                     listObjectNavigationStack.push(listViewAdapter.getSelectedObject());
-                    //}
+
+                    if (backNavigationMenuItem != null) {
+                        backNavigationMenuItem.setVisible(true);
+                    }
                 }
             });
 
-            listView.setOnTouchListener(new OnSwipeTouchListener(this) {
+            mainListView.setOnTouchListener(new OnSwipeTouchListener(this) {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     return super.onTouch(v, event);
@@ -85,17 +85,7 @@ public class MainActivity extends Activity {
                 @Override
                 public boolean onSwipeRight() {
                     super.onSwipeRight();
-
-                    if (!listObjectNavigationStack.isEmpty()) {
-                        listObjectNavigationStack.pop();
-
-                        if (!listObjectNavigationStack.isEmpty())
-                            listViewAdapter.setSelectedObject(listObjectNavigationStack.pop());
-                    } else {
-                        listViewAdapter.setSelectedObject(null);
-                    }
-
-                    listView.refreshDrawableState();
+                    listViewBackNavigation();
                     return false;
                 }
             });
@@ -106,10 +96,31 @@ public class MainActivity extends Activity {
         }
     }
 
+    private void listViewBackNavigation() {
+        MainListViewAdapter listViewAdapter = (MainListViewAdapter) mainListView.getAdapter();
+
+        //we pop the stack twice to get the right navigation element.
+        if (!listObjectNavigationStack.isEmpty())
+            listObjectNavigationStack.pop();
+
+        if (!listObjectNavigationStack.isEmpty()) {
+            listViewAdapter.setSelectedObject(listObjectNavigationStack.pop());
+            return;
+        }
+
+
+        if (listObjectNavigationStack.isEmpty()) {
+            listViewAdapter.setSelectedObject(null);
+            backNavigationMenuItem.setVisible(false);
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        MenuInflater inflator = getMenuInflater();
+        inflator.inflate(R.menu.main, menu);
+        backNavigationMenuItem = menu.findItem(R.id.action_nav_back);
 
         return true;
     }
@@ -120,6 +131,8 @@ public class MainActivity extends Activity {
             if (item.getItemId() == R.id.action_settings) {
                 Intent intent = new Intent().setClass(this, SettingsActivity.class);
                 this.startActivityForResult(intent, 0);
+            } else if (item.getItemId() == R.id.action_nav_back) {
+                listViewBackNavigation();
             } else if (item.getItemId() == R.id.action_synchronise) {
                 startSynchronization();
             }

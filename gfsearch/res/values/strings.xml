@@ -35,5 +35,7 @@
     <string name="country_code_server_url_path">search/getCountryCode</string>
     <string name="keyword_server_url_path">search/getsearchkeywords</string>
     <string name="image_server_url_path">search/getsfimages?imageId=</string>
+    <string name="action_back">Back</string>
+    <string name="action_forward">Forward</string>
 
 </resources>
