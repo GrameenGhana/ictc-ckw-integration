@@ -8,18 +8,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.SearchView;
+import org.grameenfoundation.search.model.ListObject;
 import org.grameenfoundation.search.settings.SettingsActivity;
 import org.grameenfoundation.search.synchronization.SynchronizationListener;
 import org.grameenfoundation.search.synchronization.SynchronizationManager;
+import org.grameenfoundation.search.ui.MainListViewAdapter;
+import org.grameenfoundation.search.ui.OnSwipeTouchListener;
 import org.grameenfoundation.search.utils.DeviceMetadata;
+
+import java.util.Stack;
 
 public class MainActivity extends Activity {
     private ProgressDialog progressDialog = null;
     private Handler handler = null;
     private Context activityContext;
+    private Stack<ListObject> listObjectNavigationStack = null;
 
     /**
      * Called when the activity is first created.
@@ -30,22 +41,69 @@ public class MainActivity extends Activity {
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        activityContext = this;
-        ApplicationRegistry.setApplicationContext(this.getApplicationContext());
-        setContentView(R.layout.main);
-        ActionBar actionBar = this.getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        try {
+            super.onCreate(savedInstanceState);
+            activityContext = this;
+            ApplicationRegistry.setApplicationContext(this.getApplicationContext());
+            setContentView(R.layout.main);
+            ActionBar actionBar = this.getActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
 
-        //caching the device imie in the application registry
-        ApplicationRegistry.register(GlobalConstants.KEY_CACHED_DEVICE_IMEI,
-                DeviceMetadata.getDeviceImei(this.getApplicationContext()));
+            //caching the device imie in the application registry
+            ApplicationRegistry.register(GlobalConstants.KEY_CACHED_DEVICE_IMEI,
+                    DeviceMetadata.getDeviceImei(this.getApplicationContext()));
 
-        //register application version in registry
-        ApplicationRegistry.register(GlobalConstants.KEY_CACHED_APPLICATION_VERSION,
-                getResources().getString(R.string.app_name) + "/" + R.string.app_version);
+            //register application version in registry
+            ApplicationRegistry.register(GlobalConstants.KEY_CACHED_APPLICATION_VERSION,
+                    getResources().getString(R.string.app_name) + "/" + R.string.app_version);
 
-        handler = new Handler();
+            handler = new Handler();
+
+            listObjectNavigationStack = new Stack<ListObject>();
+
+            final ListView listView = (ListView) this.findViewById(R.id.main_list);
+            final MainListViewAdapter listViewAdapter = new MainListViewAdapter(this);
+            listView.setAdapter(listViewAdapter);
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    ListObject itemToSelect = (ListObject) listViewAdapter.getItem(position);
+                    listViewAdapter.setSelectedObject(itemToSelect);
+                    //if (itemToSelect instanceof SearchMenuItem) {
+                    listObjectNavigationStack.push(listViewAdapter.getSelectedObject());
+                    //}
+                }
+            });
+
+            listView.setOnTouchListener(new OnSwipeTouchListener(this) {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    return super.onTouch(v, event);
+                }
+
+                @Override
+                public boolean onSwipeRight() {
+                    super.onSwipeRight();
+
+                    if (!listObjectNavigationStack.isEmpty()) {
+                        listObjectNavigationStack.pop();
+
+                        if (!listObjectNavigationStack.isEmpty())
+                            listViewAdapter.setSelectedObject(listObjectNavigationStack.pop());
+                    } else {
+                        listViewAdapter.setSelectedObject(null);
+                    }
+
+                    listView.refreshDrawableState();
+                    return false;
+                }
+            });
+
+            createProgressBar();
+        } catch (Exception ex) {
+            Log.e(MainActivity.class.getName(), "Application Error", ex);
+        }
     }
 
     @Override
@@ -59,11 +117,15 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_settings) {
-            Intent intent = new Intent().setClass(this, SettingsActivity.class);
-            this.startActivityForResult(intent, 0);
-        } else if (item.getItemId() == R.id.action_synchronise) {
-            startSynchronization();
+        try {
+            if (item.getItemId() == R.id.action_settings) {
+                Intent intent = new Intent().setClass(this, SettingsActivity.class);
+                this.startActivityForResult(intent, 0);
+            } else if (item.getItemId() == R.id.action_synchronise) {
+                startSynchronization();
+            }
+        } catch (Exception ex) {
+            Log.e(MainActivity.class.getName(), "", ex);
         }
 
         return true;
@@ -76,17 +138,6 @@ public class MainActivity extends Activity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if (progressDialog == null) {
-                            progressDialog = new ProgressDialog(activityContext);
-                            progressDialog.setTitle(R.string.synchronization_progress_bar_title);
-                            progressDialog.setCancelable(true);
-                            progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                            progressDialog.setIndeterminate(false);
-                            progressDialog.setMessage("Please Wait...");
-                            progressDialog.setIcon(R.drawable.ic_refresh);
-                            progressDialog.setProgressNumberFormat(null);
-                        }
-
                         progressDialog.show();
                     }
                 });
@@ -100,8 +151,10 @@ public class MainActivity extends Activity {
                         progressDialog.setMessage(message);
                         progressDialog.setMax(max);
                         progressDialog.setProgress(step);
+                        if (!progressDialog.isShowing()) {
+                            progressDialog.show();
+                        }
                     }
-
                 });
             }
 
@@ -122,6 +175,7 @@ public class MainActivity extends Activity {
                     @Override
                     public void run() {
                         progressDialog.dismiss();
+
                         AlertDialog alertDialog =
                                 new AlertDialog.Builder(getApplicationContext().getApplicationContext()).create();
                         alertDialog.setMessage(throwable.getMessage());
@@ -136,6 +190,21 @@ public class MainActivity extends Activity {
         });
 
         SynchronizationManager.getInstance().start();
+    }
+
+    private void createProgressBar() {
+        progressDialog = new ProgressDialog(activityContext);
+        progressDialog.setTitle(R.string.synchronization_progress_bar_title);
+        progressDialog.setCancelable(true);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setIndeterminate(false);
+        progressDialog.setMessage("Please Wait...");
+        progressDialog.setIcon(R.drawable.ic_refresh);
+        progressDialog.setProgressNumberFormat(null);
+
+        if (SynchronizationManager.getInstance().isSynchronizing()) {
+            progressDialog.show();
+        }
     }
 }
 

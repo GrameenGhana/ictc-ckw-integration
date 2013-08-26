@@ -44,8 +44,9 @@ public class SQLiteSearchProcessor extends StandardSqlSearchProcessor {
             }
         }
 
-        private Class<?> resolveJavaType(String type) {
-            if (type.equalsIgnoreCase("TEXT")) {
+        private Class resolveJavaType(String type) {
+            if (type.equalsIgnoreCase("TEXT")
+                    || type.startsWith("CHAR")) {
                 return String.class;
             } else if (type.equalsIgnoreCase("INTEGER")) {
                 return Integer.class;

@@ -30,7 +30,16 @@ public class StandardSqlSearchProcessor implements SearchProcessor {
 
     @Override
     public String generateRowCountQuery(Search search) {
-        return null;
+        String select = "SELECT COUNT(*) ";
+        String where = generateWhereClause(search);
+        String from = generateFromClause(search);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(select);
+        sb.append(from);
+        sb.append(where);
+
+        return sb.toString();
     }
 
     protected String generateSelectClause(Search search) {
@@ -238,7 +247,7 @@ public class StandardSqlSearchProcessor implements SearchProcessor {
         if (type.isInstance(value))
             return value;
 
-        if (String.class.equals(type)) {
+        if (String.class.getName().equalsIgnoreCase(type.getName())) {
             return value.toString();
         } else if (Number.class.isAssignableFrom(type)) {
             return getNumericValue(value, type);
@@ -350,8 +359,10 @@ public class StandardSqlSearchProcessor implements SearchProcessor {
                 }
             }
             return sb.toString();
+        } else if (value instanceof String) {
+            return "'" + value.toString() + "'";
         } else {
-            return "";
+            return value.toString();
         }
     }
 
@@ -367,7 +378,7 @@ public class StandardSqlSearchProcessor implements SearchProcessor {
         boolean first = true;
         for (Sort sort : search.getSorts()) {
             if (first) {
-                sb = new StringBuilder(" order by");
+                sb = new StringBuilder(" order by ");
                 first = false;
             } else {
                 sb.append(", ");

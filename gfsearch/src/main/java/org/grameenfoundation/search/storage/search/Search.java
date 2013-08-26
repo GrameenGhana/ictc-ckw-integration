@@ -61,7 +61,6 @@ public class Search implements Serializable {
     }
 
     public void addFilter(Filter filter) {
-        List<Filter> filters = null;
         if (filters == null) {
             filters = new ArrayList<Filter>();
         }

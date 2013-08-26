@@ -6,6 +6,7 @@ import org.grameenfoundation.search.model.SearchMenu;
 import org.grameenfoundation.search.model.SearchMenuItem;
 import org.grameenfoundation.search.storage.DatabaseHelperConstants;
 import org.grameenfoundation.search.storage.StorageManager;
+import org.grameenfoundation.search.storage.search.Filter;
 import org.grameenfoundation.search.storage.search.Search;
 
 import java.util.ArrayList;
@@ -194,6 +195,37 @@ public class MenuItemService {
         return count;
     }
 
+    /**
+     * gets the total number of search menu items for the given search menu.
+     *
+     * @param searchMenu
+     * @return
+     */
+    public int countTopLevelSearchMenuItems(SearchMenu searchMenu) {
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
+        search.addFilterEqual(DatabaseHelperConstants.MENU_ITEM_MENUID_COLUMN, searchMenu.getId());
+        search.addFilterOr(Filter.isEmpty(DatabaseHelperConstants.MENU_ITEM_PARENTID_COLUMN));
+
+        return StorageManager.getInstance().recordCount(search);
+    }
+
+    /**
+     * gets the total number of search menu items whose parent is the
+     * given search menu item.
+     *
+     * @param searchMenuItem
+     * @return
+     */
+    public int countSearchMenuItems(SearchMenuItem searchMenuItem) {
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
+        search.addFilterEqual(DatabaseHelperConstants.MENU_ITEM_PARENTID_COLUMN, searchMenuItem.getId());
+        search.addSortAsc(DatabaseHelperConstants.MENU_ITEM_POSITION_COLUMN);
+
+        return StorageManager.getInstance().recordCount(search);
+    }
+
 
     /**
      * saves the given search menu items into the data store
@@ -247,5 +279,24 @@ public class MenuItemService {
     public void deleteSearchMenuItems(SearchMenu searchMenu) {
         StorageManager.getInstance().execSql("DELETE FROM " + DatabaseHelperConstants.MENU_ITEM_TABLE_NAME +
                 " WHERE " + DatabaseHelperConstants.MENU_ITEM_MENUID_COLUMN + " ='" + searchMenu.getId() + "'");
+    }
+
+    public List<SearchMenuItem> getTopLevelSearchMenuItems(SearchMenu searchMenu) {
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
+        search.addFilterEqual(DatabaseHelperConstants.MENU_ITEM_MENUID_COLUMN, searchMenu.getId());
+        search.addFilterOr(Filter.isEmpty(DatabaseHelperConstants.MENU_ITEM_PARENTID_COLUMN));
+
+        search.addSortAsc(DatabaseHelperConstants.MENU_ITEM_POSITION_COLUMN);
+        return buildSearchMenuItems(StorageManager.getInstance().getRecords(search));
+    }
+
+    public List<SearchMenuItem> getSearchMenuItems(SearchMenuItem searchMenuItem) {
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
+        search.addFilterEqual(DatabaseHelperConstants.MENU_ITEM_PARENTID_COLUMN, searchMenuItem.getId());
+        search.addSortAsc(DatabaseHelperConstants.MENU_ITEM_POSITION_COLUMN);
+
+        return buildSearchMenuItems(StorageManager.getInstance().getRecords(search));
     }
 }
