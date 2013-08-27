@@ -25,6 +25,7 @@ import org.grameenfoundation.search.utils.DeviceMetadata;
 import java.util.Stack;
 
 public class MainActivity extends Activity {
+    private static final String NAVIGATION_STACK_SAVED_STATE_KEY = "navigation_stack_state_key";
     private ProgressDialog progressDialog = null;
     private Handler handler = null;
     private Context activityContext;
@@ -59,7 +60,13 @@ public class MainActivity extends Activity {
 
             handler = new Handler();
 
-            listObjectNavigationStack = new Stack<ListObject>();
+            if (savedInstanceState != null
+                    && savedInstanceState.containsKey(NAVIGATION_STACK_SAVED_STATE_KEY)) {
+                listObjectNavigationStack =
+                        (Stack<ListObject>) savedInstanceState.get(NAVIGATION_STACK_SAVED_STATE_KEY);
+            } else {
+                listObjectNavigationStack = new Stack<ListObject>();
+            }
 
             mainListView = (ListView) this.findViewById(R.id.main_list);
             final MainListViewAdapter listViewAdapter = new MainListViewAdapter(this);
@@ -70,18 +77,7 @@ public class MainActivity extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                     ListObject itemToSelect = (ListObject) listViewAdapter.getItem(position);
-                    if (listViewAdapter.hasChildren(itemToSelect)) {
-                        listViewAdapter.setSelectedObject(itemToSelect);
-                        listObjectNavigationStack.push(listViewAdapter.getSelectedObject());
-
-                        if (backNavigationMenuItem != null) {
-                            backNavigationMenuItem.setVisible(true);
-                        }
-                    } else {
-                        Intent intent = new Intent().setClass(activityContext, SearchMenuItemActivity.class);
-                        intent.putExtra(SearchMenuItemActivity.EXTRA_LIST_OBJECT_IDENTIFIER, itemToSelect);
-                        MainActivity.this.startActivityForResult(intent, 0);
-                    }
+                    selectListElement(itemToSelect, listViewAdapter);
                 }
             });
 
@@ -99,9 +95,38 @@ public class MainActivity extends Activity {
                 }
             });
 
+            if (!listObjectNavigationStack.isEmpty()) {
+                selectListElement(listObjectNavigationStack.peek(), listViewAdapter);
+            }
+
             createProgressBar();
         } catch (Exception ex) {
             Log.e(MainActivity.class.getName(), "Application Error", ex);
+        }
+    }
+
+    private void selectListElement(ListObject itemToSelect, MainListViewAdapter listViewAdapter) {
+        if (listViewAdapter.hasChildren(itemToSelect)) {
+            listViewAdapter.setSelectedObject(itemToSelect);
+            listObjectNavigationStack.push(listViewAdapter.getSelectedObject());
+
+            if (backNavigationMenuItem != null) {
+                backNavigationMenuItem.setVisible(true);
+            }
+        } else {
+            Intent intent = new Intent().setClass(activityContext, SearchMenuItemActivity.class);
+            intent.putExtra(SearchMenuItemActivity.EXTRA_LIST_OBJECT_IDENTIFIER, itemToSelect);
+            this.startActivityForResult(intent, 0);
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        //save state of
+        if (listObjectNavigationStack != null && !listObjectNavigationStack.isEmpty()) {
+            outState.putSerializable(NAVIGATION_STACK_SAVED_STATE_KEY, listObjectNavigationStack);
         }
     }
 
