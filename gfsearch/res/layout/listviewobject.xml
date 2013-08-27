@@ -34,6 +34,7 @@
               android:layout_alignParentBottom="true"
               android:textSize="13dip"
               android:textStyle="italic"
-              android:ellipsize="marquee"/>
+              android:ellipsize="marquee"
+              android:singleLine="true"/>
 
 </RelativeLayout>

@@ -95,7 +95,7 @@ public class MainListViewAdapter extends BaseAdapter {
             titleView.setText(listObject.getLabel());
             if (listObject.getDescription() == null || listObject.getDescription().trim().length() == 0) {
                 descriptionView.setVisibility(TextView.INVISIBLE);
-            } else if (listObject.getDescription().equalsIgnoreCase("no content")) {
+            } else if (listObject.getDescription().trim().equalsIgnoreCase("no content")) {
                 descriptionView.setText("");
             } else {
                 descriptionView.setText(listObject.getDescription());
@@ -147,5 +147,9 @@ public class MainListViewAdapter extends BaseAdapter {
      */
     public boolean hasChildren(ListObject listObject) {
         return menuItemService.hasChildren(listObject);
+    }
+
+    public void refreshData() {
+        notifyDataSetChanged();
     }
 }

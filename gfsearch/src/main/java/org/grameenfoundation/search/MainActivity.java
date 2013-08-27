@@ -113,7 +113,7 @@ public class MainActivity extends Activity {
             listObjectNavigationStack.pop();
 
         if (!listObjectNavigationStack.isEmpty()) {
-            listViewAdapter.setSelectedObject(listObjectNavigationStack.pop());
+            listViewAdapter.setSelectedObject(listObjectNavigationStack.peek());
             return;
         }
 
@@ -187,6 +187,7 @@ public class MainActivity extends Activity {
                     @Override
                     public void run() {
                         progressDialog.dismiss();
+                        ((MainListViewAdapter) mainListView.getAdapter()).refreshData();
                     }
 
                 });
