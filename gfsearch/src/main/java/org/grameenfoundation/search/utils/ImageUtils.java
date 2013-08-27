@@ -163,13 +163,17 @@ public class ImageUtils {
             return getFullPath(fileName);
         }
         File dir = new File(IMAGE_ROOT);
+        File[] files = dir.listFiles();
 
-        for (File file : dir.listFiles()) {
-            Log.d("FILES", file.getName());
-            if (fileName != null && file.getName().toLowerCase().contains(fileName.toLowerCase())) {
-                return file.getAbsolutePath();
+        if (files != null) {
+            for (File file : files) {
+                Log.d("FILES", file.getName());
+                if (fileName != null && file.getName().toLowerCase().contains(fileName.toLowerCase())) {
+                    return file.getAbsolutePath();
+                }
             }
         }
+
         return null;
 
     }

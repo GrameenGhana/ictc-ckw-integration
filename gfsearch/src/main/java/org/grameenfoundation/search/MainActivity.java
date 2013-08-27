@@ -96,7 +96,7 @@ public class MainActivity extends Activity {
             });
 
             if (!listObjectNavigationStack.isEmpty()) {
-                selectListElement(listObjectNavigationStack.peek(), listViewAdapter);
+                selectListElement(listObjectNavigationStack.pop(), listViewAdapter);
             }
 
             createProgressBar();
@@ -154,6 +154,10 @@ public class MainActivity extends Activity {
         MenuInflater inflator = getMenuInflater();
         inflator.inflate(R.menu.main, menu);
         backNavigationMenuItem = menu.findItem(R.id.action_nav_back);
+        if (listObjectNavigationStack != null
+                && !listObjectNavigationStack.isEmpty()) {
+            backNavigationMenuItem.setVisible(true);
+        }
 
         return true;
     }
