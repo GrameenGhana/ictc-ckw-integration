@@ -147,7 +147,7 @@ public class SynchronizationManager {
 
         } catch (Exception ex) {
             Log.e(SynchronizationManager.class.getName(), "Error downloading keywords", ex);
-            notifySynchronizationListeners("onSynchronizationError", ex);
+            notifySynchronizationListeners("onSynchronizationError", new Throwable(ex));
         }
     }
 
@@ -305,7 +305,7 @@ public class SynchronizationManager {
                     }
                 } catch (IOException e) {
                     Log.e("IOException", e.getMessage());
-                    notifySynchronizationListeners("onSynchronizationError", e);
+                    notifySynchronizationListeners("onSynchronizationError", new Throwable(e));
                 }
             }
         }
@@ -418,7 +418,7 @@ public class SynchronizationManager {
                 }
             } catch (Exception ex) {
                 Log.e(SynchronizationManager.class.getName(), "Error downloading country code", ex);
-                notifySynchronizationListeners("onSynchronizationError", ex);
+                notifySynchronizationListeners("onSynchronizationError", new Throwable(ex));
             }
         }
     }
