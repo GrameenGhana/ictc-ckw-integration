@@ -136,4 +136,14 @@ public class MainListViewAdapter extends BaseAdapter {
     public boolean isEnabled(int position) {
         return true;
     }
+
+    /**
+     * checks whether the given list object has any children
+     *
+     * @param listObject
+     * @return
+     */
+    public boolean hasChildren(ListObject listObject) {
+        return menuItemService.hasChildren(listObject);
+    }
 }

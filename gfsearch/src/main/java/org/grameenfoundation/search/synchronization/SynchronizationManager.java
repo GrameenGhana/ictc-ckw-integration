@@ -185,6 +185,12 @@ public class SynchronizationManager {
                                 populateSearchMenu((SearchMenu) keywordObject, key, value.toString());
                             } else if (keywordObject instanceof SearchMenuItem) {
                                 populateSearchMenuItem((SearchMenuItem) keywordObject, key, value.toString());
+                            } else if ("id".equalsIgnoreCase(key) && keywordObject instanceof String
+                                    && keywordType.equalsIgnoreCase("Images")) {
+                                keywordObject = value;
+                            } else if ("id".equalsIgnoreCase(key) && keywordObject instanceof String
+                                    && keywordType.equalsIgnoreCase("DeletedImages")) {
+                                keywordObject = value;
                             }
                         }
                     }
@@ -267,8 +273,10 @@ public class SynchronizationManager {
     private void deleteUnusedImages(List<String> deleteImageIz) {
         if (deleteImageIz != null) {
             for (String imageId : deleteImageIz) {
-                File file = new File(ImageUtils.IMAGE_ROOT, imageId + ".jpg");
-                ImageUtils.deleteFile(file);
+                if (imageId != null && imageId.trim().length() > 0) {
+                    File file = new File(ImageUtils.IMAGE_ROOT, imageId + ".jpg");
+                    ImageUtils.deleteFile(file);
+                }
             }
         }
     }
@@ -283,15 +291,17 @@ public class SynchronizationManager {
                             ApplicationRegistry.getApplicationContext().
                                     getResources().getString(R.string.downloading_images_msg), true);
 
-                    // Only download image if image does not already exist!
-                    if (!ImageUtils.imageExists(imageId.toLowerCase(), false)) {
-                        Log.d("Image Download", "Getting " + imageId);
-                        String url = SettingsManager.getInstance().getValue(SettingsConstants.KEY_SERVER) +
-                                ApplicationRegistry.getApplicationContext().getString(R.string.image_server_url_path) +
-                                imageId;
+                    if (imageId != null || imageId.trim().length() > 0) {
+                        // Only download image if image does not already exist!
+                        if (!ImageUtils.imageExists(imageId.toLowerCase(), false)) {
+                            Log.d("Image Download", "Getting " + imageId);
+                            String url = SettingsManager.getInstance().getValue(SettingsConstants.KEY_SERVER) +
+                                    ApplicationRegistry.getApplicationContext().getString(R.string.image_server_url_path) +
+                                    imageId;
 
-                        InputStream image = HttpHelpers.getResource(url);
-                        ImageUtils.writeFile(imageId + ".jpg", image);
+                            InputStream image = HttpHelpers.getResource(url);
+                            ImageUtils.writeFile(imageId + ".jpg", image);
+                        }
                     }
                 } catch (IOException e) {
                     Log.e("IOException", e.getMessage());

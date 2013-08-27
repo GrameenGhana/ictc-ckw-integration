@@ -83,22 +83,22 @@ public class ImageUtils {
         }
     }
 
-    public static Drawable getImageAsDrawable(String fileName) {
+    public static Drawable getImageAsDrawable(Context context, String fileName) {
         if (!storageReady()) {
             return null;
         }
         fileName = getFullPath(fileName);
         Bitmap bitmap = BitmapFactory.decodeFile(fileName);
-        return new BitmapDrawable(bitmap);
+        return new BitmapDrawable(context.getResources(), bitmap);
     }
 
-    public static Drawable getImageAsDrawable(String fileName, boolean isPartialName) {
+    public static Drawable getImageAsDrawable(Context context, String fileName, boolean isPartialName) {
         if (!storageReady()) {
             return null;
         }
         fileName = getFullPath(fileName, true);
         Bitmap bitmap = BitmapFactory.decodeFile(fileName);
-        return new BitmapDrawable(bitmap);
+        return new BitmapDrawable(context.getResources(), bitmap);
     }
 
     public static ArrayList<String> getFilesAsArrayList() {

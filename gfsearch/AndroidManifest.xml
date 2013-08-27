@@ -28,6 +28,11 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value="org.grameenfoundation.search.MainActivity"/>
         </activity>
+        <activity android:name=".ui.SearchMenuItemActivity" android:icon="@drawable/collections_view_as_list"
+                  android:parentActivityName="org.grameenfoundation.search.MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value="org.grameenfoundation.search.MainActivity"/>
+        </activity>
     </application>
 
     <!-- Application Permissions-->
@@ -35,4 +40,5 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 </manifest>

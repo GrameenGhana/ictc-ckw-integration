@@ -19,6 +19,7 @@ import org.grameenfoundation.search.synchronization.SynchronizationManager;
 import org.grameenfoundation.search.ui.AboutActivity;
 import org.grameenfoundation.search.ui.MainListViewAdapter;
 import org.grameenfoundation.search.ui.OnSwipeTouchListener;
+import org.grameenfoundation.search.ui.SearchMenuItemActivity;
 import org.grameenfoundation.search.utils.DeviceMetadata;
 
 import java.util.Stack;
@@ -67,12 +68,19 @@ public class MainActivity extends Activity {
             mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    ListObject itemToSelect = (ListObject) listViewAdapter.getItem(position);
-                    listViewAdapter.setSelectedObject(itemToSelect);
-                    listObjectNavigationStack.push(listViewAdapter.getSelectedObject());
 
-                    if (backNavigationMenuItem != null) {
-                        backNavigationMenuItem.setVisible(true);
+                    ListObject itemToSelect = (ListObject) listViewAdapter.getItem(position);
+                    if (listViewAdapter.hasChildren(itemToSelect)) {
+                        listViewAdapter.setSelectedObject(itemToSelect);
+                        listObjectNavigationStack.push(listViewAdapter.getSelectedObject());
+
+                        if (backNavigationMenuItem != null) {
+                            backNavigationMenuItem.setVisible(true);
+                        }
+                    } else {
+                        Intent intent = new Intent().setClass(activityContext, SearchMenuItemActivity.class);
+                        intent.putExtra(SearchMenuItemActivity.EXTRA_LIST_OBJECT_IDENTIFIER, itemToSelect);
+                        MainActivity.this.startActivityForResult(intent, 0);
                     }
                 }
             });
@@ -108,7 +116,6 @@ public class MainActivity extends Activity {
             listViewAdapter.setSelectedObject(listObjectNavigationStack.pop());
             return;
         }
-
 
         if (listObjectNavigationStack.isEmpty()) {
             listViewAdapter.setSelectedObject(null);

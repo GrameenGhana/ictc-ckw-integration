@@ -1,9 +1,11 @@
 package org.grameenfoundation.search.model;
 
+import java.io.Serializable;
+
 /**
  * an object that is tagged as a list item tag.
  */
-public class ListObject {
+public class ListObject implements Serializable {
     private String id;
     private String description;
     private String label;

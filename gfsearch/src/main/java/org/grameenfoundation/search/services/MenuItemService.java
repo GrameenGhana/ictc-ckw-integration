@@ -2,6 +2,7 @@ package org.grameenfoundation.search.services;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import org.grameenfoundation.search.model.ListObject;
 import org.grameenfoundation.search.model.SearchMenu;
 import org.grameenfoundation.search.model.SearchMenuItem;
 import org.grameenfoundation.search.storage.DatabaseHelperConstants;
@@ -298,5 +299,26 @@ public class MenuItemService {
         search.addSortAsc(DatabaseHelperConstants.MENU_ITEM_POSITION_COLUMN);
 
         return buildSearchMenuItems(StorageManager.getInstance().getRecords(search));
+    }
+
+    /**
+     * checks whether the given list object has children.
+     *
+     * @param listObject
+     * @return
+     */
+    public boolean hasChildren(ListObject listObject) {
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
+
+        if (listObject instanceof SearchMenu) {
+            search.addFilterEqual(DatabaseHelperConstants.MENU_ITEM_MENUID_COLUMN, listObject.getId());
+            search.addFilterOr(Filter.isEmpty(DatabaseHelperConstants.MENU_ITEM_PARENTID_COLUMN));
+        } else if (listObject instanceof SearchMenuItem) {
+            search.addFilterEqual(DatabaseHelperConstants.MENU_ITEM_PARENTID_COLUMN, listObject.getId());
+        }
+
+        int count = StorageManager.getInstance().recordCount(search);
+        return count > 0 ? true : false;
     }
 }
