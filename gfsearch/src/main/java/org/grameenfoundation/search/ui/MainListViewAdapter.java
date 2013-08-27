@@ -95,6 +95,8 @@ public class MainListViewAdapter extends BaseAdapter {
             titleView.setText(listObject.getLabel());
             if (listObject.getDescription() == null || listObject.getDescription().trim().length() == 0) {
                 descriptionView.setVisibility(TextView.INVISIBLE);
+            } else if (listObject.getDescription().equalsIgnoreCase("no content")) {
+                descriptionView.setText("");
             } else {
                 descriptionView.setText(listObject.getDescription());
                 descriptionView.setVisibility(TextView.VISIBLE);
