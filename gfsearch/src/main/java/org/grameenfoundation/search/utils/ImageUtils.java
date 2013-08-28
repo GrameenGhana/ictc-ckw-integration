@@ -146,7 +146,7 @@ public class ImageUtils {
         }
     }
 
-    private static String getFullPath(String fileName) {
+    public static String getFullPath(String fileName) {
         for (String format : SUPPORTED_FORMATS) {
             String path = IMAGE_ROOT + fileName + format;
             File file = new File(path);
@@ -158,7 +158,7 @@ public class ImageUtils {
         return null;
     }
 
-    private static String getFullPath(String fileName, boolean isPartialName) {
+    public static String getFullPath(String fileName, boolean isPartialName) {
         if (!isPartialName) {
             return getFullPath(fileName);
         }
@@ -269,5 +269,80 @@ public class ImageUtils {
 
         canvas.drawText(substring, width / 2, (height / 1.4f), textPaint);
         return new BitmapDrawable(context.getResources(), canvasBitmap);
+    }
+
+    public static File createImageCacheFolder(Context context) {
+        String imageCachePath = context.getCacheDir() + "/gfimages/";
+        File folder = new File(imageCachePath);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        return folder;
+    }
+
+    public static Drawable scaleImage(Context context, String sourceImageFile, String destinationImageFile,
+                                      int scaleWidth, int scaleHeight) {
+        try {
+            int inWidth = 0;
+            int inHeight = 0;
+
+            InputStream in = new FileInputStream(sourceImageFile);
+
+            // decode image size (decode metadata only, not the whole image)
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(in, null, options);
+            in.close();
+            in = null;
+
+            // save width and height
+            inWidth = options.outWidth;
+            inHeight = options.outHeight;
+
+            // decode full image pre-resized
+            in = new FileInputStream(sourceImageFile);
+            options = new BitmapFactory.Options();
+            // calc rought re-size (this is no exact resize)
+            options.inSampleSize = Math.max(inWidth / scaleWidth, inHeight / scaleHeight);
+            // decode full image
+            Bitmap roughBitmap = BitmapFactory.decodeStream(in, null, options);
+
+            // calc exact destination size
+            Matrix m = new Matrix();
+            RectF inRect = new RectF(0, 0, roughBitmap.getWidth(), roughBitmap.getHeight());
+            RectF outRect = new RectF(0, 0, scaleWidth, scaleHeight);
+            m.setRectToRect(inRect, outRect, Matrix.ScaleToFit.CENTER);
+            float[] values = new float[9];
+            m.getValues(values);
+
+            // resize bitmap
+            Bitmap resizedBitmap =
+                    Bitmap.createScaledBitmap(roughBitmap,
+                            (int) (roughBitmap.getWidth() * values[0]),
+                            (int) (roughBitmap.getHeight() * values[4]), true);
+
+            // save image
+            try {
+                FileOutputStream out = new FileOutputStream(destinationImageFile);
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
+
+                return new BitmapDrawable(context.getResources(), resizedBitmap);
+            } catch (Exception e) {
+                Log.e("Image", e.getMessage(), e);
+            }
+        } catch (IOException e) {
+            Log.e("Image", e.getMessage(), e);
+        }
+
+        return null;  //To change body of created methods use File | Settings | File Templates.
+    }
+
+    public static Drawable loadBitmapDrawableIfExists(Context context, String cacheImageFile) {
+        if (new File(cacheImageFile).exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(cacheImageFile);
+            return new BitmapDrawable(context.getResources(), bitmap);
+        } else {
+            return null;
+        }
     }
 }

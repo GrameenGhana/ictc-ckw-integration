@@ -13,7 +13,9 @@ import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import org.grameenfoundation.search.model.ListObject;
+import org.grameenfoundation.search.services.MenuItemService;
 import org.grameenfoundation.search.settings.SettingsActivity;
+import org.grameenfoundation.search.settings.SettingsManager;
 import org.grameenfoundation.search.synchronization.SynchronizationListener;
 import org.grameenfoundation.search.synchronization.SynchronizationManager;
 import org.grameenfoundation.search.ui.AboutActivity;
@@ -58,6 +60,9 @@ public class MainActivity extends Activity {
             ApplicationRegistry.register(GlobalConstants.KEY_CACHED_APPLICATION_VERSION,
                     getResources().getString(R.string.app_name) + "/" + R.string.app_version);
 
+            //prepare default settings.
+            SettingsManager.getInstance().setDefaultSettings(false);
+
             handler = new Handler();
 
             if (savedInstanceState != null
@@ -68,40 +73,51 @@ public class MainActivity extends Activity {
                 listObjectNavigationStack = new Stack<ListObject>();
             }
 
-            mainListView = (ListView) this.findViewById(R.id.main_list);
-            final MainListViewAdapter listViewAdapter = new MainListViewAdapter(this);
-            mainListView.setAdapter(listViewAdapter);
-
-            mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                    ListObject itemToSelect = (ListObject) listViewAdapter.getItem(position);
-                    selectListElement(itemToSelect, listViewAdapter);
-                }
-            });
-
-            mainListView.setOnTouchListener(new OnSwipeTouchListener(this) {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    return super.onTouch(v, event);
-                }
-
-                @Override
-                public boolean onSwipeRight() {
-                    super.onSwipeRight();
-                    listViewBackNavigation();
-                    return false;
-                }
-            });
-
-            if (!listObjectNavigationStack.isEmpty()) {
-                selectListElement(listObjectNavigationStack.pop(), listViewAdapter);
-            }
-
+            initMainListView();
             createProgressBar();
+
+            /**
+             * auto start synchronization when their are no search
+             * menu items. This is for a clean database.
+             */
+            if (new MenuItemService().countSearchMenus() == 0) {
+                startSynchronization();
+            }
         } catch (Exception ex) {
             Log.e(MainActivity.class.getName(), "Application Error", ex);
+        }
+    }
+
+    private void initMainListView() {
+        mainListView = (ListView) this.findViewById(R.id.main_list);
+        final MainListViewAdapter listViewAdapter = new MainListViewAdapter(this);
+        mainListView.setAdapter(listViewAdapter);
+
+        mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                ListObject itemToSelect = (ListObject) listViewAdapter.getItem(position);
+                selectListElement(itemToSelect, listViewAdapter);
+            }
+        });
+
+        mainListView.setOnTouchListener(new OnSwipeTouchListener(this) {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return super.onTouch(v, event);
+            }
+
+            @Override
+            public boolean onSwipeRight() {
+                super.onSwipeRight();
+                listViewBackNavigation();
+                return false;
+            }
+        });
+
+        if (!listObjectNavigationStack.isEmpty()) {
+            selectListElement(listObjectNavigationStack.pop(), listViewAdapter);
         }
     }
 

@@ -1,6 +1,7 @@
 package org.grameenfoundation.search.ui;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import org.grameenfoundation.search.ApplicationRegistry;
 import org.grameenfoundation.search.R;
 import org.grameenfoundation.search.model.ListObject;
 import org.grameenfoundation.search.model.SearchMenu;
@@ -15,6 +17,7 @@ import org.grameenfoundation.search.model.SearchMenuItem;
 import org.grameenfoundation.search.services.MenuItemService;
 import org.grameenfoundation.search.utils.ImageUtils;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -104,9 +107,22 @@ public class MainListViewAdapter extends BaseAdapter {
             rowView.setTag(listObject);
         }
 
-        imageView.setImageDrawable(ImageUtils.drawRandomColorImageWithText(this.context,
-                listObject.getLabel().substring(0, 1).toUpperCase(), 50, 50));
+        if (ImageUtils.imageExists(listObject.getId(), true)) {
+            File imageCacheDir = ImageUtils.createImageCacheFolder(ApplicationRegistry.getApplicationContext());
+            String originalImagePath = ImageUtils.getFullPath(listObject.getId(), true);
+            if (originalImagePath != null) {
+                String cacheImageFile = imageCacheDir + originalImagePath.substring(originalImagePath.lastIndexOf("/"));
+                Drawable drawable = ImageUtils.loadBitmapDrawableIfExists(context, cacheImageFile);
+                if (drawable == null) {
+                    drawable = ImageUtils.scaleImage(context, originalImagePath, cacheImageFile, 50, 50);
+                }
 
+                imageView.setImageDrawable(drawable);
+            }
+        } else {
+            imageView.setImageDrawable(ImageUtils.drawRandomColorImageWithText(this.context,
+                    listObject.getLabel().substring(0, 1).toUpperCase(), 50, 50));
+        }
         return rowView;
     }
 
