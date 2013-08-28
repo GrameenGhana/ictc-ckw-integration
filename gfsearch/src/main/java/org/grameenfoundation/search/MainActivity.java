@@ -275,5 +275,14 @@ public class MainActivity extends Activity {
             progressDialog.show();
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        if (listObjectNavigationStack != null && !listObjectNavigationStack.isEmpty()) {
+            listViewBackNavigation();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
 
