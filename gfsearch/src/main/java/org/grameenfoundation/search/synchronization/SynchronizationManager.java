@@ -304,7 +304,7 @@ public class SynchronizationManager {
                         }
                     }
                 } catch (IOException e) {
-                    Log.e("IOException", e.getMessage());
+                    Log.e(SynchronizationManager.class.getName(), "IOException", e);
                     notifySynchronizationListeners("onSynchronizationError", new Throwable(e));
                 }
             }

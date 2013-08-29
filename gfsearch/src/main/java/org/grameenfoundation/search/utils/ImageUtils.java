@@ -271,7 +271,7 @@ public class ImageUtils {
         return new BitmapDrawable(context.getResources(), canvasBitmap);
     }
 
-    public static File createImageCacheFolder(Context context) {
+    public static File createImageCacheFolderIfNotExists(Context context) {
         String imageCachePath = context.getCacheDir() + "/gfimages/";
         File folder = new File(imageCachePath);
         if (!folder.exists()) {
@@ -280,8 +280,8 @@ public class ImageUtils {
         return folder;
     }
 
-    public static Drawable scaleImage(Context context, String sourceImageFile, String destinationImageFile,
-                                      int scaleWidth, int scaleHeight) {
+    public static Drawable scaleAndCacheImage(Context context, String sourceImageFile, String destinationImageFile,
+                                              int scaleWidth, int scaleHeight) {
         try {
             int inWidth = 0;
             int inHeight = 0;

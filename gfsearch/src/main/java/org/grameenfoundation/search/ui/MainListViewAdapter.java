@@ -1,8 +1,12 @@
 package org.grameenfoundation.search.ui;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +20,11 @@ import org.grameenfoundation.search.model.SearchMenu;
 import org.grameenfoundation.search.model.SearchMenuItem;
 import org.grameenfoundation.search.services.MenuItemService;
 import org.grameenfoundation.search.utils.ImageUtils;
+import org.joda.time.Interval;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.List;
 
 /**
@@ -36,6 +43,34 @@ public class MainListViewAdapter extends BaseAdapter {
         this.context = context;
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         handler = new Handler();
+    }
+
+    private static class ThumbnailViewHolder {
+        public ImageView imageView;
+        public int position;
+    }
+
+    private static class ThumbnailTask extends AsyncTask<ListObject, Interval, Drawable> {
+        ThumbnailViewHolder viewHolder = null;
+        int position;
+
+        public ThumbnailTask(ThumbnailViewHolder viewHolder, int position) {
+            this.viewHolder = viewHolder;
+            this.position = position;
+        }
+
+        @Override
+        protected Drawable doInBackground(ListObject... params) {
+            return getListObjectDrawable(params[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Drawable drawable) {
+            super.onPostExecute(drawable);
+            if (viewHolder.position == position) {
+                viewHolder.imageView.setImageDrawable(drawable);
+            }
+        }
     }
 
     @Override
@@ -89,6 +124,15 @@ public class MainListViewAdapter extends BaseAdapter {
         if (rowView == null) {
             rowView = layoutInflater.inflate(R.layout.listviewobject, parent, false);
         }
+
+        ThumbnailViewHolder viewHolder = null;
+        if (rowView.getTag() != null && rowView.getTag() instanceof ThumbnailViewHolder) {
+            viewHolder = (ThumbnailViewHolder) rowView.getTag();
+        } else {
+            viewHolder = new ThumbnailViewHolder();
+        }
+
+
         ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
         TextView titleView = (TextView) rowView.findViewById(R.id.title);
         TextView descriptionView = (TextView) rowView.findViewById(R.id.description);
@@ -96,34 +140,55 @@ public class MainListViewAdapter extends BaseAdapter {
         ListObject listObject = (ListObject) getItem(position);
         if (listObject != null) {
             titleView.setText(listObject.getLabel());
-            if (listObject.getDescription() == null || listObject.getDescription().trim().length() == 0) {
-                descriptionView.setVisibility(TextView.INVISIBLE);
-            } else if (listObject.getDescription().trim().equalsIgnoreCase("no content")) {
-                descriptionView.setText("");
-            } else {
-                descriptionView.setText(listObject.getDescription());
-                descriptionView.setVisibility(TextView.VISIBLE);
-            }
-            rowView.setTag(listObject);
+            descriptionView.setText(listObject.getDescription());
+            descriptionView.setVisibility(TextView.VISIBLE);
+
+            viewHolder.position = position;
+            viewHolder.imageView = imageView;
+
+            rowView.setTag(viewHolder);
+
+            new ThumbnailTask(viewHolder, position).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, listObject);
         }
 
+        //imageView.setImageDrawable(getListObjectDrawable(listObject));
+
+        return rowView;
+    }
+
+    private static Drawable getListObjectDrawable(ListObject listObject) {
+        File imageCacheDir = ImageUtils.createImageCacheFolderIfNotExists(ApplicationRegistry.getApplicationContext());
+        Drawable drawable = null;
         if (ImageUtils.imageExists(listObject.getId(), true)) {
-            File imageCacheDir = ImageUtils.createImageCacheFolder(ApplicationRegistry.getApplicationContext());
             String originalImagePath = ImageUtils.getFullPath(listObject.getId(), true);
             if (originalImagePath != null) {
                 String cacheImageFile = imageCacheDir + originalImagePath.substring(originalImagePath.lastIndexOf("/"));
-                Drawable drawable = ImageUtils.loadBitmapDrawableIfExists(context, cacheImageFile);
+                drawable = ImageUtils.loadBitmapDrawableIfExists(ApplicationRegistry.getApplicationContext(),
+                        cacheImageFile);
                 if (drawable == null) {
-                    drawable = ImageUtils.scaleImage(context, originalImagePath, cacheImageFile, 50, 50);
+                    drawable = ImageUtils.scaleAndCacheImage(ApplicationRegistry.getApplicationContext(),
+                            originalImagePath, cacheImageFile, 50, 50);
                 }
-
-                imageView.setImageDrawable(drawable);
             }
         } else {
-            imageView.setImageDrawable(ImageUtils.drawRandomColorImageWithText(this.context,
-                    listObject.getLabel().substring(0, 1).toUpperCase(), 50, 50));
+            int width = 50, height = 50;
+            drawable = ImageUtils.drawRandomColorImageWithText(ApplicationRegistry.getApplicationContext(),
+                    listObject.getLabel().substring(0, 1).toUpperCase(), width, height);
         }
-        return rowView;
+
+        return drawable;
+    }
+
+    private static void saveDrawableToFile(Drawable drawable, String outputPath) {
+        try {
+            FileOutputStream out = new FileOutputStream(outputPath);
+
+            if (drawable instanceof BitmapDrawable) {
+                ((BitmapDrawable) drawable).getBitmap().compress(Bitmap.CompressFormat.JPEG, 100, out);
+            }
+        } catch (FileNotFoundException e) {
+            Log.e(MainListViewAdapter.class.getName(), "UnExpected Exception", e);
+        }
     }
 
     public ListObject getSelectedObject() {

@@ -243,10 +243,12 @@ public class MainActivity extends Activity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        progressDialog.dismiss();
+                        if (progressDialog != null) {
+                            progressDialog.dismiss();
+                        }
 
                         AlertDialog alertDialog =
-                                new AlertDialog.Builder(getApplicationContext().getApplicationContext()).create();
+                                new AlertDialog.Builder(MainActivity.this).create();
                         alertDialog.setMessage(throwable.getMessage());
                         alertDialog.setIcon(android.R.drawable.stat_sys_warning);
 
