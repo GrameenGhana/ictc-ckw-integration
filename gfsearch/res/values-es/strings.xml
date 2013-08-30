@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">GF Buscar</string>
+    <string name="app_version">1.0.0-SNAPSHOT</string>
+    <string name="app_version_about">Versión 1.0.0-SNAPSHOT</string>
+    <string name="hello">Hola gfsearch!</string>
+    <string name="action_settings">Configuración</string>
+    <string name="hello_world">Hola mundo!</string>
+    <string name="action_about">acerca de</string>
+    <string name="action_help">ayudar</string>
+    <string name="settingSummary">Preferencias de la aplicación</string>
+    <string name="synchronization_progress_bar_title">Sincronización</string>
+    <string name="error_title">error !</string>
+    <string name="country_code_download_msg">Descarga de código de país espera por favor...</string>
+    <string name="upload_search_logs_download_msg">Carga de los registros de búsqueda por favor espere...</string>
+    <string name="keyword_download_msg">Descarga de palabras clave por favor espere...</string>
+    <string name="synchronization_complete_msg">sincronización completa.</string>
+    <string name="processing_keywords_msg">Procesamiento de Palabras clave</string>
+    <string name="removing_keywords_msg">Extracción Antiguo Palabras clave</string>
+    <string name="downloading_images_msg">descarga de imágenes</string>
+    <string name="error_downloading_keywords">Palabras clave de descarga de error</string>
+    <string name="error_processing_keywords">Palabras clave de proceso de errores</string>
+    <string name="error_connecting_to_server">Ha ocurrido un error al comunicarse con el servidor.
+                 Por favor verifica la configuracion de conexión.
+    </string>
+
+    <!-- Connection strings-->
+    <string name="server_url">http://ckwapps.applab.org:8888/</string>
+    <string name="title_server_url">URL del servidor</string>
+    <string name="summary_server_url">La url del servidor al sincronizar con.</string>
+    <string name="setting_connection">conexión</string>
+    <string name="summary_connection">Conexión Ajustes relacionados</string>
+    <string name="connection_preferences">conexión</string>
+    <string name="action_search">Buscar</string>
+    <string name="action_new_search">Nueva búsqueda</string>
+    <string name="farmer_id_text">Farmer Id</string>
+    <string name="recent_searches">Búsquedas recientes</string>
+    <string name="favourite_searches">Búsquedas favoritas</string>
+    <string name="synchronise">sincronizar</string>
+    <string name="country_code_server_url_path">search/getCountryCode</string>
+    <string name="keyword_server_url_path">search/getsearchkeywords</string>
+    <string name="image_server_url_path">search/getsfimages?imageId=</string>
+    <string name="action_back">espalda</string>
+    <string name="action_forward">adelante</string>
+    <string name="sample_text">sample text</string>
+
+</resources>

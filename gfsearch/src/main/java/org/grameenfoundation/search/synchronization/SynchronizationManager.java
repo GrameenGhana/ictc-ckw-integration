@@ -108,6 +108,10 @@ public class SynchronizationManager {
                                     getResources().getString(R.string.synchronization_complete_msg), true);
 
                     notifySynchronizationListeners("synchronizationComplete");
+                } catch (IOException e) {
+                    Log.e(SynchronizationManager.class.getName(), "IOException", e);
+                    notifySynchronizationListeners("onSynchronizationError",
+                            new Throwable(applicationContext.getString(R.string.error_connecting_to_server)));
                 } finally {
                     synchronizing = false;
                 }
@@ -119,7 +123,7 @@ public class SynchronizationManager {
 
     }
 
-    protected void downloadSearchMenus() {
+    protected void downloadSearchMenus() throws IOException {
         try {
             String url = SettingsManager.getInstance().getValue(SettingsConstants.KEY_SERVER) +
                     ApplicationRegistry.getApplicationContext().getString(R.string.keyword_server_url_path);
@@ -145,9 +149,12 @@ public class SynchronizationManager {
                 processKeywords(fileInputStream);
             }
 
+        } catch (IOException e) {
+            throw e;
         } catch (Exception ex) {
             Log.e(SynchronizationManager.class.getName(), "Error downloading keywords", ex);
-            notifySynchronizationListeners("onSynchronizationError", new Throwable(ex));
+            notifySynchronizationListeners("onSynchronizationError",
+                    new Throwable(applicationContext.getString(R.string.error_downloading_keywords)));
         }
     }
 
@@ -260,14 +267,19 @@ public class SynchronizationManager {
             });
         } catch (Exception ex) {
             Log.e(SynchronizationManager.class.getName(), "Parsing Error", ex);
+            notifySynchronizationListeners("onSynchronizationError",
+                    new Throwable(applicationContext.getString(R.string.error_processing_keywords)));
+
+
+            return;
         }
 
         deleteOldMenus(oldSearchMenus, searchMenus);
-        SettingsManager.getInstance().setValue(SettingsConstants.KEY_KEYWORDS_VERSION, keywordVersion[0]);
-        SettingsManager.getInstance().setValue(SettingsConstants.KEY_IMAGES_VERSION, imagesVersion[0]);
-
         downloadImages(imageIdz);
         deleteUnusedImages(deleteImageIz);
+
+        SettingsManager.getInstance().setValue(SettingsConstants.KEY_KEYWORDS_VERSION, keywordVersion[0]);
+        SettingsManager.getInstance().setValue(SettingsConstants.KEY_IMAGES_VERSION, imagesVersion[0]);
     }
 
     private void deleteUnusedImages(List<String> deleteImageIz) {
@@ -281,32 +293,28 @@ public class SynchronizationManager {
         }
     }
 
-    private void downloadImages(List<String> imageIds) {
+    private void downloadImages(List<String> imageIds) throws IOException {
         if (imageIds != null) {
             int count = imageIds.size(), counter = 0;
 
             for (String imageId : imageIds) {
-                try {
-                    notifySynchronizationListeners("synchronizationUpdate", counter++, count,
-                            ApplicationRegistry.getApplicationContext().
-                                    getResources().getString(R.string.downloading_images_msg), true);
+                notifySynchronizationListeners("synchronizationUpdate", counter++, count,
+                        ApplicationRegistry.getApplicationContext().
+                                getResources().getString(R.string.downloading_images_msg), true);
 
-                    if (imageId != null || imageId.trim().length() > 0) {
-                        // Only download image if image does not already exist!
-                        if (!ImageUtils.imageExists(imageId.toLowerCase(), false)) {
-                            Log.d("Image Download", "Getting " + imageId);
-                            String url = SettingsManager.getInstance().getValue(SettingsConstants.KEY_SERVER) +
-                                    ApplicationRegistry.getApplicationContext().getString(R.string.image_server_url_path) +
-                                    imageId;
+                if (imageId != null || imageId.trim().length() > 0) {
+                    // Only download image if image does not already exist!
+                    if (!ImageUtils.imageExists(imageId.toLowerCase(), false)) {
+                        Log.d("Image Download", "Getting " + imageId);
+                        String url = SettingsManager.getInstance().getValue(SettingsConstants.KEY_SERVER) +
+                                ApplicationRegistry.getApplicationContext().getString(R.string.image_server_url_path) +
+                                imageId;
 
-                            InputStream image = HttpHelpers.getResource(url);
-                            ImageUtils.writeFile(imageId + ".jpg", image);
-                        }
+                        InputStream image = HttpHelpers.getResource(url);
+                        ImageUtils.writeFile(imageId + ".jpg", image);
                     }
-                } catch (IOException e) {
-                    Log.e(SynchronizationManager.class.getName(), "IOException", e);
-                    notifySynchronizationListeners("onSynchronizationError", new Throwable(e));
                 }
+
             }
         }
     }

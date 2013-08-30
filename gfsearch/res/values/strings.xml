@@ -19,6 +19,11 @@
     <string name="processing_keywords_msg">Processing Keywords</string>
     <string name="removing_keywords_msg">Removing Old Keywords</string>
     <string name="downloading_images_msg">Downloading Images</string>
+    <string name="error_downloading_keywords">Error downloading keywords</string>
+    <string name="error_processing_keywords">Error processing keywords</string>
+    <string name="error_connecting_to_server">An error has occured while communicating with the server.
+        Please check your connection settings.
+    </string>
 
     <!-- Connection strings-->
     <string name="server_url">http://ckwapps.applab.org:8888/</string>
