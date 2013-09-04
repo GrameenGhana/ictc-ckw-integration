@@ -26,9 +26,10 @@ public class MenuItemService {
      * @return
      */
     public List<SearchMenu> getAllSearchMenus() {
-        Cursor cursor = StorageManager.getInstance().getAllRecords(DatabaseHelperConstants.MENU_TABLE_NAME);
-        List<SearchMenu> searchMenus = buildSearchMenus(cursor);
-        return searchMenus;
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.MENU_TABLE_NAME);
+        search.addSortAsc(DatabaseHelperConstants.MENU_LABEL_COLUMN);
+        return buildSearchMenus(StorageManager.getInstance().getRecords(search));
     }
 
     private List<SearchMenu> buildSearchMenus(Cursor cursor) {
@@ -288,7 +289,7 @@ public class MenuItemService {
         search.addFilterEqual(DatabaseHelperConstants.MENU_ITEM_MENUID_COLUMN, searchMenu.getId());
         search.addFilterOr(Filter.isEmpty(DatabaseHelperConstants.MENU_ITEM_PARENTID_COLUMN));
 
-        search.addSortAsc(DatabaseHelperConstants.MENU_ITEM_POSITION_COLUMN);
+        search.addSortAsc(DatabaseHelperConstants.MENU_ITEM_LABEL_COLUMN);
         return buildSearchMenuItems(StorageManager.getInstance().getRecords(search));
     }
 
@@ -296,7 +297,7 @@ public class MenuItemService {
         Search search = new Search();
         search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
         search.addFilterEqual(DatabaseHelperConstants.MENU_ITEM_PARENTID_COLUMN, searchMenuItem.getId());
-        search.addSortAsc(DatabaseHelperConstants.MENU_ITEM_POSITION_COLUMN);
+        search.addSortAsc(DatabaseHelperConstants.MENU_ITEM_LABEL_COLUMN);
 
         return buildSearchMenuItems(StorageManager.getInstance().getRecords(search));
     }
