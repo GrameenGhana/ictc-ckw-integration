@@ -88,11 +88,6 @@ public class MainActivity extends Activity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
     private void initMainListView() {
         mainListView = (ListView) this.findViewById(R.id.main_list);
         final MainListViewAdapter listViewAdapter = new MainListViewAdapter(this);
@@ -197,12 +192,25 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent().setClass(this, AboutActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                 this.startActivity(intent);
+            } else if (item.getItemId() == android.R.id.home) {
+                resetDisplayMenus();
             }
         } catch (Exception ex) {
             Log.e(MainActivity.class.getName(), "", ex);
         }
 
         return true;
+    }
+
+    /**
+     *
+     */
+    private void resetDisplayMenus() {
+        if (listObjectNavigationStack != null) {
+            listObjectNavigationStack.clear();
+
+            listViewBackNavigation();
+        }
     }
 
     private void startSynchronization() {

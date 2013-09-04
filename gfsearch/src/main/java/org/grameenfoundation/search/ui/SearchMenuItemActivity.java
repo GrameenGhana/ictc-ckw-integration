@@ -2,8 +2,10 @@ package org.grameenfoundation.search.ui;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,5 +40,17 @@ public class SearchMenuItemActivity extends Activity {
         }
 
         super.setContentView(view);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Intent intent = this.getParentActivityIntent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                this.startActivity(intent);
+                break;
+        }
+        return true;
     }
 }
