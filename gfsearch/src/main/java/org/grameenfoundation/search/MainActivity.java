@@ -88,6 +88,11 @@ public class MainActivity extends Activity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
     private void initMainListView() {
         mainListView = (ListView) this.findViewById(R.id.main_list);
         final MainListViewAdapter listViewAdapter = new MainListViewAdapter(this);
@@ -190,7 +195,8 @@ public class MainActivity extends Activity {
                 startSynchronization();
             } else if (item.getItemId() == R.id.action_about) {
                 Intent intent = new Intent().setClass(this, AboutActivity.class);
-                this.startActivityForResult(intent, 0);
+                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                this.startActivity(intent);
             }
         } catch (Exception ex) {
             Log.e(MainActivity.class.getName(), "", ex);
