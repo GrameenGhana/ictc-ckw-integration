@@ -27,6 +27,11 @@
         </developer>
     </developers>
 
+    <scm>
+        <url>https://code.google.com/p/applab-ug.gfsearch/</url>
+        <developerConnection>scm:git:https://code.google.com/p/applab-ug.gfsearch/</developerConnection>
+    </scm>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -115,6 +120,18 @@
             <modules>
                 <module>gfsearch</module>
             </modules>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <version>2.4.1</version>
+                        <configuration>
+                            <tagNameFormat>v@{project.version}</tagNameFormat>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
     </profiles>
 
