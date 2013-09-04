@@ -11,9 +11,9 @@
 
     <groupId>org.grameenfoundation.search</groupId>
     <artifactId>gfsearch</artifactId>
-    <version>${parent.version}</version>
+    <version>${project.parent.version}</version>
     <packaging>apk</packaging>
-    <name>gfsearch - Application</name>
+    <name>gfsearch</name>
 
     <dependencies>
         <dependency>

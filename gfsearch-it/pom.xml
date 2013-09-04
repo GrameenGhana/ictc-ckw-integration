@@ -11,7 +11,7 @@
 
     <groupId>org.grameenfoundation.search</groupId>
     <artifactId>gfsearch-it</artifactId>
-    <version>${parent.version}</version>
+    <version>${project.parent.version}</version>
     <packaging>apk</packaging>
     <name>gfsearch-it - Integration tests</name>
 
@@ -25,14 +25,14 @@
             <groupId>org.grameenfoundation.search</groupId>
             <artifactId>gfsearch</artifactId>
             <type>apk</type>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.grameenfoundation.search</groupId>
             <artifactId>gfsearch</artifactId>
             <type>jar</type>
-            <version>${parent.version}</version>
+            <version>${project.parent.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
