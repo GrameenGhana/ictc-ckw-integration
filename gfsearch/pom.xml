@@ -161,7 +161,7 @@
                             </manifest>
                             <!-- Change to true to skip Proguard -->
                             <proguard>
-                                <skip>false</skip>
+                                <skip>true</skip>
                                 <config>proguard.conf</config>
                             </proguard>
                         </configuration>
