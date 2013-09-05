@@ -4,10 +4,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.grameenfoundation.search</groupId>
-    <artifactId>gfsearch-parent</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <artifactId>gfsearch</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>gfsearch - Parent</name>
+    <name>gfsearch</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -91,6 +91,13 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-ssh</artifactId>
+                <version>2.4</version>
+            </extension>
+        </extensions>
     </build>
 
     <profiles>
@@ -123,7 +130,8 @@
             <distributionManagement>
                 <repository>
                     <id>ckwapps.download</id>
-                    <url>scp://ckwapps.applab.org//var/www/vhosts/default/htdocs/downloads</url>
+                    <name>CKWApps</name>
+                    <url>scp://ckwapps.applab.org/var/www/vhosts/default/htdocs/downloads</url>
                 </repository>
             </distributionManagement>
             <build>
@@ -135,13 +143,6 @@
                         <configuration>
                             <tagNameFormat>v@{project.version}</tagNameFormat>
                         </configuration>
-                        <dependencies>
-                            <dependency><!-- add support for ssh/scp -->
-                                <groupId>org.apache.maven.wagon</groupId>
-                                <artifactId>wagon-ssh</artifactId>
-                                <version>1.0</version>
-                            </dependency>
-                        </dependencies>
                     </plugin>
                 </plugins>
             </build>
