@@ -140,7 +140,12 @@ public class MainListViewAdapter extends BaseAdapter {
         ListObject listObject = (ListObject) getItem(position);
         if (listObject != null) {
             titleView.setText(listObject.getLabel());
-            descriptionView.setText(listObject.getDescription());
+            if (listObject.getDescription() != null && listObject.getDescription().startsWith("No Content")) {
+                descriptionView.setText("");
+            } else {
+                descriptionView.setText(listObject.getDescription());
+            }
+
             descriptionView.setVisibility(TextView.VISIBLE);
 
             viewHolder.position = position;

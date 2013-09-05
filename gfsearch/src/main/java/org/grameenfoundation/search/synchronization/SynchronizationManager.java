@@ -267,8 +267,8 @@ public class SynchronizationManager {
             });
         } catch (Exception ex) {
             Log.e(SynchronizationManager.class.getName(), "Parsing Error", ex);
-            notifySynchronizationListeners("onSynchronizationError",
-                    new Throwable(applicationContext.getString(R.string.error_processing_keywords)));
+            /*notifySynchronizationListeners("onSynchronizationError",
+                    new Throwable(applicationContext.getString(R.string.error_processing_keywords)));*/
 
 
             return;
