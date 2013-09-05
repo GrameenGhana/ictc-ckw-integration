@@ -11,7 +11,7 @@
     <groupId>org.grameenfoundation.search</groupId>
     <artifactId>gfsearch-apk</artifactId>
     <packaging>apk</packaging>
-    <name>gfsearch</name>
+    <name>gfsearch-apk</name>
 
     <dependencies>
         <dependency>
