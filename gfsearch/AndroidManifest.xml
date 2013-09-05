@@ -6,7 +6,7 @@
 
     <application android:allowBackup="true" android:debuggable="true"
                  android:icon="@drawable/app_logo" android:label="@string/app_name" android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -33,6 +33,7 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value="org.grameenfoundation.search.MainActivity"/>
         </activity>
+        <service android:name=".synchronization.BackgroundSynchronizationService"/>
     </application>
 
     <!-- Application Permissions-->
