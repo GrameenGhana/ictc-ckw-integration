@@ -21,14 +21,14 @@
         </dependency>
         <dependency>
             <groupId>org.grameenfoundation.search</groupId>
-            <artifactId>gfsearch</artifactId>
+            <artifactId>gfsearch-apk</artifactId>
             <type>apk</type>
             <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.grameenfoundation.search</groupId>
-            <artifactId>gfsearch</artifactId>
+            <artifactId>gfsearch-apk</artifactId>
             <type>jar</type>
             <version>${project.version}</version>
             <scope>provided</scope>
