@@ -136,19 +136,25 @@ public class SynchronizationManager {
             InputStream inputStream = HttpHelpers.postJsonRequestAndGetStream(url,
                     (StringEntity) getRequestEntity(ApplicationRegistry.getApplicationContext()), networkTimeout);
 
-            String searchCacheFile = ApplicationRegistry.getApplicationContext().getCacheDir() +
-                    "/keywords.cache";
-
-            boolean downloadComplete = HttpHelpers.writeStreamToTempFile(inputStream, searchCacheFile);
-            inputStream.close();
-
+            String searchCacheFile = ApplicationRegistry.getApplicationContext().getCacheDir() + "/keywords.cache";
             File cacheFile = new File(searchCacheFile);
-            FileInputStream fileInputStream = new FileInputStream(cacheFile);
-
-            if (downloadComplete && fileInputStream != null) {
-                processKeywords(fileInputStream);
+            if (cacheFile.exists()) {
+                boolean deleted = cacheFile.delete();
+                if (deleted) {
+                    Log.i(SynchronizationManager.class.getName(), "Cache File Deleted.");
+                }
             }
 
+            boolean downloadComplete = HttpHelpers.writeStreamToTempFile(inputStream, searchCacheFile);
+            FileInputStream fileInputStream = new FileInputStream(cacheFile);
+            try {
+                if (downloadComplete && fileInputStream != null) {
+                    processKeywords(fileInputStream);
+                }
+            } finally {
+                fileInputStream.close();
+                inputStream.close();
+            }
         } catch (IOException e) {
             throw e;
         } catch (Exception ex) {
@@ -158,7 +164,7 @@ public class SynchronizationManager {
         }
     }
 
-    private void processKeywords(FileInputStream fileInputStream) throws IOException, ParseException {
+    private void processKeywords(InputStream inputStream) throws IOException, ParseException {
         final List<SearchMenu> searchMenus = new ArrayList<SearchMenu>();
         List<SearchMenu> oldSearchMenus = menuItemService.getAllSearchMenus();
         final List<SearchMenuItem> searchMenuItems = new ArrayList<SearchMenuItem>();
@@ -170,7 +176,7 @@ public class SynchronizationManager {
         final int[] keywordCount = new int[1];
 
         try {
-            new JSONParser().parse(new InputStreamReader(fileInputStream), new JsonSimpleBaseParser() {
+            new JSONParser().parse(new InputStreamReader(inputStream), new JsonSimpleBaseParser() {
                 private Object keywordObject = null;
                 private String keywordType = "";
                 private int keywordCounter = 0;
@@ -267,11 +273,6 @@ public class SynchronizationManager {
             });
         } catch (Exception ex) {
             Log.e(SynchronizationManager.class.getName(), "Parsing Error", ex);
-            /*notifySynchronizationListeners("onSynchronizationError",
-                    new Throwable(applicationContext.getString(R.string.error_processing_keywords)));*/
-
-
-            return;
         }
 
         deleteOldMenus(oldSearchMenus, searchMenus);

@@ -419,44 +419,13 @@ public class HttpHelpers {
         FileOutputStream stream = new FileOutputStream(tempFile);
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-        /**
-         * Rewrote this to overcome outOfMemoryException
-         *
-         * String line; while ((line = reader.readLine()) != null) { stream.write(line.getBytes()); }
-
-         // Second option
-
-         int offset = 0;
-         int length = 500;
-         char[] charBuffer = new char[length + 1];
-         int readValues = 0;
-
-         do {
-         readValues = reader.read(charBuffer, offset, length);
-         if (readValues == -1) {
-         break;
-         }
-         String temp = String.valueOf(charBuffer);
-         Log.d(TAG, temp);
-         stream.write(temp.getBytes());
-         } while (true);
-         */
-        int length = 501;
-        char[] charBuffer = new char[length];
-        int tempInt = 0;
-        int counter = 0;
-        while (true) {
-            tempInt = reader.read();
-            if (tempInt == -1) {
-                stream.write(String.valueOf(charBuffer).trim().getBytes());
-                break;
-            }
-            charBuffer[counter++] = (char) tempInt;
-            if (counter == 500) {
-                stream.write(String.valueOf(charBuffer).trim().getBytes());
-                counter = 0;
-            }
+        int read = 0;
+        byte[] bytes = new byte[1024];
+        while ((read = inputStream.read(bytes)) != -1) {
+            stream.write(bytes, 0, read);
         }
+
+        stream.flush();
         stream.close();
         reader.close();
 
