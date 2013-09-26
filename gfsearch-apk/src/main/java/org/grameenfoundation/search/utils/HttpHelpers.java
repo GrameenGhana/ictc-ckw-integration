@@ -420,7 +420,7 @@ public class HttpHelpers {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
         int read = 0;
-        byte[] bytes = new byte[1024];
+        byte[] bytes = new byte[2048];
         while ((read = inputStream.read(bytes)) != -1) {
             stream.write(bytes, 0, read);
         }
