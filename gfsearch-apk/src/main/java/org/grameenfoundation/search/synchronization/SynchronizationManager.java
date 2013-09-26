@@ -182,7 +182,7 @@ public class SynchronizationManager {
                 private int keywordCounter = 0;
 
                 @Override
-                public boolean primitive(Object value) throws ParseException, IOException {
+                public boolean primitive(Object value) throws ParseException {
                     if (null != key && value != null) {
                         if (key.equals("Version")) {
                             keywordVersion[0] = value.toString();
@@ -213,13 +213,13 @@ public class SynchronizationManager {
                 }
 
                 @Override
-                public boolean startArray() throws ParseException, IOException {
+                public boolean startArray() throws ParseException {
                     keywordType = key;
                     return true;
                 }
 
                 @Override
-                public boolean startObject() throws ParseException, IOException {
+                public boolean startObject() throws ParseException {
                     if ("Menus".equalsIgnoreCase(keywordType)) {
                         keywordObject = new SearchMenu();
                     } else if ("MenuItems".equalsIgnoreCase(keywordType)
@@ -235,7 +235,7 @@ public class SynchronizationManager {
                 }
 
                 @Override
-                public boolean endObject() throws ParseException, IOException {
+                public boolean endObject() throws ParseException {
                     if (keywordObject != null) {
                         if (keywordObject instanceof SearchMenu) {
                             searchMenus.add((SearchMenu) keywordObject);
@@ -271,16 +271,24 @@ public class SynchronizationManager {
                     return true;
                 }
             });
-        } catch (Exception ex) {
+
+            deleteOldMenus(oldSearchMenus, searchMenus);
+            SettingsManager.getInstance().setValue(SettingsConstants.KEY_KEYWORDS_VERSION, keywordVersion[0]);
+
+            downloadImages(imageIdz);
+            deleteUnusedImages(deleteImageIz);
+            SettingsManager.getInstance().setValue(SettingsConstants.KEY_IMAGES_VERSION, imagesVersion[0]);
+        } catch (ParseException ex) {
             Log.e(SynchronizationManager.class.getName(), "Parsing Error", ex);
+            notifySynchronizationListeners("onSynchronizationError",
+                    new Throwable(applicationContext.getString(R.string.error_processing_keywords)));
+        } catch (IOException ex) {
+            Log.e(SynchronizationManager.class.getName(), "IOException Error", ex);
+            notifySynchronizationListeners("onSynchronizationError",
+                    new Throwable(applicationContext.getString(R.string.error_connecting_to_server)));
+        } catch (Exception ex) {
+            Log.e(SynchronizationManager.class.getName(), "Exception", ex);
         }
-
-        deleteOldMenus(oldSearchMenus, searchMenus);
-        downloadImages(imageIdz);
-        deleteUnusedImages(deleteImageIz);
-
-        SettingsManager.getInstance().setValue(SettingsConstants.KEY_KEYWORDS_VERSION, keywordVersion[0]);
-        SettingsManager.getInstance().setValue(SettingsConstants.KEY_IMAGES_VERSION, imagesVersion[0]);
     }
 
     private void deleteUnusedImages(List<String> deleteImageIz) {
