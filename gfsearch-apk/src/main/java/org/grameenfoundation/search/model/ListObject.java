@@ -9,6 +9,8 @@ public class ListObject implements Serializable {
     private String id;
     private String description;
     private String label;
+    private boolean hasIcon;
+
 
     /**
      * gets the id of this menu
@@ -52,5 +54,13 @@ public class ListObject implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isHasIcon() {
+        return hasIcon;
+    }
+
+    public void setHasIcon(boolean hasIcon) {
+        this.hasIcon = hasIcon;
     }
 }

@@ -1,5 +1,6 @@
 package org.grameenfoundation.search;
 
+import android.app.Activity;
 import android.content.Context;
 
 import java.util.HashMap;
@@ -13,6 +14,7 @@ public final class ApplicationRegistry {
     }
 
     private static Context applicationContext;
+    private static Activity mainActivity;
     private static Map<String, Object> registry = new HashMap<String, Object>();
 
     /**
@@ -63,5 +65,13 @@ public final class ApplicationRegistry {
      */
     public static Object retrieve(String key) {
         return registry.get(key);
+    }
+
+    public static Activity getMainActivity() {
+        return mainActivity;
+    }
+
+    public static void setMainActivity(Activity mainActivity) {
+        ApplicationRegistry.mainActivity = mainActivity;
     }
 }

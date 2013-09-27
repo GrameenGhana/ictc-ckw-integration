@@ -25,6 +25,9 @@
         <activity android:icon="@drawable/collections_view_as_list" android:name=".ui.SearchMenuItemActivity" android:parentActivityName="org.grameenfoundation.search.MainActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="org.grameenfoundation.search.MainActivity"/>
         </activity>
+        <activity android:icon="@drawable/mobile_app_icon" android:name=".ui.ImageViewerActivity" android:parentActivityName="org.grameenfoundation.search.MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="org.grameenfoundation.search.MainActivity"/>
+        </activity>
         <service android:name=".synchronization.BackgroundSynchronizationService"/>
     </application>
 

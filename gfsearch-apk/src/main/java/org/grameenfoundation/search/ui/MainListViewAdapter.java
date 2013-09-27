@@ -1,6 +1,7 @@
 package org.grameenfoundation.search.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -8,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -148,15 +150,33 @@ public class MainListViewAdapter extends BaseAdapter {
 
             descriptionView.setVisibility(TextView.VISIBLE);
 
+            imageView.setTag(listObject);
             viewHolder.position = position;
             viewHolder.imageView = imageView;
 
             rowView.setTag(viewHolder);
 
+            imageView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        if (v.getTag() != null && v.getTag() instanceof ListObject) {
+                            if (((ListObject) v.getTag()).isHasIcon()) {
+                                Intent intent = new Intent().setClass(ApplicationRegistry.getMainActivity(),
+                                        ImageViewerActivity.class);
+                                intent.putExtra(ImageViewerActivity.EXTRA_LIST_OBJECT_IDENTIFIER, (ListObject) v.getTag());
+                                ApplicationRegistry.getMainActivity().startActivityForResult(intent, 0);
+
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+            });
+
             new ThumbnailTask(viewHolder, position).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, listObject);
         }
-
-        //imageView.setImageDrawable(getListObjectDrawable(listObject));
 
         return rowView;
     }
@@ -173,6 +193,8 @@ public class MainListViewAdapter extends BaseAdapter {
                 if (drawable == null) {
                     drawable = ImageUtils.scaleAndCacheImage(ApplicationRegistry.getApplicationContext(),
                             originalImagePath, cacheImageFile, 50, 50);
+                } else {
+                    listObject.setHasIcon(true);
                 }
             }
         } else {

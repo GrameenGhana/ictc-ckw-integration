@@ -48,6 +48,8 @@ public class MainActivity extends Activity {
             super.onCreate(savedInstanceState);
             activityContext = this;
             ApplicationRegistry.setApplicationContext(this.getApplicationContext());
+            ApplicationRegistry.setMainActivity(this);
+
             setContentView(R.layout.main);
             ActionBar actionBar = this.getActionBar();
             actionBar.setDisplayHomeAsUpEnabled(true);

@@ -10,6 +10,6 @@
               android:dividerHeight="0.5dp"
               android:footerDividersEnabled="true"
               android:headerDividersEnabled="false"
-              android:layout_alignParentTop="true"/>
+              android:layout_alignParentTop="true" android:addStatesFromChildren="true"/>
 
 </RelativeLayout>
