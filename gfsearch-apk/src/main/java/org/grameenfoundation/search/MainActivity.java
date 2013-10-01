@@ -16,6 +16,7 @@ import org.grameenfoundation.search.model.ListObject;
 import org.grameenfoundation.search.services.MenuItemService;
 import org.grameenfoundation.search.settings.SettingsActivity;
 import org.grameenfoundation.search.settings.SettingsManager;
+import org.grameenfoundation.search.synchronization.BackgroundSynchronizationConfigurer;
 import org.grameenfoundation.search.synchronization.SynchronizationListener;
 import org.grameenfoundation.search.synchronization.SynchronizationManager;
 import org.grameenfoundation.search.ui.AboutActivity;
@@ -65,6 +66,9 @@ public class MainActivity extends Activity {
             //prepare default settings.
             SettingsManager.getInstance().setDefaultSettings(false);
 
+            //setup background synchronization
+            initiateBackgroundSyncConfiguration();
+
             handler = new Handler();
 
             if (savedInstanceState != null
@@ -88,6 +92,11 @@ public class MainActivity extends Activity {
         } catch (Exception ex) {
             Log.e(MainActivity.class.getName(), "Application Error", ex);
         }
+    }
+
+    private void initiateBackgroundSyncConfiguration() {
+        Intent intent = new Intent(BackgroundSynchronizationConfigurer.ACTION_BACKGROUND_SYNC_CONFIGURATION);
+        this.sendBroadcast(intent);
     }
 
     private void initMainListView() {
@@ -252,6 +261,8 @@ public class MainActivity extends Activity {
                     }
 
                 });
+
+                SynchronizationManager.getInstance().unRegisterListener(this);
             }
 
             @Override
@@ -273,6 +284,8 @@ public class MainActivity extends Activity {
                         alertDialog.show();
                     }
                 });
+
+                SynchronizationManager.getInstance().unRegisterListener(this);
             }
         });
 
