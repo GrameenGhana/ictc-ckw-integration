@@ -1,5 +1,6 @@
 package org.grameenfoundation.search.settings;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import org.grameenfoundation.search.ApplicationRegistry;
@@ -8,7 +9,9 @@ import org.grameenfoundation.search.R;
 /**
  * handles settings related operations i.e. storage and retrieval of settings values.
  */
-public final class SettingsManager {
+public final class SettingsManager implements SharedPreferences.OnSharedPreferenceChangeListener {
+    public static final String ACTION_SETTINGS_CHANGED = "org.grameenfoundation.search.settings.SETTINGS_CHANGED";
+    public static final String INTENT_DATA_CHANGED_SETTING_KEY = "iTts1itr8j80FhcEMe0l";
     private static final SettingsManager INSTANCE = new SettingsManager();
     private SharedPreferences sharedPreferences;
 
@@ -17,6 +20,7 @@ public final class SettingsManager {
      */
     private SettingsManager() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationRegistry.getApplicationContext());
+
     }
 
     public static SettingsManager getInstance() {
@@ -65,6 +69,13 @@ public final class SettingsManager {
     public void setDefaultSettings(boolean readAgain) {
         PreferenceManager.setDefaultValues(ApplicationRegistry.getApplicationContext(),
                 R.xml.connection_preferences, readAgain);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Intent intent = new Intent(SettingsManager.ACTION_SETTINGS_CHANGED);
+        intent.putExtra(SettingsManager.INTENT_DATA_CHANGED_SETTING_KEY, key);
+        ApplicationRegistry.getApplicationContext().sendBroadcast(intent);
     }
 }
 

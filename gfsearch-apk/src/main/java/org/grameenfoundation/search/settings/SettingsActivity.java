@@ -30,8 +30,14 @@ public class SettingsActivity extends PreferenceActivity {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-
             addPreferencesFromResource(R.xml.connection_preferences);
+        }
+    }
+
+    public static class BackgroundSynchronization extends PreferenceFragment {
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.background_synchronization);
         }
     }
 

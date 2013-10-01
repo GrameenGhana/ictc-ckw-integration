@@ -58,6 +58,7 @@ public class BackgroundSynchronizationService extends Service implements Synchro
         Log.i(BackgroundSynchronizationService.class.getName(), message + step + " out of " + max);
         Notification notification = new Notification.Builder(this)
                 .setContentText(message)
+                .setSmallIcon(R.drawable.ic_refresh)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_refresh))
                 .setProgress(max, step, false).build();
 
@@ -70,6 +71,7 @@ public class BackgroundSynchronizationService extends Service implements Synchro
         Notification notification = new Notification.Builder(this)
                 .setContentText(this.getResources().getString(R.string.synchronization_complete_msg))
                 .setContentTitle(this.getResources().getString(R.string.synchronization_progress_bar_title))
+                .setSmallIcon(R.drawable.ic_refresh)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_refresh))
                 .build();
 

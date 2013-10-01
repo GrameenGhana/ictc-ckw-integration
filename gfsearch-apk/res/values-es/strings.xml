@@ -44,5 +44,14 @@
     <string name="action_back">espalda</string>
     <string name="action_forward">adelante</string>
     <string name="sample_text">sample text</string>
+    <string name="background_synchronization">sincronización en segundo plano</string>
+    <string name="background_synchronization_summary">sincronización en segundo plano. Los ajustes se establecen en referencia a la fecha actual</string>
+    <string name="background_sync_interval_summary">Determina la frecuencia con la sincronización de fondo se llevará a cabo.
+    </string>
+    <string name="background_sync_interval_title">Antecedentes de sincronización de intervalo</string>
+    <string name="background_sync_enabled_title">Activar sincronización en segundo plano</string>
+    <string name="background_sync_enabled_summary">Activa / desactiva la sincronización en segundo plano</string>
+    <string name="background_sync_interval_units_title">Unidades de Intervalo</string>
+    <string name="background_sync_interval_units_summary">Las unidades de tiempo para el intervalo de sincronización</string>
 
 </resources>

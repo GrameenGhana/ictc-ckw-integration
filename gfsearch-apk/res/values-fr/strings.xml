@@ -44,5 +44,14 @@
     <string name="action_back">Retour</string>
     <string name="action_forward">vers l\'avant</string>
     <string name="sample_text">sample text</string>
+    <string name="background_synchronization">Synchronisation en arrière</string>
+    <string name="background_synchronization_summary">Synchronisation en arrière. Les paramètres sont définis en référence à la date du jour</string>
+    <string name="background_sync_interval_summary">Détermine la fréquence de la synchronisation de fond aura lieu
+    </string>
+    <string name="background_sync_interval_title">Contexte synchronisation Intervalle</string>
+    <string name="background_sync_enabled_title">Activer la synchronisation d\'arrière-plan</string>
+    <string name="background_sync_enabled_summary">Pour activer / désactiver la synchronisation en arrière</string>
+    <string name="background_sync_interval_units_title">Unités d\'intervalle</string>
+    <string name="background_sync_interval_units_summary">Les unités de temps pour l\'intervalle de synchronisation</string>
 
 </resources>

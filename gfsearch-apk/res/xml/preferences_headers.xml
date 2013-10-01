@@ -4,4 +4,7 @@
     <header android:fragment="org.grameenfoundation.search.settings.SettingsActivity$ConnectionFragment"
             android:title="@string/setting_connection"
             android:summary="@string/summary_connection"/>
+    <header android:fragment="org.grameenfoundation.search.settings.SettingsActivity$BackgroundSynchronization"
+            android:title="@string/background_synchronization"
+            android:summary="@string/background_synchronization_summary"/>
 </preference-headers>

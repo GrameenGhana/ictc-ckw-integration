@@ -44,5 +44,18 @@
     <string name="action_back">Back</string>
     <string name="action_forward">Forward</string>
     <string name="sample_text">sample text</string>
+    <string name="background_synchronization">Background Synchronization</string>
+    <string name="background_synchronization_summary">Background Synchronization.
+        Settings are set in reference to the current date.</string>
+    <string name="background_sync_interval">30</string>
+    <string name="background_sync_interval_summary">Determines how often the background synchronization will take
+        place.
+    </string>
+    <string name="background_sync_interval_title">Background Synchronization Interval</string>
+    <string name="background_sync_enabled_title">Enable Background Synchronization</string>
+    <string name="background_sync_enabled_summary">Turns on/off the background synchronization</string>
+    <string name="background_sync_interval_units_title">Interval Units</string>
+    <string name="background_sync_interval_units_summary">Time units for the synchronization interval</string>
+    <string name="background_sync_interval_unit_default">1</string>
 
 </resources>
