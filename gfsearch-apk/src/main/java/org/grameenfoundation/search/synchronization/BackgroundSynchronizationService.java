@@ -57,10 +57,24 @@ public class BackgroundSynchronizationService extends Service implements Synchro
     public void synchronizationUpdate(Integer step, Integer max, String message, Boolean reset) {
         Log.i(BackgroundSynchronizationService.class.getName(), message + step + " out of " + max);
         Notification notification = new Notification.Builder(this)
+                .setContentTitle(message)
                 .setContentText(message)
-                .setSmallIcon(R.drawable.ic_refresh)
-                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_refresh))
+                .setSmallIcon(R.drawable.mobile_app_icon)
+                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.mobile_app_icon))
                 .setProgress(max, step, false).build();
+
+        notificationManager.notify(NOTIFICATION_TAG, NOTIFICATION_ID, notification);
+    }
+
+    @Override
+    public void synchronizationUpdate(String message, Boolean indeterminate) {
+        Log.i(BackgroundSynchronizationService.class.getName(), message);
+        Notification notification = new Notification.Builder(this)
+                .setContentTitle(message)
+                .setContentText(message)
+                .setSmallIcon(R.drawable.mobile_app_icon)
+                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.mobile_app_icon))
+                .setProgress(0, 0, indeterminate).build();
 
         notificationManager.notify(NOTIFICATION_TAG, NOTIFICATION_ID, notification);
     }
@@ -71,8 +85,8 @@ public class BackgroundSynchronizationService extends Service implements Synchro
         Notification notification = new Notification.Builder(this)
                 .setContentText(this.getResources().getString(R.string.synchronization_complete_msg))
                 .setContentTitle(this.getResources().getString(R.string.synchronization_progress_bar_title))
-                .setSmallIcon(R.drawable.ic_refresh)
-                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.ic_refresh))
+                .setSmallIcon(R.drawable.mobile_app_icon)
+                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), R.drawable.mobile_app_icon))
                 .build();
 
         notificationManager.notify(NOTIFICATION_TAG, NOTIFICATION_ID, notification);
@@ -84,6 +98,7 @@ public class BackgroundSynchronizationService extends Service implements Synchro
         Notification notification = new Notification.Builder(this)
                 .setContentText(this.getResources().getString(R.string.processing_keywords_msg))
                 .setContentTitle(this.getResources().getString(R.string.synchronization_progress_bar_title))
+                .setSmallIcon(R.drawable.mobile_app_icon)
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(), android.R.drawable.stat_notify_error))
                 .build();
         notificationManager.notify(NOTIFICATION_TAG, NOTIFICATION_ID, notification);

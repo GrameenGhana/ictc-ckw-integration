@@ -411,24 +411,4 @@ public class HttpHelpers {
 
         return result;
     }
-
-    // TODO: Is this the right place for this?
-    // TODO: Find better way to figure out whether we're successful or not (see XmlHelpers.writeXmlToTempFile)
-    public static Boolean writeStreamToTempFile(InputStream inputStream, String filePath) throws IOException {
-        File tempFile = new File(filePath);
-        FileOutputStream stream = new FileOutputStream(tempFile);
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-        int read = 0;
-        byte[] bytes = new byte[2048];
-        while ((read = inputStream.read(bytes)) != -1) {
-            stream.write(bytes, 0, read);
-        }
-
-        stream.flush();
-        stream.close();
-        reader.close();
-
-        return true;
-    }
 }

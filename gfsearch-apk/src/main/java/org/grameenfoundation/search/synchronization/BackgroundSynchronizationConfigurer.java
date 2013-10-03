@@ -48,8 +48,8 @@ public class BackgroundSynchronizationConfigurer extends BroadcastReceiver {
     }
 
     private void applyBackgroundSynchronizationSettings(Context context) {
-        boolean syncEnabled = Boolean.parseBoolean(SettingsManager
-                .getInstance().getValue(SettingsConstants.KEY_BACKGROUND_SYNC_ENABLED, "true"));
+        boolean syncEnabled = SettingsManager
+                .getInstance().getBooleanValue(SettingsConstants.KEY_BACKGROUND_SYNC_ENABLED, true);
 
         int interval = Integer.parseInt(SettingsManager
                 .getInstance().getValue(SettingsConstants.KEY_BACKGROUND_SYNC_INTERVAL,
@@ -68,7 +68,7 @@ public class BackgroundSynchronizationConfigurer extends BroadcastReceiver {
 
     private void removeAlarm(Context context) {
         Intent intent = new Intent(ACTION_BACKGROUND_SYNC);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_NO_CREATE);
         if (pendingIntent != null) {
             alarmManager.cancel(pendingIntent);
         }
@@ -94,7 +94,7 @@ public class BackgroundSynchronizationConfigurer extends BroadcastReceiver {
 
 
         Intent intent = new Intent(ACTION_BACKGROUND_SYNC);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 syncInterval, pendingIntent);
     }

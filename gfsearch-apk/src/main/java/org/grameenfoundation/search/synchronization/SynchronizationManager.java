@@ -145,7 +145,7 @@ public class SynchronizationManager {
                 }
             }
 
-            boolean downloadComplete = HttpHelpers.writeStreamToTempFile(inputStream, searchCacheFile);
+            boolean downloadComplete = writeStreamToTempFile(inputStream, searchCacheFile);
             FileInputStream fileInputStream = new FileInputStream(cacheFile);
             try {
                 if (downloadComplete && fileInputStream != null) {
@@ -162,6 +162,27 @@ public class SynchronizationManager {
             notifySynchronizationListeners("onSynchronizationError",
                     new Throwable(applicationContext.getString(R.string.error_downloading_keywords)));
         }
+    }
+
+    public Boolean writeStreamToTempFile(InputStream inputStream, String filePath) throws IOException {
+        File tempFile = new File(filePath);
+        FileOutputStream stream = new FileOutputStream(tempFile);
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+        int read = 0;
+        byte[] bytes = new byte[2048];
+        while ((read = inputStream.read(bytes)) != -1) {
+            stream.write(bytes, 0, read);
+            notifySynchronizationListeners("synchronizationUpdate",
+                    ApplicationRegistry.getApplicationContext().
+                            getResources().getString(R.string.keyword_download_msg), true);
+        }
+
+        stream.flush();
+        stream.close();
+        reader.close();
+
+        return true;
     }
 
     private void processKeywords(InputStream inputStream) throws IOException, ParseException {

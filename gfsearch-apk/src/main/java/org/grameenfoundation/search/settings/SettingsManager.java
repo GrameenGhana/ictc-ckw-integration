@@ -20,7 +20,7 @@ public final class SettingsManager implements SharedPreferences.OnSharedPreferen
      */
     private SettingsManager() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(ApplicationRegistry.getApplicationContext());
-
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
     }
 
     public static SettingsManager getInstance() {
@@ -46,6 +46,10 @@ public final class SettingsManager implements SharedPreferences.OnSharedPreferen
      */
     public String getValue(String settingKey, String defaultValue) {
         return sharedPreferences.getString(settingKey, defaultValue);
+    }
+
+    public boolean getBooleanValue(String settingKey, boolean defaultValue) {
+        return sharedPreferences.getBoolean(settingKey, defaultValue);
     }
 
     /**

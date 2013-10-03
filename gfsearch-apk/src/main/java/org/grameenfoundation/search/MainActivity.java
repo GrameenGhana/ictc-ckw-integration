@@ -244,6 +244,21 @@ public class MainActivity extends Activity {
                         progressDialog.setMessage(message);
                         progressDialog.setMax(max);
                         progressDialog.setProgress(step);
+                        progressDialog.setIndeterminate(false);
+                        if (!progressDialog.isShowing()) {
+                            progressDialog.show();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void synchronizationUpdate(final String message, Boolean indeterminate) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.setMessage(message);
+                        progressDialog.setIndeterminate(true);
                         if (!progressDialog.isShowing()) {
                             progressDialog.show();
                         }

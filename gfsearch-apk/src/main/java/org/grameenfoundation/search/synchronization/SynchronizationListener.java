@@ -21,6 +21,14 @@ public interface SynchronizationListener {
     void synchronizationUpdate(Integer step, Integer max, String message, Boolean reset);
 
     /**
+     * called during a synchronization process to indicate progress that is indeterminate.
+     *
+     * @param message
+     * @param indeterminate
+     */
+    void synchronizationUpdate(String message, Boolean indeterminate);
+
+    /**
      * called when the synchronization process has completed.
      */
     void synchronizationComplete();
