@@ -53,5 +53,7 @@
     <string name="background_sync_enabled_summary">Pour activer / désactiver la synchronisation en arrière</string>
     <string name="background_sync_interval_units_title">Unités d\'intervalle</string>
     <string name="background_sync_interval_units_summary">Les unités de temps pour l\'intervalle de synchronisation</string>
+    <string name="send_message">Envoyer un message</string>
+    <string name="share_using">Envoyer un message avec</string>
 
 </resources>

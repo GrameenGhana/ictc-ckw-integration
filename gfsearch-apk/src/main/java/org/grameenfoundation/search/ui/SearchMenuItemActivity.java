@@ -3,15 +3,17 @@ package org.grameenfoundation.search.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
+import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 import org.grameenfoundation.search.R;
 import org.grameenfoundation.search.model.ListObject;
 import org.grameenfoundation.search.utils.ImageUtils;
+
+import java.io.File;
+import java.util.ArrayList;
 
 
 /**
@@ -43,6 +45,14 @@ public class SearchMenuItemActivity extends Activity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflator = getMenuInflater();
+        inflator.inflate(R.menu.content_view, menu);
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -50,7 +60,25 @@ public class SearchMenuItemActivity extends Activity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 this.startActivity(intent);
                 break;
+            case R.id.action_send_message:
+                sendContentAsMessage();
+                break;
         }
         return true;
+    }
+
+    private void sendContentAsMessage() {
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND_MULTIPLE);
+        sharingIntent.setType("*/*");
+        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, searchMenuItem.getLabel());
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, searchMenuItem.getDescription());
+
+        if (ImageUtils.imageExists(searchMenuItem.getId(), true)) {
+            ArrayList<Uri> list = new ArrayList<Uri>();
+            list.add(Uri.fromFile(new File(ImageUtils.getFullPath(searchMenuItem.getId(), true))));
+            sharingIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, list);
+        }
+
+        startActivity(Intent.createChooser(sharingIntent, getResources().getString(R.string.share_using)));
     }
 }

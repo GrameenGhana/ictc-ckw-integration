@@ -57,5 +57,7 @@
     <string name="background_sync_interval_units_title">Interval Units</string>
     <string name="background_sync_interval_units_summary">Time units for the synchronization interval</string>
     <string name="background_sync_interval_unit_default">1</string>
+    <string name="send_message">Send Message</string>
+    <string name="share_using">Send Message With</string>
 
 </resources>
