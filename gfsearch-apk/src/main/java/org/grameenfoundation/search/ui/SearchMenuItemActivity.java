@@ -9,11 +9,18 @@ import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 import org.grameenfoundation.search.R;
+import org.grameenfoundation.search.location.GpsManager;
 import org.grameenfoundation.search.model.ListObject;
+import org.grameenfoundation.search.model.SearchLog;
+import org.grameenfoundation.search.model.SearchMenuItem;
+import org.grameenfoundation.search.services.MenuItemService;
 import org.grameenfoundation.search.utils.ImageUtils;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 
 /**
@@ -41,7 +48,24 @@ public class SearchMenuItemActivity extends Activity {
             imageView.setImageDrawable(ImageUtils.getImageAsDrawable(this, searchMenuItem.getId(), true));
         }
 
+        generateSearchLog(searchMenuItem);
+
         super.setContentView(view);
+    }
+
+    private void generateSearchLog(ListObject searchMenuItem) {
+        if (searchMenuItem instanceof SearchMenuItem) {
+            SearchLog searchLog = new SearchLog();
+            searchLog.setContent(((SearchMenuItem) searchMenuItem).getContent());
+
+            searchLog.setDateCreated(Calendar.getInstance().getTime());
+
+            GpsManager.getInstance().update();
+            searchLog.setGpsLocation(GpsManager.getInstance().getLocationAsString());
+            searchLog.setMenuItemId(searchMenuItem.getId());
+
+            new MenuItemService().save(searchLog);
+        }
     }
 
     @Override

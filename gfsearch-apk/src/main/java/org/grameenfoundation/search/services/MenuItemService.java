@@ -3,6 +3,7 @@ package org.grameenfoundation.search.services;
 import android.content.ContentValues;
 import android.database.Cursor;
 import org.grameenfoundation.search.model.ListObject;
+import org.grameenfoundation.search.model.SearchLog;
 import org.grameenfoundation.search.model.SearchMenu;
 import org.grameenfoundation.search.model.SearchMenuItem;
 import org.grameenfoundation.search.storage.DatabaseHelperConstants;
@@ -10,6 +11,8 @@ import org.grameenfoundation.search.storage.StorageManager;
 import org.grameenfoundation.search.storage.search.Filter;
 import org.grameenfoundation.search.storage.search.Search;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -321,5 +324,20 @@ public class MenuItemService {
 
         int count = StorageManager.getInstance().recordCount(search);
         return count > 0 ? true : false;
+    }
+
+    public void save(SearchLog searchLog) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put(DatabaseHelperConstants.SEARCH_LOG_CLIENT_ID_COLUMN, searchLog.getId());
+        contentValue.put(DatabaseHelperConstants.SEARCH_LOG_CONTENT_COLUMN, searchLog.getContent());
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        contentValue.put(DatabaseHelperConstants.SEARCH_LOG_DATE_CREATED_COLUMN,
+                dateFormat.format(searchLog.getDateCreated()));
+
+        contentValue.put(DatabaseHelperConstants.SEARCH_LOG_GPS_LOCATION_COLUMN, searchLog.getGpsLocation());
+        contentValue.put(DatabaseHelperConstants.SEARCH_LOG_MENU_ITEM_ID_COLUMN, searchLog.getMenuItemId());
+
+        StorageManager.getInstance().insert(DatabaseHelperConstants.SEARCH_LOG_TABLE_NAME, contentValue);
     }
 }

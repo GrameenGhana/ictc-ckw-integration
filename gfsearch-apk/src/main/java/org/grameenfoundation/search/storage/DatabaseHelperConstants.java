@@ -37,12 +37,23 @@ public final class DatabaseHelperConstants {
     public static final String FARMER_LOCAL_CACHE_FATHER_NAME = "father_name";
 
     /**
+     * search log table columns
+     */
+    public static final String SEARCH_LOG_ROW_ID_COLUMN = "id";
+    public static final String SEARCH_LOG_MENU_ITEM_ID_COLUMN = "menu_item_id";
+    public static final String SEARCH_LOG_DATE_CREATED_COLUMN = "date_created";
+    public static final String SEARCH_LOG_CLIENT_ID_COLUMN = "client_id";
+    public static final String SEARCH_LOG_GPS_LOCATION_COLUMN = "gps_location";
+    public static final String SEARCH_LOG_CONTENT_COLUMN = "content";
+
+    /**
      * table names
      */
     public static final String MENU_TABLE_NAME = "menu";
     public static final String MENU_ITEM_TABLE_NAME = "menu_item";
     public static final String AVAILABLE_FARMER_ID_TABLE_NAME = "available_farmer_id";
     public static final String FARMER_LOCAL_CACHE_TABLE_NAME = "farmer_local_cache";
+    public static final String SEARCH_LOG_TABLE_NAME = "search_log";
 
     public static final String DATABASE_NAME = "gfsearch";
     public static final int DATABASE_VERSION = 1;

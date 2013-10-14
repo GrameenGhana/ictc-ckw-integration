@@ -33,6 +33,24 @@ final class DatabaseHelper extends SQLiteOpenHelper {
 
         // Create Farmer Local Cache Table
         database.execSQL(getFarmerLocalCacheTableInitializationSql());
+
+        //create search log table
+        database.execSQL(getSearchLogTableInitializationSql());
+    }
+
+    private String getSearchLogTableInitializationSql() {
+        StringBuilder sqlCommand = new StringBuilder();
+        sqlCommand.append("CREATE TABLE IF NOT EXISTS ").append(DatabaseHelperConstants.SEARCH_LOG_TABLE_NAME);
+        sqlCommand.append("(");
+        sqlCommand.append(DatabaseHelperConstants.SEARCH_LOG_ROW_ID_COLUMN).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        sqlCommand.append(DatabaseHelperConstants.SEARCH_LOG_CLIENT_ID_COLUMN).append(" VARCHAR, ");
+        sqlCommand.append(DatabaseHelperConstants.SEARCH_LOG_CONTENT_COLUMN).append(" TEXT NOT NULL,");
+        sqlCommand.append(DatabaseHelperConstants.SEARCH_LOG_DATE_CREATED_COLUMN).append(" DEFAULT CURRENT_TIMESTAMP,");
+        sqlCommand.append(DatabaseHelperConstants.SEARCH_LOG_GPS_LOCATION_COLUMN).append(" VARCHAR,");
+        sqlCommand.append(DatabaseHelperConstants.SEARCH_LOG_MENU_ITEM_ID_COLUMN).append(" VARCHAR");
+        sqlCommand.append(" );");
+
+        return null;
     }
 
     /**
