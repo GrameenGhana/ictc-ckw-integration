@@ -26,6 +26,14 @@ public class SettingsActivity extends PreferenceActivity {
         loadHeadersFromResource(R.xml.preferences_headers, target);
     }
 
+    public static class GeneralFragment extends PreferenceFragment {
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            addPreferencesFromResource(R.xml.general_preferences);
+        }
+    }
+
     public static class ConnectionFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +58,6 @@ public class SettingsActivity extends PreferenceActivity {
                 this.startActivity(intent);
                 break;
         }
-        return true; //super.onOptionsItemSelected(item);
+        return true;
     }
 }

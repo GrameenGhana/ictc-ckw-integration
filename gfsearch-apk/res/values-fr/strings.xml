@@ -55,5 +55,13 @@
     <string name="background_sync_interval_units_summary">Les unités de temps pour l\'intervalle de synchronisation</string>
     <string name="send_message">Envoyer un message</string>
     <string name="share_using">Envoyer un message avec</string>
+    <string name="setting_general">général</string>
+    <string name="prompt_for_clientid_title">Invite pour l\'identification du client</string>
+    <string name="prompt_for_clientid_summary">Activer l\'impulsion de l\'identifiant de la personne que vous servez
+    </string>
+    <string name="setting_general_summary">Paramètres généraux</string>
+    <string name="clientid_dialog_message">Entrez l\'identificateur du client</string>
+    <string name="clientid_dialog_title">Identifier demander au client</string>
+    <string name="missing_client_id">Manquant l\'identification du client</string>
 
 </resources>

@@ -15,14 +15,12 @@ import android.widget.ListView;
 import org.grameenfoundation.search.model.ListObject;
 import org.grameenfoundation.search.services.MenuItemService;
 import org.grameenfoundation.search.settings.SettingsActivity;
+import org.grameenfoundation.search.settings.SettingsConstants;
 import org.grameenfoundation.search.settings.SettingsManager;
 import org.grameenfoundation.search.synchronization.BackgroundSynchronizationConfigurer;
 import org.grameenfoundation.search.synchronization.SynchronizationListener;
 import org.grameenfoundation.search.synchronization.SynchronizationManager;
-import org.grameenfoundation.search.ui.AboutActivity;
-import org.grameenfoundation.search.ui.MainListViewAdapter;
-import org.grameenfoundation.search.ui.OnSwipeTouchListener;
-import org.grameenfoundation.search.ui.SearchMenuItemActivity;
+import org.grameenfoundation.search.ui.*;
 import org.grameenfoundation.search.utils.DeviceMetadata;
 
 import java.util.Stack;
@@ -132,7 +130,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void selectListElement(ListObject itemToSelect, MainListViewAdapter listViewAdapter) {
+    private void selectListElement(final ListObject itemToSelect, MainListViewAdapter listViewAdapter) {
         if (listViewAdapter.hasChildren(itemToSelect)) {
             listViewAdapter.setSelectedObject(itemToSelect);
             listObjectNavigationStack.push(listViewAdapter.getSelectedObject());
@@ -141,9 +139,27 @@ public class MainActivity extends Activity {
                 backNavigationMenuItem.setVisible(true);
             }
         } else {
-            Intent intent = new Intent().setClass(activityContext, SearchMenuItemActivity.class);
-            intent.putExtra(SearchMenuItemActivity.EXTRA_LIST_OBJECT_IDENTIFIER, itemToSelect);
-            this.startActivityForResult(intent, 0);
+            if (SettingsManager.getInstance().
+                    getBooleanValue(SettingsConstants.KEY_CLIENT_IDENTIFIER_PROMPTING_ENABLED, false)) {
+
+                SingleInputPromptDialog dialog = new SingleInputPromptDialog(this, R.string.clientid_dialog_title,
+                        R.string.clientid_dialog_message) {
+                    @Override
+                    protected boolean onOkClicked(String input) {
+                        Intent intent = new Intent().setClass(activityContext, SearchMenuItemActivity.class);
+                        intent.putExtra(SearchMenuItemActivity.EXTRA_LIST_OBJECT_IDENTIFIER, itemToSelect);
+                        intent.putExtra(SearchMenuItemActivity.CLIENT_IDENTIFIER, input);
+                        startActivityForResult(intent, 0);
+
+                        return true;
+                    }
+                };
+                dialog.show();
+            } else {
+                Intent intent = new Intent().setClass(activityContext, SearchMenuItemActivity.class);
+                intent.putExtra(SearchMenuItemActivity.EXTRA_LIST_OBJECT_IDENTIFIER, itemToSelect);
+                this.startActivityForResult(intent, 0);
+            }
         }
     }
 

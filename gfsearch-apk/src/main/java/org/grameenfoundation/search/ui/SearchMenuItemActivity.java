@@ -17,8 +17,6 @@ import org.grameenfoundation.search.services.MenuItemService;
 import org.grameenfoundation.search.utils.ImageUtils;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -28,6 +26,7 @@ import java.util.Calendar;
  */
 public class SearchMenuItemActivity extends Activity {
     public static final String EXTRA_LIST_OBJECT_IDENTIFIER = "menu_extraz";
+    public static final String CLIENT_IDENTIFIER = "CLIENT_ID";
 
     private ListObject searchMenuItem = null;
     private LayoutInflater layoutInflater = null;
@@ -36,6 +35,8 @@ public class SearchMenuItemActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         searchMenuItem = (ListObject) getIntent().getSerializableExtra(EXTRA_LIST_OBJECT_IDENTIFIER);
+        String clientId = (String) getIntent().getSerializableExtra(CLIENT_IDENTIFIER);
+
         layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         View view = layoutInflater.inflate(R.layout.searchmenuitem, null, false);
@@ -48,16 +49,16 @@ public class SearchMenuItemActivity extends Activity {
             imageView.setImageDrawable(ImageUtils.getImageAsDrawable(this, searchMenuItem.getId(), true));
         }
 
-        generateSearchLog(searchMenuItem);
+        generateSearchLog(searchMenuItem, clientId);
 
         super.setContentView(view);
     }
 
-    private void generateSearchLog(ListObject searchMenuItem) {
+    private void generateSearchLog(ListObject searchMenuItem, String clientId) {
         if (searchMenuItem instanceof SearchMenuItem) {
             SearchLog searchLog = new SearchLog();
             searchLog.setContent(((SearchMenuItem) searchMenuItem).getContent());
-
+            searchLog.setClientId(clientId);
             searchLog.setDateCreated(Calendar.getInstance().getTime());
 
             GpsManager.getInstance().update();
