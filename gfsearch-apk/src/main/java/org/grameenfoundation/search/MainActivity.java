@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import org.grameenfoundation.search.location.GpsManager;
 import org.grameenfoundation.search.model.ListObject;
 import org.grameenfoundation.search.services.MenuItemService;
 import org.grameenfoundation.search.settings.SettingsActivity;
@@ -87,6 +88,9 @@ public class MainActivity extends Activity {
             if (new MenuItemService().countSearchMenus() == 0) {
                 startSynchronization();
             }
+
+            //get GPS location
+            GpsManager.getInstance().update();
         } catch (Exception ex) {
             Log.e(MainActivity.class.getName(), "Application Error", ex);
         }
