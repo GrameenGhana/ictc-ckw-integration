@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import org.grameenfoundation.search.R;
 import org.grameenfoundation.search.location.GpsManager;
+import org.grameenfoundation.search.model.FavouriteRecord;
 import org.grameenfoundation.search.model.ListObject;
 import org.grameenfoundation.search.model.SearchLog;
 import org.grameenfoundation.search.model.SearchMenuItem;
@@ -30,6 +31,7 @@ public class SearchMenuItemActivity extends Activity {
 
     private ListObject searchMenuItem = null;
     private LayoutInflater layoutInflater = null;
+    private MenuItemService menuItemService = new MenuItemService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class SearchMenuItemActivity extends Activity {
             searchLog.setGpsLocation(GpsManager.getInstance().getLocationAsString());
             searchLog.setMenuItemId(searchMenuItem.getId());
 
-            new MenuItemService().save(searchLog);
+            menuItemService.save(searchLog);
         }
     }
 
@@ -73,6 +75,16 @@ public class SearchMenuItemActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflator = getMenuInflater();
         inflator.inflate(R.menu.content_view, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.action_mark_favourite);
+        if (menuItem != null) {
+            FavouriteRecord record = menuItemService.getFavouriteRecord(searchMenuItem.getId());
+            if (record != null) {
+                menuItem.setIcon(R.drawable.rating_important);
+            } else {
+                menuItem.setIcon(R.drawable.rating_not_important);
+            }
+        }
 
         return true;
     }
@@ -88,8 +100,26 @@ public class SearchMenuItemActivity extends Activity {
             case R.id.action_send_message:
                 sendContentAsMessage();
                 break;
+            case R.id.action_mark_favourite:
+                markContentFavourite(item);
+                break;
         }
         return true;
+    }
+
+    private void markContentFavourite(MenuItem item) {
+        FavouriteRecord record = menuItemService.getFavouriteRecord(searchMenuItem.getId());
+        if (record == null) {
+            record = new FavouriteRecord();
+            record.setMenuItemId(searchMenuItem.getId());
+            record.setName(searchMenuItem.getLabel());
+            record.setDateCreated(Calendar.getInstance().getTime());
+            menuItemService.save(record);
+            item.setIcon(R.drawable.rating_important);
+        } else {
+            menuItemService.delete(record);
+            item.setIcon(R.drawable.rating_not_important);
+        }
     }
 
     private void sendContentAsMessage() {

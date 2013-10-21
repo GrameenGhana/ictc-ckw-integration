@@ -36,6 +36,9 @@ final class DatabaseHelper extends SQLiteOpenHelper {
 
         //create search log table
         database.execSQL(getSearchLogTableInitializationSql());
+
+        //create the favourite record table
+        database.execSQL(getFavouriteTableInitializationSql());
     }
 
     private String getSearchLogTableInitializationSql() {
@@ -50,7 +53,7 @@ final class DatabaseHelper extends SQLiteOpenHelper {
         sqlCommand.append(DatabaseHelperConstants.SEARCH_LOG_MENU_ITEM_ID_COLUMN).append(" VARCHAR");
         sqlCommand.append(" );");
 
-        return null;
+        return sqlCommand.toString();
     }
 
     /**
@@ -144,5 +147,24 @@ final class DatabaseHelper extends SQLiteOpenHelper {
                 + ", which will destroy all old data");
 
         createDatabaseTables(database);
+    }
+
+    /**
+     * gets the sql dml statement for creating the favourite record table.
+     *
+     * @return
+     */
+    public String getFavouriteTableInitializationSql() {
+        StringBuilder sqlCommand = new StringBuilder();
+        sqlCommand.append("CREATE TABLE IF NOT EXISTS ").append(DatabaseHelperConstants.FAVOURITE_RECORD_TABLE_NAME);
+        sqlCommand.append("(");
+        sqlCommand.append(DatabaseHelperConstants.FAVOURITE_RECORD_ROW_ID_COLUMN).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        sqlCommand.append(DatabaseHelperConstants.FAVOURITE_RECORD_NAME_COLUMN).append(" VARCHAR, ");
+        sqlCommand.append(DatabaseHelperConstants.FAVOURITE_RECORD_CATEGORY_COLUMN).append(" VARCHAR,");
+        sqlCommand.append(DatabaseHelperConstants.FAVOURITE_RECORD_DATE_CREATED_COLUMN).append(" VARCHAR DEFAULT CURRENT_TIMESTAMP,");
+        sqlCommand.append(DatabaseHelperConstants.FAVOURITE_RECORD_MENU_ITEM_ID_COLUMN).append(" VARCHAR");
+        sqlCommand.append(" );");
+
+        return sqlCommand.toString();
     }
 }

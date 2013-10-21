@@ -20,4 +20,13 @@ public interface SearchProcessor {
      * @return
      */
     String generateRowCountQuery(Search search);
+
+    /**
+     * generates a delete statement string for the given search.
+     *
+     * @param search
+     * @return
+     */
+    String generateDeleteStatement(Search search);
+
 }

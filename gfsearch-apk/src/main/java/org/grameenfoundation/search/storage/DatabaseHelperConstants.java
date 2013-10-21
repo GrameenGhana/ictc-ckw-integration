@@ -1,5 +1,8 @@
 package org.grameenfoundation.search.storage;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 /**
  * Utility class that contains the data storage contacts.
  *
@@ -8,6 +11,11 @@ package org.grameenfoundation.search.storage;
 public final class DatabaseHelperConstants {
     private DatabaseHelperConstants() {
     }
+
+    /**
+     * default date format;
+     */
+    public static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /* Menu Table Columns */
     public static final String MENU_ROWID_COLUMN = "id";
@@ -47,6 +55,15 @@ public final class DatabaseHelperConstants {
     public static final String SEARCH_LOG_CONTENT_COLUMN = "content";
 
     /**
+     * favourite record table columns
+     */
+    public static final String FAVOURITE_RECORD_ROW_ID_COLUMN = "id";
+    public static final String FAVOURITE_RECORD_NAME_COLUMN = "name";
+    public static final String FAVOURITE_RECORD_CATEGORY_COLUMN = "category";
+    public static final String FAVOURITE_RECORD_DATE_CREATED_COLUMN = "date_created";
+    public static final String FAVOURITE_RECORD_MENU_ITEM_ID_COLUMN = "menu_item_id";
+
+    /**
      * table names
      */
     public static final String MENU_TABLE_NAME = "menu";
@@ -54,7 +71,8 @@ public final class DatabaseHelperConstants {
     public static final String AVAILABLE_FARMER_ID_TABLE_NAME = "available_farmer_id";
     public static final String FARMER_LOCAL_CACHE_TABLE_NAME = "farmer_local_cache";
     public static final String SEARCH_LOG_TABLE_NAME = "search_log";
+    public static final String FAVOURITE_RECORD_TABLE_NAME = "favourite_record";
 
     public static final String DATABASE_NAME = "gfsearch";
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 }

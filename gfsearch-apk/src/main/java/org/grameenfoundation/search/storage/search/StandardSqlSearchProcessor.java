@@ -42,6 +42,24 @@ public class StandardSqlSearchProcessor implements SearchProcessor {
         return sb.toString();
     }
 
+    @Override
+    public String generateDeleteStatement(Search search) {
+        String delete = generateDeleteClause(search);
+        String where = generateWhereClause(search);
+        String from = generateFromClause(search);
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(delete);
+        sb.append(from);
+        sb.append(where);
+
+        return sb.toString();
+    }
+
+    protected String generateDeleteClause(Search search) {
+        return "DELETE";
+    }
+
     protected String generateSelectClause(Search search) {
         StringBuilder sb = null;
         boolean first = true;
@@ -406,7 +424,7 @@ public class StandardSqlSearchProcessor implements SearchProcessor {
      * @return
      */
     protected String generateFromClause(Search search) {
-        StringBuilder sb = new StringBuilder(" from ");
+        StringBuilder sb = new StringBuilder(" FROM ");
         sb.append(search.getTableName());
 
         return sb.toString();

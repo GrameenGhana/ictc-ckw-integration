@@ -80,6 +80,15 @@ public class StorageManager {
     }
 
     /**
+     * deletes records based on the given search entity.
+     * @param search
+     */
+    public void delete(Search search) {
+        String query = this.sqLiteSearchProcessor.generateDeleteStatement(search);
+        database.execSQL(query);
+    }
+
+    /**
      * @param sql
      */
     public void execSql(String sql) {

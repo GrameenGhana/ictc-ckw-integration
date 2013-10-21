@@ -63,5 +63,6 @@
     <string name="clientid_dialog_message">Escriba el identificador de cliente</string>
     <string name="clientid_dialog_title">Client identificador del sistema</string>
     <string name="missing_client_id">Falta identificador de cliente</string>
+    <string name="mark_favourite">Favorito</string>
 
 </resources>

@@ -2,16 +2,15 @@ package org.grameenfoundation.search.services;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import org.grameenfoundation.search.model.ListObject;
-import org.grameenfoundation.search.model.SearchLog;
-import org.grameenfoundation.search.model.SearchMenu;
-import org.grameenfoundation.search.model.SearchMenuItem;
+import android.util.Log;
+import org.grameenfoundation.search.model.*;
 import org.grameenfoundation.search.storage.DatabaseHelperConstants;
 import org.grameenfoundation.search.storage.StorageManager;
 import org.grameenfoundation.search.storage.search.Filter;
 import org.grameenfoundation.search.storage.search.Search;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -338,6 +337,67 @@ public class MenuItemService {
         contentValue.put(DatabaseHelperConstants.SEARCH_LOG_GPS_LOCATION_COLUMN, searchLog.getGpsLocation());
         contentValue.put(DatabaseHelperConstants.SEARCH_LOG_MENU_ITEM_ID_COLUMN, searchLog.getMenuItemId());
 
-        StorageManager.getInstance().insert(DatabaseHelperConstants.SEARCH_LOG_TABLE_NAME, contentValue);
+        StorageManager.getInstance().update(DatabaseHelperConstants.SEARCH_LOG_TABLE_NAME, contentValue);
+    }
+
+    /**
+     * saves the given favourite record to the datastore.
+     *
+     * @param record
+     */
+    public void save(FavouriteRecord record) {
+        ContentValues contentValue = new ContentValues();
+        contentValue.put(DatabaseHelperConstants.FAVOURITE_RECORD_NAME_COLUMN, record.getName());
+        contentValue.put(DatabaseHelperConstants.FAVOURITE_RECORD_CATEGORY_COLUMN, record.getCategory());
+        contentValue.put(DatabaseHelperConstants.FAVOURITE_RECORD_MENU_ITEM_ID_COLUMN, record.getMenuItemId());
+
+        contentValue.put(DatabaseHelperConstants.FAVOURITE_RECORD_DATE_CREATED_COLUMN,
+                DatabaseHelperConstants.DEFAULT_DATE_FORMAT.format(record.getDateCreated()));
+
+        StorageManager.getInstance().update(DatabaseHelperConstants.FAVOURITE_RECORD_TABLE_NAME, contentValue);
+    }
+
+    /**
+     * gets the favourite record for the given menu item identifier.
+     *
+     * @param menuItemId identifier of the menu item whose favourite record is required.
+     * @return FavouriteRecord
+     */
+    public FavouriteRecord getFavouriteRecord(String menuItemId) {
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.FAVOURITE_RECORD_TABLE_NAME);
+        search.addFilterEqual(DatabaseHelperConstants.FAVOURITE_RECORD_MENU_ITEM_ID_COLUMN, menuItemId);
+
+        FavouriteRecord favouriteRecord = null;
+        Cursor cursor = StorageManager.getInstance().getRecords(search);
+        while (cursor.moveToNext()) {
+            favouriteRecord = new FavouriteRecord();
+            favouriteRecord.setId(cursor.getInt(
+                    cursor.getColumnIndex(DatabaseHelperConstants.FAVOURITE_RECORD_ROW_ID_COLUMN)));
+            favouriteRecord.setName(cursor.getString(
+                    cursor.getColumnIndex(DatabaseHelperConstants.FAVOURITE_RECORD_NAME_COLUMN)));
+            favouriteRecord.setCategory(cursor.getString(
+                    cursor.getColumnIndex(DatabaseHelperConstants.FAVOURITE_RECORD_CATEGORY_COLUMN)));
+            favouriteRecord.setMenuItemId(cursor.getString(
+                    cursor.getColumnIndex(DatabaseHelperConstants.FAVOURITE_RECORD_MENU_ITEM_ID_COLUMN)));
+            try {
+                favouriteRecord.setDateCreated(DatabaseHelperConstants.DEFAULT_DATE_FORMAT.parse(cursor.getString(
+                        cursor.getColumnIndex(DatabaseHelperConstants.FAVOURITE_RECORD_DATE_CREATED_COLUMN))));
+            } catch (ParseException e) {
+                Log.e(MenuItemService.class.getName(), "ParseException", e);
+            }
+
+            //we only process one value.
+            break;
+        }
+
+        return favouriteRecord;
+    }
+
+    public void delete(FavouriteRecord record) {
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.FAVOURITE_RECORD_TABLE_NAME);
+        search.addFilterEqual(DatabaseHelperConstants.FAVOURITE_RECORD_ROW_ID_COLUMN, record.getId());
+        StorageManager.getInstance().delete(search);
     }
 }
