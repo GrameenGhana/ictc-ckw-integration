@@ -25,6 +25,7 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
     private Stack<ListObject> listObjectNavigationStack = null;
     private ListView mainListView;
     private MenuItem backNavigationMenuItem = null;
+    private ActionMode actionMode;
 
     public DefaultViewFragment() {
     }
@@ -83,7 +84,8 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
                 ListObject itemToSelect = (ListObject) listViewAdapter.getItem(position);
                 selectListElement(itemToSelect, listViewAdapter);
 
-                getActivity().startActionMode(DefaultViewFragment.this);
+                if (actionMode == null)
+                    actionMode = getActivity().startActionMode(DefaultViewFragment.this);
             }
         });
 
@@ -154,6 +156,10 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
         if (listObjectNavigationStack.isEmpty()) {
             listViewAdapter.setSelectedObject(null);
             backNavigationMenuItem.setVisible(false);
+
+            //finish the action mode
+            if (actionMode != null)
+                actionMode.finish();
         }
     }
 
@@ -194,5 +200,6 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
 
     @Override
     public void onDestroyActionMode(ActionMode mode) {
+        actionMode = null;
     }
 }

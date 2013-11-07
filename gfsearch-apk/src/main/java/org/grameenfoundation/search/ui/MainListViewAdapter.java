@@ -37,7 +37,7 @@ public class MainListViewAdapter extends BaseAdapter {
     protected MenuItemService menuItemService = new MenuItemService();
     private Object items = null;
     private Context context;
-    private LayoutInflater layoutInflater;
+    protected LayoutInflater layoutInflater;
     private Handler handler = null;
 
     public MainListViewAdapter(Context context) {
@@ -47,14 +47,14 @@ public class MainListViewAdapter extends BaseAdapter {
         handler = new Handler();
     }
 
-    private static class ThumbnailViewHolder {
+    public static class ThumbnailViewHolder {
         public ImageView imageView;
         public int position;
     }
 
-    private static class ThumbnailTask extends AsyncTask<ListObject, Interval, Drawable> {
-        ThumbnailViewHolder viewHolder = null;
-        int position;
+    public static class ThumbnailTask<T> extends AsyncTask<T, Interval, Drawable> {
+        protected ThumbnailViewHolder viewHolder = null;
+        protected int position;
 
         public ThumbnailTask(ThumbnailViewHolder viewHolder, int position) {
             this.viewHolder = viewHolder;
@@ -62,8 +62,8 @@ public class MainListViewAdapter extends BaseAdapter {
         }
 
         @Override
-        protected Drawable doInBackground(ListObject... params) {
-            return getListObjectDrawable(params[0]);
+        protected Drawable doInBackground(T... params) {
+            return null;
         }
 
         @Override
@@ -175,13 +175,18 @@ public class MainListViewAdapter extends BaseAdapter {
                 }
             });
 
-            new ThumbnailTask(viewHolder, position).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, listObject);
+            new ThumbnailTask<ListObject>(viewHolder, position) {
+                @Override
+                protected Drawable doInBackground(ListObject... params) {
+                    return getListObjectDrawable(params[0]);
+                }
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, listObject);
         }
 
         return rowView;
     }
 
-    private static Drawable getListObjectDrawable(ListObject listObject) {
+    protected static Drawable getListObjectDrawable(ListObject listObject) {
         File imageCacheDir = ImageUtils.createImageCacheFolderIfNotExists(ApplicationRegistry.getApplicationContext());
         Drawable drawable = null;
         if (ImageUtils.imageExists(listObject.getId(), true)) {
@@ -206,7 +211,7 @@ public class MainListViewAdapter extends BaseAdapter {
         return drawable;
     }
 
-    private static void saveDrawableToFile(Drawable drawable, String outputPath) {
+    protected static void saveDrawableToFile(Drawable drawable, String outputPath) {
         try {
             FileOutputStream out = new FileOutputStream(outputPath);
 

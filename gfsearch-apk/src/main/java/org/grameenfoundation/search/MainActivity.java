@@ -326,7 +326,7 @@ public class MainActivity extends Activity {
                 displayFavouriteFragment();
                 break;
             case 2: //recent searches
-
+                displayRecentSearchesFragment();
                 break;
             default:
                 displayDefaultFragment();
@@ -336,6 +336,19 @@ public class MainActivity extends Activity {
         drawerList.setItemChecked(position, true);
         setTitle(drawerListItems[position]);
         drawerLayout.closeDrawer(drawerList);
+    }
+
+    private void displayRecentSearchesFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+
+        Fragment fragment = fragmentManager.findFragmentByTag(RecentSearchesViewFragment.FRAGMENT_TAG);
+        if (fragment == null) {
+            fragment = new RecentSearchesViewFragment();
+        }
+
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment,
+                RecentSearchesViewFragment.FRAGMENT_TAG).commit();
+
     }
 
     private void displayFavouriteFragment() {

@@ -66,5 +66,6 @@
     <string name="mark_favourite">Favourite</string>
     <string name="drawer_open">Ouvert</string>
     <string name="drawer_close">proche</string>
+    <string name="action_delete">supprimer</string>
 
 </resources>

@@ -19,6 +19,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.RectShape;
 import android.os.Environment;
 import android.util.Log;
+import org.grameenfoundation.search.R;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -240,6 +241,24 @@ public class ImageUtils {
                 return null;
             }
         }
+    }
+
+    public static Drawable drawSelectedImage(Context context, int width, int height) {
+        Bitmap canvasBitmap = Bitmap.createBitmap(width, height,
+                Bitmap.Config.ARGB_8888);
+
+        ShapeDrawable drawable = new ShapeDrawable(new RectShape());
+        drawable.setBounds(0, 0, width, height);
+        drawable.getPaint().setColor(0xff5E5C5C);
+
+        Canvas canvas = new Canvas(canvasBitmap);
+        drawable.draw(canvas);
+
+        Drawable resourceDrawable = context.getResources().getDrawable(R.drawable.ic_action_accept);
+        resourceDrawable.draw(canvas);
+
+
+        return new BitmapDrawable(context.getResources(), canvasBitmap);
     }
 
     public static Drawable drawRandomColorImageWithText(Context context, String substring, int width, int height) {

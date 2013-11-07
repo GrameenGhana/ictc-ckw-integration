@@ -20,13 +20,13 @@ public class FavouriteListViewAdapter extends MainListViewAdapter {
 
     @Override
     public int getCount() {
-        favouriteRecords = menuItemService.getFavouriteRecords();
+        favouriteRecords = menuItemService.getAllFavouriteRecords();
         return menuItemService.countFavouriteRecords();
     }
 
+
     @Override
     public Object getItem(int position) {
-
         SearchMenuItem searchMenuItem = null;
         if (position >= 0 && position < favouriteRecords.size()) {
             FavouriteRecord favouriteRecord = favouriteRecords.get(position);

@@ -407,7 +407,7 @@ public class MenuItemService {
     /**
      * deletes the given favourite record from the data store.
      *
-     * @param record
+     * @param record the favourite record to delete
      */
     public void delete(FavouriteRecord record) {
         Search search = new Search();
@@ -430,9 +430,9 @@ public class MenuItemService {
     /**
      * gets a list of all the favourite records
      *
-     * @return
+     * @return list of favourite records found in the data store.
      */
-    public List<FavouriteRecord> getFavouriteRecords() {
+    public List<FavouriteRecord> getAllFavouriteRecords() {
         Search search = new Search();
         search.setTableName(DatabaseHelperConstants.FAVOURITE_RECORD_TABLE_NAME);
         search.addSort(DatabaseHelperConstants.FAVOURITE_RECORD_DATE_CREATED_COLUMN, true);
@@ -458,5 +458,78 @@ public class MenuItemService {
             return items.get(0);
 
         return null;
+    }
+
+    /**
+     * gets all the search logs in the data store.
+     *
+     * @return list of search logs
+     */
+    public List<SearchLog> getAllSearchLogs() {
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.SEARCH_LOG_TABLE_NAME);
+        search.addSort(DatabaseHelperConstants.SEARCH_LOG_DATE_CREATED_COLUMN, true);
+
+        return buildSearchLogs(StorageManager.getInstance().getRecords(search));
+    }
+
+    private List<SearchLog> buildSearchLogs(Cursor cursor) {
+        List<SearchLog> searchLogs = new ArrayList<SearchLog>();
+        while (cursor.moveToNext()) {
+            SearchLog searchLog = new SearchLog();
+            searchLog.setId(cursor.getInt(cursor.
+                    getColumnIndex(DatabaseHelperConstants.SEARCH_LOG_ROW_ID_COLUMN)));
+            searchLog.setMenuItemId(cursor.getString(cursor.
+                    getColumnIndex(DatabaseHelperConstants.SEARCH_LOG_MENU_ITEM_ID_COLUMN)));
+
+            try {
+                searchLog.setDateCreated(DatabaseHelperConstants.DEFAULT_DATE_FORMAT.parse(cursor.getString(
+                        cursor.getColumnIndex(DatabaseHelperConstants.SEARCH_LOG_DATE_CREATED_COLUMN))));
+            } catch (ParseException e) {
+                Log.e(MenuItemService.class.getName(), "ParseException", e);
+            }
+
+
+            searchLog.setContent(cursor.getString(cursor.
+                    getColumnIndex(DatabaseHelperConstants.MENU_ITEM_CONTENT_COLUMN)));
+
+            searchLog.setClientId(cursor.getString(cursor.
+                    getColumnIndex(DatabaseHelperConstants.SEARCH_LOG_CLIENT_ID_COLUMN)));
+
+            searchLog.setGpsLocation(cursor.getString(cursor.
+                    getColumnIndex(DatabaseHelperConstants.SEARCH_LOG_GPS_LOCATION_COLUMN)));
+
+            searchLogs.add(searchLog);
+        }
+
+        return searchLogs;
+    }
+
+    /**
+     * gets the total number of search logs in the data store
+     *
+     * @return number of search logs in the data store
+     */
+    public int countSearchLogs() {
+        return StorageManager.getInstance().recordCount(DatabaseHelperConstants.SEARCH_LOG_TABLE_NAME);
+    }
+
+    /**
+     * deletes the given list of search logs from the data store.
+     *
+     * @param selectedItems search log items to delete.
+     */
+    public void deleteSearchLogs(List<SearchLog> selectedItems) {
+        Integer[] idz = new Integer[selectedItems.size()];
+
+        for (int index = 0; index < selectedItems.size(); index++) {
+            idz[index] = selectedItems.get(index).getId();
+        }
+
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.SEARCH_LOG_TABLE_NAME);
+        search.addFilterIn(DatabaseHelperConstants.SEARCH_LOG_ROW_ID_COLUMN, idz);
+
+        StorageManager.getInstance().delete(search);
     }
 }

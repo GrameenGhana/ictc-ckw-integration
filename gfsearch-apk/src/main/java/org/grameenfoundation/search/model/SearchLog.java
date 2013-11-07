@@ -1,5 +1,7 @@
 package org.grameenfoundation.search.model;
 
+import org.grameenfoundation.search.storage.DatabaseHelperConstants;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -63,5 +65,14 @@ public class SearchLog implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getDescription() {
+        StringBuilder builder = new StringBuilder();
+        if (getClientId() != null && getClientId().trim().length() > 0)
+            builder.append("Client ID:").append(getClientId());
+
+        builder.append(" Date: ").append(DatabaseHelperConstants.DEFAULT_DATE_FORMAT.format(getDateCreated()));
+        return builder.toString();
     }
 }

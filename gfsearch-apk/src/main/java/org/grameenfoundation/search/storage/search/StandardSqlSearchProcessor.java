@@ -364,6 +364,8 @@ public class StandardSqlSearchProcessor implements SearchProcessor {
                 } else {
                     sb.append(",");
                 }
+
+                sb.append(o);
             }
             return sb.toString();
         } else if (value instanceof Object[]) {
@@ -375,6 +377,8 @@ public class StandardSqlSearchProcessor implements SearchProcessor {
                 } else {
                     sb.append(",");
                 }
+
+                sb.append(o);
             }
             return sb.toString();
         } else if (value instanceof String) {
