@@ -10,4 +10,9 @@
         <item>1</item>
         <item>2</item>
     </string-array>
+    <string-array name="drawer_items">
+        <item>Default</item>
+        <item>Favourite</item>
+        <item>Recent Searches</item>
+    </string-array>
 </resources>

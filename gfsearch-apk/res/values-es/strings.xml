@@ -64,5 +64,7 @@
     <string name="clientid_dialog_title">Client identificador del sistema</string>
     <string name="missing_client_id">Falta identificador de cliente</string>
     <string name="mark_favourite">Favorito</string>
+    <string name="drawer_open">Abierto</string>
+    <string name="drawer_close">cerrar</string>
 
 </resources>

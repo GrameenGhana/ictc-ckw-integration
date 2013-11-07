@@ -1,39 +1,40 @@
 package org.grameenfoundation.search;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
+import android.app.*;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import org.grameenfoundation.search.location.GpsManager;
-import org.grameenfoundation.search.model.ListObject;
 import org.grameenfoundation.search.services.MenuItemService;
 import org.grameenfoundation.search.settings.SettingsActivity;
-import org.grameenfoundation.search.settings.SettingsConstants;
 import org.grameenfoundation.search.settings.SettingsManager;
 import org.grameenfoundation.search.synchronization.BackgroundSynchronizationConfigurer;
 import org.grameenfoundation.search.synchronization.SynchronizationListener;
 import org.grameenfoundation.search.synchronization.SynchronizationManager;
-import org.grameenfoundation.search.ui.*;
+import org.grameenfoundation.search.ui.AboutActivity;
 import org.grameenfoundation.search.utils.DeviceMetadata;
 
-import java.util.Stack;
-
 public class MainActivity extends Activity {
-    private static final String NAVIGATION_STACK_SAVED_STATE_KEY = "navigation_stack_state_key";
     private ProgressDialog progressDialog = null;
     private Handler handler = null;
     private Context activityContext;
-    private Stack<ListObject> listObjectNavigationStack = null;
-    private ListView mainListView;
-    private MenuItem backNavigationMenuItem = null;
+    private DrawerLayout drawerLayout;
+    private ListView drawerList;
+    private String[] drawerListItems;
+    private ActionBarDrawerToggle drawerToggle;
+
 
     /**
      * Called when the activity is first created.
@@ -51,6 +52,8 @@ public class MainActivity extends Activity {
             ApplicationRegistry.setMainActivity(this);
 
             setContentView(R.layout.main);
+            initNavigationDrawer();
+
             ActionBar actionBar = this.getActionBar();
             actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -70,15 +73,7 @@ public class MainActivity extends Activity {
 
             handler = new Handler();
 
-            if (savedInstanceState != null
-                    && savedInstanceState.containsKey(NAVIGATION_STACK_SAVED_STATE_KEY)) {
-                listObjectNavigationStack =
-                        (Stack<ListObject>) savedInstanceState.get(NAVIGATION_STACK_SAVED_STATE_KEY);
-            } else {
-                listObjectNavigationStack = new Stack<ListObject>();
-            }
-
-            initMainListView();
+            //initMainListView();
             createProgressBar();
 
             /**
@@ -91,6 +86,8 @@ public class MainActivity extends Activity {
 
             //get GPS location
             GpsManager.getInstance().update();
+
+            selectItem(0);
         } catch (Exception ex) {
             Log.e(MainActivity.class.getName(), "Application Error", ex);
         }
@@ -101,98 +98,9 @@ public class MainActivity extends Activity {
         this.sendBroadcast(intent);
     }
 
-    private void initMainListView() {
-        mainListView = (ListView) this.findViewById(R.id.main_list);
-        final MainListViewAdapter listViewAdapter = new MainListViewAdapter(this);
-        mainListView.setAdapter(listViewAdapter);
-
-        mainListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                ListObject itemToSelect = (ListObject) listViewAdapter.getItem(position);
-                selectListElement(itemToSelect, listViewAdapter);
-            }
-        });
-
-        mainListView.setOnTouchListener(new OnSwipeTouchListener(this) {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return super.onTouch(v, event);
-            }
-
-            @Override
-            public boolean onSwipeRight() {
-                super.onSwipeRight();
-                listViewBackNavigation();
-                return false;
-            }
-        });
-
-        if (!listObjectNavigationStack.isEmpty()) {
-            selectListElement(listObjectNavigationStack.pop(), listViewAdapter);
-        }
-    }
-
-    private void selectListElement(final ListObject itemToSelect, MainListViewAdapter listViewAdapter) {
-        if (listViewAdapter.hasChildren(itemToSelect)) {
-            listViewAdapter.setSelectedObject(itemToSelect);
-            listObjectNavigationStack.push(listViewAdapter.getSelectedObject());
-
-            if (backNavigationMenuItem != null) {
-                backNavigationMenuItem.setVisible(true);
-            }
-        } else {
-            if (SettingsManager.getInstance().
-                    getBooleanValue(SettingsConstants.KEY_CLIENT_IDENTIFIER_PROMPTING_ENABLED, false)) {
-
-                SingleInputPromptDialog dialog = new SingleInputPromptDialog(this, R.string.clientid_dialog_title,
-                        R.string.clientid_dialog_message) {
-                    @Override
-                    protected boolean onOkClicked(String input) {
-                        Intent intent = new Intent().setClass(activityContext, SearchMenuItemActivity.class);
-                        intent.putExtra(SearchMenuItemActivity.EXTRA_LIST_OBJECT_IDENTIFIER, itemToSelect);
-                        intent.putExtra(SearchMenuItemActivity.CLIENT_IDENTIFIER, input);
-                        startActivityForResult(intent, 0);
-
-                        return true;
-                    }
-                };
-                dialog.show();
-            } else {
-                Intent intent = new Intent().setClass(activityContext, SearchMenuItemActivity.class);
-                intent.putExtra(SearchMenuItemActivity.EXTRA_LIST_OBJECT_IDENTIFIER, itemToSelect);
-                this.startActivityForResult(intent, 0);
-            }
-        }
-    }
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        //save state of
-        if (listObjectNavigationStack != null && !listObjectNavigationStack.isEmpty()) {
-            outState.putSerializable(NAVIGATION_STACK_SAVED_STATE_KEY, listObjectNavigationStack);
-        }
-    }
-
-    private void listViewBackNavigation() {
-        MainListViewAdapter listViewAdapter = (MainListViewAdapter) mainListView.getAdapter();
-
-        //we pop the stack twice to get the right navigation element.
-        if (!listObjectNavigationStack.isEmpty())
-            listObjectNavigationStack.pop();
-
-        if (!listObjectNavigationStack.isEmpty()) {
-            listViewAdapter.setSelectedObject(listObjectNavigationStack.peek());
-            return;
-        }
-
-        if (listObjectNavigationStack.isEmpty()) {
-            listViewAdapter.setSelectedObject(null);
-            backNavigationMenuItem.setVisible(false);
-        }
     }
 
     @Override
@@ -200,11 +108,11 @@ public class MainActivity extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflator = getMenuInflater();
         inflator.inflate(R.menu.main, menu);
-        backNavigationMenuItem = menu.findItem(R.id.action_nav_back);
+/*        backNavigationMenuItem = menu.findItem(R.id.action_nav_back);
         if (listObjectNavigationStack != null
                 && !listObjectNavigationStack.isEmpty()) {
             backNavigationMenuItem.setVisible(true);
-        }
+        }*/
 
         return true;
     }
@@ -212,36 +120,31 @@ public class MainActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         try {
+
+            if (drawerToggle.onOptionsItemSelected(item)) {
+                return true;
+            }
+
             if (item.getItemId() == R.id.action_settings) {
                 Intent intent = new Intent().setClass(this, SettingsActivity.class);
                 this.startActivityForResult(intent, 0);
-            } else if (item.getItemId() == R.id.action_nav_back) {
+            } /*else if (item.getItemId() == R.id.action_nav_back) {
                 listViewBackNavigation();
-            } else if (item.getItemId() == R.id.action_synchronise) {
+            } */ else if (item.getItemId() == R.id.action_synchronise) {
                 startSynchronization();
             } else if (item.getItemId() == R.id.action_about) {
                 Intent intent = new Intent().setClass(this, AboutActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                 this.startActivity(intent);
             } else if (item.getItemId() == android.R.id.home) {
-                resetDisplayMenus();
+                //resetDisplayMenus();
+                selectItem(0);
             }
         } catch (Exception ex) {
             Log.e(MainActivity.class.getName(), "", ex);
         }
 
         return true;
-    }
-
-    /**
-     *
-     */
-    private void resetDisplayMenus() {
-        if (listObjectNavigationStack != null) {
-            listObjectNavigationStack.clear();
-
-            listViewBackNavigation();
-        }
     }
 
     private void startSynchronization() {
@@ -292,7 +195,8 @@ public class MainActivity extends Activity {
                     @Override
                     public void run() {
                         progressDialog.dismiss();
-                        ((MainListViewAdapter) mainListView.getAdapter()).refreshData();
+                        //((MainListViewAdapter) mainListView.getAdapter()).refreshData();
+                        //TODO notify fragement to refresh data.
                     }
 
                 });
@@ -344,11 +248,119 @@ public class MainActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (listObjectNavigationStack != null && !listObjectNavigationStack.isEmpty()) {
+        /*if (listObjectNavigationStack != null && !listObjectNavigationStack.isEmpty()) {
             listViewBackNavigation();
         } else {
             super.onBackPressed();
+        }*/
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        //hide menu items when drawer is open
+        boolean drawerOpen = drawerLayout.isDrawerOpen(drawerList);
+
+
+        for (int index = 0; index < menu.size(); index++) {
+            menu.getItem(index).setVisible(!drawerOpen);
         }
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        //sync the toggle state after onRestoreInstanceState has occurred
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    private void initNavigationDrawer() {
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerList = (ListView) findViewById(R.id.left_drawer);
+        drawerListItems = getResources().getStringArray(R.array.drawer_items);
+
+        drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, drawerListItems));
+        drawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
+                R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                invalidateOptionsMenu();
+            }
+        };
+
+        drawerLayout.setDrawerListener(drawerToggle);
+        getActionBar().setHomeButtonEnabled(true);
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
+    }
+
+    private void selectItem(int position) {
+        switch (position) {
+            case 0:  //default view
+                displayDefaultFragment();
+                break;
+            case 1: //favourite view
+                displayFavouriteFragment();
+                break;
+            case 2: //recent searches
+
+                break;
+            default:
+                displayDefaultFragment();
+                break;
+        }
+
+        drawerList.setItemChecked(position, true);
+        setTitle(drawerListItems[position]);
+        drawerLayout.closeDrawer(drawerList);
+    }
+
+    private void displayFavouriteFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+
+        Fragment fragment = fragmentManager.findFragmentByTag(FavouriteViewFragment.FRAGMENT_TAG);
+        if (fragment == null) {
+            fragment = new FavouriteViewFragment();
+        }
+
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment,
+                FavouriteViewFragment.FRAGMENT_TAG).commit();
+    }
+
+    private void displayDefaultFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+
+        Fragment fragment = fragmentManager.findFragmentByTag(DefaultViewFragment.FRAGMENT_TAG);
+        if (fragment == null) {
+            fragment = new DefaultViewFragment();
+        }
+
+        //insert the fragment by replacing the existing fragment.
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment,
+                DefaultViewFragment.FRAGMENT_TAG).commit();
     }
 }
 

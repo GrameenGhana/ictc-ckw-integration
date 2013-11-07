@@ -370,8 +370,19 @@ public class MenuItemService {
 
         FavouriteRecord favouriteRecord = null;
         Cursor cursor = StorageManager.getInstance().getRecords(search);
+        List<FavouriteRecord> favouriteRecords = buildFavouriteRecords(cursor);
+        if (favouriteRecords != null && favouriteRecords.size() > 0) {
+            favouriteRecord = favouriteRecords.get(0);
+        }
+
+        return favouriteRecord;
+    }
+
+    private List<FavouriteRecord> buildFavouriteRecords(Cursor cursor) {
+        List<FavouriteRecord> favouriteRecords = new ArrayList<FavouriteRecord>();
+
         while (cursor.moveToNext()) {
-            favouriteRecord = new FavouriteRecord();
+            FavouriteRecord favouriteRecord = new FavouriteRecord();
             favouriteRecord.setId(cursor.getInt(
                     cursor.getColumnIndex(DatabaseHelperConstants.FAVOURITE_RECORD_ROW_ID_COLUMN)));
             favouriteRecord.setName(cursor.getString(
@@ -387,17 +398,65 @@ public class MenuItemService {
                 Log.e(MenuItemService.class.getName(), "ParseException", e);
             }
 
-            //we only process one value.
-            break;
-        }
 
-        return favouriteRecord;
+            favouriteRecords.add(favouriteRecord);
+        }
+        return favouriteRecords;
     }
 
+    /**
+     * deletes the given favourite record from the data store.
+     *
+     * @param record
+     */
     public void delete(FavouriteRecord record) {
         Search search = new Search();
         search.setTableName(DatabaseHelperConstants.FAVOURITE_RECORD_TABLE_NAME);
         search.addFilterEqual(DatabaseHelperConstants.FAVOURITE_RECORD_ROW_ID_COLUMN, record.getId());
         StorageManager.getInstance().delete(search);
+    }
+
+    /**
+     * gets the total number of favourite records in the
+     * data store.
+     *
+     * @return the number of favourite records.
+     */
+    public int countFavouriteRecords() {
+        return StorageManager.getInstance()
+                .recordCount(DatabaseHelperConstants.FAVOURITE_RECORD_TABLE_NAME);
+    }
+
+    /**
+     * gets a list of all the favourite records
+     *
+     * @return
+     */
+    public List<FavouriteRecord> getFavouriteRecords() {
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.FAVOURITE_RECORD_TABLE_NAME);
+        search.addSort(DatabaseHelperConstants.FAVOURITE_RECORD_DATE_CREATED_COLUMN, true);
+
+        return buildFavouriteRecords(StorageManager.getInstance().getRecords(search));
+    }
+
+    /**
+     * gets a search menu item with the given identifier.
+     *
+     * @param id identifier of the search menu item required.
+     * @return SearchMenuItem
+     */
+    public SearchMenuItem getSearchMenuItem(String id) {
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
+        search.addFilterEqual(DatabaseHelperConstants.MENU_ITEM_ROWID_COLUMN, id);
+
+        List<SearchMenuItem> items =
+                buildSearchMenuItems(StorageManager.getInstance().getRecords(search));
+
+        if (items != null && items.size() > 0)
+            return items.get(0);
+
+        return null;
     }
 }

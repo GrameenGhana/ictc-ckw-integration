@@ -68,5 +68,7 @@
     <string name="clientid_dialog_title">Client Identifier Prompt</string>
     <string name="missing_client_id">Missing Client Identifier</string>
     <string name="mark_favourite">Favourite</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
 
 </resources>

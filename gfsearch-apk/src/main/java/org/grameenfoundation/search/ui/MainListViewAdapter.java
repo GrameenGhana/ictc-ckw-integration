@@ -34,7 +34,7 @@ import java.util.List;
  */
 public class MainListViewAdapter extends BaseAdapter {
     private ListObject selectedObject;
-    private MenuItemService menuItemService = new MenuItemService();
+    protected MenuItemService menuItemService = new MenuItemService();
     private Object items = null;
     private Context context;
     private LayoutInflater layoutInflater;

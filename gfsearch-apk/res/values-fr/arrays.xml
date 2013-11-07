@@ -5,4 +5,9 @@
         <item>minute</item>
         <item>deuxième</item>
     </string-array>
+    <string-array name="drawer_items">
+        <item>Par défaut</item>
+        <item>Favourite</item>
+        <item>recherches récentes</item>
+    </string-array>
 </resources>
