@@ -99,9 +99,10 @@ public class SearchMenuItemActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                Intent intent = this.getParentActivityIntent();
+                /*Intent intent = this.getParentActivityIntent();
                 intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-                this.startActivity(intent);
+                this.startActivity(intent);*/
+                onBackPressed();
                 break;
             case R.id.action_send_message:
                 sendContentAsMessage();
