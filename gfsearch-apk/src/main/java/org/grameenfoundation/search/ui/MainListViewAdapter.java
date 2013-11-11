@@ -13,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import org.grameenfoundation.search.ApplicationRegistry;
@@ -21,6 +22,7 @@ import org.grameenfoundation.search.model.ListObject;
 import org.grameenfoundation.search.model.SearchMenu;
 import org.grameenfoundation.search.model.SearchMenuItem;
 import org.grameenfoundation.search.services.MenuItemService;
+import org.grameenfoundation.search.synchronization.SynchronizationManager;
 import org.grameenfoundation.search.utils.ImageUtils;
 import org.joda.time.Interval;
 
@@ -88,6 +90,15 @@ public class MainListViewAdapter extends BaseAdapter {
         } else {
             items = menuItemService.getAllSearchMenus();
             count = menuItemService.countSearchMenus();
+
+            /**
+             * this is here so that we can show the button synchronization view in the
+             * interface.
+             * It's important to set the count to 1 so that getView is called by the list view
+             * control bound to this Adapter.
+             */
+            if (count <= 0)
+                count = 1;
         }
 
         return count;
@@ -123,67 +134,89 @@ public class MainListViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
 
-        if (rowView == null) {
-            rowView = layoutInflater.inflate(R.layout.listviewobject, parent, false);
-        }
-
-        ThumbnailViewHolder viewHolder = null;
-        if (rowView.getTag() != null && rowView.getTag() instanceof ThumbnailViewHolder) {
-            viewHolder = (ThumbnailViewHolder) rowView.getTag();
-        } else {
-            viewHolder = new ThumbnailViewHolder();
-        }
-
-
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
-        TextView titleView = (TextView) rowView.findViewById(R.id.title);
-        TextView descriptionView = (TextView) rowView.findViewById(R.id.description);
-
-        ListObject listObject = (ListObject) getItem(position);
-        if (listObject != null) {
-            titleView.setText(listObject.getLabel());
-            if (listObject.getDescription() != null && listObject.getDescription().startsWith("No Content")) {
-                descriptionView.setText("");
-            } else {
-                descriptionView.setText(listObject.getDescription());
+        if (hasData()) {
+            if (rowView == null) {
+                rowView = layoutInflater.inflate(R.layout.listviewobject, parent, false);
             }
 
-            descriptionView.setVisibility(TextView.VISIBLE);
+            ThumbnailViewHolder viewHolder = null;
+            if (rowView.getTag() != null && rowView.getTag() instanceof ThumbnailViewHolder) {
+                viewHolder = (ThumbnailViewHolder) rowView.getTag();
+            } else {
+                viewHolder = new ThumbnailViewHolder();
+            }
 
-            imageView.setTag(listObject);
-            viewHolder.position = position;
-            viewHolder.imageView = imageView;
 
-            rowView.setTag(viewHolder);
+            ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
+            TextView titleView = (TextView) rowView.findViewById(R.id.title);
+            TextView descriptionView = (TextView) rowView.findViewById(R.id.description);
 
-            imageView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                        if (v.getTag() != null && v.getTag() instanceof ListObject) {
-                            if (((ListObject) v.getTag()).isHasIcon()) {
-                                Intent intent = new Intent().setClass(ApplicationRegistry.getMainActivity(),
-                                        ImageViewerActivity.class);
-                                intent.putExtra(ImageViewerActivity.EXTRA_LIST_OBJECT_IDENTIFIER, (ListObject) v.getTag());
-                                ApplicationRegistry.getMainActivity().startActivityForResult(intent, 0);
+            ListObject listObject = (ListObject) getItem(position);
+            if (listObject != null) {
+                titleView.setText(listObject.getLabel());
+                if (listObject.getDescription() != null && listObject.getDescription().startsWith("No Content")) {
+                    descriptionView.setText("");
+                } else {
+                    descriptionView.setText(listObject.getDescription());
+                }
 
-                                return true;
+                descriptionView.setVisibility(TextView.VISIBLE);
+
+                imageView.setTag(listObject);
+                viewHolder.position = position;
+                viewHolder.imageView = imageView;
+
+                rowView.setTag(viewHolder);
+
+                imageView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            if (v.getTag() != null && v.getTag() instanceof ListObject) {
+                                if (((ListObject) v.getTag()).isHasIcon()) {
+                                    Intent intent = new Intent().setClass(ApplicationRegistry.getMainActivity(),
+                                            ImageViewerActivity.class);
+                                    intent.putExtra(ImageViewerActivity.EXTRA_LIST_OBJECT_IDENTIFIER, (ListObject) v.getTag());
+                                    ApplicationRegistry.getMainActivity().startActivityForResult(intent, 0);
+
+                                    return true;
+                                }
                             }
                         }
+                        return false;
                     }
-                    return false;
+                });
+
+                new ThumbnailTask<ListObject>(viewHolder, position) {
+                    @Override
+                    protected Drawable doInBackground(ListObject... params) {
+                        return getListObjectDrawable(params[0]);
+                    }
+                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, listObject);
+            }
+        } else {
+            if (rowView == null)
+                rowView = layoutInflater.inflate(R.layout.listview_sync_button, parent, false);
+
+            Button button = (Button) rowView.findViewById(R.id.sync_button);
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SynchronizationManager.getInstance().start();
                 }
             });
-
-            new ThumbnailTask<ListObject>(viewHolder, position) {
-                @Override
-                protected Drawable doInBackground(ListObject... params) {
-                    return getListObjectDrawable(params[0]);
-                }
-            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, listObject);
         }
 
+
         return rowView;
+    }
+
+    private boolean hasData() {
+        if (menuItemService.countSearchMenus() > 0) {
+            return true;
+        }
+
+        return false;
     }
 
     protected static Drawable getListObjectDrawable(ListObject listObject) {
