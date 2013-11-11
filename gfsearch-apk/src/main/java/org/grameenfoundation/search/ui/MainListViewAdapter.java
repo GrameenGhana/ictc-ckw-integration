@@ -135,65 +135,11 @@ public class MainListViewAdapter extends BaseAdapter {
         View rowView = convertView;
 
         if (hasData()) {
-            if (rowView == null) {
+            if (rowView == null || rowView.findViewById(R.id.sync_button) != null) {
                 rowView = layoutInflater.inflate(R.layout.listviewobject, parent, false);
             }
 
-            ThumbnailViewHolder viewHolder = null;
-            if (rowView.getTag() != null && rowView.getTag() instanceof ThumbnailViewHolder) {
-                viewHolder = (ThumbnailViewHolder) rowView.getTag();
-            } else {
-                viewHolder = new ThumbnailViewHolder();
-            }
-
-
-            ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
-            TextView titleView = (TextView) rowView.findViewById(R.id.title);
-            TextView descriptionView = (TextView) rowView.findViewById(R.id.description);
-
-            ListObject listObject = (ListObject) getItem(position);
-            if (listObject != null) {
-                titleView.setText(listObject.getLabel());
-                if (listObject.getDescription() != null && listObject.getDescription().startsWith("No Content")) {
-                    descriptionView.setText("");
-                } else {
-                    descriptionView.setText(listObject.getDescription());
-                }
-
-                descriptionView.setVisibility(TextView.VISIBLE);
-
-                imageView.setTag(listObject);
-                viewHolder.position = position;
-                viewHolder.imageView = imageView;
-
-                rowView.setTag(viewHolder);
-
-                imageView.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                            if (v.getTag() != null && v.getTag() instanceof ListObject) {
-                                if (((ListObject) v.getTag()).isHasIcon()) {
-                                    Intent intent = new Intent().setClass(ApplicationRegistry.getMainActivity(),
-                                            ImageViewerActivity.class);
-                                    intent.putExtra(ImageViewerActivity.EXTRA_LIST_OBJECT_IDENTIFIER, (ListObject) v.getTag());
-                                    ApplicationRegistry.getMainActivity().startActivityForResult(intent, 0);
-
-                                    return true;
-                                }
-                            }
-                        }
-                        return false;
-                    }
-                });
-
-                new ThumbnailTask<ListObject>(viewHolder, position) {
-                    @Override
-                    protected Drawable doInBackground(ListObject... params) {
-                        return getListObjectDrawable(params[0]);
-                    }
-                }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, listObject);
-            }
+            createListViewItemView(position, rowView);
         } else {
             if (rowView == null)
                 rowView = layoutInflater.inflate(R.layout.listview_sync_button, parent, false);
@@ -209,6 +155,64 @@ public class MainListViewAdapter extends BaseAdapter {
 
 
         return rowView;
+    }
+
+    private void createListViewItemView(final int position, View rowView) {
+        ThumbnailViewHolder viewHolder = null;
+        if (rowView.getTag() != null && rowView.getTag() instanceof ThumbnailViewHolder) {
+            viewHolder = (ThumbnailViewHolder) rowView.getTag();
+        } else {
+            viewHolder = new ThumbnailViewHolder();
+        }
+
+
+        ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
+        TextView titleView = (TextView) rowView.findViewById(R.id.title);
+        TextView descriptionView = (TextView) rowView.findViewById(R.id.description);
+
+        ListObject listObject = (ListObject) getItem(position);
+        if (listObject != null) {
+            titleView.setText(listObject.getLabel());
+            if (listObject.getDescription() != null && listObject.getDescription().startsWith("No Content")) {
+                descriptionView.setText("");
+            } else {
+                descriptionView.setText(listObject.getDescription());
+            }
+
+            descriptionView.setVisibility(TextView.VISIBLE);
+
+            imageView.setTag(listObject);
+            viewHolder.position = position;
+            viewHolder.imageView = imageView;
+
+            rowView.setTag(viewHolder);
+
+            imageView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        if (v.getTag() != null && v.getTag() instanceof ListObject) {
+                            if (((ListObject) v.getTag()).isHasIcon()) {
+                                Intent intent = new Intent().setClass(ApplicationRegistry.getMainActivity(),
+                                        ImageViewerActivity.class);
+                                intent.putExtra(ImageViewerActivity.EXTRA_LIST_OBJECT_IDENTIFIER, (ListObject) v.getTag());
+                                ApplicationRegistry.getMainActivity().startActivityForResult(intent, 0);
+
+                                return true;
+                            }
+                        }
+                    }
+                    return false;
+                }
+            });
+
+            new ThumbnailTask<ListObject>(viewHolder, position) {
+                @Override
+                protected Drawable doInBackground(ListObject... params) {
+                    return getListObjectDrawable(params[0]);
+                }
+            }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, listObject);
+        }
     }
 
     private boolean hasData() {
