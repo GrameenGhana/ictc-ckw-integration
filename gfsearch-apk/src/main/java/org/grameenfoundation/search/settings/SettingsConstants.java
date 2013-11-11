@@ -18,6 +18,7 @@ public final class SettingsConstants {
     public static final String KEY_BACKGROUND_SYNC_ENABLED = "background_sync_enabled";
 
     public static final String KEY_CLIENT_IDENTIFIER_PROMPTING_ENABLED = "prompt_for_clientid_enabled";
+    public static final String KEY_TEST_SEARCHING_ENABLED = "test_searching_enabled";
 
     public static final int INTERVAL_UNITS_HOURS = 0;
     public static final int INTERVAL_UNITS_MINUTES = 1;

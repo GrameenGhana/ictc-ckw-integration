@@ -53,6 +53,7 @@ public final class DatabaseHelperConstants {
     public static final String SEARCH_LOG_CLIENT_ID_COLUMN = "client_id";
     public static final String SEARCH_LOG_GPS_LOCATION_COLUMN = "gps_location";
     public static final String SEARCH_LOG_CONTENT_COLUMN = "content";
+    public static final String SEARCH_LOG_TEST_LOG = "test_log";
 
     /**
      * favourite record table columns
@@ -74,5 +75,5 @@ public final class DatabaseHelperConstants {
     public static final String FAVOURITE_RECORD_TABLE_NAME = "favourite_record";
 
     public static final String DATABASE_NAME = "gfsearch";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 }

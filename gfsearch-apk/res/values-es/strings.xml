@@ -67,5 +67,8 @@
     <string name="drawer_open">Abierto</string>
     <string name="drawer_close">cerrar</string>
     <string name="action_delete">borrar</string>
+    <string name="test_searching_enabled_title">Habilitar Prueba búsqueda</string>
+    <string name="test_searching_enabled_summary">Los registros de búsqueda serán marcados como los registros de prueba</string>
+    <string name="uploading_search_logs">Carga de los registros de búsqueda</string>
 
 </resources>

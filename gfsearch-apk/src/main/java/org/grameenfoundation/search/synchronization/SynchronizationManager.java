@@ -6,11 +6,13 @@ import org.apache.http.entity.AbstractHttpEntity;
 import org.apache.http.entity.StringEntity;
 import org.grameenfoundation.search.ApplicationRegistry;
 import org.grameenfoundation.search.R;
+import org.grameenfoundation.search.model.SearchLog;
 import org.grameenfoundation.search.model.SearchMenu;
 import org.grameenfoundation.search.model.SearchMenuItem;
 import org.grameenfoundation.search.services.MenuItemService;
 import org.grameenfoundation.search.settings.SettingsConstants;
 import org.grameenfoundation.search.settings.SettingsManager;
+import org.grameenfoundation.search.storage.DatabaseHelperConstants;
 import org.grameenfoundation.search.utils.HttpHelpers;
 import org.grameenfoundation.search.utils.ImageUtils;
 import org.grameenfoundation.search.utils.JsonSimpleBaseParser;
@@ -19,6 +21,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -108,7 +111,7 @@ public class SynchronizationManager {
                                     getResources().getString(R.string.synchronization_complete_msg), true);
 
                     notifySynchronizationListeners("synchronizationComplete");
-                } catch (IOException e) {
+                } catch (Exception e) {
                     Log.e(SynchronizationManager.class.getName(), "IOException", e);
                     notifySynchronizationListeners("onSynchronizationError",
                             new Throwable(applicationContext.getString(R.string.error_connecting_to_server)));
@@ -119,8 +122,52 @@ public class SynchronizationManager {
         }).start();
     }
 
-    protected void uploadSearchLogs() {
+    /**
+     * uploads search logs to the server.
+     */
+    protected void uploadSearchLogs() throws Exception {
+        List<SearchLog> searchLogs = menuItemService.getAllSearchLogs();
+        int searchLogCounter = 1;
+        if (searchLogs != null) {
+            for (SearchLog searchLog : searchLogs) {
+                uploadSearchLog(searchLog);
+                notifySynchronizationListeners("synchronizationUpdate", searchLogCounter++, searchLogs.size(),
+                        ApplicationRegistry.getApplicationContext().
+                                getResources().getString(R.string.uploading_search_logs), true);
+            }
+        }
+    }
 
+    /**
+     * uploads the given search log to the server.
+     *
+     * @param searchLog
+     */
+    private void uploadSearchLog(SearchLog searchLog) throws Exception {
+        StringBuilder requestParameters = new StringBuilder();
+        requestParameters.append("?submissionTime=" +
+                URLEncoder.encode(DatabaseHelperConstants.DEFAULT_DATE_FORMAT.format(searchLog.getDateCreated()),
+                        "UTF-8"));
+
+        requestParameters.append("&intervieweeId=" +
+                URLEncoder.encode(searchLog.getClientId() == null ? "" : searchLog.getClientId(), "UTF-8"));
+
+        requestParameters.append("&keyword=" + URLEncoder.encode(searchLog.getMenuItemId(), "UTF-8"));
+        requestParameters.append("&location=" + URLEncoder.encode(searchLog.getGpsLocation(), "UTF-8"));
+
+        if (!searchLog.isTestLog()) {
+            requestParameters.append("&log=true");
+        }
+
+        String url = SettingsManager.getInstance().getValue(SettingsConstants.KEY_SERVER) +
+                ApplicationRegistry.getApplicationContext().getString(R.string.search_log_url_path);
+
+        String result = HttpHelpers.fetchContent(url + requestParameters.toString());
+
+        //delete the log record.
+        if (result != null) {
+            menuItemService.deleteSearchLog(searchLog);
+        }
     }
 
     protected void downloadSearchMenus() throws IOException {

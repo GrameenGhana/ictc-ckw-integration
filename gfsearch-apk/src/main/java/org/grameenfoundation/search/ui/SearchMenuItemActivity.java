@@ -15,6 +15,8 @@ import org.grameenfoundation.search.model.ListObject;
 import org.grameenfoundation.search.model.SearchLog;
 import org.grameenfoundation.search.model.SearchMenuItem;
 import org.grameenfoundation.search.services.MenuItemService;
+import org.grameenfoundation.search.settings.SettingsConstants;
+import org.grameenfoundation.search.settings.SettingsManager;
 import org.grameenfoundation.search.utils.ImageUtils;
 
 import java.io.File;
@@ -66,6 +68,10 @@ public class SearchMenuItemActivity extends Activity {
             GpsManager.getInstance().update();
             searchLog.setGpsLocation(GpsManager.getInstance().getLocationAsString());
             searchLog.setMenuItemId(searchMenuItem.getId());
+
+            if (SettingsManager.getInstance().getBooleanValue(SettingsConstants.KEY_TEST_SEARCHING_ENABLED, false)) {
+                searchLog.setTestLog(true);
+            }
 
             menuItemService.save(searchLog);
         }

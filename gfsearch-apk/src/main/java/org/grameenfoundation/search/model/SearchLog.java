@@ -15,6 +15,7 @@ public class SearchLog implements Serializable {
     private String clientId;
     private String gpsLocation;
     private String content;
+    private boolean testLog;
 
     public SearchLog() {
     }
@@ -74,5 +75,13 @@ public class SearchLog implements Serializable {
 
         builder.append(" Date: ").append(DatabaseHelperConstants.DEFAULT_DATE_FORMAT.format(getDateCreated()));
         return builder.toString();
+    }
+
+    public boolean isTestLog() {
+        return testLog;
+    }
+
+    public void setTestLog(boolean testLog) {
+        this.testLog = testLog;
     }
 }

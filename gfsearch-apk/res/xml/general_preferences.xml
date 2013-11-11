@@ -9,5 +9,10 @@
                             android:summary="@string/prompt_for_clientid_summary"
                             android:defaultValue="true"/>
 
+        <CheckBoxPreference android:key="test_searching_enabled"
+                            android:title="@string/test_searching_enabled_title"
+                            android:summary="@string/test_searching_enabled_summary"
+                            android:defaultValue="false"/>
+
     </PreferenceCategory>
 </PreferenceScreen>

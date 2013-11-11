@@ -39,6 +39,22 @@ final class DatabaseHelper extends SQLiteOpenHelper {
 
         //create the favourite record table
         database.execSQL(getFavouriteTableInitializationSql());
+
+        //add test log column
+        database.execSQL(getSearchLogTestColumnSql());
+    }
+
+    /**
+     * gets the SQL statement for adding a test column in the search log table.
+     *
+     * @return
+     */
+    private String getSearchLogTestColumnSql() {
+        StringBuilder sqlCommand = new StringBuilder();
+        sqlCommand.append("ALTER TABLE ").append(DatabaseHelperConstants.SEARCH_LOG_TABLE_NAME);
+        sqlCommand.append(" ADD COLUMN ").append(DatabaseHelperConstants.SEARCH_LOG_TEST_LOG).append(" INTEGER DEFAULT 0;");
+
+        return sqlCommand.toString();
     }
 
     private String getSearchLogTableInitializationSql() {

@@ -41,6 +41,7 @@
     <string name="country_code_server_url_path">search/getCountryCode</string>
     <string name="keyword_server_url_path">search/getsearchkeywords</string>
     <string name="image_server_url_path">search/getsfimages?imageId=</string>
+    <string name="search_log_url_path">search/search</string>
     <string name="action_back">Back</string>
     <string name="action_forward">Forward</string>
     <string name="sample_text">sample text</string>
@@ -71,5 +72,8 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="action_delete">Delete</string>
+    <string name="test_searching_enabled_title">Enable Test Searching</string>
+    <string name="test_searching_enabled_summary">Search logs will be marked as test logs</string>
+    <string name="uploading_search_logs">Uploading Search Logs</string>
 
 </resources>

@@ -499,6 +499,13 @@ public class MenuItemService {
             searchLog.setGpsLocation(cursor.getString(cursor.
                     getColumnIndex(DatabaseHelperConstants.SEARCH_LOG_GPS_LOCATION_COLUMN)));
 
+            Integer isTestLog = cursor.getInt(cursor.getColumnIndex(DatabaseHelperConstants.SEARCH_LOG_TEST_LOG));
+            if (isTestLog <= 0)
+                searchLog.setTestLog(false);
+            else {
+                searchLog.setTestLog(true);
+            }
+
             searchLogs.add(searchLog);
         }
 
@@ -529,6 +536,19 @@ public class MenuItemService {
         Search search = new Search();
         search.setTableName(DatabaseHelperConstants.SEARCH_LOG_TABLE_NAME);
         search.addFilterIn(DatabaseHelperConstants.SEARCH_LOG_ROW_ID_COLUMN, idz);
+
+        StorageManager.getInstance().delete(search);
+    }
+
+    /**
+     * deletes the given search log from the data store.
+     *
+     * @param searchLog search log to delete
+     */
+    public void deleteSearchLog(SearchLog searchLog) {
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.SEARCH_LOG_TABLE_NAME);
+        search.addFilterEqual(DatabaseHelperConstants.SEARCH_LOG_ROW_ID_COLUMN, searchLog.getId());
 
         StorageManager.getInstance().delete(search);
     }
