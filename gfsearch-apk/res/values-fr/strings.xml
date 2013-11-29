@@ -2,8 +2,7 @@
 <resources>
 
     <string name="app_name">GF Recherche</string>
-    <string name="app_version">1.0.0-SNAPSHOT</string>
-    <string name="app_version_about">Version 1.0.0-SNAPSHOT</string>
+    <string name="app_version_about">Version</string>
     <string name="hello">Bonjour gfsearch!</string>
     <string name="action_settings">réglages</string>
     <string name="hello_world">Bonjour tout le monde!</string>

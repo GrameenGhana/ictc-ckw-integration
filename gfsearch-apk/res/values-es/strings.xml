@@ -2,8 +2,7 @@
 <resources>
 
     <string name="app_name">CONSULTECA</string>
-    <string name="app_version">1.1.0-SNAPSHOT</string>
-    <string name="app_version_about">Versión 1.1.0-SNAPSHOT</string>
+    <string name="app_version_about">Versión</string>
     <string name="hello">Hola gfsearch!</string>
     <string name="action_settings">Configuración</string>
     <string name="hello_world">Hola mundo!</string>

@@ -14,5 +14,6 @@
         <item>Default</item>
         <item>Favourite</item>
         <item>Recent Searches</item>
+        <item>Interactive Content</item>
     </string-array>
 </resources>

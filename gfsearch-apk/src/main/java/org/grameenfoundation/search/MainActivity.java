@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import org.grameenfoundation.search.interactivecontent.InteractiveContentViewFragment;
 import org.grameenfoundation.search.location.GpsManager;
 import org.grameenfoundation.search.services.MenuItemService;
 import org.grameenfoundation.search.settings.SettingsActivity;
@@ -34,7 +35,6 @@ public class MainActivity extends Activity {
     private ListView drawerList;
     private String[] drawerListItems;
     private ActionBarDrawerToggle drawerToggle;
-
 
     /**
      * Called when the activity is first created.
@@ -63,7 +63,8 @@ public class MainActivity extends Activity {
 
             //register application version in registry
             ApplicationRegistry.register(GlobalConstants.KEY_CACHED_APPLICATION_VERSION,
-                    getResources().getString(R.string.app_name) + "/" + R.string.app_version);
+                    getResources().getString(R.string.app_name) + "/"
+                            + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
 
             //prepare default settings.
             SettingsManager.getInstance().setDefaultSettings(false);
@@ -309,14 +310,6 @@ public class MainActivity extends Activity {
         getActionBar().setHomeButtonEnabled(true);
     }
 
-    private class DrawerItemClickListener implements ListView.OnItemClickListener {
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            selectItem(position);
-        }
-    }
-
     private void selectItem(int position) {
         switch (position) {
             case 0:  //default view
@@ -328,6 +321,9 @@ public class MainActivity extends Activity {
             case 2: //recent searches
                 displayRecentSearchesFragment();
                 break;
+            case 3: //interactive content
+                displayInteractiveFragment();
+                break;
             default:
                 displayDefaultFragment();
                 break;
@@ -336,6 +332,17 @@ public class MainActivity extends Activity {
         drawerList.setItemChecked(position, true);
         setTitle(drawerListItems[position]);
         drawerLayout.closeDrawer(drawerList);
+    }
+
+    private void displayInteractiveFragment() {
+        FragmentManager fragmentManager = getFragmentManager();
+        Fragment fragment = fragmentManager.findFragmentByTag(InteractiveContentViewFragment.FRAGMENT_TAG);
+        if (fragment == null) {
+            fragment = new InteractiveContentViewFragment();
+        }
+
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment,
+                InteractiveContentViewFragment.FRAGMENT_TAG).commit();
     }
 
     private void displayRecentSearchesFragment() {
@@ -374,6 +381,14 @@ public class MainActivity extends Activity {
         //insert the fragment by replacing the existing fragment.
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment,
                 DefaultViewFragment.FRAGMENT_TAG).commit();
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            selectItem(position);
+        }
     }
 }
 

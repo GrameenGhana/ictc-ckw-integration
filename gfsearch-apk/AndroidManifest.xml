@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="2" android:versionName="1.2.0" package="org.grameenfoundation.search">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="3" android:versionName="1.2.0" package="org.grameenfoundation.search">
 
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="18"/>
 
@@ -26,6 +26,9 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="org.grameenfoundation.search.MainActivity"/>
         </activity>
         <activity android:icon="@drawable/mobile_app_icon" android:name=".ui.ImageViewerActivity" android:parentActivityName="org.grameenfoundation.search.MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="org.grameenfoundation.search.MainActivity"/>
+        </activity>
+        <activity android:icon="@drawable/mobile_app_icon" android:name=".interactivecontent.ContentViewerActivity" android:parentActivityName="org.grameenfoundation.search.MainActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="org.grameenfoundation.search.MainActivity"/>
         </activity>
         <service android:name=".synchronization.BackgroundSynchronizationService"/>

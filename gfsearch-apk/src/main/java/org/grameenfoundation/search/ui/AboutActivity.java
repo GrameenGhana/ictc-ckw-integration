@@ -2,8 +2,10 @@ package org.grameenfoundation.search.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 import org.grameenfoundation.search.R;
 
 /**
@@ -15,6 +17,17 @@ public class AboutActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
+
+        try {
+            String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            TextView textView = (TextView) findViewById(R.id.about_version);
+            textView.setText(getResources().getString(R.string.app_version_about) + " " + versionName);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override
