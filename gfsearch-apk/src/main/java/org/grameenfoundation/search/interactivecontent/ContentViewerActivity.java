@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import org.grameenfoundation.search.R;
@@ -66,6 +67,10 @@ public class ContentViewerActivity extends Activity {
             });
 
             webView.loadUrl(url);
+
+            webView.setWebChromeClient(new WebChromeClient(){
+
+            });
         } catch (Exception ex) {
             Log.e(ContentViewerActivity.class.getName(), "Application Error", ex);
         }
