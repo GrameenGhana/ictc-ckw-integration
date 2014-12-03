@@ -1,7 +1,7 @@
 package org.grameenfoundation.search.test;
 
 import android.test.ActivityInstrumentationTestCase2;
-import org.grameenfoundation.search.*;
+import applab.client.search.MainActivity;
 
 public class HelloAndroidActivityTest extends ActivityInstrumentationTestCase2<MainActivity> {
 

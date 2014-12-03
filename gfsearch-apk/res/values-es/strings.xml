@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">CONSULTECA</string>
+    <string name="app_name">CKW Search</string>
     <string name="app_version_about">Versión</string>
     <string name="hello">Hola gfsearch!</string>
     <string name="action_settings">Configuración</string>
@@ -14,18 +14,21 @@
     <string name="country_code_download_msg">Descarga de código de país espera por favor...</string>
     <string name="upload_search_logs_download_msg">Carga de los registros de búsqueda por favor espere...</string>
     <string name="keyword_download_msg">Descarga de palabras clave por favor espere...</string>
+    <string name="farmer_download_msg">Descarga de los agricultores por favor espere...</string>
     <string name="synchronization_complete_msg">sincronización completa.</string>
     <string name="processing_keywords_msg">Procesamiento de Palabras clave</string>
     <string name="removing_keywords_msg">Extracción Antiguo Palabras clave</string>
     <string name="downloading_images_msg">descarga de imágenes</string>
     <string name="error_downloading_keywords">Palabras clave de descarga de error</string>
     <string name="error_processing_keywords">Palabras clave de proceso de errores</string>
+    <string name="error_downloading_farmers">Error al descargar los agricultores</string>
+    <string name="error_processing_farmers">Los agricultores de proceso de errores</string>
     <string name="error_connecting_to_server">Ha ocurrido un error al comunicarse con el servidor.
                  Por favor verifica la configuracion de conexión.
     </string>
 
     <!-- Connection strings-->
-    <string name="server_url">http://ckwapps.applab.org:8888/</string>
+    <string name="server_url">https://grameenfoundation.secure.force.com/ckwsearch/SearchGetRequest</string>
     <string name="title_server_url">URL del servidor</string>
     <string name="summary_server_url">La url del servidor al sincronizar con.</string>
     <string name="setting_connection">conexión</string>
@@ -69,5 +72,6 @@
     <string name="test_searching_enabled_title">Habilitar Prueba búsqueda</string>
     <string name="test_searching_enabled_summary">Los registros de búsqueda serán marcados como los registros de prueba</string>
     <string name="uploading_search_logs">Carga de los registros de búsqueda</string>
+    <string name="ok">Ok</string>
 
 </resources>

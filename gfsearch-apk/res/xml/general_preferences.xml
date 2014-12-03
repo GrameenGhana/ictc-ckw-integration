@@ -4,9 +4,11 @@
     <PreferenceCategory android:title="@string/setting_general"
                         android:summary="@string/setting_general">
 
+        <!-- greyed out for GF Search Uganda -->
         <CheckBoxPreference android:key="prompt_for_clientid_enabled"
                             android:title="@string/prompt_for_clientid_title"
                             android:summary="@string/prompt_for_clientid_summary"
+                            android:enabled="false"
                             android:defaultValue="true"/>
 
         <CheckBoxPreference android:key="test_searching_enabled"

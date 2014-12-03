@@ -4,6 +4,6 @@
             android:id="@+id/action_nav_back"
             android:orderInCategory="100" android:showAsAction="always"
             android:title="@string/action_back" android:icon="@drawable/navigation_back"
-            android:visible="false"/>
+            android:visible="true"/>
 
 </menu>

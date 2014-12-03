@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="3" android:versionName="1.2.0-SNAPSHOT" package="org.grameenfoundation.search">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="2014120200" android:versionName="2.0.0-SNAPSHOT" package="applab.client.search">
 
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="18"/>
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="15"/>
 
     <application android:allowBackup="true" android:debuggable="true" android:icon="@drawable/mobile_app_icon" android:label="@string/app_name" android:theme="@style/AppTheme">
         <activity android:launchMode="singleTop" android:name=".MainActivity">
@@ -11,31 +11,31 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:icon="@drawable/action_settings" android:name=".settings.SettingsActivity" android:parentActivityName="org.grameenfoundation.search.MainActivity">
+        <activity android:icon="@drawable/action_settings" android:name=".settings.SettingsActivity" android:parentActivityName=".MainActivity">
             <intent-filter>
-                <action android:name="org.grameenfoundation.search.settings.SettingsActivity"/>
+                <action android:name="applab.client.search.settings.SettingsActivity"/>
                 <category android:name="android.intent.category.PREFERENCE"/>
             </intent-filter>
 
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="org.grameenfoundation.search.MainActivity"/>
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="applab.client.search.MainActivity"/>
         </activity>
-        <activity android:icon="@drawable/action_about" android:name=".ui.AboutActivity" android:parentActivityName="org.grameenfoundation.search.MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="org.grameenfoundation.search.MainActivity"/>
+        <activity android:icon="@drawable/action_about" android:name=".ui.AboutActivity" android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="applab.client.search.MainActivity"/>
         </activity>
-        <activity android:icon="@drawable/collections_view_as_list" android:name=".ui.SearchMenuItemActivity" android:parentActivityName="org.grameenfoundation.search.MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="org.grameenfoundation.search.MainActivity"/>
+        <activity android:icon="@drawable/collections_view_as_list" android:name=".ui.SearchMenuItemActivity" android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="applab.client.search.MainActivity"/>
         </activity>
-        <activity android:icon="@drawable/mobile_app_icon" android:name=".ui.ImageViewerActivity" android:parentActivityName="org.grameenfoundation.search.MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="org.grameenfoundation.search.MainActivity"/>
+        <activity android:icon="@drawable/mobile_app_icon" android:name=".ui.ImageViewerActivity" android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="applab.client.search.MainActivity"/>
         </activity>
-        <activity android:icon="@drawable/mobile_app_icon" android:name=".interactivecontent.ContentViewerActivity" android:parentActivityName="org.grameenfoundation.search.MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="org.grameenfoundation.search.MainActivity"/>
+        <activity android:icon="@drawable/mobile_app_icon" android:name=".interactivecontent.ContentViewerActivity" android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="applab.client.search.MainActivity"/>
         </activity>
         <service android:name=".synchronization.BackgroundSynchronizationService"/>
 
         <receiver android:name=".synchronization.SynchBroadcastReceiver">
             <intent-filter>
-                <action android:name="org.grameenfoundation.search.synchronization.BACKGROUND_SYNC"/>
+                <action android:name="applab.client.search.synchronization.BACKGROUND_SYNC"/>
             </intent-filter>
         </receiver>
 
@@ -44,13 +44,13 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
                 <action android:name="android.intent.action.TIME_SET"/>
-                <action android:name="org.grameenfoundation.search.synchronization.BACKGROUND_SYNC_CONFIGURATION"/>
-                <action android:name="org.grameenfoundation.search.settings.SETTINGS_CHANGED"/>
+                <action android:name="applab.client.search.synchronization.BACKGROUND_SYNC_CONFIGURATION"/>
+                <action android:name="applab.client.search.settings.SETTINGS_CHANGED"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_INSTALL"/>
                 <action android:name="android.intent.action.PACKAGE_CHANGED"/>
-                <data android:host="package" android:path="org.grameenfoundation.search"/>
+                <data android:host="package" android:path="applab.client.search"/>
             </intent-filter>
         </receiver>
     </application>
