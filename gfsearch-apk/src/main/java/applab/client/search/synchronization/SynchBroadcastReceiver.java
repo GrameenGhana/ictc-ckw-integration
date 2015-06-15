@@ -13,6 +13,8 @@ import applab.client.search.utils.DeviceMetadata;
  */
 public class SynchBroadcastReceiver extends BroadcastReceiver {
 
+    public static final String ACTION_BOOT = "android.intent.action.BOOT_COMPLETED";
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (ApplicationRegistry.getApplicationContext() == null) {

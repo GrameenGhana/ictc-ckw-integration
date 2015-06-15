@@ -2,6 +2,7 @@ package applab.client.search.services;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import applab.client.search.model.*;
 import applab.client.search.storage.DatabaseHelperConstants;
@@ -9,6 +10,7 @@ import applab.client.search.storage.StorageManager;
 import applab.client.search.storage.search.Filter;
 import applab.client.search.storage.search.Search;
 
+import java.awt.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,6 +23,16 @@ import java.util.List;
  * @author Charles Tumwebaze
  */
 public class MenuItemService {
+
+    private SQLiteDatabase gdatabase;
+
+    public MenuItemService() {
+
+    }
+
+    public MenuItemService(SQLiteDatabase gdatabase) {
+        this.gdatabase = gdatabase;
+    }
 
     /**
      * gets all the search menus in the system.
@@ -78,6 +90,17 @@ public class MenuItemService {
      * @param searchMenus
      */
     public void save(SearchMenu... searchMenus) {
+        List<ContentValues> values = getContentValues(searchMenus);
+        StorageManager.getInstance().replace(DatabaseHelperConstants.MENU_TABLE_NAME,
+                values.toArray(new ContentValues[]{}));
+    }
+
+    /**
+     * saves the given search menus into the data store
+     *
+     * @param searchMenus
+     */
+    public void saveWithGlobalTransaction(SearchMenu... searchMenus) {
         List<ContentValues> values = getContentValues(searchMenus);
         StorageManager.getInstance().replace(DatabaseHelperConstants.MENU_TABLE_NAME,
                 values.toArray(new ContentValues[]{}));
@@ -240,6 +263,19 @@ public class MenuItemService {
         List<ContentValues> values = getContentValues(searchMenuItems);
 
         StorageManager.getInstance().replace(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME,
+                values.toArray(new ContentValues[]{}));
+    }
+
+    /**
+     * saves the given search menu items into the data store
+     * uses a transaction set in a global context to ensure bulk processing with limited time
+     *
+     * @param searchMenuItems
+     */
+    public void saveWithGlobalTransaction(SearchMenuItem... searchMenuItems) {
+        List<ContentValues> values = getContentValues(searchMenuItems);
+
+        StorageManager.getInstance().replaceWithGlobalTransaction(gdatabase, DatabaseHelperConstants.MENU_ITEM_TABLE_NAME,
                 values.toArray(new ContentValues[]{}));
     }
 
@@ -654,6 +690,19 @@ public class MenuItemService {
                 values.toArray(new ContentValues[]{}));
     }
 
+    /**
+     * saves the given farmer record into the data store
+     * uses a transaction set in a global context to ensure bulk processing with limited time
+     *
+     * @param farmers   farmer record to save
+     */
+    public void saveWithGlobalTransaction(Farmer... farmers) {
+        List<ContentValues> values = getContentValues(farmers);
+        StorageManager.getInstance().replaceWithGlobalTransaction(gdatabase,
+                DatabaseHelperConstants.FARMER_LOCAL_DATABASE_TABLE_NAME,
+                values.toArray(new ContentValues[]{}));
+    }
+
     private List<ContentValues> getContentValues(Farmer[] farmers) {
         List<ContentValues> values = new ArrayList<ContentValues>();
         for (Farmer item : farmers) {
@@ -698,5 +747,35 @@ public class MenuItemService {
             farmers.add(farmer);
         }
         return farmers;
+    }
+
+    public void setGlobalTransactionSuccessful() {
+        gdatabase.setTransactionSuccessful();
+    }
+
+    public void beginGlobalTransaction() throws Exception {
+        if(gdatabase == null) {
+            throw new Exception("database not set");
+        }
+        else {
+            gdatabase.beginTransaction();
+        }
+    }
+
+    public void endGlobalTransaction() throws Exception {
+        if(gdatabase == null) {
+            throw new Exception("database not set");
+        }
+        else {
+            gdatabase.endTransaction();
+        }
+    }
+
+    public SQLiteDatabase getGlobalDatabase() {
+        return gdatabase;
+    }
+
+    public void setGlobalDatabase(SQLiteDatabase gdatabase) {
+        this.gdatabase = gdatabase;
     }
 }

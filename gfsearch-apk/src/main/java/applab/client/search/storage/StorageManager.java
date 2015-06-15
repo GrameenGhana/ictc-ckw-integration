@@ -29,6 +29,10 @@ public class StorageManager {
         this.sqLiteSearchProcessor = new SQLiteSearchProcessor(this.database);
     }
 
+    public SQLiteDatabase getDatabase() {
+        return database;
+    }
+
     /**
      * gets the singleton instance of the storage manager
      *
@@ -160,6 +164,20 @@ public class StorageManager {
         } finally {
             database.endTransaction();
         }
+    }
+
+    /**
+     * replaces the given list of content values into the data store within a transaction.
+     *
+     * @param table            table in which to insert the values
+     * @param contentValueList list of content values to insert.
+     * @return
+     */
+    public boolean replaceWithGlobalTransaction(SQLiteDatabase gdatabase, String table, ContentValues... contentValueList) {
+        for (ContentValues contentValues : contentValueList) {
+            gdatabase.replace(table, null, contentValues);
+        }
+        return true;
     }
 
     /**

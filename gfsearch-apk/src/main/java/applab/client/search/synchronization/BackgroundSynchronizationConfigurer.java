@@ -24,8 +24,7 @@ public class BackgroundSynchronizationConfigurer extends BroadcastReceiver {
             "applab.client.search.synchronization.BACKGROUND_SYNC_CONFIGURATION";
 
     private AlarmManager alarmManager = null;
-    private final static Integer DEFAULT_SYNCHRONIZATION_INTERVAL_MILLISECONDS = 30 * 60 * 1000; //30 minutes
-    private final static Integer DEFAULT_SYNCHRONIZATION_INTERVAL_MINUTES = 30;
+    private final static Integer DEFAULT_SYNCHRONIZATION_INTERVAL_MINUTES = 60;
 
     @Override
     public void onReceive(Context context, Intent intent) {

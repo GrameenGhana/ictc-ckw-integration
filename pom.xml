@@ -51,6 +51,12 @@
                 <version>4.11</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>com.google.android</groupId>
+                <artifactId>support-v4</artifactId>
+                <version>${platform.version}</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -108,7 +114,6 @@
             </activation>
             <modules>
                 <module>gfsearch-apk</module>
-                <module>gfsearch-it</module>
             </modules>
         </profile>
         <profile>
@@ -150,6 +155,5 @@
 
     <modules>
         <module>gfsearch-apk</module>
-        <module>gfsearch-it</module>
     </modules>
 </project>

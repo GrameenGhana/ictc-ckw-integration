@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="2014120200" android:versionName="2.0.0-SNAPSHOT" package="applab.client.search">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="2015061500" android:versionName="2.0.1-SNAPSHOT" package="applab.client.search">
 
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="15"/>
 
@@ -35,13 +35,13 @@
 
         <receiver android:name=".synchronization.SynchBroadcastReceiver">
             <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="applab.client.search.synchronization.BACKGROUND_SYNC"/>
             </intent-filter>
         </receiver>
 
         <receiver android:name=".synchronization.BackgroundSynchronizationConfigurer">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
                 <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
                 <action android:name="android.intent.action.TIME_SET"/>
                 <action android:name="applab.client.search.synchronization.BACKGROUND_SYNC_CONFIGURATION"/>
@@ -56,6 +56,7 @@
     </application>
 
     <!-- Application Permissions-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>

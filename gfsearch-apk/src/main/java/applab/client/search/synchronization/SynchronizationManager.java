@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
+import applab.client.search.storage.StorageManager;
 import com.google.gson.*;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -43,7 +44,7 @@ public class SynchronizationManager {
     private final static String DEFAULT_KEYWORDS_VERSION = "2010-04-04 00:00:00";
     private final static String DEFAULT_IMAGES_VERSION = "2010-04-04 00:00:00";
     private final static String DEFAULT_FARMERS_VERSION = "2014-11-03 00:00:00";
-    private MenuItemService menuItemService = new MenuItemService();
+    private MenuItemService menuItemService = new MenuItemService(StorageManager.getInstance().getDatabase());
 
     private boolean synchronizing = false;
     private static final SynchronizationManager INSTANCE = new SynchronizationManager();
@@ -359,11 +360,9 @@ public class SynchronizationManager {
         return true;
     }
 
-    private void processKeywords(InputStream inputStream) throws IOException, ParseException {
+    private void processKeywords(InputStream inputStream) throws IOException, ParseException, Exception {
         final List<SearchMenu> searchMenus = new ArrayList<SearchMenu>();
         List<SearchMenu> oldSearchMenus = menuItemService.getAllSearchMenus();
-        final List<SearchMenuItem> searchMenuItems = new ArrayList<SearchMenuItem>();
-        final List<SearchMenuItem> deletedSearchMenuItems = new ArrayList<SearchMenuItem>();
         final List<String> imageIdz = new ArrayList<String>();
         final List<String> deleteImageIz = new ArrayList<String>();
         final String[] keywordVersion = new String[1];
@@ -371,6 +370,8 @@ public class SynchronizationManager {
         final int[] keywordCount = new int[1];
 
         try {
+            menuItemService.beginGlobalTransaction();
+
             new JSONParser().parse(new InputStreamReader(inputStream), new JsonSimpleBaseParser() {
                 private Object keywordObject = null;
                 private String keywordType = "";
@@ -380,7 +381,7 @@ public class SynchronizationManager {
                 public boolean primitive(Object value) throws ParseException {
                     if (null != key && value != null) {
                         if (key.equals("resultCode")) {
-                            if(!value.toString().equals("0")){
+                            if (!value.toString().equals("0")) {
                                 return false;//request wasn't successfull
                             }
                         } else if (key.equals("resultMessage")) {
@@ -393,7 +394,7 @@ public class SynchronizationManager {
                         } else if (key.equals("version")) {
                             keywordVersion[0] = value.toString();
                             imagesVersion[0] = value.toString();
-                        }  else {
+                        } else {
                             if (keywordObject instanceof SearchMenu) {
                                 populateSearchMenu((SearchMenu) keywordObject, key, value.toString());
                             } else if (keywordObject instanceof SearchMenuItem) {
@@ -404,8 +405,7 @@ public class SynchronizationManager {
                             } else if ("id".equalsIgnoreCase(key) && keywordObject instanceof String
                                     && keywordType.equalsIgnoreCase("deletedImages")) {
                                 keywordObject = value;
-                            }
-                            else{
+                            } else {
                                 Log.i(SynchronizationManager.class.getName(), "no implementation to process " + key);
                             }
                         }
@@ -446,8 +446,7 @@ public class SynchronizationManager {
                             menuItemService.save((SearchMenu) keywordObject);
                         } else if (keywordObject instanceof SearchMenuItem &&
                                 keywordType.equalsIgnoreCase("menuItems")) {
-                            //searchMenuItems.add((SearchMenuItem) keywordObject);
-                            menuItemService.save((SearchMenuItem) keywordObject);
+                            menuItemService.saveWithGlobalTransaction((SearchMenuItem) keywordObject);
 
                             notifySynchronizationListeners("synchronizationUpdate", keywordCounter++, keywordCount[0],
                                     ApplicationRegistry.getApplicationContext().
@@ -455,7 +454,6 @@ public class SynchronizationManager {
 
                         } else if (keywordObject instanceof SearchMenuItem &&
                                 keywordType.equalsIgnoreCase("deletedMenuItems")) {
-                            //deletedSearchMenuItems.add((SearchMenuItem) keywordObject);
                             notifySynchronizationListeners("synchronizationUpdate", 1, 1,
                                     ApplicationRegistry.getApplicationContext().
                                             getResources().getString(R.string.removing_keywords_msg), true);
@@ -476,6 +474,7 @@ public class SynchronizationManager {
             });
 
             deleteOldMenus(oldSearchMenus, searchMenus);
+            menuItemService.setGlobalTransactionSuccessful();
             SettingsManager.getInstance().setValue(SettingsConstants.KEY_KEYWORDS_VERSION, keywordVersion[0]);
 
             downloadImages(imageIdz, imagesVersion[0]);
@@ -490,6 +489,9 @@ public class SynchronizationManager {
                     new Throwable(applicationContext.getString(R.string.error_connecting_to_server)));
         } catch (Exception ex) {
             Log.e(SynchronizationManager.class.getName(), "Exception", ex);
+        }
+        finally {
+            menuItemService.endGlobalTransaction();
         }
     }
 
@@ -714,13 +716,15 @@ public class SynchronizationManager {
         }
     }
 
-    private void processFarmers(InputStream inputStream) throws IOException, ParseException {
+    private void processFarmers(InputStream inputStream) throws IOException, ParseException, Exception {
         final String[] farmersVersion = new String[]{ "" };
         final int[] farmersCount = new int[]{ 0 };
 
         final List<Farmer> farmers = new ArrayList<Farmer>();
 
         try {
+            menuItemService.beginGlobalTransaction();
+
             new JSONParser().parse(new InputStreamReader(inputStream), new JsonSimpleBaseParser() {
                 private Object farmerObject = null;
                 private String keywordType = "";
@@ -772,7 +776,7 @@ public class SynchronizationManager {
                     if (farmerObject != null) {
                         if (farmerObject instanceof Farmer) {
                             farmers.add((Farmer) farmerObject);
-                            menuItemService.save((Farmer) farmerObject);
+                            menuItemService.saveWithGlobalTransaction((Farmer) farmerObject);
                             notifySynchronizationListeners("synchronizationUpdate", farmersCounter++, farmersCount[0],
                                     ApplicationRegistry.getApplicationContext().
                                             getResources().getString(R.string.processing_farmers_msg), true);
@@ -784,6 +788,7 @@ public class SynchronizationManager {
                 }
             });
 
+            menuItemService.setGlobalTransactionSuccessful();
             SettingsManager.getInstance().setValue(SettingsConstants.KEY_FARMERS_VERSION, farmersVersion[0]);
         } catch (ParseException ex) {
             Log.e(SynchronizationManager.class.getName(), "Parsing Error", ex);
@@ -795,6 +800,9 @@ public class SynchronizationManager {
                     new Throwable(applicationContext.getString(R.string.error_connecting_to_server)));
         } catch (Exception ex) {
             Log.e(SynchronizationManager.class.getName(), "Exception", ex);
+        }
+        finally {
+            menuItemService.endGlobalTransaction();
         }
     }
 
