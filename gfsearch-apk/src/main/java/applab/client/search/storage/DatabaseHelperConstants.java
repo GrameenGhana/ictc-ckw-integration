@@ -1,5 +1,7 @@
 package applab.client.search.storage;
 
+import android.provider.BaseColumns;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
@@ -87,4 +89,24 @@ public final class DatabaseHelperConstants {
 
     public static final String DATABASE_NAME = "gfsearch";
     public static final int DATABASE_VERSION = 4;
+
+    // ICTC Stuff
+    public static final String ICTC_FARMER = "ictc_farmer";
+    public static final String FIRST_NAME = "fname";
+    public static final String OTHER_NAMES = "lname";
+    public static final String COMMUNITY = "community";
+    public static final String DISTRICT = "district";
+    public static final String REGION = "region";
+    public static final String GENDER = "gender";
+    public static final String EDUCATION = "edu";
+    public static final String NICKNAME = "nickname";
+    public static final String VILLAGE = "village";
+    public static final String NO_OF_CHILD = "noc";
+    public static final String AGE = "age";
+    public static final String MARITAL_STATUS = "ms";
+    public static final String NO_OF_DEPENDANT = "nod";
+    public static final String FARMER_ID = "farmer_id";
+    public static final String CLUSTER = "cluster";
+    public static final String ICTC_ID = BaseColumns._ID;
+
 }

@@ -57,6 +57,19 @@
                 <version>${platform.version}</version>
                 <scope>provided</scope>
             </dependency>
+            <dependency>
+                <groupId>android.support</groupId>
+                <artifactId>compatibility-v7-appcompat</artifactId>
+                <version>${compatibility.version}</version>
+                <type>apklib</type>
+            </dependency>
+
+            <dependency>
+                <groupId>android.support</groupId>
+                <artifactId>compatibility-v7-appcompat</artifactId>
+                <version>${compatibility.version}</version>
+                <type>jar</type>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -337,13 +337,13 @@ public class MainActivity extends Activity implements ActionMode.Callback{
         super.onPostCreate(savedInstanceState);
 
         //sync the toggle state after onRestoreInstanceState has occurred
-        drawerToggle.syncState();
+      //  drawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        drawerToggle.onConfigurationChanged(newConfig);
+      //  drawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void initNavigationDrawer() {
@@ -354,9 +354,9 @@ public class MainActivity extends Activity implements ActionMode.Callback{
 
         drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, drawerListItems));
         drawerList.setOnItemClickListener(new DrawerItemClickListener());
-
+/*
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout,
-                R.drawable.ic_drawer, R.string.drawer_open, R.string.drawer_close) {
+                R.drawable.ic_drawer, R.string.drawer_open) {
 
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -368,7 +368,7 @@ public class MainActivity extends Activity implements ActionMode.Callback{
                 invalidateOptionsMenu();
             }
         };
-
+*/
         drawerLayout.setDrawerListener(drawerToggle);
         getActionBar().setHomeButtonEnabled(true);
     }

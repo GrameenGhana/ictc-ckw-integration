@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="2015061500" android:versionName="2.0.1-SNAPSHOT" package="applab.client.search">
 
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="15"/>
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="18"/>
 
-    <application android:allowBackup="true" android:debuggable="true" android:icon="@drawable/mobile_app_icon" android:label="@string/app_name" android:theme="@style/AppTheme">
+    <application android:allowBackup="true" android:debuggable="true"
+                 android:icon="@drawable/app_icon_new" android:label="SmartEX" android:theme="@style/AppTheme">
         <activity android:launchMode="singleTop" android:name=".MainActivity">
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            </intent-filter>-->
         </activity>
         <activity android:icon="@drawable/action_settings" android:name=".settings.SettingsActivity" android:parentActivityName=".MainActivity">
             <intent-filter>
@@ -31,6 +33,19 @@
         <activity android:icon="@drawable/mobile_app_icon" android:name=".interactivecontent.ContentViewerActivity" android:parentActivityName=".MainActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="applab.client.search.MainActivity"/>
         </activity>
+        <activity android:name=".utils.StartUpActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".utils.DashboardActivity"/>
+        <activity android:name=".utils.PricesActivity"/>
+        <activity android:name=".utils.ClusterActivity"/>
+        <activity android:name=".utils.FarmerDetailActivity"/>
+        <activity android:name=".utils.CommunityActivity"/>
+        <activity android:name=".utils.FarmerActivity"/>
+        <activity android:name=".utils.BaseActivity"/>
         <service android:name=".synchronization.BackgroundSynchronizationService"/>
 
         <receiver android:name=".synchronization.SynchBroadcastReceiver">
