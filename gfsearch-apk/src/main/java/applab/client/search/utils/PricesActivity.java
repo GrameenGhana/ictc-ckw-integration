@@ -20,7 +20,7 @@ public class PricesActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prices);
-        list=(ExpandableListView) findViewById(R.id.expandableListView);
+        list = (ExpandableListView) findViewById(R.id.expandableListView);
         ActionBar mActionBar = getActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
@@ -32,12 +32,12 @@ public class PricesActivity extends Activity {
 
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
-        String[] maizePrices={"Ejisu: GHc 100","Fankyebe: 300","Kejebi: 200","Biakoye: 300","Kintampo: 300"};
-        String[] ricePrices={"Ejisu: 100","Fankyebe: 300","Kejebi: 200","Biakoye: 300","Kintampo: 300"};
-        String[] beansPrices={"Ejisu: 100","Fankyebe: 300","Kejebi: 200","Biakoye: 300","Kintampo: 300"};
-        int[] icons={R.drawable.ic_maize,R.drawable.ic_rice,R.drawable.ic_cassava};
-        String[] groupTitles={"Maize","Rice","Cassava"};
-        PriceListAdapter adapter=new PriceListAdapter(PricesActivity.this,groupTitles,icons,maizePrices,ricePrices,beansPrices,list);
+        String[] maizePrices = {"Ejisu: GHc 100", "Fankyebe: 300", "Kejebi: 200", "Biakoye: 300", "Kintampo: 300"};
+        String[] ricePrices = {"Ejisu: 100", "Fankyebe: 300", "Kejebi: 200", "Biakoye: 300", "Kintampo: 300"};
+        String[] beansPrices = {"Ejisu: 100", "Fankyebe: 300", "Kejebi: 200", "Biakoye: 300", "Kintampo: 300"};
+        int[] icons = {R.drawable.ic_maize, R.drawable.ic_rice, R.drawable.ic_cassava};
+        String[] groupTitles = {"Maize", "Rice", "Cassava"};
+        PriceListAdapter adapter = new PriceListAdapter(PricesActivity.this, groupTitles, icons, maizePrices, ricePrices, beansPrices, list);
         list.setAdapter(adapter);
     }
 }

@@ -21,5 +21,12 @@
                 android:text="Medium Text"
                 android:id="@+id/textView_title"
                 android:paddingLeft="20dp" android:textColor="#ffffffff"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text=""
+                android:id="@+id/textView_summary"
+                android:paddingLeft="20dp" android:textColor="#ffffffff"/>
     </LinearLayout>
 </LinearLayout>

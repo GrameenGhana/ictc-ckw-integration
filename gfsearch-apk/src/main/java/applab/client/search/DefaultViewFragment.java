@@ -101,7 +101,7 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
             selectListElement(getListObjectNavigationStack().pop(), listViewAdapter);
         }
 
-        if(backNavigationMenuItem != null){
+        if (backNavigationMenuItem != null) {
             backNavigationMenuItem.setVisible(true);
         }
     }
@@ -120,7 +120,9 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
             //if (SettingsManager.getInstance().
             //        getBooleanValue(SettingsConstants.KEY_CLIENT_IDENTIFIER_PROMPTING_ENABLED, false)) {
             //option overridden in gf-search ckw
-            if(true){
+
+            boolean showClientIdentifierPrompt = false;
+            if (showClientIdentifierPrompt) {
                 SingleInputPromptDialog dialog = new SingleInputPromptDialog(getActivity(), R.string.clientid_dialog_title,
                         R.string.clientid_dialog_message) {
                     @Override
@@ -136,8 +138,10 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
                 };
                 dialog.show();
             } else {
+
                 Intent intent = new Intent().setClass(getActivity(), SearchMenuItemActivity.class);
                 intent.putExtra(SearchMenuItemActivity.EXTRA_LIST_OBJECT_IDENTIFIER, itemToSelect);
+                intent.putExtra(SearchMenuItemActivity.BREAD_CRUMB, createBreadCrumb(itemToSelect));
                 this.startActivityForResult(intent, 0);
             }
         }
@@ -146,9 +150,9 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
     private String createBreadCrumb(ListObject currentItem) {
         StringBuilder breadCrumb = new StringBuilder();
         boolean isCategory = true;
-        for(int i=1; i< getListObjectNavigationStack().size(); i++){
+        for (int i = 1; i < getListObjectNavigationStack().size(); i++) {
             ListObject menuItem = getListObjectNavigationStack().get(i);
-            if(isCategory) {
+            if (isCategory) {
                 breadCrumb.append(menuItem.getLabel() + "|");
                 isCategory = false;
             } else {
@@ -173,7 +177,7 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
 
         if (getListObjectNavigationStack().isEmpty()) {
             listViewAdapter.setSelectedObject(null);
-            if(backNavigationMenuItem != null) {
+            if (backNavigationMenuItem != null) {
                 backNavigationMenuItem.setVisible(false);
             }
             return true;

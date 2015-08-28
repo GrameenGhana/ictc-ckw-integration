@@ -84,7 +84,7 @@ public class HttpHelpers {
      * @param headers       is a list of http headers that you may want to pass to the server. You can pass null if you do not
      *                      have any headers to send.
      * @return An HTML string; if null is returned, the caller should assume that the destination was unreachable and
-     *         trigger the appropriate error behavior.
+     * trigger the appropriate error behavior.
      */
     public static String fetchContent(URI remoteAddress, HashMap<String, String> headers) {
         try {
@@ -102,7 +102,7 @@ public class HttpHelpers {
      * @param headers       is a list of http headers that you may want to pass to the server. You can pass null if you do not
      *                      have any headers to send.
      * @return An http response object; if null is returned, the caller should assume that the destination was
-     *         unreachable and trigger the appropriate error behavior.
+     * unreachable and trigger the appropriate error behavior.
      */
     public static HttpResponse fetchResponseObject(URI remoteAddress, HashMap<String, String> headers) {
         try {
@@ -158,8 +158,8 @@ public class HttpHelpers {
      * @throws java.io.IOException
 
     public static InputStream postJsonRequestAndGetStream(String url,
-                                                          StringEntity stringEntity) throws IOException {
-        return postDataRequestAndGetStream(url, stringEntity, "application/json; charset = UTF-8");
+    StringEntity stringEntity) throws IOException {
+    return postDataRequestAndGetStream(url, stringEntity, "application/json; charset = UTF-8");
     }*/
 
     /**
@@ -210,6 +210,20 @@ public class HttpHelpers {
         return getInputStream(httpClient.execute(httpPost));
     }
 
+    public static HttpResponse postDataRequestAndGetRequest(String url, StringEntity stringEntity, String contentType)
+            throws IllegalStateException, ClientProtocolException, IOException {
+        HttpParams httpParameters = HttpHelpers.getConnectionParameters();
+        HttpClient httpClient = new DefaultHttpClient(httpParameters);
+        HttpPost httpPost = new HttpPost(url);
+        HttpHelpers.addCommonHeaders(httpPost);
+        if (stringEntity == null)
+            stringEntity = new StringEntity("content-type", contentType);
+        else
+            stringEntity.setContentType(contentType);
+        httpPost.setEntity(stringEntity);
+        return (httpClient.execute(httpPost));
+    }
+
     public static InputStream postDataRequestAndGetStream(String url, StringEntity stringEntity, String contentType,
                                                           int networkTimeout)
             throws IllegalStateException, ClientProtocolException, IOException {
@@ -244,6 +258,8 @@ public class HttpHelpers {
         HttpParams httpParameters = HttpHelpers.getConnectionParameters(networkTimeout);
         HttpClient httpClient = new DefaultHttpClient(httpParameters);
         HttpPost httpPost = new HttpPost(url);
+        System.out.println("URL : " + url
+        );
         HttpHelpers.addCommonHeaders(httpPost);
         formEntity.setContentType(contentType);
         formEntity.setContentEncoding(HTTP.UTF_8);

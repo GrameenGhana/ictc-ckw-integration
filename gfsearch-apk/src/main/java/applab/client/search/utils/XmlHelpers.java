@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 /**
  * Helper methods that can be used for manipulating XML documents
- *
  */
 public class XmlHelpers {
     static DocumentBuilderFactory documentBuilderFactory = CreateDocumentBuilderFactory();
@@ -67,7 +66,7 @@ public class XmlHelpers {
     /**
      * Escapes an XML string (i.e. <br/>
      * becomes &lt;br/&gt;) There are 5 entities of interest (<, >, ", ', and &)
-     *
+     * <p/>
      * Unfortunately there are no built-in Java utilities for this, so we had to roll our own
      */
     public static String escapeText(String rawText) {
@@ -138,7 +137,7 @@ public class XmlHelpers {
         for (Node childNode = listElement.getFirstChild(); childNode != null; childNode = childNode.getNextSibling()) {
             if (childNode.getNodeType() == Node.ELEMENT_NODE && listItemName.equals(childNode.getLocalName())
                     && listItemNamespace.equals(childNode.getNamespaceURI())) {
-                listContent.add(getContent((Element)childNode));
+                listContent.add(getContent((Element) childNode));
             }
         }
         return listContent;

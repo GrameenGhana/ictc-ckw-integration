@@ -18,12 +18,12 @@ public class CommunitiesAdapter extends BaseAdapter {
     private final String[] names;
     private final String[] farmers;
 
-    public CommunitiesAdapter(Context c,String[] names ,String[] farmers) {
+    public CommunitiesAdapter(Context c, String[] names, String[] farmers) {
         mContext = c;
         this.names = names;
-        this.farmers=farmers;
+        this.farmers = farmers;
     }
-    
+
     public int getCount() {
         return names.length;
     }
@@ -48,8 +48,8 @@ public class CommunitiesAdapter extends BaseAdapter {
         } else {
             grid = (View) view;
         }
-        TextView name=(TextView) grid.findViewById(R.id.textView_community);
-        TextView farmer=(TextView) grid.findViewById(R.id.textView_farmers);
+        TextView name = (TextView) grid.findViewById(R.id.textView_community);
+        TextView farmer = (TextView) grid.findViewById(R.id.textView_farmers);
         name.setText(names[i]);
         farmer.setText(farmers[i]);
         return grid;

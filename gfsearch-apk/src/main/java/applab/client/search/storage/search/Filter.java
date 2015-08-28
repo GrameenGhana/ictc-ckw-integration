@@ -377,7 +377,7 @@ public class Filter implements Serializable {
 
     /**
      * @return true if the operator should have a single value specified.
-     *         <code>EQUAL, NOT_EQUAL, LESS_THAN, LESS_OR_EQUAL, GREATER_THAN, GREATER_OR_EQUAL, LIKE, ILIKE</code>
+     * <code>EQUAL, NOT_EQUAL, LESS_THAN, LESS_OR_EQUAL, GREATER_THAN, GREATER_OR_EQUAL, LIKE, ILIKE</code>
      */
     public boolean isTakesSingleValue() {
         return operator <= 7;
@@ -394,7 +394,7 @@ public class Filter implements Serializable {
 
     /**
      * @return true if the operator does not require a value to be specified.
-     *         <code>NULL, NOT_NULL, EMPTY, NOT_EMPTY</code>
+     * <code>NULL, NOT_NULL, EMPTY, NOT_EMPTY</code>
      */
 
     public boolean isTakesNoValue() {
@@ -404,8 +404,8 @@ public class Filter implements Serializable {
 
     /**
      * @return true if the operator should have a single Filter specified for
-     *         the value.
-     *         <code>NOT, ALL, SOME, NONE</code>
+     * the value.
+     * <code>NOT, ALL, SOME, NONE</code>
      */
 
     public boolean isTakesSingleSubFilter() {
@@ -415,8 +415,8 @@ public class Filter implements Serializable {
 
     /**
      * @return true if the operator should have a list of Filters specified for
-     *         the value.
-     *         <code>AND, OR</code>
+     * the value.
+     * <code>AND, OR</code>
      */
 
     public boolean isTakesListOfSubFilters() {
@@ -426,7 +426,7 @@ public class Filter implements Serializable {
 
     /**
      * @return true if the operator does not require a property to be specified.
-     *         <code>AND, OR, NOT</code>
+     * <code>AND, OR, NOT</code>
      */
     public boolean isTakesNoProperty() {
         return operator >= 100 && operator <= 102;

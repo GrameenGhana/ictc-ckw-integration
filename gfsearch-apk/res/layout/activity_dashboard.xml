@@ -9,7 +9,7 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="178dp"  android:gravity="center_vertical" android:background="@drawable/bg_edittext">
+            android:layout_height="178dp" android:gravity="center_vertical" android:background="@drawable/bg_edittext">
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="313dp"
@@ -19,7 +19,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Supervisor: Kofi Ananse"
-                    android:id="@+id/textView6" android:textStyle="bold" android:textColor="#ffffffff"/>
+                    android:id="@+id/supervisor_name" android:textStyle="bold" android:textColor="#ffffffff"/>
             <TableLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
@@ -38,7 +38,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="4 Communities"
-                            android:id="@+id/textView4" android:textColor="#ffffffff"/>
+                            android:id="@+id/community_count" android:textColor="#ffffffff"/>
                 </TableRow>
                 <TableRow
                         android:id="@+id/tableRow_farmers"
@@ -54,7 +54,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="300 Farmers"
-                            android:id="@+id/textView5" android:textColor="#ffffffff"/>
+                            android:id="@+id/farmer_cnt" android:textColor="#ffffffff"/>
                 </TableRow>
             </TableLayout>
         </LinearLayout>

@@ -26,12 +26,13 @@ public class FarmersAdapter extends BaseAdapter {
                           String[] mainCrop,
                           String[] groups) {
 
-        this.name=name;
-        this.location=location;
-        this.mainCrop=mainCrop;
-        this.groups=groups;
+        this.name = name;
+        this.location = location;
+        this.mainCrop = mainCrop;
+        this.groups = groups;
         minflater = LayoutInflater.from(mContext);
     }
+
     public int getCount() {
         return name.length;
     }
@@ -46,12 +47,12 @@ public class FarmersAdapter extends BaseAdapter {
 
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view == null) {
-            view = minflater.inflate(R.layout.cluster_child_single,viewGroup, false);
+            view = minflater.inflate(R.layout.cluster_child_single, viewGroup, false);
         }
-        TextView names=(TextView) view.findViewById(R.id.textView_name);
-        TextView locations=(TextView) view.findViewById(R.id.textView_location);
-        TextView mainCrops=(TextView) view.findViewById(R.id.textView_mainCrop);
-        TextView group=(TextView) view.findViewById(R.id.textView_groups);
+        TextView names = (TextView) view.findViewById(R.id.textView_name);
+        TextView locations = (TextView) view.findViewById(R.id.textView_location);
+        TextView mainCrops = (TextView) view.findViewById(R.id.textView_mainCrop);
+        TextView group = (TextView) view.findViewById(R.id.textView_groups);
         names.setText(name[i]);
         locations.setText(location[i]);
         mainCrops.setText(mainCrop[i]);
