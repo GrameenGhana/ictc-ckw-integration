@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import applab.client.search.model.CommunityCounterWrapper;
 import applab.client.search.model.Farmer;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
  *
  * @author Charles Tumwebaze
  */
-final class DatabaseHelper extends SQLiteOpenHelper {
+public final class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, DatabaseHelperConstants.DATABASE_NAME, null, DatabaseHelperConstants.DATABASE_VERSION);
@@ -24,7 +25,9 @@ final class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
+        System.out.println("Create DB Started");
         createDatabaseTables(database);
+        System.out.println("After SB Created");
     }
 
     private void createDatabaseTables(SQLiteDatabase database) {
@@ -52,8 +55,10 @@ final class DatabaseHelper extends SQLiteOpenHelper {
         //add test log column
         database.execSQL(getSearchLogTestColumnSql());
 
+        System.out.println("ICTC table L ");
         //Create ICTC FarmerTable
         database.execSQL(getICTCFarmerTable());
+        System.out.println("After table");
     }
 
     /**
@@ -73,7 +78,73 @@ final class DatabaseHelper extends SQLiteOpenHelper {
 
     //CREATING THE ICTC FARMER TABLE
     private String getICTCFarmerTable() {
-    StringBuilder sqlCommand=new StringBuilder();
+        StringBuilder sqlCommand = new StringBuilder();
+        sqlCommand.append(" CREATE TABLE IF NOT EXISTS ").append(DatabaseHelperConstants.ICTC_FARMER);
+        sqlCommand.append("(");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        sqlCommand.append(DatabaseHelperConstants.FIRST_NAME).append(" TEXT,");
+        sqlCommand.append(DatabaseHelperConstants.OTHER_NAMES).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.COMMUNITY).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.DISTRICT).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.REGION).append(" TEXT,");
+        sqlCommand.append(DatabaseHelperConstants.GENDER).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.EDUCATION).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.NICKNAME).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.VILLAGE).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.AGE).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.NO_OF_CHILD).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.NO_OF_DEPENDANT).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.MARITAL_STATUS).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.CLUSTER).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.FARMER_ID).append(" TEXT DEFAULT '',");
+
+
+        sqlCommand.append(DatabaseHelperConstants.SIZE_PLOT).append(" TEXT,");
+        sqlCommand.append(DatabaseHelperConstants.MAIN_CROP).append(" TEXT,");
+        sqlCommand.append(DatabaseHelperConstants.LABOUR).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.DATE_OF_LAND_IDENTIFICATION).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.LOCATION_LAND).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.TARGET_AREA).append(" TEXT,");
+        sqlCommand.append(DatabaseHelperConstants.EXPECTED_PRICE_TON).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.VARIETY).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.TARGET_NEXT_SEASON).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.TECH_NEEDS_I).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.TECH_NEEDS_II).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.FARMER_BASE_ORG).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.PLANTING_DATE).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.LAND_AREA).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.DATE_MANUAL_WEEDING).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.POS_CONTACT).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.MONTH_SELLING_STARTS).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.MONTH_FINAL_PRODUCT_SOLD).append(" TEXT DEFAULT ''");
+
+/**
+ values.put(DatabaseHelperConstants., SIZE_PLOT);
+ values.put(DatabaseHelperConstants., LABOUR);
+ values.put(DatabaseHelperConstants., DATE_OF_LAND_IDENTIFICATION);
+ values.put(DatabaseHelperConstants., LOCATION_LAND);
+ values.put(DatabaseHelperConstants., TARGET_AREA);
+ values.put(DatabaseHelperConstants., EXPECTED_PRICE_TON);
+ values.put(DatabaseHelperConstants., VARIETY);
+ values.put(DatabaseHelperConstants.EDUCATION, gender);
+ values.put(DatabaseHelperConstants., maritalStatus);
+ values.put(DatabaseHelperConstants., TECH_NEEDS_I);
+ values.put(DatabaseHelperConstants., TECH_NEEDS_II);
+ values.put(DatabaseHelperConstants., FARMER_BASE_ORG);
+ values.put(DatabaseHelperConstants., PLANTING_DATE);
+ values.put(DatabaseHelperConstants., LAND_AREA);
+ values.put(DatabaseHelperConstants., DATE_MANUAL_WEEDING);
+ values.put(DatabaseHelperConstants., POS_CONTACT);
+ values.put(DatabaseHelperConstants., MONTH_SELLING_STARTS);
+ values.put(DatabaseHelperConstants., MONTH_FINAL_PRODUCT_SOLD);
+ **/
+
+        sqlCommand.append(");");
+        return sqlCommand.toString();
+    }
+
+    private String getICTCFarmerMngPlanTable() {
+        StringBuilder sqlCommand = new StringBuilder();
         sqlCommand.append("CREATE TABLE IF NOT EXISTS ").append(DatabaseHelperConstants.ICTC_FARMER);
         sqlCommand.append("(");
         sqlCommand.append(DatabaseHelperConstants.ICTC_ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
@@ -86,13 +157,17 @@ final class DatabaseHelper extends SQLiteOpenHelper {
         sqlCommand.append(DatabaseHelperConstants.EDUCATION).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.NICKNAME).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.VILLAGE).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.AGE).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.NO_OF_CHILD).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.NO_OF_DEPENDANT).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.MARITAL_STATUS).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.CLUSTER).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.FARMER_ID).append(" TEXT DEFAULT ''");
         sqlCommand.append(");");
         return sqlCommand.toString();
-}
+    }
+
+
     private String getSearchLogTableInitializationSql() {
         StringBuilder sqlCommand = new StringBuilder();
         sqlCommand.append("CREATE TABLE IF NOT EXISTS ").append(DatabaseHelperConstants.SEARCH_LOG_TABLE_NAME);
@@ -248,9 +323,71 @@ final class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Farmer saveFarmer(String firstName, String lastName, String nickname, String community, String village, String district,
                              String region, String age, String gender, String maritalStatus, String numberOfChildren, String numberOfDependants,
-                             String education, String cluster, String farmID){
-        SQLiteDatabase db=getWritableDatabase();
+                             String education, String cluster, String farmID) {
+        return saveFarmer(firstName, lastName, nickname, community, village, district,
+                region, age, gender, maritalStatus, numberOfChildren, numberOfDependants,
+                education, cluster, farmID, "", "", "", "", "", "", "",
+                "", "", "", "", "", "",
+                "", "", "", "", "");
+    }
+
+    public Farmer saveFarmer(String firstName, String lastName, String nickname, String community, String village, String district,
+                             String region, String age, String gender, String maritalStatus, String numberOfChildren, String numberOfDependants,
+                             String education, String cluster, String farmID,
+                             String SIZE_PLOT,
+                             String LABOUR,
+                             String DATE_OF_LAND_IDENTIFICATION,
+                             String LOCATION_LAND,
+                             String TARGET_AREA,
+                             String EXPECTED_PRICE_TON,
+                             String VARIETY,
+                             String TARGET_NEXT_SEASON,
+                             String TECH_NEEDS_I,
+                             String TECH_NEEDS_II,
+                             String FARMER_BASE_ORG,
+                             String PLANTING_DATE,
+                             String LAND_AREA,
+                             String DATE_MANUAL_WEEDING,
+                             String POS_CONTACT,
+                             String MONTH_SELLING_STARTS,
+                             String MONTH_FINAL_PRODUCT_SOLD,
+                             String mainCrop) {
+        SQLiteDatabase db = getWritableDatabase();
+        if ("mainpointofsaleorcontact".equalsIgnoreCase(POS_CONTACT))
+            POS_CONTACT = "";
+        if ("fboname".equalsIgnoreCase(FARMER_BASE_ORG))
+            POS_CONTACT = "";
+        if (DATE_MANUAL_WEEDING.equalsIgnoreCase("Date Man Weed"))
+            DATE_MANUAL_WEEDING = "";
+        if (LABOUR.equalsIgnoreCase("labouruse"))
+            LABOUR = "";
+        if ("monthsellingbegins".equalsIgnoreCase(MONTH_SELLING_STARTS))
+            MONTH_SELLING_STARTS = "";
+        if (MONTH_FINAL_PRODUCT_SOLD.equalsIgnoreCase("monthfinalbatchsold"))
+            MONTH_FINAL_PRODUCT_SOLD = "";
+        if (LABOUR.equalsIgnoreCase("labouruse"))
+            LABOUR = "";
         ContentValues values = new ContentValues();
+        values.put(DatabaseHelperConstants.SIZE_PLOT, SIZE_PLOT);
+        values.put(DatabaseHelperConstants.LABOUR, LABOUR);
+        values.put(DatabaseHelperConstants.DATE_OF_LAND_IDENTIFICATION, DATE_OF_LAND_IDENTIFICATION);
+        values.put(DatabaseHelperConstants.LOCATION_LAND, LOCATION_LAND);
+        values.put(DatabaseHelperConstants.TARGET_AREA, TARGET_AREA);
+        values.put(DatabaseHelperConstants.EXPECTED_PRICE_TON, EXPECTED_PRICE_TON);
+        values.put(DatabaseHelperConstants.VARIETY, VARIETY);
+        values.put(DatabaseHelperConstants.EDUCATION, gender);
+        values.put(DatabaseHelperConstants.TARGET_NEXT_SEASON, TARGET_NEXT_SEASON);
+        values.put(DatabaseHelperConstants.TECH_NEEDS_I, TECH_NEEDS_I);
+        values.put(DatabaseHelperConstants.TECH_NEEDS_II, TECH_NEEDS_II);
+        values.put(DatabaseHelperConstants.FARMER_BASE_ORG, FARMER_BASE_ORG);
+        values.put(DatabaseHelperConstants.PLANTING_DATE, PLANTING_DATE);
+        values.put(DatabaseHelperConstants.LAND_AREA, LAND_AREA);
+        values.put(DatabaseHelperConstants.DATE_MANUAL_WEEDING, DATE_MANUAL_WEEDING);
+        values.put(DatabaseHelperConstants.POS_CONTACT, POS_CONTACT);
+        values.put(DatabaseHelperConstants.MONTH_SELLING_STARTS, MONTH_SELLING_STARTS);
+        values.put(DatabaseHelperConstants.MONTH_FINAL_PRODUCT_SOLD, MONTH_FINAL_PRODUCT_SOLD);
+
+        values.put(DatabaseHelperConstants.MAIN_CROP, mainCrop);
         values.put(DatabaseHelperConstants.FIRST_NAME, firstName);
         values.put(DatabaseHelperConstants.OTHER_NAMES, lastName);
         values.put(DatabaseHelperConstants.NICKNAME, nickname);
@@ -262,25 +399,50 @@ final class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DatabaseHelperConstants.MARITAL_STATUS, maritalStatus);
         values.put(DatabaseHelperConstants.NO_OF_CHILD, numberOfChildren);
         values.put(DatabaseHelperConstants.NO_OF_DEPENDANT, numberOfDependants);
-        values.put(DatabaseHelperConstants.MARITAL_STATUS, maritalStatus);
+
         values.put(DatabaseHelperConstants.CLUSTER, cluster);
         values.put(DatabaseHelperConstants.EDUCATION, education);
+
+        System.out.println("Saving MainCrop : " + maritalStatus);
+
+
         values.put(DatabaseHelperConstants.FARMER_ID, farmID);
 
         db.insert(DatabaseHelperConstants.ICTC_FARMER, null, values);
-        return new Farmer(firstName, lastName, nickname, community, village, district, region, age, gender, maritalStatus, numberOfChildren, numberOfDependants, education, cluster, farmID);
+        //    public Farmer(String firstName, String lastName, String village, String nickname, String community, String district, String region, String age, String gender, String maritalStatus, String numberOfChildren, String numberOfDependants, String education, String cluster, String farmID, String sizePlot, String labour, String dateOfLandIdentification, String locationOfLand, String targetArea, String expectedPriceInTon, String variety, String targetNextSeason, String techNeeds1, String techNeeds2, String farmerBasedOrg, String plantingDate, String landArea, String dateManualWeeding, String posContact, String monthSellingStarts, String monthFinalProductSold) {
+
+        return new Farmer(firstName, lastName, nickname, community, village, district, region, age, gender, maritalStatus, numberOfChildren, numberOfDependants, education, cluster, farmID,
+                SIZE_PLOT,
+                LABOUR,
+                DATE_OF_LAND_IDENTIFICATION,
+                LOCATION_LAND,
+                TARGET_AREA,
+                EXPECTED_PRICE_TON,
+                VARIETY,
+                TARGET_NEXT_SEASON,
+                TECH_NEEDS_I,
+                TECH_NEEDS_II,
+                FARMER_BASE_ORG,
+                PLANTING_DATE,
+                LAND_AREA,
+                DATE_MANUAL_WEEDING,
+                POS_CONTACT,
+                MONTH_SELLING_STARTS,
+                MONTH_FINAL_PRODUCT_SOLD, mainCrop
+        );
     }
 
+
     /**
-     *
      * @return
      */
 
-    public List<Farmer> getFarmers() {
-        String query = " select  * from " + DatabaseHelperConstants.ICTC_FARMER + "  ";
+    public List<Farmer> getFarmersSearch(String query) {
         Cursor localCursor = this.getWritableDatabase().rawQuery(query, null);
         List<Farmer> response = new ArrayList<Farmer>();
         while (localCursor.moveToNext()) {
+
+            System.out.println("MM : " + localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.MAIN_CROP)));
             response.add(new Farmer(
                     localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
                     localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.OTHER_NAMES)),
@@ -296,73 +458,120 @@ final class DatabaseHelper extends SQLiteOpenHelper {
                     localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.NO_OF_DEPENDANT)),
                     localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.EDUCATION)),
                     localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.CLUSTER)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_ID))));
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_ID)),
+
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.SIZE_PLOT)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.LABOUR)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.DATE_OF_LAND_IDENTIFICATION)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.LOCATION_LAND)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.TARGET_AREA)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.EXPECTED_PRICE_TON)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.VARIETY)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.TARGET_NEXT_SEASON)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.TECH_NEEDS_I)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.TECH_NEEDS_II)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FARMER_BASE_ORG)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.PLANTING_DATE)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.LAND_AREA)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.DATE_MANUAL_WEEDING)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.POS_CONTACT)),
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.MONTH_SELLING_STARTS)),
+
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.MONTH_FINAL_PRODUCT_SOLD)),
+
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.MAIN_CROP))));
         }
         return response;
     }
 
+    public List<Farmer> getFarmers() {
+        String query = " select  * from " + DatabaseHelperConstants.ICTC_FARMER + "  ";
+        return getFarmersSearch(query);
+    }
+
+
     /**
-     *
      * @param searchBy
      * @param searchValue
      * @return
      */
 
-    public List<Farmer> getSearchedFarmers(String searchBy,String searchValue) {
-        String query = " select  * from " + DatabaseHelperConstants.ICTC_FARMER + "  where  "+searchBy+"= '"+searchValue+"' ";
-        Cursor localCursor = this.getWritableDatabase().rawQuery(query, null);
-        List<Farmer> response = new ArrayList<Farmer>();
-        while (localCursor.moveToNext()) {
-            response.add(new Farmer(
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.OTHER_NAMES)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.NICKNAME)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.COMMUNITY)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.VILLAGE)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.DISTRICT)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.REGION)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.AGE)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.GENDER)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.MARITAL_STATUS)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.NO_OF_CHILD)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.NO_OF_DEPENDANT)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.EDUCATION)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.CLUSTER)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_ID))));
-        }
-        return response;
+    public List<Farmer> getSearchedFarmers(String searchBy, String searchValue) {
+        String query = " select  * from " + DatabaseHelperConstants.ICTC_FARMER + "  where  " + searchBy + "= '" + searchValue + "' ";
+        return getFarmersSearch(query);
+    }
+
+    public List<Farmer> searchFarmer(String queryString) {
+        String query = " select  * from " + DatabaseHelperConstants.ICTC_FARMER + "  where  " + DatabaseHelperConstants.OTHER_NAMES + " like  '%" + queryString + "%' or  " + DatabaseHelperConstants.NICKNAME + " like  '%" + queryString + "%' or  " + DatabaseHelperConstants.FIRST_NAME + " LIKE '%" + queryString + "%'";
+        System.out.println("Query : " + query);
+        return getFarmersSearch(query);
     }
 
     /**
-     *
-     * @param id
      * @return
      */
 
 
-    public Farmer findFarmers(String id) {
-        String query = " select  * from " + DatabaseHelperConstants.ICTC_FARMER + "  where  "+DatabaseHelperConstants.FARMER_ID+" = '"+id+"'";
-        Cursor localCursor = this.getWritableDatabase().rawQuery(query, null);
-        Farmer response = null ;
-        while (localCursor.moveToNext()) {
-            response = (new Farmer(
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.OTHER_NAMES)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.NICKNAME)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.COMMUNITY)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.VILLAGE)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.DISTRICT)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.REGION)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.AGE)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.GENDER)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.MARITAL_STATUS)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.NO_OF_CHILD)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.NO_OF_DEPENDANT)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.EDUCATION)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.CLUSTER)),
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_ID))));
-        }
-        return response;
+    public int farmerCount() {
+        String query = " select  count(*) from " + DatabaseHelperConstants.ICTC_FARMER + "  ";
+        return getAggregateValue(query);
+
     }
+
+
+    public int farmerCount(String searchBy, String searchValue) {
+        String query = " select  count(*) from " + DatabaseHelperConstants.ICTC_FARMER + "  where   " + searchBy + " = '" + searchValue + "'";
+
+        return getAggregateValue(query);
+    }
+
+    public int getAggregateValue(String query) {
+
+        try {
+            Cursor localCursor = this.getWritableDatabase().rawQuery(query, null);
+            Farmer response = null;
+            while (localCursor.moveToNext()) {
+                return localCursor.getInt(0);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public boolean resetFarmer() {
+        return deleteTable(DatabaseHelperConstants.ICTC_FARMER, "");
+    }
+
+
+    public boolean deleteTable(String table, String xtraSearch) {
+
+        String q = "delete from " + table + " " + xtraSearch;
+        this.getWritableDatabase().execSQL(q);
+        return true;
+    }
+
+    public int farmerCountGroup(String groupBy) {
+        String query = " select  count( distinct " + DatabaseHelperConstants.COMMUNITY + ") from " + DatabaseHelperConstants.ICTC_FARMER + "  group by   " + groupBy;
+        return getAggregateValue(query);
+    }
+
+
+    public List<CommunityCounterWrapper> farmerCountByCommunityGroup() {
+        List<CommunityCounterWrapper> wr = new ArrayList<CommunityCounterWrapper>();
+
+        String query = " select  count(*)," + DatabaseHelperConstants.COMMUNITY + " from " + DatabaseHelperConstants.ICTC_FARMER + "  group by    " + DatabaseHelperConstants.COMMUNITY;
+        try {
+            Cursor localCursor = this.getWritableDatabase().rawQuery(query, null);
+            Farmer response = null;
+            while (localCursor.moveToNext()) {
+                wr.add(new CommunityCounterWrapper(localCursor.getString(1), localCursor.getInt(0)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return wr;
+    }
+
 
 }

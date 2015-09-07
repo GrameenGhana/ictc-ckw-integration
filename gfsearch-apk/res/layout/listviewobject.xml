@@ -13,18 +13,28 @@
                android:background="#dddddd"/>
 
     <TextView android:id="@+id/title"
-              android:layout_width="fill_parent"
+              android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_alignTop="@+id/img"
               android:layout_toRightOf="@+id/img"
-              android:layout_alignParentRight="true"
-              android:layout_alignParentTop="true"
               android:singleLine="true"
               android:ellipsize="marquee"
               android:textStyle="bold"
               android:textSize="15dip"
-              android:layout_alignWithParentIfMissing="true"/>
+              android:layout_alignWithParentIfMissing="true" android:layout_alignTop="@+id/img"/>
 
+    <ImageView android:id="@+id/image_vid"
+               android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:layout_alignTop="@+id/title"
+               android:layout_toRightOf="@+id/title"
+               android:layout_alignParentRight="true"
+               android:layout_alignParentTop="true"
+               android:layout_marginLeft="6dip"/>
+    <ImageView android:id="@+id/image_aud" android:layout_width="wrap_content" android:layout_height="wrap_content"
+               android:layout_alignTop="@+id/image_vid"
+               android:layout_toRightOf="@+id/image_vid"
+               android:layout_alignParentRight="true"
+               android:layout_alignParentTop="true"
+               android:layout_marginRight="6dip"/>
     <TextView android:id="@+id/description"
               android:layout_width="fill_parent"
               android:layout_height="match_parent"

@@ -23,9 +23,10 @@ import applab.client.search.synchronization.BackgroundSynchronizationConfigurer;
 import applab.client.search.synchronization.SynchronizationListener;
 import applab.client.search.synchronization.SynchronizationManager;
 import applab.client.search.ui.AboutActivity;
+import applab.client.search.utils.DashboardActivity;
 import applab.client.search.utils.DeviceMetadata;
 
-public class MainActivity extends Activity implements ActionMode.Callback{
+public class MainActivity extends Activity implements ActionMode.Callback {
     private ProgressDialog progressDialog = null;
     private Handler handler = null;
     private Context activityContext;
@@ -151,16 +152,18 @@ public class MainActivity extends Activity implements ActionMode.Callback{
     }
 
     public void onDestroyActionMode(ActionMode mode) {
-          //actionMode = null;
+        //actionMode = null;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         try {
 
-            if (drawerToggle.onOptionsItemSelected(item)) {
-                return true;
-            }
+//            if (drawerToggle.onOptionsItemSelected(item)) {
+//                return true;
+//            }
+
+//            System.out.println("Itemsing android.R.id.home  : "+android.R.id.action_home);
 
             if (item.getItemId() == R.id.action_settings) {
                 Intent intent = new Intent().setClass(this, SettingsActivity.class);
@@ -170,12 +173,22 @@ public class MainActivity extends Activity implements ActionMode.Callback{
             } */ else if (item.getItemId() == R.id.action_synchronise) {
                 startSynchronization();
             } else if (item.getItemId() == R.id.action_about) {
-                Intent intent = new Intent().setClass(this, AboutActivity.class);
+//                Intent intent = new Intent().setClass(this, AboutActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+//                this.startActivity(intent);
+                Intent intent = new Intent().setClass(this, DashboardActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                 this.startActivity(intent);
-            } else if (item.getItemId() == android.R.id.home) {
-                //resetDisplayMenus();
-                selectItem(0);
+            }
+//            else if (item.getItemId() == android.R.id.home) {
+//                //resetDisplayMenus();
+//                selectItem(0);
+//            }
+            else if (item.getItemId() == android.R.id.home) {
+                Intent intent = new Intent().setClass(this, DashboardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                this.startActivity(intent);
+
             }
         } catch (Exception ex) {
             Log.e(MainActivity.class.getName(), "", ex);
@@ -230,9 +243,9 @@ public class MainActivity extends Activity implements ActionMode.Callback{
                         }
                         //we refresh the UI
                         ListView mainListView = defaultFragment.getMainListView();
-                        if(mainListView != null) {
-                            BaseAdapter adapter = (BaseAdapter)mainListView.getAdapter();
-                            if(adapter != null){
+                        if (mainListView != null) {
+                            BaseAdapter adapter = (BaseAdapter) mainListView.getAdapter();
+                            if (adapter != null) {
                                 adapter.notifyDataSetChanged();
                             }
                         }
@@ -272,18 +285,18 @@ public class MainActivity extends Activity implements ActionMode.Callback{
         handler.post(new Runnable() {
             public void run() {
 
-        progressDialog = new ProgressDialog(activityContext);
-        progressDialog.setTitle(R.string.synchronization_progress_bar_title);
-        progressDialog.setCancelable(true);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progressDialog.setIndeterminate(false);
-        progressDialog.setMessage("Please Wait...");
-        progressDialog.setIcon(R.drawable.ic_refresh);
-        progressDialog.setProgressNumberFormat(null);
+                progressDialog = new ProgressDialog(activityContext);
+                progressDialog.setTitle(R.string.synchronization_progress_bar_title);
+                progressDialog.setCancelable(true);
+                progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                progressDialog.setIndeterminate(false);
+                progressDialog.setMessage("Please Wait...");
+                progressDialog.setIcon(R.drawable.ic_refresh);
+                progressDialog.setProgressNumberFormat(null);
 
-        if (SynchronizationManager.getInstance().isSynchronizing()) {
-            progressDialog.show();
-        }
+                if (SynchronizationManager.getInstance().isSynchronizing()) {
+                    progressDialog.show();
+                }
             }
         });
     }
@@ -295,10 +308,9 @@ public class MainActivity extends Activity implements ActionMode.Callback{
             defaultFragment = (DefaultViewFragment) fragmentManager.findFragmentByTag(DefaultViewFragment.FRAGMENT_TAG);
         }
         if (event.getKeyCode() == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_UP) {
-            if(defaultFragment.getListObjectNavigationStack().size() == 0) {
+            if (defaultFragment.getListObjectNavigationStack().size() == 0) {
                 super.onBackPressed();
-            }
-            else
+            } else
                 defaultFragment.listViewBackNavigation();
             return true; // consumes the back key event - ActionMode is not finished
         }
@@ -323,13 +335,13 @@ public class MainActivity extends Activity implements ActionMode.Callback{
         super.onPostCreate(savedInstanceState);
 
         //sync the toggle state after onRestoreInstanceState has occurred
-      //  drawerToggle.syncState();
+        //  drawerToggle.syncState();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-      //  drawerToggle.onConfigurationChanged(newConfig);
+        //  drawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void initNavigationDrawer() {

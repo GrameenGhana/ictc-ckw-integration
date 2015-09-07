@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="2015061500" android:versionName="2.0.1-SNAPSHOT" package="applab.client.search">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="2015061500"
+          android:versionName="2.0.1-SNAPSHOT" package="applab.client.search">
 
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="18"/>
 
@@ -13,25 +14,35 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>-->
         </activity>
-        <activity android:icon="@drawable/action_settings" android:name=".settings.SettingsActivity" android:parentActivityName=".MainActivity">
+        <activity android:icon="@drawable/action_settings" android:name=".settings.SettingsActivity"
+                  android:parentActivityName=".MainActivity">
             <intent-filter>
                 <action android:name="applab.client.search.settings.SettingsActivity"/>
                 <category android:name="android.intent.category.PREFERENCE"/>
             </intent-filter>
 
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="applab.client.search.MainActivity"/>
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value="applab.client.search.MainActivity"/>
         </activity>
-        <activity android:icon="@drawable/action_about" android:name=".ui.AboutActivity" android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="applab.client.search.MainActivity"/>
+        <activity android:icon="@drawable/action_about" android:name=".ui.AboutActivity"
+                  android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value="applab.client.search.MainActivity"/>
         </activity>
-        <activity android:icon="@drawable/collections_view_as_list" android:name=".ui.SearchMenuItemActivity" android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="applab.client.search.MainActivity"/>
+        <activity android:icon="@drawable/collections_view_as_list" android:name=".ui.SearchMenuItemActivity"
+                  android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value="applab.client.search.MainActivity"/>
         </activity>
-        <activity android:icon="@drawable/mobile_app_icon" android:name=".ui.ImageViewerActivity" android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="applab.client.search.MainActivity"/>
+        <activity android:icon="@drawable/mobile_app_icon" android:name=".ui.ImageViewerActivity"
+                  android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value="applab.client.search.MainActivity"/>
         </activity>
-        <activity android:icon="@drawable/mobile_app_icon" android:name=".interactivecontent.ContentViewerActivity" android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="applab.client.search.MainActivity"/>
+        <activity android:icon="@drawable/mobile_app_icon" android:name=".interactivecontent.ContentViewerActivity"
+                  android:parentActivityName=".MainActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value="applab.client.search.MainActivity"/>
         </activity>
         <activity android:name=".utils.StartUpActivity">
             <intent-filter>
@@ -46,6 +57,9 @@
         <activity android:name=".utils.CommunityActivity"/>
         <activity android:name=".utils.FarmerActivity"/>
         <activity android:name=".utils.BaseActivity"/>
+        <activity android:name=".utils.FarmerSearchDetail"/>
+        <activity android:name=".utils.FarmManagementPlanActivity"/>
+        <activity android:name=".utils.FarmMapping"/>
         <service android:name=".synchronization.BackgroundSynchronizationService"/>
 
         <receiver android:name=".synchronization.SynchBroadcastReceiver">

@@ -25,6 +25,26 @@
                        android:scaleType="matrix"
                        android:layout_centerVertical="true"
                        android:layout_marginTop="10dip"/>
+
+
+            <ImageView android:id="@+id/item_vid_placeholder"
+                       android:layout_centerInParent="true"
+                       android:layout_height="wrap_content"
+                       android:layout_width="wrap_content"
+                       android:scaleType="matrix"
+                       android:onClick="viewVideo"
+                       android:layout_centerVertical="true"
+                       android:layout_marginTop="10dip"/>
+
+            <ImageView android:id="@+id/item_aud_placeholder"
+                       android:layout_centerInParent="true"
+                       android:layout_height="wrap_content"
+                       android:layout_width="wrap_content"
+                       android:scaleType="matrix"
+                       android:onClick="viewAudio"
+                       android:layout_centerVertical="true"
+                       android:layout_marginTop="10dip"/>
+
         </LinearLayout>
     </ScrollView>
 

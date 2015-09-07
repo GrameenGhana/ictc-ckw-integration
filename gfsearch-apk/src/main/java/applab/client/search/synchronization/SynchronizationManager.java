@@ -136,11 +136,11 @@ public class SynchronizationManager {
     protected void uploadBulkSearchLogs() throws Exception {
 
         List<SearchLog> searchLogs = menuItemService.getAllSearchLogs();
-        if(searchLogs.size() == 0){
+        if (searchLogs.size() == 0) {
             return;
         }
         GpsManager.getInstance().update();
-        for(SearchLog log : searchLogs) {
+        for (SearchLog log : searchLogs) {
             log.setSubmissionLocation(GpsManager.getInstance().getLocationAsString());
         }
 
@@ -174,13 +174,12 @@ public class SynchronizationManager {
                             ApplicationRegistry.getApplicationContext().
                                     getResources().getString(R.string.uploading_search_logs), true);
                 }
-            }
-            else {
+            } else {
                 notifySynchronizationListeners("onSynchronizationError",
                         new Throwable(applicationContext.getString(R.string.error_uploading_searchlogs),
                                 new Exception(responseJson)));
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             Log.e(SynchronizationManager.class.getName(), "Error uploading search logs", ex);
             notifySynchronizationListeners("onSynchronizationError",
                     new Throwable(applicationContext.getString(R.string.error_uploading_searchlogs)));
@@ -239,7 +238,7 @@ public class SynchronizationManager {
 
             List<SearchMenu> menus = menuItemService.getAllSearchMenus();
             ArrayList<String> menuArr = new ArrayList();
-            for(int i=0; i<menus.size();i++){
+            for (int i = 0; i < menus.size(); i++) {
                 menuArr.add(menus.get(i).getId());
             }
             request.setMenuIds(menuArr);
@@ -287,6 +286,7 @@ public class SynchronizationManager {
 
     /**
      * Downloads farmer details for caching on local device
+     *
      * @throws IOException
      */
     protected void downloadFarmers() throws IOException {
@@ -489,8 +489,7 @@ public class SynchronizationManager {
                     new Throwable(applicationContext.getString(R.string.error_connecting_to_server)));
         } catch (Exception ex) {
             Log.e(SynchronizationManager.class.getName(), "Exception", ex);
-        }
-        finally {
+        } finally {
             menuItemService.endGlobalTransaction();
         }
     }
@@ -565,7 +564,7 @@ public class SynchronizationManager {
                         }
                     }
                 }
-                if(complete){
+                if (complete) {
                     SettingsManager.getInstance().setValue(SettingsConstants.KEY_IMAGES_VERSION, imagesVersion);
                 }
             }
@@ -585,7 +584,7 @@ public class SynchronizationManager {
                 public boolean primitive(Object value) throws ParseException, IOException {
                     if (null != key && value != null) {
                         if (key.equals("resultCode")) {
-                            if(!value.toString().equals("0")){
+                            if (!value.toString().equals("0")) {
                                 return false;//request wasn't successfull
                             }
                         } else if (key.equals("resultMessage")) {
@@ -601,11 +600,10 @@ public class SynchronizationManager {
                             } else if ("imageId".equalsIgnoreCase(key) && imageObject instanceof String
                                     && imageType.equalsIgnoreCase("imageResults")) {
                                 imageObject = value;
-                            }  else if ("imageData".equalsIgnoreCase(key) && imageObject instanceof String
+                            } else if ("imageData".equalsIgnoreCase(key) && imageObject instanceof String
                                     && imageType.equalsIgnoreCase("imageResults")) {
                                 imageObject = value;
-                            }
-                            else{
+                            } else {
                                 Log.i(SynchronizationManager.class.getName(), "no implementation to process " + key);
                             }
                         }
@@ -644,7 +642,7 @@ public class SynchronizationManager {
                                         ApplicationRegistry.getApplicationContext().
                                                 getResources().getString(R.string.processing_images_msg), true);
 
-                            }catch (Exception ex){
+                            } catch (Exception ex) {
                                 new Throwable(applicationContext.getString(R.string.error_connecting_to_server), ex);
                             }
                         }
@@ -654,8 +652,7 @@ public class SynchronizationManager {
                     return true;
                 }
             });
-        }
-        catch (ParseException ex) {
+        } catch (ParseException ex) {
             Log.e(SynchronizationManager.class.getName(), "Parsing Error", ex);
             notifySynchronizationListeners("onSynchronizationError",
                     new Throwable(applicationContext.getString(R.string.error_downloading_images)));
@@ -717,8 +714,8 @@ public class SynchronizationManager {
     }
 
     private void processFarmers(InputStream inputStream) throws IOException, ParseException, Exception {
-        final String[] farmersVersion = new String[]{ "" };
-        final int[] farmersCount = new int[]{ 0 };
+        final String[] farmersVersion = new String[]{""};
+        final int[] farmersCount = new int[]{0};
 
         final List<Farmer> farmers = new ArrayList<Farmer>();
 
@@ -734,7 +731,7 @@ public class SynchronizationManager {
                 public boolean primitive(Object value) throws ParseException {
                     if (null != key && value != null) {
                         if (key.equals("resultCode")) {
-                            if(!value.toString().equals("0")){
+                            if (!value.toString().equals("0")) {
                                 return false;//request wasn't successfull
                             }
                         } else if (key.equals("resultMessage")) {
@@ -800,8 +797,7 @@ public class SynchronizationManager {
                     new Throwable(applicationContext.getString(R.string.error_connecting_to_server)));
         } catch (Exception ex) {
             Log.e(SynchronizationManager.class.getName(), "Exception", ex);
-        }
-        finally {
+        } finally {
             menuItemService.endGlobalTransaction();
         }
     }
@@ -810,15 +806,15 @@ public class SynchronizationManager {
         if ("farmerId".equalsIgnoreCase(property)) {
             farmer.setId(value);
         } else if ("firstName".equalsIgnoreCase(property)) {
-            farmer.setFirstName (value);
+            farmer.setFirstName(value);
         } else if ("lastName".equalsIgnoreCase(property)) {
-            farmer.setLastName (value);
+            farmer.setLastName(value);
         } else if ("creationDate".equalsIgnoreCase(property)) {
-            farmer.setCreationDate (value);
+            farmer.setCreationDate(value);
         } else if ("subcounty".equalsIgnoreCase(property)) {
-            farmer.setSubcounty (value);
+            farmer.setSubcounty(value);
         } else if ("village".equalsIgnoreCase(property)) {
-            farmer.setVillage (value);
+            farmer.setVillage(value);
         }
     }
 
@@ -945,23 +941,23 @@ public class SynchronizationManager {
 
     protected void notifySynchronizationListeners(String methodName, Object... args) {
         //synchronized (synchronizationListenerList) {
-            for (SynchronizationListener listener : synchronizationListenerList.values()) {
-                try {
-                    Class[] argTypes = null;
-                    if (args != null) {
-                        argTypes = new Class[args.length];
-                        for (int index = 0; index < args.length; index++) {
-                            argTypes[index] = args[index].getClass();
-                        }
+        for (SynchronizationListener listener : synchronizationListenerList.values()) {
+            try {
+                Class[] argTypes = null;
+                if (args != null) {
+                    argTypes = new Class[args.length];
+                    for (int index = 0; index < args.length; index++) {
+                        argTypes[index] = args[index].getClass();
                     }
-
-                    SynchronizationListener.class.
-                            getMethod(methodName, argTypes).invoke(listener, args);
-                } catch (Exception ex) {
-                    Log.e(SynchronizationManager.class.getName(),
-                            "Error executing listener method", ex);
                 }
+
+                SynchronizationListener.class.
+                        getMethod(methodName, argTypes).invoke(listener, args);
+            } catch (Exception ex) {
+                Log.e(SynchronizationManager.class.getName(),
+                        "Error executing listener method", ex);
             }
+        }
         //}
     }
 
@@ -989,7 +985,7 @@ public class SynchronizationManager {
      */
     public synchronized void unRegisterListener(SynchronizationListener listener) {
         //synchronized (synchronizationListenerList) {
-            synchronizationListenerList.remove(listener.getClass().getName());
+        synchronizationListenerList.remove(listener.getClass().getName());
         //}
     }
 

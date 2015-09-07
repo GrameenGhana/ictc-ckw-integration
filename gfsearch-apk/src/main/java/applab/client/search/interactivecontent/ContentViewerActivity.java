@@ -38,7 +38,7 @@ public class ContentViewerActivity extends Activity {
 
             webView.getSettings().setJavaScriptEnabled(true);
             webView.getSettings().setAllowFileAccess(true);
-            if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
                 webView.getSettings().setAllowUniversalAccessFromFileURLs(true);
             }
             webView.getSettings().setAllowContentAccess(true);
@@ -70,7 +70,7 @@ public class ContentViewerActivity extends Activity {
 
             webView.loadUrl(url);
 
-            webView.setWebChromeClient(new WebChromeClient(){
+            webView.setWebChromeClient(new WebChromeClient() {
 
             });
         } catch (Exception ex) {

@@ -8,8 +8,8 @@
         <CheckBoxPreference android:key="prompt_for_clientid_enabled"
                             android:title="@string/prompt_for_clientid_title"
                             android:summary="@string/prompt_for_clientid_summary"
-                            android:enabled="false"
-                            android:defaultValue="true"/>
+                            android:enabled="true"
+                            android:defaultValue="false"/>
 
         <CheckBoxPreference android:key="test_searching_enabled"
                             android:title="@string/test_searching_enabled_title"

@@ -107,6 +107,215 @@ public final class DatabaseHelperConstants {
     public static final String NO_OF_DEPENDANT = "nod";
     public static final String FARMER_ID = "farmer_id";
     public static final String CLUSTER = "cluster";
+
+
+    /**
+     * "lname", "fname", "nickname", "community","village", "district", "ms","age","gender", "noc", "nod","edu", "cluster","id", "maincrop",
+     * "sizeplot","",
+     * "date_land_ident", "loc_land", "target_area",
+     * "exp_price_ton", "variety", "target_nxt_season", "techneed1", "techneed2",
+     * "fbo", "region",
+     * "landarea", "date_plant", "plant", "date_man_weed", "pos_contact", "mon_sell_start", "mon_fin_pro_sold",
+     * "price_fin_sold"
+     */
+
+
+    public static final String SIZE_PLOT = "size_plot";
+    public static final String MAIN_CROP = "main_crop";
+    public static final String LABOUR = "labour";
+    public static final String DATE_OF_LAND_IDENTIFICATION = "date_land_ident";
+    public static final String LOCATION_LAND = "loc_land";
+    public static final String TARGET_AREA = "target_area";
+    public static final String EXPECTED_PRICE_TON = "exp_price_ton";
+    public static final String VARIETY = "variety";
+    public static final String EDUCATOION = "edu";
+    public static final String TARGET_NEXT_SEASON = "target_nxt_season";
+    public static final String TECH_NEEDS_I = "techneed1";
+    public static final String TECH_NEEDS_II = "techneed2";
+    public static final String FARMER_BASE_ORG = "fbo";
+    //    public static final String REGION = "reg";
+    public static final String PLANTING_DATE = "date_plant";
+    public static final String LAND_AREA = "landarea";
+    public static final String DATE_MANUAL_WEEDING = "date_man_weed";
+    public static final String POS_CONTACT = "pos_contact";
+    public static final String MONTH_SELLING_STARTS = "mon_sell_start";
+    public static final String MONTH_FINAL_PRODUCT_SOLD = "mon_fin_pro_sold";
+
     public static final String ICTC_ID = BaseColumns._ID;
+
+
+    /**
+     * Farm Management Plan
+     */
+
+
+    private static String FMP_DATEOFLANDIDENTIFICATION = "dateoflandidentification";
+    private static String FMP_LOCATIONOFLAND = "locationofland";
+    private static String FMP_TARGETAREAOFLAND = "targetareaofland";
+    private static String FMP_COSTOFRENTINGLAND = "costofrentingland";
+    private static String FMP_TARGETYIELDPERACRE = "targetyieldperacre";
+    private static String FMP_EXPECTEDPRICEPERTON = "expectedpriceperton";
+    private static String FMP_TARGETPRODUCTION = "targetproduction";
+    private static String FMP_NAMEOFVARIETY = "nameofvariety";
+    private static String FMP_PURCHASEOFSTAKESDATE = "purchaseofstakesdate";
+    private static String FMP_QUANTITYOFPLANTINGMATERIAL = "quantityofplantingmaterial";
+    private static String FMP_WEIGHTOFPLANTINGMATERIALPERACRE = "weightofplantingmaterialperacre";
+    private static String FMP_QUANTITYOFPLANTINGMATERIALPERACRE = "quantityofplantingmaterialperacre";
+    private static String FMP_COSTPERUNITOFPLANTINGMATERIAL = "costperunitofplantingmaterial";
+    private static String FMP_METHODOFLANDCLEARING = "methodoflandclearing";
+    private static String FMP_TYPEOFHERBICIDEFORPREPLANTING = "typeofherbicideforpreplanting";
+    private static String FMP_QUANTITYOFHERBICIDE = "quantityofherbicide";
+    private static String FMP_PURCHASEOFHERBICIDEDATE = "purchaseofherbicidedate";
+    private static String FMP_APPLICATIONOFHERBICIDEDATE = "applicationofherbicidedate";
+    private static String FMP_COSTOFAPPLICATIONOFHERBICIDE = "costofapplicationofherbicide";
+    private static String FMP_PLOUGHINGDATE = "ploughingdate";
+    private static String FMP_PLOUGHINGCOSTPERACRE = "ploughingcostperacre";
+    private static String FMP_HARROWINGDATE = "harrowingdate";
+    private static String FMP_HARROWINGCOSTPERACRE = "harrowingcostperacre";
+    private static String FMP_HOEPLOUGHINGDATE = "hoeploughingdate";
+    private static String FMP_HOEPLOUGHINGNUMBEROFLABORHANDS = "hoeploughingnumberoflaborhands";
+    private static String FMP_HOEPLOUGHINGNUMBEROFHIREDLABOR = "hoeploughingnumberofhiredlabor";
+    private static String FMP_HOEPLOUGHINGNUMBEROFFAMILYLABOR = "hoeploughingnumberoffamilylabor";
+    private static String FMP_HOEPLOUGHINGCOMPENSATION = "hoeploughingcompensation";
+    private static String FMP_SEEDBEDFORMTYPE = "seedbedformtype";
+    private static String FMP_SEEDBEDPREPARATIONDATE = "seedbedpreparationdate";
+    private static String FMP_SEEDBEDPREPERATIONNUMBEROFLABORHANDS = "seedbedpreperationnumberoflaborhands";
+    private static String FMP_SEEDBEDPREPARATIONTIME = "seedbedpreparationtime";
+    private static String FMP_SEEDBEDPREPARATIONHIREDLABOR = "seedbedpreparationhiredlabor";
+    private static String FMP_SEEDBEDPREPARATIONFAMILYLABOR = "seedbedpreparationfamilylabor";
+    private static String FMP_SEEDBEDPREPARATIONCOMPENSATION = "seedbedpreparationcompensation";
+    private static String FMP_PLANTINGDATE = "plantingdate";
+    private static String FMP_LENGTHOFCUTTINGSUSED = "lengthofcuttingsused";
+    private static String FMP_PLANTINGDISTANCEBETWEENROWS = "plantingdistancebetweenrows";
+    private static String FMP_PLANTINGDISTANCEBETWEENPLANTS = "plantingdistancebetweenplants";
+    private static String FMP_PLANTINGNUMBEROFLABORHANDS = "plantingnumberoflaborhands";
+    private static String FMP_PLANTINGTIME = "plantingtime";
+    private static String FMP_PLANTINGHIREDLABOR = "plantinghiredlabor";
+    private static String FMP_PLANTINGCOMPENSATION = "plantingcompensation";
+    private static String FMP_REFILLINGGAPSNUMBEROFLABORHANDS = "refillinggapsnumberoflaborhands";
+    private static String FMP_REFILLINGGAPSTIME = "refillinggapstime";
+    private static String FMP_REFILLINGGAPSHIREDLABOR = "refillinggapshiredlabor";
+    private static String FMP_REFILLINGGAPSCOMPENSATION = "refillinggapscompensation";
+    private static String FMP_PURCHASEOFHERBICIDEPOSTPLANT = "purchaseofherbicidepostplant";
+    private static String FMP_TYPEOFHERBICIDEFORPOSTPLANTWEEDCONTROL = "typeofherbicideforpostplantweedcontrol";
+    private static String FMP_QUANTITYOFPOSTPLANTHERBICIDE = "quantityofpostplantherbicide";
+    private static String FMP_PRICEOFHERBICIDEPOSTPLANT = "priceofherbicidepostplant";
+    private static String FMP_SEEDBEDFORMTYPEPOSTPLANT = "seedbedformtypepostplant";
+    private static String FMP_COSTOFAPPLICATIONOFHERBICIDEPOSTPLANT = "costofapplicationofherbicidepostplant";
+    private static String FMP_TYPEOFBASALFERTILIZER = "typeofbasalfertilizer";
+    private static String FMP_PURCHASEOFBASALFERTILIZERDATE = "purchaseofbasalfertilizerdate";
+    private static String FMP_QUANTITYOFBASALFERTILIZERPURCHASED = "quantityofbasalfertilizerpurchased";
+    private static String FMP_COSTPERUNITOFFERTILIZERAPPLIED = "costperunitoffertilizerapplied";
+    private static String FMP_METHODOFBASALFERTILIZERAPPLICATION = "methodofbasalfertilizerapplication";
+    private static String FMP_TIMEAPPLICATIONOFBASALFERTILIZER = "timeapplicationofbasalfertilizer";
+    private static String FMP_TOTALNUMBEROFLABORBASALFERTILIZER = "totalnumberoflaborbasalfertilizer";
+    private static String FMP_TIMEFORCOMPLETIONBASALAPPLICATION = "timeforcompletionbasalapplication";
+    private static String FMP_NUMBEROFFAMILYLABORBASALFERTILIZER = "numberoffamilylaborbasalfertilizer";
+    private static String FMP_NUMBEROFHIREDLABORBASALFERTILIZER = "numberofhiredlaborbasalfertilizer";
+    private static String FMP_TOTALCOSTOFHIREDLABORBASALFERTILIZER = "totalcostofhiredlaborbasalfertilizer";
+    private static String FMP_TYPEOFTOPDRESSFERTILIZER = "typeoftopdressfertilizer";
+    private static String FMP_QUANTITYOFTOPDRESSERFERTILIZER = "quantityoftopdresserfertilizer";
+    private static String FMP_PURCHASEOFTOPDRESSFERTILIZERDATE = "purchaseoftopdressfertilizerdate";
+    private static String FMP_PRICEOFTOPDRESSERFERTILIZER = "priceoftopdresserfertilizer";
+    private static String FMP_METHODOFTOPDRESSERFERTILIZERAPPLICATION = "methodoftopdresserfertilizerapplication";
+    private static String FMP_TIMEAPPLICATIONTOPDRESSING = "timeapplicationtopdressing";
+    private static String FMP_NUMBEROFLABORTOPDRESSINGFERTILIZER = "numberoflabortopdressingfertilizer";
+    private static String FMP_TIMEFORCOMPLETIONTOPDRESSERFERTILIZER = "timeforcompletiontopdresserfertilizer";
+    private static String FMP_NUMBEROFFAMILYLABOURTOPDRESSER = "numberoffamilylabourtopdresser";
+    private static String FMP_NUMBEROFHIREDLABORTOPDRESS = "numberofhiredlabortopdress";
+    private static String FMP_COSTOFHIREDLABORTOPDRESSERFERTILIZER = "costofhiredlabortopdresserfertilizer";
+    private static String FMP_NUMBEROCCASIONMANUALWEEDCONTROL = "numberoccasionmanualweedcontrol";
+    private static String FMP_DATEFIRSTOCCASIONMANUALWEEDCONTROL = "datefirstoccasionmanualweedcontrol";
+    private static String FMP_NUMBEROFLABORFIRSTOCCASIONWEEDCONTROL = "numberoflaborfirstoccasionweedcontrol";
+    private static String FMP_TIMECOMPLETIONFIRSTMANUALWEEDCONTROL = "timecompletionfirstmanualweedcontrol";
+    private static String FMP_NUMBERFAMILYLABORFIRSTMANUALWEEDCONTROL = "numberfamilylaborfirstmanualweedcontrol";
+    private static String FMP_NUMBERHIREDLABORFIRSTMANUALWEEDCONTROL = "numberhiredlaborfirstmanualweedcontrol";
+    private static String FMP_COSTHIREDLABORFIRSTMANUALWEEDCONTROL = "costhiredlaborfirstmanualweedcontrol";
+    private static String FMP_NUMBEROFLABORSECONDWEEDCONTROL = "numberoflaborsecondweedcontrol";
+    private static String FMP_TIMECOMPLETIONSECONDMANUALWEENCONTROL = "timecompletionsecondmanualweencontrol";
+    private static String FMP_NUMBERFAMILYLABORSECONDMANUALWEEDCONTROL = "numberfamilylaborsecondmanualweedcontrol";
+    private static String FMP_NUMBERHIREDLABORSECONDMANUALWEEDCONTROL = "numberhiredlaborsecondmanualweedcontrol";
+    private static String FMP_COSTOFHIREDLABORSECONDMANUALWEEDCONTROL = "costofhiredlaborsecondmanualweedcontrol";
+    private static String FMP_DATEOFTHIRDMANUALWEEDCONTROL = "dateofthirdmanualweedcontrol";
+    private static String FMP_NUMBEROFLABORTHIRDMANUALWEEDCONTROL = "numberoflaborthirdmanualweedcontrol";
+    private static String FMP_TIMECOMPLETIONTHIRDMANUALWEEDCONTROL = "timecompletionthirdmanualweedcontrol";
+    private static String FMP_NUMBERFAMILYLABORTHIRDMANUALWEEDCONTROL = "numberfamilylaborthirdmanualweedcontrol";
+    private static String FMP_NUMBERHIREDLABORTHIRDMANUALWEEDCONTROL = "numberhiredlaborthirdmanualweedcontrol";
+    private static String FMP_COSTOFHIREDLABOURTHIRDMANUALWEEDCONTROL = "costofhiredlabourthirdmanualweedcontrol";
+    private static String FMP_DATEFOURTHMANUALWEEDCONTROL = "datefourthmanualweedcontrol";
+    private static String FMP_NUMBERLABORFOURTHMANUALWEEDCONTROL = "numberlaborfourthmanualweedcontrol";
+    private static String FMP_TIMECOMPLETIONFOURTHMANUALWEEDCONTROL = "timecompletionfourthmanualweedcontrol";
+    private static String FMP_NUMBERFAMILYLABORFOURTHMANUALWEEDCONTROL = "numberfamilylaborfourthmanualweedcontrol";
+    private static String FMP_NUMBERHIREDLABORFOURTHMANUALWEEDCONTROL = "numberhiredlaborfourthmanualweedcontrol";
+    private static String FMP_COSTHIREDLABORFOURTHMANUALWEEDCONTROL = "costhiredlaborfourthmanualweedcontrol";
+    private static String FMP_DATEFIFTHMANUALWEEDCONTROL = "datefifthmanualweedcontrol";
+    private static String FMP_NUMBERLABORFIFTHWEEDCONTROL = "numberlaborfifthweedcontrol";
+    private static String FMP_TIMECOMPLETIONFIFTHMANUALWEEDCONTROL = "timecompletionfifthmanualweedcontrol";
+    private static String FMP_NUMBERFAMILYLABORFIFTHMANUALWEEDCONTROL = "numberfamilylaborfifthmanualweedcontrol";
+    private static String FMP_NUMBERHIREDLABOURFIFTHMANUAWEEDCONTROL = "numberhiredlabourfifthmanuaweedcontrol";
+    private static String FMP_COSTHIREDLABORFIFTHMANUALWEEDCONTROL = "costhiredlaborfifthmanualweedcontrol";
+    private static String FMP_HARVESTDATE = "harvestdate";
+    private static String FMP_NUMBEROFLABORHARVEST = "numberoflaborharvest";
+    private static String FMP_TIMECOMPLETIONHARVEST = "timecompletionharvest";
+    private static String FMP_SEEDBEDFORMTYPEHARVEST = "seedbedformtypeharvest";
+    private static String FMP_NUMBEROFHIREDLABORHARVEST = "numberofhiredlaborharvest";
+    private static String FMP_YIELDPERACRE = "yieldperacre";
+    private static String FMP_QUANTITYCASSAVAHARVESTEDPROCESSED = "quantitycassavaharvestedprocessed";
+    private static String FMP_PEELINGSTARTOFDRYINGDATE = "peelingstartofdryingdate";
+    private static String FMP_METHODOFPROCESSINGDEHUSKINGPEELING = "methodofprocessingdehuskingpeeling";
+    private static String FMP_NUMBEROFLABORDEHUSKINPEELING = "numberoflabordehuskinpeeling";
+    private static String FMP_TIMECOMPLETIONDEHUSKINGPEELING = "timecompletiondehuskingpeeling";
+    private static String FMP_NUMBERFAMILYLABORDEHUSKINGPEELING = "numberfamilylabordehuskingpeeling";
+    private static String FMP_NUMBERHIREDLABORDEHUSKINGPEELING = "numberhiredlabordehuskingpeeling";
+    private static String FMP_COSTHIREDLABORDEHUSKINGPEELING = "costhiredlabordehuskingpeeling";
+    private static String FMP_METHODOFDRYING = "methodofdrying";
+    private static String FMP_NUMBEROFLABORDRYING = "numberoflabordrying";
+    private static String FMP_TIMECOMPLETIONDRYING = "timecompletiondrying";
+    private static String FMP_NUMBERFAMILYLABORDRYING = "numberfamilylabordrying";
+    private static String FMP_NUMBERHIREDLABORDRYING = "numberhiredlabordrying";
+    private static String FMP_COSTOFHIREDLABORDRYING = "costofhiredlabordrying";
+    private static String FMP_METHODOFTHRESHING = "methodofthreshing";
+    private static String FMP_NUMBEROFLABORTTHRESHING = "numberoflabortthreshing";
+    private static String FMP_TIMECOMPLETIONTHRESHING = "timecompletionthreshing";
+    private static String FMP_NUMBERFAMILYLABORTHRESHING = "numberfamilylaborthreshing";
+    private static String FMP_NUMBEROFHIREDLABORTHRESHING = "numberofhiredlaborthreshing";
+    private static String FMP_COSTOFHIREDLABORTHRESHING = "costofhiredlaborthreshing";
+    private static String FMP_METHODOFWINNOWING = "methodofwinnowing";
+    private static String FMP_NUMBEROFLABORWINNOWING = "numberoflaborwinnowing";
+    private static String FMP_TIMECOMPLETIONWINNOWING = "timecompletionwinnowing";
+    private static String FMP_NUMBERFAMILYLABORWINNOWING = "numberfamilylaborwinnowing";
+    private static String FMP_NUMBERHIREDLABORWINNOWING = "numberhiredlaborwinnowing";
+    private static String FMP_METHODOFDRYINGGRAIN = "methodofdryinggrain";
+    private static String FMP_NUMBERLABORDRYINGGRAIN = "numberlabordryinggrain";
+    private static String FMP_TIMECOMPLETIONDRYINGGRAIN = "timecompletiondryinggrain";
+    private static String FMP_NUMBERFAMILYLABORDRYINGGRAIN = "numberfamilylabordryinggrain";
+    private static String FMP_NUMBERHIREDLABORDRYINGGRAIN = "numberhiredlabordryinggrain";
+    private static String FMP_COSTOFHIREDLABORDRYINGGRAIN = "costofhiredlabordryinggrain";
+    private static String FMP_TYPEOFBAGSSTORINGGRAIN = "typeofbagsstoringgrain";
+    private static String FMP_NUMBERSTORAGEBAGSPURCHASEDUSED = "numberstoragebagspurchasedused";
+    private static String FMP_COSTPERUNITSTORAGEBAGS = "costperunitstoragebags";
+    private static String FMP_TYPEOFCHEMICALSTORAGE = "typeofchemicalstorage";
+    private static String FMP_COSTPERUNITSTORAGECHEMICAL = "costperunitstoragechemical";
+    private static String FMP_NUMBEROFUNITSSTORAGECHEMICAL = "numberofunitsstoragechemical";
+    private static String FMP_APPLICATIONRATESTORAGECHEMICAL = "applicationratestoragechemical";
+    private static String FMP_NUMBERLABORBAGGING = "numberlaborbagging";
+    private static String FMP_TIMECOMPLETIONBAGGING = "timecompletionbagging";
+    private static String FMP_NUMBERFAMILYLABORBAGGING = "numberfamilylaborbagging";
+    private static String FMP_NUMBERHIREDLABORBAGGING = "numberhiredlaborbagging";
+    private static String FMP_COSTHIREDLABORBAGGING = "costhiredlaborbagging";
+    private static String FMP_TYPEOFSTORAGESTRUCTURE = "typeofstoragestructure";
+    private static String FMP_OWNERSHIPCONDITIONSFORSTORAGE = "ownershipconditionsforstorage";
+    private static String FMP_AMOUNTCHARGEDPERUNITTIMEOFSTORAGE = "amountchargedperunittimeofstorage";
+    private static String FMP_TYPEOFSTORAGECHEMICALUSEDSTORAGESTRUCTURE = "typestoragechemicalusedstoragestructure";
+    private static String FMP_QUANTITYUSEDPERUNITOFPRODUCE = "quantityusedperunitofproduce";
+    private static String FMP_PRICEPERUNITSTORAGECHEMICALUSEDINSTORAGE = "priceperunitstoragechemicalusedinstorage";
+    private static String FMP_MAINPOINTOFSALEORCONTACT = "mainpointofsaleorcontact";
+    private static String FMP_MONTHSELLINGBEGINS = "monthsellingbegins";
+    private static String FMP_PRICEFIRSTHARVESTPRODUCESOLD = "pricefirstharvestproducesold";
+    private static String FMP_MONTHCASSAVAFRESHROOTHARVESTSOLD = "monthcassavafreshrootharvestsold";
+    private static String FMP_PRICEHARVESTPRODUCESOLD = "priceharvestproducesold";
+    private static String FMP_MONTHFINALPRODUCTSOLD = "monthfinalproductsold";
+    private static String FMP_PRICEFINALBATCHPRODUCESOLD = "pricefinalbatchproducesold";
+
 
 }

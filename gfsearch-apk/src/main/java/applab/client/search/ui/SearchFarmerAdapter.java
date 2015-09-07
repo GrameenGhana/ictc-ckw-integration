@@ -15,7 +15,6 @@ import java.util.List;
 /**
  * Copyright (c) 2014 AppLab, Grameen Foundation
  * Created by: David                                       4
- *
  */
 public class SearchFarmerAdapter extends BaseAdapter implements Filterable {
 
@@ -78,7 +77,8 @@ public class SearchFarmerAdapter extends BaseAdapter implements Filterable {
                 } else {
                     notifyDataSetInvalidated();
                 }
-            }};
+            }
+        };
         return filter;
     }
 

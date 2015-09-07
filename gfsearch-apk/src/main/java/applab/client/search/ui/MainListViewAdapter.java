@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import applab.client.search.ApplicationRegistry;
 import applab.client.search.R;
+import applab.client.search.interactivecontent.ContentUtils;
 import applab.client.search.model.ListObject;
 import applab.client.search.model.SearchMenu;
 import applab.client.search.model.SearchMenuItem;
@@ -167,18 +168,43 @@ public class MainListViewAdapter extends BaseAdapter {
 
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
+        ImageView imageAudo = (ImageView) rowView.findViewById(R.id.image_aud);
+        ImageView imageVideo = (ImageView) rowView.findViewById(R.id.image_vid);
         TextView titleView = (TextView) rowView.findViewById(R.id.title);
         TextView descriptionView = (TextView) rowView.findViewById(R.id.description);
 
         ListObject listObject = (ListObject) getItem(position);
+
         if (listObject != null) {
-            titleView.setText(listObject.getLabel());
+            String desc = listObject.getDescription() + SearchMenuItemActivity.TEMP_AUDIO_VIDEO_FILE;
+            String label = listObject.getLabel();
+            if (ContentUtils.containsAudio(desc))
+//               label +=(" (a) ");
+                if (ContentUtils.containsVideo(desc))
+//                label +=(" (v) ");
+
+                    titleView.setText(label);
             if (listObject.getDescription() != null && listObject.getDescription().startsWith("No Content")) {
                 descriptionView.setText("");
+                desc = "";
             } else {
-                descriptionView.setText(listObject.getDescription());
+
             }
 
+
+            if (ContentUtils.containsAudio(desc)) {
+                imageAudo.setImageResource(R.drawable.sound);
+                imageAudo.setVisibility(ImageView.VISIBLE);
+            }
+            if (ContentUtils.containsVideo(desc)) {
+                imageVideo.setImageResource(R.drawable.video);
+                imageVideo.setVisibility(ImageView.VISIBLE);
+                System.out.println("Desc Video");
+            }
+
+
+//            System.out.println("Desc  : "+desc);
+            descriptionView.setText(ContentUtils.replaceMultimediaPlaceholder(desc));
             descriptionView.setVisibility(TextView.VISIBLE);
 
             imageView.setTag(listObject);

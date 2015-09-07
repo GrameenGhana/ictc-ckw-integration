@@ -3,12 +3,18 @@ package applab.client.search.ui;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 import applab.client.search.R;
+import applab.client.search.interactivecontent.ContentUtils;
 import applab.client.search.location.GpsManager;
 import applab.client.search.model.FavouriteRecord;
 import applab.client.search.model.ListObject;
@@ -35,6 +41,8 @@ public class SearchMenuItemActivity extends Activity {
     private ListObject searchMenuItem = null;
     private LayoutInflater layoutInflater = null;
     private MenuItemService menuItemService = new MenuItemService();
+    public static String TEMP_AUDIO_VIDEO_FILE = "{video:VID-20150128-WA0000.mp4}{audio:tester.mp3}";
+    String content;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +56,30 @@ public class SearchMenuItemActivity extends Activity {
         View view = layoutInflater.inflate(R.layout.searchmenuitem, null, false);
         TextView textView = (TextView) view.findViewById(R.id.item_content);
         ImageView imageView = (ImageView) view.findViewById(R.id.item_img);
+        ImageView thumbnailView = (ImageView) view.findViewById(R.id.item_vid_placeholder);
+        ImageView audioView = (ImageView) view.findViewById(R.id.item_aud_placeholder);
+        content = searchMenuItem.getDescription() + TEMP_AUDIO_VIDEO_FILE;
 
-        textView.setText(searchMenuItem.getDescription());
+        if (ContentUtils.containsVideo(content)) {
+            String fileLoc = ContentUtils.getVideoLocation(content);
+            ;
+            Bitmap bmThumbnail = ThumbnailUtils.createVideoThumbnail(fileLoc, MediaStore.Video.Thumbnails.MINI_KIND);
+            System.out.println("From : " + fileLoc);
+            thumbnailView.setImageBitmap(bmThumbnail);
+        }
+        if (ContentUtils.containsAudio(content)) {
+
+
+            if (ContentUtils.containsAudio(content)) {
+                audioView.setImageResource(R.drawable.sound_large);
+            }
+//            ;Uri myUri = Url.par.; // initialize Uri here
+
+
+        }
+//        image=(ImageView) grid.findViewById(R.id.imageView_thumbnail);
+
+        textView.setText(ContentUtils.replaceMultimediaPlaceholder(content));
 
         if (ImageUtils.imageExists(searchMenuItem.getId(), true)) {
             imageView.setImageDrawable(ImageUtils.getImageAsDrawable(this, searchMenuItem.getId(), true));
@@ -58,6 +88,31 @@ public class SearchMenuItemActivity extends Activity {
         generateSearchLog(searchMenuItem, clientId, breadCrumb);
 
         super.setContentView(view);
+    }
+
+    public void viewVideo(View view) {
+        String url = ContentUtils.getVideoLocation(content);
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+        Uri data = Uri.parse(url);
+        intent.setDataAndType(data, "video/mp4");
+        startActivity(intent);
+    }
+
+    public void viewAudio(View view) {
+        try {
+            Uri data = Uri.parse(ContentUtils.getAudioLocation(content));
+//            MediaPlayer mediaPlayer = new MediaPlayer();
+//            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//            mediaPlayer.setDataSource(getApplicationContext(), data);
+//            mediaPlayer.prepare();
+//            mediaPlayer.start();
+            Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+//            Uri data = Uri.parse(url)i
+            intent.setDataAndType(data, "audio/mp3");
+            startActivity(intent);
+        } catch (Exception e) {
+
+        }
     }
 
     private void generateSearchLog(ListObject searchMenuItem, String clientId, String breadCrumb) {

@@ -18,11 +18,12 @@ public class DashboardMenuAdapter extends BaseAdapter {
     private final int[] Imageid;
     private final String[] titles;
 
-    public DashboardMenuAdapter(Context c,int[] Imageid ,String[] titles) {
+    public DashboardMenuAdapter(Context c, int[] Imageid, String[] titles) {
         mContext = c;
         this.Imageid = Imageid;
-        this.titles=titles;
+        this.titles = titles;
     }
+
     @Override
     public int getCount() {
 
@@ -45,6 +46,8 @@ public class DashboardMenuAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View grid;
 
+        System.out.println("pos : " + position);
+        System.out.println("Image Length " + Imageid[position]);
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) mContext
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -54,11 +57,12 @@ public class DashboardMenuAdapter extends BaseAdapter {
         } else {
             grid = (View) convertView;
         }
-        ImageView imageView = (ImageView)grid.findViewById(R.id.imageView_icon);
-        TextView title=(TextView) grid.findViewById(R.id.textView_title);
+        ImageView imageView = (ImageView) grid.findViewById(R.id.imageView_icon);
+        TextView title = (TextView) grid.findViewById(R.id.textView_title);
+        title.setText(titles[position]);
         imageView.setImageResource(Imageid[position]);
         imageView.setMaxHeight(250);
-        title.setText(titles[position]);
+
         return grid;
     }
 

@@ -3,8 +3,8 @@ package applab.client.search.ui;
 import android.widget.ImageView;
 
 /**
-* a class that holds an imageView and is used in conjuction with the ThumbnailTask
-*/
+ * a class that holds an imageView and is used in conjuction with the ThumbnailTask
+ */
 public class ThumbnailViewHolder {
     public ImageView imageView;
     public int position;

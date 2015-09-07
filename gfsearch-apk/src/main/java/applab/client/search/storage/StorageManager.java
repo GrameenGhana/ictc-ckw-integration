@@ -85,6 +85,7 @@ public class StorageManager {
 
     /**
      * deletes records based on the given search entity.
+     *
      * @param search
      */
     public void delete(Search search) {
@@ -221,6 +222,28 @@ public class StorageManager {
      */
     public int recordCount(String tableName) {
         Cursor cursor = database.rawQuery("SELECT COUNT(*) as total FROM " + tableName, null);
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+
+        cursor.close();
+        return count;
+    }
+
+    public int recordCount(String tableName, String countFilterField, String countFilterValue) {
+        Cursor cursor = database.rawQuery("SELECT COUNT(*) as total FROM " + tableName + " where " + countFilterField + " = '" + countFilterValue + "'", null);
+        int count = 0;
+        if (cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+        }
+
+        cursor.close();
+        return count;
+    }
+
+    public int recordCount(String tableName, String fieldGroup) {
+        Cursor cursor = database.rawQuery("SELECT COUNT(*) as total FROM " + tableName + " group by  " + fieldGroup, null);
         int count = 0;
         if (cursor.moveToFirst()) {
             count = cursor.getInt(0);

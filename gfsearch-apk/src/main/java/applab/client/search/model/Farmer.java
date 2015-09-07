@@ -2,7 +2,7 @@ package applab.client.search.model;
 
 /**
  * represent a farmer record
- *
+ * <p/>
  * Copyright (c) 2014 AppLab, Grameen Foundation
  * Created by: David
  */
@@ -26,6 +26,27 @@ public class Farmer extends ListObject {
     private String cluster;
     private String farmID;
 
+    private String sizePlot;
+    private String labour;
+    private String dateOfLandIdentification;
+    private String locationOfLand;
+    private String targetArea;
+    private String expectedPriceInTon;
+    private String variety;
+    private String targetNextSeason;
+    private String techNeeds1;
+    private String techNeeds2;
+    private String farmerBasedOrg;
+    //    String REGION,
+    private String plantingDate;
+    private String landArea;
+    private String dateManualWeeding;
+    private String posContact;
+    private String monthSellingStarts;
+    private String monthFinalProductSold;
+    private String mainCrop;
+
+
     /*public String getFarmerId() {
         return farmerId;
     }
@@ -33,9 +54,10 @@ public class Farmer extends ListObject {
     public void setFarmerId(String farmerId) {
         this.farmerId = farmerId;
     }*/
-    public Farmer(){
+    public Farmer() {
 
     }
+
     public Farmer(String firstName, String lastName, String nickname, String community, String village, String district, String region, String age, String gender, String maritalStatus, String numberOfChildren, String numberOfDependants, String education) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -70,6 +92,100 @@ public class Farmer extends ListObject {
         this.farmID = farmID;
     }
 
+    /**
+     * @param firstName
+     * @param lastName
+     * @param village
+     * @param nickname
+     * @param community
+     * @param district
+     * @param region
+     * @param age
+     * @param gender
+     * @param maritalStatus
+     * @param numberOfChildren
+     * @param numberOfDependants
+     * @param education
+     * @param cluster
+     * @param farmID
+     * @param sizePlot
+     * @param labour
+     * @param dateOfLandIdentification
+     * @param locationOfLand
+     * @param targetArea
+     * @param expectedPriceInTon
+     * @param variety
+     * @param targetNextSeason
+     * @param techNeeds1
+     * @param techNeeds2
+     * @param farmerBasedOrg
+     * @param plantingDate
+     * @param landArea
+     * @param dateManualWeeding
+     * @param posContact
+     * @param monthSellingStarts
+     * @param monthFinalProductSold    firstName, lastName, nickname, community, village, district, region, age, gender, maritalStatus, numberOfChildren, numberOfDependants, education, cluster, farmID,SIZE_PLOT,
+     *                                 LABOUR,
+     *                                 DATE_OF_LAND_IDENTIFICATION ,
+     *                                 LOCATION_LAND,
+     *                                 TARGET_AREA,
+     *                                 EXPECTED_PRICE_TON ,
+     *                                 VARIETY,
+     *                                 EDUCATION ,
+     *                                 TARGET_NEXT_SEASON ,
+     *                                 TECH_NEEDS_I,
+     *                                 TECH_NEEDS_II ,
+     *                                 FARMER_BASE_ORG,
+     *                                 PLANTING_DATE,
+     *                                 LAND_AREA ,
+     *                                 DATE_MANUAL_WEEDING ,
+     *                                 POS_CONTACT ,
+     *                                 MONTH_SELLING_STARTS ,
+     *                                 MONTH_FINAL_PRODUCT_SOLD
+     */
+
+    public Farmer(String firstName, String lastName, String nickname, String community, String village, String district, String region, String age, String gender, String maritalStatus, String numberOfChildren, String numberOfDependants, String education, String cluster, String farmID,
+                  String sizePlot, String labour, String dateOfLandIdentification, String locationOfLand, String targetArea,
+                  String expectedPriceInTon, String variety, String targetNextSeason, String techNeeds1, String techNeeds2,
+                  String farmerBasedOrg, String plantingDate, String landArea, String dateManualWeeding, String posContact,
+                  String monthSellingStarts, String monthFinalProductSold, String mainCrop) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.mainCrop = mainCrop;
+
+
+        System.out.println("Main crop  : " + firstName + " \t:\t" + mainCrop);
+        this.village = village;
+        this.nickname = nickname;
+        this.community = community;
+        this.district = district;
+        this.region = region;
+        this.age = age;
+        this.gender = gender;
+        this.maritalStatus = maritalStatus;
+        this.numberOfChildren = numberOfChildren;
+        this.numberOfDependants = numberOfDependants;
+        this.education = education;
+        this.cluster = cluster;
+        this.farmID = farmID;
+        this.sizePlot = sizePlot;
+        this.labour = labour;
+        this.dateOfLandIdentification = dateOfLandIdentification;
+        this.locationOfLand = locationOfLand;
+        this.targetArea = targetArea;
+        this.expectedPriceInTon = expectedPriceInTon;
+        this.variety = variety;
+        this.targetNextSeason = targetNextSeason;
+        this.techNeeds1 = techNeeds1;
+        this.techNeeds2 = techNeeds2;
+        this.farmerBasedOrg = farmerBasedOrg;
+        this.plantingDate = plantingDate;
+        this.landArea = landArea;
+        this.dateManualWeeding = dateManualWeeding;
+        this.posContact = posContact;
+        this.monthSellingStarts = monthSellingStarts;
+        this.monthFinalProductSold = monthFinalProductSold;
+    }
 
 
     public String getFirstName() {
@@ -111,6 +227,7 @@ public class Farmer extends ListObject {
     public void setVillage(String village) {
         this.village = village;
     }
+
     public String getNickname() {
         return nickname;
     }
@@ -219,8 +336,153 @@ public class Farmer extends ListObject {
     public void setFarmID(String farmID) {
         this.farmID = farmID;
     }
+
     @Override
-    public String toString(){
+    public String toString() {
         return getFirstName() + " " + getLastName();
+    }
+
+    public String getSizePlot() {
+        return sizePlot;
+    }
+
+    public void setSizePlot(String sizePlot) {
+        this.sizePlot = sizePlot;
+    }
+
+    public String getLabour() {
+        return labour;
+    }
+
+    public void setLabour(String labour) {
+        this.labour = labour;
+    }
+
+    public String getDateOfLandIdentification() {
+        return dateOfLandIdentification;
+    }
+
+    public void setDateOfLandIdentification(String dateOfLandIdentification) {
+        this.dateOfLandIdentification = dateOfLandIdentification;
+    }
+
+    public String getLocationOfLand() {
+        return locationOfLand;
+    }
+
+    public void setLocationOfLand(String locationOfLand) {
+        this.locationOfLand = locationOfLand;
+    }
+
+    public String getTargetArea() {
+        return targetArea;
+    }
+
+    public void setTargetArea(String targetArea) {
+        this.targetArea = targetArea;
+    }
+
+    public String getExpectedPriceInTon() {
+        return expectedPriceInTon;
+    }
+
+    public void setExpectedPriceInTon(String expectedPriceInTon) {
+        this.expectedPriceInTon = expectedPriceInTon;
+    }
+
+    public String getVariety() {
+        return variety;
+    }
+
+    public void setVariety(String variety) {
+        this.variety = variety;
+    }
+
+    public String getTargetNextSeason() {
+        return targetNextSeason;
+    }
+
+    public void setTargetNextSeason(String targetNextSeason) {
+        this.targetNextSeason = targetNextSeason;
+    }
+
+    public String getTechNeeds1() {
+        return techNeeds1;
+    }
+
+    public void setTechNeeds1(String techNeeds1) {
+        this.techNeeds1 = techNeeds1;
+    }
+
+    public String getTechNeeds2() {
+        return techNeeds2;
+    }
+
+    public void setTechNeeds2(String techNeeds2) {
+        this.techNeeds2 = techNeeds2;
+    }
+
+    public String getFarmerBasedOrg() {
+        return farmerBasedOrg;
+    }
+
+    public void setFarmerBasedOrg(String farmerBasedOrg) {
+        this.farmerBasedOrg = farmerBasedOrg;
+    }
+
+    public String getPlantingDate() {
+        return plantingDate;
+    }
+
+    public void setPlantingDate(String plantingDate) {
+        this.plantingDate = plantingDate;
+    }
+
+    public String getLandArea() {
+        return landArea;
+    }
+
+    public void setLandArea(String landArea) {
+        this.landArea = landArea;
+    }
+
+    public String getDateManualWeeding() {
+        return dateManualWeeding;
+    }
+
+    public void setDateManualWeeding(String dateManualWeeding) {
+        this.dateManualWeeding = dateManualWeeding;
+    }
+
+    public String getPosContact() {
+        return posContact;
+    }
+
+    public void setPosContact(String posContact) {
+        this.posContact = posContact;
+    }
+
+    public String getMonthSellingStarts() {
+        return monthSellingStarts;
+    }
+
+    public void setMonthSellingStarts(String monthSellingStarts) {
+        this.monthSellingStarts = monthSellingStarts;
+    }
+
+    public String getMonthFinalProductSold() {
+        return monthFinalProductSold;
+    }
+
+    public void setMonthFinalProductSold(String monthFinalProductSold) {
+        this.monthFinalProductSold = monthFinalProductSold;
+    }
+
+    public String getMainCrop() {
+        return mainCrop;
+    }
+
+    public void setMainCrop(String mainCrop) {
+        this.mainCrop = mainCrop;
     }
 }

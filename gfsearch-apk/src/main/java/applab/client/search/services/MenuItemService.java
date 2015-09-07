@@ -682,7 +682,7 @@ public class MenuItemService {
     /**
      * saves the given farmer record into the data store
      *
-     * @param farmers   farmer record to save
+     * @param farmers farmer record to save
      */
     public void save(Farmer... farmers) {
         List<ContentValues> values = getContentValues(farmers);
@@ -694,7 +694,7 @@ public class MenuItemService {
      * saves the given farmer record into the data store
      * uses a transaction set in a global context to ensure bulk processing with limited time
      *
-     * @param farmers   farmer record to save
+     * @param farmers farmer record to save
      */
     public void saveWithGlobalTransaction(Farmer... farmers) {
         List<ContentValues> values = getContentValues(farmers);
@@ -754,19 +754,17 @@ public class MenuItemService {
     }
 
     public void beginGlobalTransaction() throws Exception {
-        if(gdatabase == null) {
+        if (gdatabase == null) {
             throw new Exception("database not set");
-        }
-        else {
+        } else {
             gdatabase.beginTransaction();
         }
     }
 
     public void endGlobalTransaction() throws Exception {
-        if(gdatabase == null) {
+        if (gdatabase == null) {
             throw new Exception("database not set");
-        }
-        else {
+        } else {
             gdatabase.endTransaction();
         }
     }

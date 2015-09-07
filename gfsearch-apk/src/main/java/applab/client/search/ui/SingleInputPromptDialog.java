@@ -76,13 +76,13 @@ public abstract class SingleInputPromptDialog extends AlertDialog.Builder implem
 
     class CustomAutoCompleteTextView extends AutoCompleteTextView {
 
-        public CustomAutoCompleteTextView(Context context){
+        public CustomAutoCompleteTextView(Context context) {
             super(context);
         }
 
         @Override
-        public boolean onKeyPreIme (int keyCode, KeyEvent event){
-            if(keyCode == KeyEvent.KEYCODE_BACK){
+        public boolean onKeyPreIme(int keyCode, KeyEvent event) {
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
                 InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(getWindowToken(), 0);
             }

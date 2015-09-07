@@ -11,7 +11,6 @@ import java.util.Stack;
 
 /**
  * Helper class for creating an XML entity that can be used in an HTTP POST request
- * 
  */
 public class XmlEntityBuilder {
     private StringBuilder entity;

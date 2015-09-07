@@ -11,7 +11,6 @@ import android.widget.TextView;
 import applab.client.search.R;
 
 
-
 /**
  * Created by Software Developer on 30/07/2015.
  */
@@ -27,6 +26,7 @@ public class PriceListAdapter extends BaseExpandableListAdapter {
     private final String[] ricePrices;
     private final String[] beansPrices;
     public int lastExpandedGroupPosition;
+
     public PriceListAdapter(Context mContext,
                             String[] groupItems,
                             int[] groupIcons,
@@ -35,29 +35,30 @@ public class PriceListAdapter extends BaseExpandableListAdapter {
                             String[] beansPrices,
                             ExpandableListView list) {
         groupItem = groupItems;
-        this.groupIcons=groupIcons;
-        this.mContext=mContext;
-        this.maizePrices=maizePrices;
-        this.ricePrices=ricePrices;
-        this.beansPrices=beansPrices;
+        this.groupIcons = groupIcons;
+        this.mContext = mContext;
+        this.maizePrices = maizePrices;
+        this.ricePrices = ricePrices;
+        this.beansPrices = beansPrices;
         minflater = LayoutInflater.from(mContext);
-        this.list=list;
+        this.list = list;
 
     }
+
     public int getGroupCount() {
         return groupItem.length;
     }
 
     public int getChildrenCount(int groupPosition) {
-        int count=0;
-        if(groupPosition==0){
-            count=maizePrices.length;
-        }else if(groupPosition==1){
-            count=ricePrices.length;
-        }else if(groupPosition==2){
-            count=beansPrices.length;
+        int count = 0;
+        if (groupPosition == 0) {
+            count = maizePrices.length;
+        } else if (groupPosition == 1) {
+            count = ricePrices.length;
+        } else if (groupPosition == 2) {
+            count = beansPrices.length;
         }
-        return count ;
+        return count;
     }
 
     public Object getGroup(int i) {
@@ -82,34 +83,32 @@ public class PriceListAdapter extends BaseExpandableListAdapter {
 
     public View getGroupView(int groupPosition, boolean b, View view, ViewGroup viewGroup) {
         if (view == null) {
-            view = minflater.inflate(R.layout.price_group_single,viewGroup, false);
+            view = minflater.inflate(R.layout.price_group_single, viewGroup, false);
         }
 
-        TextView title=(TextView) view.findViewById(R.id.textView_title);
+        TextView title = (TextView) view.findViewById(R.id.textView_title);
         title.setText(groupItem[groupPosition]);
 
-        ImageView image=(ImageView) view.findViewById(R.id.imageView_icon);
+        ImageView image = (ImageView) view.findViewById(R.id.imageView_icon);
 
-            image.setImageResource(groupIcons[groupPosition]);
+        image.setImageResource(groupIcons[groupPosition]);
 
         return view;
     }
 
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup viewGroup) {
         if (view == null) {
-            view = minflater.inflate(R.layout.price_child_single,viewGroup, false);
+            view = minflater.inflate(R.layout.price_child_single, viewGroup, false);
         }
 
-        TextView title=(TextView) view.findViewById(R.id.textView_price);
-        if(groupPosition==0){
+        TextView title = (TextView) view.findViewById(R.id.textView_price);
+        if (groupPosition == 0) {
             title.setText(maizePrices[childPosition]);
-        }else if(groupPosition==1){
+        } else if (groupPosition == 1) {
             title.setText(ricePrices[childPosition]);
-        }else if(groupPosition==2){
+        } else if (groupPosition == 2) {
             title.setText(beansPrices[childPosition]);
         }
-
-
 
 
         return view;
@@ -118,9 +117,10 @@ public class PriceListAdapter extends BaseExpandableListAdapter {
     public boolean isChildSelectable(int i, int i1) {
         return true;
     }
+
     public void onGroupExpanded(int groupPosition) {
 
-        if(groupPosition != lastExpandedGroupPosition){
+        if (groupPosition != lastExpandedGroupPosition) {
             list.collapseGroup(lastExpandedGroupPosition);
 
         }

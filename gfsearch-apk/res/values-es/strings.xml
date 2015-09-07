@@ -47,14 +47,18 @@
     <string name="action_forward">adelante</string>
     <string name="sample_text">sample text</string>
     <string name="background_synchronization">sincronización en segundo plano</string>
-    <string name="background_synchronization_summary">sincronización en segundo plano. Los ajustes se establecen en referencia a la fecha actual</string>
-    <string name="background_sync_interval_summary">Determina la frecuencia con la sincronización de fondo se llevará a cabo.
+    <string name="background_synchronization_summary">sincronización en segundo plano. Los ajustes se establecen en
+        referencia a la fecha actual
+    </string>
+    <string name="background_sync_interval_summary">Determina la frecuencia con la sincronización de fondo se llevará a
+        cabo.
     </string>
     <string name="background_sync_interval_title">Antecedentes de sincronización de intervalo</string>
     <string name="background_sync_enabled_title">Activar sincronización en segundo plano</string>
     <string name="background_sync_enabled_summary">Activa / desactiva la sincronización en segundo plano</string>
     <string name="background_sync_interval_units_title">Unidades de Intervalo</string>
-    <string name="background_sync_interval_units_summary">Las unidades de tiempo para el intervalo de sincronización</string>
+    <string name="background_sync_interval_units_summary">Las unidades de tiempo para el intervalo de sincronización
+    </string>
     <string name="send_message">Enviar mensaje</string>
     <string name="share_using">Mandar mensaje</string>
     <string name="setting_general">general</string>
@@ -70,7 +74,9 @@
     <string name="drawer_close">cerrar</string>
     <string name="action_delete">borrar</string>
     <string name="test_searching_enabled_title">Habilitar Prueba búsqueda</string>
-    <string name="test_searching_enabled_summary">Los registros de búsqueda serán marcados como los registros de prueba</string>
+    <string name="test_searching_enabled_summary">Los registros de búsqueda serán marcados como los registros de
+        prueba
+    </string>
     <string name="uploading_search_logs">Carga de los registros de búsqueda</string>
     <string name="ok">Ok</string>
 

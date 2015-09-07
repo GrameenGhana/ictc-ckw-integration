@@ -6,17 +6,23 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 import applab.client.search.R;
 import applab.client.search.adapters.FarmersAdapter;
+import applab.client.search.model.Farmer;
+import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.storage.DatabaseHelperConstants;
+
+import java.util.List;
 
 /**
  * Created by Software Developer on 30/07/2015.
  */
 public class FarmerActivity extends Activity {
     private ListView list;
+    List<Farmer> myFarmers = null;
+
+    DatabaseHelper helper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,54 +33,71 @@ public class FarmerActivity extends Activity {
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
 
-        View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
+        helper = new DatabaseHelper(getBaseContext());
+
+        final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
+        Button mButton = (Button) mCustomView.findViewById(R.id.search_btn);
+        mButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(FarmerActivity.this, FarmerActivity.class);
+                intent.putExtra("type", "search");
+                intent.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString());
+
+                startActivity(intent);
+            }
+        });
         mTitleTextView.setText("Farmers");
 
+        String type = "farmer";
+        Bundle extras = getIntent().getExtras();
+        try {
+            type = extras.getString("type");
+        } catch (Exception e) {
+
+        }
+
+        if (type.equalsIgnoreCase("farmer"))
+            myFarmers = helper.getFarmers();
+        else if (type.equalsIgnoreCase("comm")) {
+            String community = extras.getString("name");
+            myFarmers = helper.getSearchedFarmers(DatabaseHelperConstants.COMMUNITY, community);
+        } else if (type.equalsIgnoreCase("search")) {
+            String q = extras.getString("q");
+            myFarmers = helper.searchFarmer(q);
+        }
+
+        String[] names = new String[myFarmers.size()];
+        String[] locations = new String[myFarmers.size()];
+        String[] mainCrops = new String[myFarmers.size()];
+        String[] groups = new String[myFarmers.size()];
+        final String[] ids = new String[myFarmers.size()];
+        int cnt = 0;
+
+        for (Farmer f : myFarmers) {
+            names[cnt] = f.getLastName() + ", " + f.getFirstName();
+            locations[cnt] = f.getCommunity();
+            mainCrops[cnt] = ("".equalsIgnoreCase(f.getMainCrop())) ? "Not Set " : f.getMainCrop();
+            groups[cnt] = f.getFarmerBasedOrg();
+            ids[cnt] = f.getId();
+            cnt++;
+        }
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
-        list=(ListView) findViewById(R.id.listView);
-        String[] names={"Kojo Antwi","Yaabrefi Koto","Okonore Ananse","Maame Yaa","Kwaku Ananse","Nkrabea Adanse","Ndaase Nsiah"};
-        String[] locations={"Kejebi","Ejisu","Kintampo","Makroase","Mampong","Hohoe","Juapong"};
-        String[] mainCrops={"Maize","Cassava","Rice","Beans","Maize","Maize","Cassava"};
-        String[] groups={"Hohoe","Lead Farmers","Early Adopter, Lead Farmers","Hohoe, Lead Farmers","Early Adopters, Hohoe, Lead Farmers","Early Adopters, Hohoe, Lead Farmers","Early Adopters, Hohoe, Lead Farmers"};
-        FarmersAdapter adapter=new FarmersAdapter(FarmerActivity.this,names,locations,mainCrops,groups);
+        list = (ListView) findViewById(R.id.listView);
+        FarmersAdapter adapter = new FarmersAdapter(FarmerActivity.this, names, locations, mainCrops, groups);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent;
-                switch(i) {
-                    case 0:
-                        intent = new Intent(FarmerActivity.this, FarmerDetailActivity.class);
-                        intent.putExtra("name","Kojo Antwi");
-                        intent.putExtra("location","Kejebi");
-                        intent.putExtra("crop","Maize");
-                        startActivity(intent);
-                        break;
-                    case 1:
-                        intent = new Intent(FarmerActivity.this, FarmerDetailActivity.class);
-                        intent.putExtra("name","Yaabrefi Koto");
-                        intent.putExtra("location","Ejisu");
-                        intent.putExtra("crop","Cassava");
-                        startActivity(intent);
-                        break;
-                    case 2:
-                        intent = new Intent(FarmerActivity.this, FarmerDetailActivity.class);
-                        intent.putExtra("name","Okonore Ananse");
-                        intent.putExtra("location","Kintampo");
-                        intent.putExtra("crop","Rice");
-                        startActivity(intent);
-                        break;
-                    default:
-                        intent = new Intent(FarmerActivity.this, FarmerDetailActivity.class);
-                        intent.putExtra("name","Kojo Antwi");
-                        intent.putExtra("location","Kejebi");
-                        intent.putExtra("crop","Maize");
-                        startActivity(intent);
 
+                intent = new Intent(FarmerActivity.this, FarmerDetailActivity.class);
+                intent.putExtra("farmer", myFarmers.get(i));
+//                System.out.println("Farmer : "+myFarmers.get(i).getFirstName());
+                startActivity(intent);
 
             }
-            }
+
         });
     }
 }
