@@ -114,7 +114,6 @@ public class MainActivity extends Activity implements ActionMode.Callback {
         return true;
     }
 
-    @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         MenuInflater inflater = mode.getMenuInflater();
         inflater.inflate(R.menu.default_view_fragment, menu);
@@ -129,12 +128,11 @@ public class MainActivity extends Activity implements ActionMode.Callback {
         return true;
     }
 
-    @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
         return false;
     }
 
-    @Override
+
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_nav_back:
@@ -153,7 +151,6 @@ public class MainActivity extends Activity implements ActionMode.Callback {
         }
     }
 
-    @Override
     public void onDestroyActionMode(ActionMode mode) {
         //actionMode = null;
     }
@@ -202,20 +199,16 @@ public class MainActivity extends Activity implements ActionMode.Callback {
 
     private void startSynchronization() {
         SynchronizationManager.getInstance().registerListener(new SynchronizationListener() {
-            @Override
             public void synchronizationStart() {
                 handler.post(new Runnable() {
-                    @Override
                     public void run() {
                         progressDialog.show();
                     }
                 });
             }
 
-            @Override
             public void synchronizationUpdate(final Integer step, final Integer max, final String message, Boolean reset) {
                 handler.post(new Runnable() {
-                    @Override
                     public void run() {
                         progressDialog.setMessage(message);
                         progressDialog.setMax(max);
@@ -228,10 +221,8 @@ public class MainActivity extends Activity implements ActionMode.Callback {
                 });
             }
 
-            @Override
             public void synchronizationUpdate(final String message, Boolean indeterminate) {
                 handler.post(new Runnable() {
-                    @Override
                     public void run() {
                         progressDialog.setMessage(message);
                         progressDialog.setIndeterminate(true);
@@ -242,10 +233,8 @@ public class MainActivity extends Activity implements ActionMode.Callback {
                 });
             }
 
-            @Override
             public void synchronizationComplete() {
                 handler.post(new Runnable() {
-                    @Override
                     public void run() {
                         progressDialog.dismiss();
                         if (defaultFragment == null) {
@@ -267,10 +256,8 @@ public class MainActivity extends Activity implements ActionMode.Callback {
                 SynchronizationManager.getInstance().unRegisterListener(this);
             }
 
-            @Override
             public void onSynchronizationError(final Throwable throwable) {
                 handler.post(new Runnable() {
-                    @Override
                     public void run() {
                         if (progressDialog != null) {
                             progressDialog.dismiss();
@@ -296,7 +283,6 @@ public class MainActivity extends Activity implements ActionMode.Callback {
 
     private void createProgressBar() {
         handler.post(new Runnable() {
-            @Override
             public void run() {
 
                 progressDialog = new ProgressDialog(activityContext);
@@ -460,7 +446,6 @@ public class MainActivity extends Activity implements ActionMode.Callback {
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
-        @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }

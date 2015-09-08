@@ -4,7 +4,7 @@
 
     <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="18"/>
 
-    <application android:allowBackup="true" android:debuggable="true"
+    <application android:allowBackup="true"
                  android:icon="@drawable/app_icon_new" android:label="SmartEX" android:theme="@style/AppTheme">
         <activity android:launchMode="singleTop" android:name=".MainActivity">
             <!--
@@ -44,22 +44,22 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                        android:value="applab.client.search.MainActivity"/>
         </activity>
-        <activity android:name=".utils.StartUpActivity">
+        <activity android:name=".activity.StartUpActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".utils.DashboardActivity"/>
-        <activity android:name=".utils.PricesActivity"/>
-        <activity android:name=".utils.ClusterActivity"/>
-        <activity android:name=".utils.FarmerDetailActivity"/>
-        <activity android:name=".utils.CommunityActivity"/>
-        <activity android:name=".utils.FarmerActivity"/>
-        <activity android:name=".utils.BaseActivity"/>
-        <activity android:name=".utils.FarmerSearchDetail"/>
-        <activity android:name=".utils.FarmManagementPlanActivity"/>
-        <activity android:name=".utils.FarmMapping"/>
+        <activity android:name=".activity.DashboardActivity"/>
+        <activity android:name=".activity.PricesActivity"/>
+        <activity android:name=".activity.ClusterActivity"/>
+        <activity android:name=".activity.FarmerDetailActivity"/>
+        <activity android:name=".activity.CommunityActivity"/>
+        <activity android:name=".activity.FarmerActivity"/>
+        <activity android:name=".activity.BaseActivity"/>
+        <activity android:name=".activity.FarmerSearchDetail"/>
+        <activity android:name=".activity.FarmManagementPlanActivity"/>
+        <activity android:name=".activity.FarmMapping"/>
         <service android:name=".synchronization.BackgroundSynchronizationService"/>
 
         <receiver android:name=".synchronization.SynchBroadcastReceiver">
