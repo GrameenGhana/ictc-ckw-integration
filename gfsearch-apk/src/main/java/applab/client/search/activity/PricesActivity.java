@@ -1,4 +1,4 @@
-package applab.client.search.utils;
+package applab.client.search.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;

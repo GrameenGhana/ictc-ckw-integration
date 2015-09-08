@@ -1,9 +1,8 @@
-package applab.client.search.utils;
+package applab.client.search.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,7 +14,6 @@ import applab.client.search.R;
 import applab.client.search.adapters.DashboardMenuAdapter;
 import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelper;
-import applab.client.search.storage.DatabaseHelperConstants;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -124,6 +122,9 @@ public class DashboardActivity extends Activity {
                 switch (i) {
                     case 0:
                         intent = new Intent(DashboardActivity.this, PricesActivity.class);
+                        startActivity(intent);
+                        break; case 1:
+                        intent = new Intent(DashboardActivity.this, ScheduledMeetingsActivity.class);
                         startActivity(intent);
                         break;
                     case 2:

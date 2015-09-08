@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="6dip" >
+
+    <TextView
+            android:id="@+id/meet_index_itm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:focusable="false"
+            android:text="1"
+            android:textSize="20dp"
+            android:textColor="#fff9fbff" android:background="#ff596aff"/>
+
+
+    <TextView
+            android:id="@+id/list_meet_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/meet_index_itm"
+            android:layout_toRightOf="@+id/meet_index_itm"
+            android:paddingLeft="8dp"
+            android:text="Efg"
+            android:layout_alignTop="@+id/meet_index_itm" android:layout_alignParentRight="true"/>
+
+
+</RelativeLayout>

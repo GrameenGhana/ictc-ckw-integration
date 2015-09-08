@@ -1,4 +1,4 @@
-package applab.client.search.utils;
+package applab.client.search.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -39,13 +39,7 @@ public class FarmerDetailActivity extends Activity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Farmer Details");
         try {
-            Bundle extras = getIntent().getExtras();
-            if (extras != null) {
-                farmer = (Farmer) extras.get("farmer");
 
-                location = farmer.getCommunity();
-                name = farmer.getLastName() + " , " + farmer.getFirstName();
-            }
             mainCrop = farmer.getMainCrop();
 
         } catch (Exception e) {
@@ -180,9 +174,9 @@ public class FarmerDetailActivity extends Activity {
     }
 
     public void mapFarm(View view) {
-
+//        Intent intent = new Intent(FarmerDetailActivity.this, ListCheckBoxActivity.class);
         Intent intent = new Intent(FarmerDetailActivity.this, FarmMapping.class);
-//        intent.putExtra("type","search");
+        intent.putExtra("type","search");
 //        intent.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString());
 
         startActivity(intent);

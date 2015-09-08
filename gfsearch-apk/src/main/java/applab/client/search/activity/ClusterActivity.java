@@ -1,4 +1,4 @@
-package applab.client.search.utils;
+package applab.client.search.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -10,7 +10,6 @@ import android.widget.*;
 import applab.client.search.R;
 import applab.client.search.adapters.ClusterAdapter;
 import applab.client.search.model.Farmer;
-import applab.client.search.model.ListObject;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.storage.DatabaseHelperConstants;
 

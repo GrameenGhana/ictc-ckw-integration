@@ -1,4 +1,4 @@
-package applab.client.search.utils;
+package applab.client.search.activity;
 
 import android.database.Cursor;
 import android.provider.ContactsContract;

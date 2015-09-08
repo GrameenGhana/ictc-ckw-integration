@@ -1,4 +1,4 @@
-package applab.client.search.utils;
+package applab.client.search.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.*;
 import applab.client.search.R;
 import applab.client.search.adapters.CommunitiesAdapter;
-import applab.client.search.adapters.DashboardMenuAdapter;
 import applab.client.search.model.CommunityCounterWrapper;
 import applab.client.search.storage.DatabaseHelper;
 
