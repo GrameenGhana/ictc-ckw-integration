@@ -25,6 +25,7 @@ public class FarmerDetailActivity extends Activity {
     private String mainCrop;
     private String location;
     private TextView textViewLocation;
+    Farmer farmer = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ public class FarmerDetailActivity extends Activity {
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
-        Farmer farmer = null;
+
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Farmer Details");
@@ -185,6 +186,15 @@ public class FarmerDetailActivity extends Activity {
 //        Intent intent = new Intent(FarmerDetailActivity.this, ListCheckBoxActivity.class);
         Intent intent = new Intent(FarmerDetailActivity.this, FarmMapping.class);
         intent.putExtra("type","search");
+//        intent.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString());
+
+        startActivity(intent);
+    }
+
+    public void farmerInput(View view) {
+//        Intent intent = new Intent(FarmerDetailActivity.this, ListCheckBoxActivity.class);
+        Intent intent = new Intent(FarmerDetailActivity.this, FarmerInputActivty.class);
+        intent.putExtra("farmerid",farmer);
 //        intent.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString());
 
         startActivity(intent);

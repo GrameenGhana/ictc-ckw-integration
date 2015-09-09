@@ -50,4 +50,15 @@ public class ScheduledMeetingsActivity extends ActivityGroup {
         tabHost.setCurrentTab(0);
 //        TabHost.TabSpec spec =
     }
+
+
+
+    public void mkAttendance(View view){
+        Intent intent = new Intent(ScheduledMeetingsActivity.this, ListCheckBoxActivity.class);
+//        intent.putExtra("type","search");
+//        intent.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString());
+
+        startActivity(intent);
+
+    }
 }

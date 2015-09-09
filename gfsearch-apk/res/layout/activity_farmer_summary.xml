@@ -43,6 +43,14 @@
                     android:text="Map Farm"
                     android:onClick="mapFarm"
                     android:id="@+id/btn_map_farm" android:layout_gravity="right"/>
+
+            <Button
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Get Farmer Input"
+                    android:onClick="farmerInput"
+                    android:id="@+id/btn_input_farm" android:layout_gravity="right"/>
             <TableLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" android:background="@drawable/bg_transparent_green"
