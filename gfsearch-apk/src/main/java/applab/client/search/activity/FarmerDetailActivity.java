@@ -38,9 +38,17 @@ public class FarmerDetailActivity extends Activity {
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Farmer Details");
-        try {
 
-            mainCrop = farmer.getMainCrop();
+            try {
+                Bundle extras = getIntent().getExtras();
+                if (extras != null) {
+                    farmer = (Farmer) extras.get("farmer");
+
+                    location = farmer.getCommunity();
+                    name = farmer.getLastName() + " , " + farmer.getFirstName();
+                }
+
+                mainCrop = farmer.getMainCrop();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,7 +76,7 @@ public class FarmerDetailActivity extends Activity {
 //        textViewLocation=(TextView) findViewById(R.id.textView_location);
 //
 //        textViewLocation.setText(location);
-        System.out.println("FarmingiD : " + farmer.getId());
+//        System.out.println("FarmingiD : " + farmer.getId());
 
         Button fmpButton = (Button) findViewById(R.id.fmp_farmer);
         fmpButton.setOnClickListener(new View.OnClickListener() {
@@ -160,15 +168,15 @@ public class FarmerDetailActivity extends Activity {
         if (mainCrop.equalsIgnoreCase("Rice")) {
             Drawable rice = FarmerDetailActivity.this.getResources().getDrawable(R.drawable.ic_rice);
             textViewProportion.setCompoundDrawablesWithIntrinsicBounds(rice, null, null, null);
-            textViewPercentageSold.setText(">50%");
+//            textViewPercentageSold.setText(">50%");
         } else if (mainCrop.equalsIgnoreCase("Cassava")) {
             Drawable cassava = FarmerDetailActivity.this.getResources().getDrawable(R.drawable.ic_cassava);
             textViewProportion.setCompoundDrawablesWithIntrinsicBounds(cassava, null, null, null);
-            textViewPercentageSold.setText(">70%");
+//            textViewPercentageSold.setText(">70%");
         } else if (mainCrop.equalsIgnoreCase("Maize")) {
             Drawable maize = FarmerDetailActivity.this.getResources().getDrawable(R.drawable.ic_maize);
             textViewProportion.setCompoundDrawablesWithIntrinsicBounds(maize, null, null, null);
-            textViewPercentageSold.setText(">80%");
+//            textViewPercentageSold.setText(">80%");
         }
 
     }

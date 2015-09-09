@@ -8,8 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import applab.client.search.model.CommunityCounterWrapper;
 import applab.client.search.model.Farmer;
+import applab.client.search.model.Meeting;
+import applab.client.search.model.MeetingProcedure;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,6 +61,8 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         System.out.println("ICTC table L ");
         //Create ICTC FarmerTable
         database.execSQL(getICTCFarmerTable());
+        database.execSQL(getICTCFarmerMeetings());
+        database.execSQL(getICTCFarmerMeetingsProcedure());
         System.out.println("After table");
     }
 
@@ -76,6 +81,40 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return sqlCommand.toString();
     }
 
+    /**
+     *
+     * @return
+     */
+    private String getICTCFarmerMeetings() {
+        StringBuilder sqlCommand = new StringBuilder();
+        sqlCommand.append(" CREATE TABLE IF NOT EXISTS ").append(DatabaseHelperConstants.ICTC_FARMER_MEETING);
+        sqlCommand.append("(");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_TYPE).append(" TEXT,");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_MEEING_INDEX).append(" INT DEFAULT 0,");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_TITLE).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_ACTUAL_MEETING_DATE).append(" DATE DEFAULT  NULL,");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_SCHEDULE_DATE).append(" DATE,");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_ATTENDED).append(" INT DEFAULT -1,");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_REMARK).append(" TEXT DEFAULT '' ");
+        sqlCommand.append(");");
+        return sqlCommand.toString();
+
+    } private String getICTCFarmerMeetingsProcedure() {
+        StringBuilder sqlCommand = new StringBuilder();
+        sqlCommand.append(" CREATE TABLE IF NOT EXISTS ").append(DatabaseHelperConstants.ICTC_FARMER_MEETING_PROCEDURE);
+        sqlCommand.append("(");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_TYPE).append(" TEXT,");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_MEEING_INDEX).append(" INT DEFAULT 0,");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_TITLE).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_SCHEDULE_DATE).append(" int ,");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_SEASON).append(" INT DEFAULT 1,");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_REMARK).append(" TEXT DEFAULT '' ");
+        sqlCommand.append(");");
+        return sqlCommand.toString();
+
+    }
     //CREATING THE ICTC FARMER TABLE
     private String getICTCFarmerTable() {
         StringBuilder sqlCommand = new StringBuilder();
@@ -97,7 +136,6 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         sqlCommand.append(DatabaseHelperConstants.MARITAL_STATUS).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.CLUSTER).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.FARMER_ID).append(" TEXT DEFAULT '',");
-
 
         sqlCommand.append(DatabaseHelperConstants.SIZE_PLOT).append(" TEXT,");
         sqlCommand.append(DatabaseHelperConstants.MAIN_CROP).append(" TEXT,");
@@ -166,6 +204,45 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         sqlCommand.append(");");
         return sqlCommand.toString();
     }
+
+
+    private String getICTCCropCalendar() {
+        /**
+         * public static final String ICTC_CROP_CALENDAR = "ictc_crop_calendar";
+         public static final String ICTC_ACTIVITY = "actiity";
+         public static final String ICTC_ACTIVITY_INDEX = "activity_index";
+         public static final String ICTC_WEEKS_FROM_PLANTING = "week_frm_planting";
+         public static final String ICTC_COMMENT = "comment";
+         //    public static final String ICTC_SEASON= "season";
+         public static final String ICTC_FARMER_ID= "farmer_id";
+         public static final String ICTC_EARLIEST_START_DATE = "earliest_start";
+         public static final String ICTC_LATEST_START_DATE= "latest_start";
+         public static final String ICTC_ACTUAL_DATE= "actual_date";
+
+         */
+        StringBuilder sqlCommand = new StringBuilder();
+        sqlCommand.append("CREATE TABLE IF NOT EXISTS ").append(DatabaseHelperConstants.ICTC_CROP_CALENDAR);
+        sqlCommand.append("(");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_ACTIVITY).append(" TEXT,");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_ACTIVITY_INDEX).append(" INT ,");
+        sqlCommand.append(DatabaseHelperConstants.COMMUNITY).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.DISTRICT).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.REGION).append(" TEXT,");
+        sqlCommand.append(DatabaseHelperConstants.GENDER).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.EDUCATION).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.NICKNAME).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.VILLAGE).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.AGE).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.NO_OF_CHILD).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.NO_OF_DEPENDANT).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.MARITAL_STATUS).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.CLUSTER).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.FARMER_ID).append(" TEXT DEFAULT ''");
+        sqlCommand.append(");");
+        return sqlCommand.toString();
+    }
+
 
 
     private String getSearchLogTableInitializationSql() {
@@ -433,7 +510,98 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-    /**
+    private  MeetingProcedure getMeetingProcedure(Cursor localCursor){
+
+
+        MeetingProcedure met = new MeetingProcedure(
+                localCursor.getInt(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
+                localCursor.getInt(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
+                localCursor.getInt(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME))
+        );
+        return  met;
+    }
+
+
+    public List<MeetingProcedure> getMeetingProcedure(String q){
+        Cursor localCursor = this.getWritableDatabase().rawQuery(q, null);
+        List<MeetingProcedure> response = new ArrayList<MeetingProcedure>();
+        while (localCursor.moveToNext()) {
+            response.add(getMeetingProcedure(localCursor));
+        }
+        return response;
+    }
+
+
+    public List<MeetingProcedure> getMeetingAllProcedure(){
+
+        String q=findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING_PROCEDURE);
+        Cursor localCursor = this.getWritableDatabase().rawQuery(q, null);
+        List<MeetingProcedure> response = new ArrayList<MeetingProcedure>();
+        while (localCursor.moveToNext()) {
+            response.add(getMeetingProcedure(localCursor));
+        }
+        return response;
+    }
+    public MeetingProcedure getMeetingProcedure(int meetingIndex,String crop){
+            return getMeetingProcedure(meetingIndex,crop,1);
+    }
+
+    public MeetingProcedure getMeetingProcedure(int meetingIndex,String crop,int season){
+
+        String q=findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING_PROCEDURE)+" where "+DatabaseHelperConstants.ICTC_MEEING_INDEX+"="+meetingIndex+" and "+DatabaseHelperConstants.ICTC_CROP+"='"+crop+"'  ";
+        Cursor localCursor = this.getWritableDatabase().rawQuery(q, null);
+        while (localCursor.moveToNext()) {
+            return(getMeetingProcedure(localCursor));
+        }
+        return null;
+    }
+
+
+
+    private Meeting getMeeting(Cursor localCursor){
+
+        Date scheduled=null;
+        Date actual=null;
+        String schduleDate   = localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME));
+        String actulDate   = localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME));
+//        if(!schduleDate.isEmpty())
+
+        Meeting met = new Meeting(
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
+                scheduled,
+                actual,
+                localCursor.getInt(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
+                localCursor.getInt(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME))
+        );
+        return  met;
+    }
+
+
+    public List<Meeting> getMeetings(String q){
+        Cursor localCursor = this.getWritableDatabase().rawQuery(q, null);
+        List<Meeting> response = new ArrayList<Meeting>();
+        while (localCursor.moveToNext()) {
+            response.add(getMeeting(localCursor));
+        }
+
+        return response;
+    }
+    public List<Meeting> getFarmerMeetings(String farmer){
+        return getMeetings(findAllQuery(DatabaseHelperConstants.ICTC_FARMER )+" WHERE "+DatabaseHelperConstants.ICTC_FARMER+" ='"+farmer+"'");
+    }
+    public int getMeetingsAttended(String farmer){
+        return getAggregateValue("SELECT count(*) FROM "+DatabaseHelperConstants.ICTC_FARMER_MEETING+" WHERE "+DatabaseHelperConstants.ICTC_FARMER+" ='"+farmer+"' and attended=1");
+    }
+
+/**
      * @return
      */
 
@@ -485,8 +653,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public List<Farmer> getFarmers() {
-        String query = " select  * from " + DatabaseHelperConstants.ICTC_FARMER + "  ";
-        return getFarmersSearch(query);
+        return getFarmersSearch(findAllQuery(DatabaseHelperConstants.ICTC_FARMER ));
     }
 
 
@@ -497,12 +664,12 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
      */
 
     public List<Farmer> getSearchedFarmers(String searchBy, String searchValue) {
-        String query = " select  * from " + DatabaseHelperConstants.ICTC_FARMER + "  where  " + searchBy + "= '" + searchValue + "' ";
+        String query =findAllQuery(DatabaseHelperConstants.ICTC_FARMER ) + "  where  " + searchBy + "= '" + searchValue + "' ";
         return getFarmersSearch(query);
     }
 
     public List<Farmer> searchFarmer(String queryString) {
-        String query = " select  * from " + DatabaseHelperConstants.ICTC_FARMER + "  where  " + DatabaseHelperConstants.OTHER_NAMES + " like  '%" + queryString + "%' or  " + DatabaseHelperConstants.NICKNAME + " like  '%" + queryString + "%' or  " + DatabaseHelperConstants.FIRST_NAME + " LIKE '%" + queryString + "%'";
+        String query = findAllQuery(DatabaseHelperConstants.ICTC_FARMER )+ "  where  " + DatabaseHelperConstants.OTHER_NAMES + " like  '%" + queryString + "%' or  " + DatabaseHelperConstants.NICKNAME + " like  '%" + queryString + "%' or  " + DatabaseHelperConstants.FIRST_NAME + " LIKE '%" + queryString + "%'";
         System.out.println("Query : " + query);
         return getFarmersSearch(query);
     }
@@ -513,14 +680,14 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public int farmerCount() {
-        String query = " select  count(*) from " + DatabaseHelperConstants.ICTC_FARMER + "  ";
+        String query =getGeneralCountQuery(DatabaseHelperConstants.ICTC_FARMER )+"  ";
         return getAggregateValue(query);
 
     }
 
 
     public int farmerCount(String searchBy, String searchValue) {
-        String query = " select  count(*) from " + DatabaseHelperConstants.ICTC_FARMER + "  where   " + searchBy + " = '" + searchValue + "'";
+        String query =getGeneralCountQuery(DatabaseHelperConstants.ICTC_FARMER )+ "  where   " + searchBy + " = '" + searchValue + "'";
 
         return getAggregateValue(query);
     }
@@ -541,6 +708,8 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean resetFarmer() {
         return deleteTable(DatabaseHelperConstants.ICTC_FARMER, "");
+    }    public boolean resetFarmerMeetings() {
+        return deleteTable(DatabaseHelperConstants.ICTC_FARMER_MEETING, "");
     }
 
 
@@ -552,7 +721,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public int farmerCountGroup(String groupBy) {
-        String query = " select  count( distinct " + DatabaseHelperConstants.COMMUNITY + ") from " + DatabaseHelperConstants.ICTC_FARMER + "  group by   " + groupBy;
+        String query = getGeneralCountQuery(DatabaseHelperConstants.ICTC_FARMER,"distinct" , DatabaseHelperConstants.COMMUNITY )  + "  group by   " + groupBy;
         return getAggregateValue(query);
     }
 
@@ -573,5 +742,31 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return wr;
     }
 
+    private String findAllQuery(String table)
+    {
 
+        return "select * from "+table;
+    }
+    private String getGeneralCountQuery(String table)
+    {
+
+        return getGeneralCountQuery(table,"","*");
+    }
+
+    /**
+     * returns queries like select count(*) from tableName
+     * select count(id) from tableName , select count(distinct id) from tableName
+     * where the type would be distinct leave blank if there is no extra filter
+     * @param table
+     * @param type
+     * @param countField
+     * @return
+     */
+    private String getGeneralCountQuery(String table,String type,String countField)
+    {
+        if(!type.isEmpty())
+type+=" ";
+
+        return "select count("+type+countField+") from "+table;
+    }
 }

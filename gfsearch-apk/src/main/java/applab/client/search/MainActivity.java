@@ -20,10 +20,11 @@ import applab.client.search.services.MenuItemService;
 import applab.client.search.settings.SettingsActivity;
 import applab.client.search.settings.SettingsManager;
 import applab.client.search.synchronization.BackgroundSynchronizationConfigurer;
+import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import applab.client.search.synchronization.SynchronizationListener;
 import applab.client.search.synchronization.SynchronizationManager;
-import applab.client.search.ui.AboutActivity;
-import applab.client.search.utils.DashboardActivity;
+import applab.client.search.activity.DashboardActivity;
+import applab.client.search.utils.ConnectionUtil;
 import applab.client.search.utils.DeviceMetadata;
 
 public class MainActivity extends Activity implements ActionMode.Callback {
@@ -114,6 +115,7 @@ public class MainActivity extends Activity implements ActionMode.Callback {
         return true;
     }
 
+    @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         MenuInflater inflater = mode.getMenuInflater();
         inflater.inflate(R.menu.default_view_fragment, menu);
@@ -128,11 +130,12 @@ public class MainActivity extends Activity implements ActionMode.Callback {
         return true;
     }
 
+    @Override
     public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
         return false;
     }
 
-
+    @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_nav_back:
@@ -151,6 +154,7 @@ public class MainActivity extends Activity implements ActionMode.Callback {
         }
     }
 
+    @Override
     public void onDestroyActionMode(ActionMode mode) {
         //actionMode = null;
     }
@@ -180,6 +184,14 @@ public class MainActivity extends Activity implements ActionMode.Callback {
                 intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                 this.startActivity(intent);
             }
+
+            else if (item.getItemId() == R.id.action_refresh_farmer) {
+//                Intent intent = new Intent().setClass(this, AboutActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+//                this.startActivity(intent);
+                //(final Context context,final DatabaseHelper databaseHelper,final Intent intent, final String queryString, final String type,String msg )
+                ConnectionUtil.refreshFarmerInfo(getBaseContext(),null,"", IctcCkwIntegrationSync.GET_FARMER_DETAILS,"Refreshing farmer Data");
+            }
 //            else if (item.getItemId() == android.R.id.home) {
 //                //resetDisplayMenus();
 //                selectItem(0);
@@ -199,16 +211,20 @@ public class MainActivity extends Activity implements ActionMode.Callback {
 
     private void startSynchronization() {
         SynchronizationManager.getInstance().registerListener(new SynchronizationListener() {
+            @Override
             public void synchronizationStart() {
                 handler.post(new Runnable() {
+                    @Override
                     public void run() {
                         progressDialog.show();
                     }
                 });
             }
 
+            @Override
             public void synchronizationUpdate(final Integer step, final Integer max, final String message, Boolean reset) {
                 handler.post(new Runnable() {
+                    @Override
                     public void run() {
                         progressDialog.setMessage(message);
                         progressDialog.setMax(max);
@@ -221,8 +237,10 @@ public class MainActivity extends Activity implements ActionMode.Callback {
                 });
             }
 
+            @Override
             public void synchronizationUpdate(final String message, Boolean indeterminate) {
                 handler.post(new Runnable() {
+                    @Override
                     public void run() {
                         progressDialog.setMessage(message);
                         progressDialog.setIndeterminate(true);
@@ -233,8 +251,10 @@ public class MainActivity extends Activity implements ActionMode.Callback {
                 });
             }
 
+            @Override
             public void synchronizationComplete() {
                 handler.post(new Runnable() {
+                    @Override
                     public void run() {
                         progressDialog.dismiss();
                         if (defaultFragment == null) {
@@ -256,8 +276,10 @@ public class MainActivity extends Activity implements ActionMode.Callback {
                 SynchronizationManager.getInstance().unRegisterListener(this);
             }
 
+            @Override
             public void onSynchronizationError(final Throwable throwable) {
                 handler.post(new Runnable() {
+                    @Override
                     public void run() {
                         if (progressDialog != null) {
                             progressDialog.dismiss();
@@ -283,6 +305,7 @@ public class MainActivity extends Activity implements ActionMode.Callback {
 
     private void createProgressBar() {
         handler.post(new Runnable() {
+            @Override
             public void run() {
 
                 progressDialog = new ProgressDialog(activityContext);
@@ -446,6 +469,7 @@ public class MainActivity extends Activity implements ActionMode.Callback {
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
 
+        @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             selectItem(position);
         }

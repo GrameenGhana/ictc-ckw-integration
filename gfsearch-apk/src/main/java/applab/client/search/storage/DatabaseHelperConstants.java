@@ -109,15 +109,22 @@ public final class DatabaseHelperConstants {
     public static final String CLUSTER = "cluster";
 
 
-    /**
-     * "lname", "fname", "nickname", "community","village", "district", "ms","age","gender", "noc", "nod","edu", "cluster","id", "maincrop",
-     * "sizeplot","",
-     * "date_land_ident", "loc_land", "target_area",
-     * "exp_price_ton", "variety", "target_nxt_season", "techneed1", "techneed2",
-     * "fbo", "region",
-     * "landarea", "date_plant", "plant", "date_man_weed", "pos_contact", "mon_sell_start", "mon_fin_pro_sold",
-     * "price_fin_sold"
-     */
+
+    public static final String ICTC_FARMER_MEETING= "ictc_meeting";
+    public static final String ICTC_TYPE= "meeting_type";
+    public static final String ICTC_SEASON= "season";
+    public static final String ICTC_REMARK= "remark";
+    public static final String ICTC_DESC= "desc";
+    public static final String ICTC_MEEING_INDEX="meeting_index";
+    public static final String ICTC_TITLE= "title";
+    public static final String ICTC_ATTENDED= "attended";
+    public static final String ICTC_ACTUAL_MEETING_DATE= "actual_meet_date";
+    public static final String ICTC_SCHEDULE_DATE= "schedule_date";
+    public static final String ICTC_PROCEDUREE= "meeting_procedure";
+    public static final String ICTC_CROP= "remarks";
+    public static final String ICTC_FARMER_MEETING_PROCEDURE= "ictc_meeting_PROCEDURE";
+
+
 
 
     public static final String SIZE_PLOT = "size_plot";
@@ -143,6 +150,19 @@ public final class DatabaseHelperConstants {
 
     public static final String ICTC_ID = BaseColumns._ID;
 
+
+    //Crop calendar
+
+    public static final String ICTC_CROP_CALENDAR = "ictc_crop_calendar";
+    public static final String ICTC_ACTIVITY = "actiity";
+    public static final String ICTC_ACTIVITY_INDEX = "activity_index";
+    public static final String ICTC_WEEKS_FROM_PLANTING = "week_frm_planting";
+    public static final String ICTC_COMMENT = "comment";
+//    public static final String ICTC_SEASON= "season";
+    public static final String ICTC_FARMER_ID= "farmer_id";
+    public static final String ICTC_EARLIEST_START_DATE = "earliest_start";
+    public static final String ICTC_LATEST_START_DATE= "latest_start";
+    public static final String ICTC_ACTUAL_DATE= "actual_date";
 
     /**
      * Farm Management Plan

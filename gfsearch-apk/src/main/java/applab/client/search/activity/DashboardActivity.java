@@ -6,15 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.util.Log;
+import android.view.*;
 import android.widget.*;
 import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.adapters.DashboardMenuAdapter;
 import applab.client.search.model.Farmer;
+import applab.client.search.settings.SettingsActivity;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
+import applab.client.search.utils.ConnectionUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -83,7 +85,7 @@ public class DashboardActivity extends Activity {
             }
         });
 //getData();
-        String[] titles = {"Prices", "ID Generator", "Clusters", "Communities"};
+        String[] titles = {"Prices", "Meetings", "Clusters", "Communities"};
         tableRow_communities = (TableRow) findViewById(R.id.tableRow_communities);
         tableRow_farmers = (TableRow) findViewById(R.id.tableRow_farmers);
         tableRow_taroWorks = (TableRow) findViewById(R.id.tableRow_taroWorks);
@@ -139,6 +141,70 @@ public class DashboardActivity extends Activity {
             }
         });
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        MenuInflater inflator = getMenuInflater();
+        inflator.inflate(R.menu.main, menu);
+
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        try {
+
+//            if (drawerToggle.onOptionsItemSelected(item)) {
+//                return true;
+//            }
+
+//            System.out.println("Itemsing android.R.id.home  : "+android.R.id.action_home);
+
+            if (item.getItemId() == R.id.action_settings) {
+                Intent intent = new Intent().setClass(this, SettingsActivity.class);
+                this.startActivityForResult(intent, 0);
+            } /*else if (item.getItemId() == R.id.action_nav_back) {
+                listViewBackNavigation();
+            }
+              else if (item.getItemId() == R.id.action_synchronise) {
+                startSynchronization();
+            */
+        //    }
+        else if (item.getItemId() == R.id.action_about) {
+//                Intent intent = new Intent().setClass(this, AboutActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+//                this.startActivity(intent);
+                Intent intent = new Intent().setClass(this, DashboardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                this.startActivity(intent);
+            }
+
+            else if (item.getItemId() == R.id.action_refresh_farmer) {
+//                Intent intent = new Intent().setClass(this, AboutActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+//                this.startActivity(intent);
+                //(final Context context,final DatabaseHelper databaseHelper,final Intent intent, final String queryString, final String type,String msg )
+                ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
+            }
+//            else if (item.getItemId() == android.R.id.home) {
+//                //resetDisplayMenus();
+//                selectItem(0);
+//            }
+            else if (item.getItemId() == android.R.id.home) {
+                Intent intent = new Intent().setClass(this, DashboardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                this.startActivity(intent);
+
+            }
+        } catch (Exception ex) {
+            Log.e(MainActivity.class.getName(), "", ex);
+        }
+
+        return true;
     }
 
 

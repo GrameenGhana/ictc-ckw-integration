@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelperConstants;
 import applab.client.search.storage.StorageManager;
-import applab.client.search.utils.FarmerServiceUtil;
 import applab.client.search.utils.HttpHelpers;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -15,9 +14,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by skwakwa on 8/4/15.
@@ -25,6 +22,8 @@ import java.util.Map;
 public class IctcCkwIntegrationSync {
     public static String ICTC_SERVER_URL = "http://188.166.30.140:8080/ICTC/MobileController?";
 
+    public static String GET_FARMER_DETAILS ="details";
+    public static String LOGIN ="login";
 
     public static void syncFarmerDetails() {
         int networkTimeout = 10 * 60 * 1000;

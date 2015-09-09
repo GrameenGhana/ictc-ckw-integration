@@ -485,4 +485,8 @@ public class Farmer extends ListObject {
     public void setMainCrop(String mainCrop) {
         this.mainCrop = mainCrop;
     }
-}
+
+    public String getFullname()
+    {
+        return firstName+"  "+lastName;
+    }}

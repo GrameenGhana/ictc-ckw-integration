@@ -16,4 +16,17 @@
         <item>Recent Searches</item>
         <item>Interactive Content</item>
     </string-array>
+
+
+
+
+
+    <string-array name="text_colors">
+        <item>#4BD2E1</item>
+        <item>#EF6191</item>
+        <item>#DB4336</item>
+        <item>#FEA427</item>
+        <item>#B68FFD</item>
+        <item>#04BEA4</item>
+    </string-array>
 </resources>

@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="6dip" >
 
-</LinearLayout>
+<CheckBox
+        android:id="@+id/lst_chk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="" />
+
+<TextView
+        android:id="@+id/lst_farmer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/lst_chk"
+        android:layout_toRightOf="@+id/lst_chk"
+        android:text="" android:layout_alignTop="@+id/lst_chk" android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

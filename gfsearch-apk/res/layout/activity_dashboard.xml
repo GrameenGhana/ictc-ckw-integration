@@ -19,7 +19,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Supervisor: Kofi Ananse"
-                    android:id="@+id/supervisor_name" android:textStyle="bold" android:textColor="#ffffffff"/>
+                    android:id="@+id/supervisor_name"  android:textColor="#ffffffff"/>
             <TableLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent">
@@ -28,7 +28,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:gravity="center_vertical"
-                        android:paddingTop="20dp">
+                        android:paddingTop="10dp">
                     <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                         android:id="@+id/tableRow_farmers"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" android:gravity="center_vertical"
-                        android:paddingTop="20dp">
+                        android:paddingTop="10dp">
                     <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

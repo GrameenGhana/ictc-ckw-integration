@@ -49,8 +49,8 @@ public class FarmMapping extends Activity {
             if (enabled) {
 
                 System.out.println("System Enabled");
-//                Location location = service.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                Location location = service.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                Location location = service.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+//                Location location = service.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
                 lat = location.getLatitude();
                 lon = location.getLongitude();

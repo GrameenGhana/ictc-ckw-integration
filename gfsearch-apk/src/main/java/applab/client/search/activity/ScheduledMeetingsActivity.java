@@ -2,6 +2,9 @@ package applab.client.search.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ActivityGroup;
+import android.app.TabActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +15,7 @@ import applab.client.search.R;
 /**
  * Created by skwakwa on 8/30/15.
  */
-public class ScheduledMeetingsActivity extends Activity {
+public class ScheduledMeetingsActivity extends ActivityGroup {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +33,21 @@ public class ScheduledMeetingsActivity extends Activity {
         mActionBar.setDisplayShowCustomEnabled(true);
 
         TabHost tabHost = (TabHost)findViewById(R.id.tabHost);
+        tabHost.setup(this.getLocalActivityManager());
 
+        Intent  gencal  = new Intent(ScheduledMeetingsActivity.this, GeneralAgentCalendarActivity.class);
+        TabHost.TabSpec spec =tabHost.newTabSpec("Meetings").setIndicator("Meetings").setContent(gencal);
+        tabHost.addTab(spec);
+        gencal  = new Intent(ScheduledMeetingsActivity.this, MeetingByGroupActivity.class);
+        spec =tabHost.newTabSpec("Individual").setIndicator("Individual").setContent(gencal);
+
+        tabHost.addTab(spec);
+
+        gencal  = new Intent(ScheduledMeetingsActivity.this, MeetingByGroupActivity.class);
+        spec =tabHost.newTabSpec("Group").setIndicator("Group").setContent(gencal);
+
+        tabHost.addTab(spec);
+        tabHost.setCurrentTab(0);
 //        TabHost.TabSpec spec =
     }
 }
