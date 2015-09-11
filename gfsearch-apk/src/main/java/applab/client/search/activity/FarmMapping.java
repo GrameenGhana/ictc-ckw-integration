@@ -1,6 +1,7 @@
 package applab.client.search.activity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -13,12 +14,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 /**
@@ -27,6 +32,7 @@ import java.util.ArrayList;
 public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
 
 private GoogleMap mMap; // Might be null if Google Play services APK is not available.
+ PolylineOptions options = new PolylineOptions();
 final GeometryFactory gf = new GeometryFactory();
         Polygon polygon = null;
         ArrayList<Coordinate> points = new ArrayList<Coordinate>();
@@ -34,6 +40,7 @@ final GeometryFactory gf = new GeometryFactory();
 protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acttivity_farm_mapping);
+
         setUpMapIfNeeded();
         }
 
@@ -94,10 +101,21 @@ public void onMapClick(LatLng latLng) {
         ""+mMap.getMyLocation().getLatitude() + mMap.getMyLocation().getLongitude(),
         Toast.LENGTH_LONG).show();
 
+
+
+       if(options.getPoints().size()>1)
+       {
+           options.color( Color.parseColor("#CC0000FF") );
+           options.width( 5 );
+           options.visible( true );
+           mMap.addPolyline(options);
+       }
+
+    mMap.addMarker(new MarkerOptions()
+            .position(new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude())));
+
+    options.add(new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()));
         points.add(new Coordinate(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()));
-
-
-
 
         }
 
@@ -110,6 +128,7 @@ public void onMapLongClick(LatLng latLng) {
         }
 
 
+
         polygon = gf.createPolygon(new LinearRing(new CoordinateArraySequence(points
         .toArray(new Coordinate[points.size()])), gf), null);
         double area = polygon.getArea() *  (Math.PI/180) * 6378137;
@@ -119,7 +138,7 @@ public void onMapLongClick(LatLng latLng) {
         Toast.LENGTH_LONG).show();
 
         Toast.makeText(getApplicationContext(),
-        ""+area,
+        "Area is "+Math.round(area),
         Toast.LENGTH_LONG).show();
         }
 
@@ -133,7 +152,7 @@ public void onMapLongClick(LatLng latLng) {
         if (location != null)
         {
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                    new LatLng(location.getLatitude(), location.getLongitude()), 13));
+                    new LatLng(location.getLatitude(), location.getLongitude()), 15));
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
                     .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
