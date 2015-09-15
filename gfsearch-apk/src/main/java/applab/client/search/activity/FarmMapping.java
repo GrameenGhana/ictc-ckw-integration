@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 import applab.client.search.R;
+import applab.client.search.utils.ConnectionUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -21,6 +22,9 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -33,6 +37,9 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
 
 private GoogleMap mMap; // Might be null if Google Play services APK is not available.
  PolylineOptions options = new PolylineOptions();
+
+    JSONArray mapPoints = new JSONArray();
+
 final GeometryFactory gf = new GeometryFactory();
         Polygon polygon = null;
         ArrayList<Coordinate> points = new ArrayList<Coordinate>();
@@ -101,7 +108,8 @@ public void onMapClick(LatLng latLng) {
         ""+mMap.getMyLocation().getLatitude() + mMap.getMyLocation().getLongitude(),
         Toast.LENGTH_LONG).show();
 
-
+    mMap.addMarker(new MarkerOptions()
+            .position(new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude())));
 
        if(options.getPoints().size()>1)
        {
@@ -110,14 +118,20 @@ public void onMapClick(LatLng latLng) {
            options.visible( true );
            mMap.addPolyline(options);
        }
-
-    mMap.addMarker(new MarkerOptions()
-            .position(new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude())));
-
     options.add(new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()));
-        points.add(new Coordinate(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()));
+    points.add(new Coordinate(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()));
 
-        }
+
+    try {
+        JSONObject cordinates = new JSONObject();
+        cordinates.put("lat",mMap.getMyLocation().getLatitude());
+        cordinates.put("lng",mMap.getMyLocation().getLongitude());
+         mapPoints.put(cordinates);
+    } catch (JSONException e) {
+        e.printStackTrace();
+    }
+
+}
 
 @Override
 public void onMapLongClick(LatLng latLng) {
@@ -126,9 +140,6 @@ public void onMapLongClick(LatLng latLng) {
         for(Coordinate point : points){
         System.out.println(point.x+" - "+point.y);
         }
-
-
-
         polygon = gf.createPolygon(new LinearRing(new CoordinateArraySequence(points
         .toArray(new Coordinate[points.size()])), gf), null);
         double area = polygon.getArea() *  (Math.PI/180) * 6378137;
@@ -138,9 +149,19 @@ public void onMapLongClick(LatLng latLng) {
         Toast.LENGTH_LONG).show();
 
         Toast.makeText(getApplicationContext(),
-        "Area is "+Math.round(area),
+        "Area is "+area,
         Toast.LENGTH_LONG).show();
-        }
+
+        JSONObject l = new JSONObject();
+    try {
+        l.put("points",mapPoints);
+        l.put("area",area);
+        ConnectionUtil.refreshFarmerInfo(getBaseContext(),null,"l="+l.toString(),"fmap","Syncing Farm Mapping");
+    } catch (JSONException e) {
+        e.printStackTrace();
+    }
+
+}
 
 
     public void locateMe()
