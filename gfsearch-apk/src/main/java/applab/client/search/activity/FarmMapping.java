@@ -164,7 +164,7 @@ public void onMapLongClick(LatLng latLng) {
     try {
         l.put("points",mapPoints);
         l.put("area",area);
-        ConnectionUtil.refreshFarmerInfo(getBaseContext(),null, "fid="+farmer+"l="+URLEncoder.encode(l.toString()),"fmap","Syncing Farm Mapping");
+        ConnectionUtil.refreshFarmerInfo(getBaseContext(),null, "fid="+farmer+"&l="+URLEncoder.encode(l.toString()),"fmap","Syncing Farm Mapping");
     } catch (JSONException e) {
         e.printStackTrace();
     }
