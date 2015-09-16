@@ -186,6 +186,7 @@ public class FarmerDetailActivity extends Activity {
 //        Intent intent = new Intent(FarmerDetailActivity.this, ListCheckBoxActivity.class);
         Intent intent = new Intent(FarmerDetailActivity.this, FarmMapping.class);
         intent.putExtra("type","search");
+        intent.putExtra("farmer_id",farmer.getId());
 //        intent.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString());
 
         startActivity(intent);
