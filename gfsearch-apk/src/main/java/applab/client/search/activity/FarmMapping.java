@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 import applab.client.search.R;
+import applab.client.search.model.Farmer;
 import applab.client.search.utils.ConnectionUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,12 +23,14 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 /**
@@ -39,6 +42,7 @@ private GoogleMap mMap; // Might be null if Google Play services APK is not avai
  PolylineOptions options = new PolylineOptions();
 
     JSONArray mapPoints = new JSONArray();
+    String farmer = null;
 
 final GeometryFactory gf = new GeometryFactory();
         Polygon polygon = null;
@@ -48,7 +52,11 @@ protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acttivity_farm_mapping);
 
-        setUpMapIfNeeded();
+       Bundle b = getIntent().getExtras();
+       farmer = (String) b.get("farmer_id");
+       setUpMapIfNeeded();
+
+
         }
 
 @Override
@@ -110,7 +118,7 @@ public void onMapClick(LatLng latLng) {
 
     mMap.addMarker(new MarkerOptions()
             .position(new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude())));
-
+    options.add(new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()));
        if(options.getPoints().size()>1)
        {
            options.color( Color.parseColor("#CC0000FF") );
@@ -118,7 +126,7 @@ public void onMapClick(LatLng latLng) {
            options.visible( true );
            mMap.addPolyline(options);
        }
-    options.add(new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()));
+
     points.add(new Coordinate(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()));
 
 
@@ -156,7 +164,7 @@ public void onMapLongClick(LatLng latLng) {
     try {
         l.put("points",mapPoints);
         l.put("area",area);
-        ConnectionUtil.refreshFarmerInfo(getBaseContext(),null,"l="+l.toString(),"fmap","Syncing Farm Mapping");
+        ConnectionUtil.refreshFarmerInfo(getBaseContext(),null, "fid="+farmer+"l="+URLEncoder.encode(l.toString()),"fmap","Syncing Farm Mapping");
     } catch (JSONException e) {
         e.printStackTrace();
     }
