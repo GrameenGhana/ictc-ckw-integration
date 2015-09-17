@@ -2,7 +2,10 @@ package applab.client.search.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,7 +22,7 @@ import java.util.List;
 /**
  * Created by skwakwa on 8/30/15.
  */
-public class ListCheckBoxActivity extends Activity {
+public class ListCheckBoxActivity extends FragmentActivity {
     private ListView list;
 
     String title;
@@ -68,6 +71,16 @@ public class ListCheckBoxActivity extends Activity {
         });
 
 
+    }
+    public void showDatePickerDialog(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+        newFragment.show(getFragmentManager(),"DatePicker");
+    }
+
+
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getFragmentManager(), "timePicker");
     }
 
     public void markAttendanceSelect(View view){
