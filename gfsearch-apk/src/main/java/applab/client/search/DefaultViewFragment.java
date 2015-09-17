@@ -7,7 +7,10 @@ import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import applab.client.search.model.ListObject;
-import applab.client.search.ui.*;
+import applab.client.search.ui.MainListViewAdapter;
+import applab.client.search.ui.OnSwipeTouchListener;
+import applab.client.search.ui.SearchMenuItemActivity;
+import applab.client.search.ui.SingleInputPromptDialog;
 
 import java.util.Stack;
 

@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ExpandableListView;
 import android.widget.TextView;
 import applab.client.search.R;
 
@@ -51,11 +50,11 @@ public class FarmersAdapter extends BaseAdapter {
         }
         TextView names = (TextView) view.findViewById(R.id.textView_name);
         TextView locations = (TextView) view.findViewById(R.id.textView_location);
-        TextView mainCrops = (TextView) view.findViewById(R.id.textView_mainCrop);
+//        TextView mainCrops = (TextView) view.findViewById(R.id.textView_mainCrop);
         TextView group = (TextView) view.findViewById(R.id.textView_groups);
         names.setText(name[i]);
         locations.setText(location[i]);
-        mainCrops.setText(mainCrop[i]);
+      //  mainCrops.setText(mainCrop[i]);
         group.setText(groups[i]);
         return view;
     }

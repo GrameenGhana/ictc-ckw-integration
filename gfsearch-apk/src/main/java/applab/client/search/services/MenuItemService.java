@@ -10,7 +10,6 @@ import applab.client.search.storage.StorageManager;
 import applab.client.search.storage.search.Filter;
 import applab.client.search.storage.search.Search;
 
-import java.awt.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

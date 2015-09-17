@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import applab.client.search.activity.DashboardActivity;
 import applab.client.search.interactivecontent.InteractiveContentViewFragment;
 import applab.client.search.location.GpsManager;
 import applab.client.search.services.MenuItemService;
@@ -23,7 +24,6 @@ import applab.client.search.synchronization.BackgroundSynchronizationConfigurer;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import applab.client.search.synchronization.SynchronizationListener;
 import applab.client.search.synchronization.SynchronizationManager;
-import applab.client.search.activity.DashboardActivity;
 import applab.client.search.utils.ConnectionUtil;
 import applab.client.search.utils.DeviceMetadata;
 

@@ -1,16 +1,10 @@
 package applab.client.search.activity;
 
 import android.database.Cursor;
-import android.provider.ContactsContract;
 import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelperConstants;
 import applab.client.search.storage.StorageManager;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.List;
 
