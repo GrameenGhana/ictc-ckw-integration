@@ -895,10 +895,10 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    public void updateFarmer(String farmerId,double area){
+    public void updateFarmer(String farmerId,double area,double perimeter){
 
         ContentValues newValues = new ContentValues();
-        newValues.put(DatabaseHelperConstants.SIZE_PLOT, String.valueOf(area));
+        newValues.put(DatabaseHelperConstants.SIZE_PLOT, String.valueOf(perimeter));
 
         newValues.put(DatabaseHelperConstants.LAND_AREA, String.valueOf(area));
         newValues.put(DatabaseHelperConstants.TARGET_AREA, String.valueOf(area));
