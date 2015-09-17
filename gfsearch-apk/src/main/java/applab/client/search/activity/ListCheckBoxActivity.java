@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import applab.client.search.R;
 import applab.client.search.adapters.ListCheckboxAdapter;
 import applab.client.search.model.Farmer;
@@ -21,6 +22,8 @@ import java.util.List;
 public class ListCheckBoxActivity extends Activity {
     private ListView list;
 
+    String title;
+    int index;
     DatabaseHelper helper;
 
     @Override
@@ -41,6 +44,18 @@ public class ListCheckBoxActivity extends Activity {
         mActionBar.setDisplayShowCustomEnabled(true);
         list = (ListView) findViewById(R.id.lst_attendance);
 
+
+        TextView v =(TextView) findViewById(R.id.txt_meeting_attendance_header);
+
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            title = (String) extras.get("title");
+            index = (Integer) extras.get("index");
+
+
+        }
+        v.setText(title);
         final List<Farmer> farmers = helper.getFarmers();
 
         ListCheckboxAdapter adapter = new ListCheckboxAdapter(ListCheckBoxActivity.this, farmers);
@@ -53,5 +68,10 @@ public class ListCheckBoxActivity extends Activity {
         });
 
 
+    }
+
+    public void markAttendanceSelect(View view){
+
+        Toast.makeText(getBaseContext(),"Taken Attendance",Toast.LENGTH_LONG).show();
     }
 }

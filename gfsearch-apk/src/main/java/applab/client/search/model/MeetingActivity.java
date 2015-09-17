@@ -9,6 +9,7 @@ public class MeetingActivity {
 private String type;
     private String applicationToHandle;
     private String description;
+    private boolean currentlyAvailable;
 
     public MeetingActivity(String activityName,String type,String applicationToHandle,int meetingIndex){
 
@@ -23,7 +24,20 @@ private String type;
         this.setApplicationToHandle(applicationToHandle);
         this.setMeetingIndex(meetingIndex);
         this.setDescription(desc);
+        this.currentlyAvailable = true;
     }
+
+
+    public MeetingActivity(String activityName,String type,String applicationToHandle,int meetingIndex,String desc,boolean available){
+
+        this.setActivityName(activityName);
+        this.setType(type);
+        this.setApplicationToHandle(applicationToHandle);
+        this.setMeetingIndex(meetingIndex);
+        this.setDescription(desc);
+        this.currentlyAvailable = available;
+    }
+
 
     public String getActivityName() {
         return activityName;
@@ -63,5 +77,13 @@ private String type;
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isCurrentlyAvailable() {
+        return currentlyAvailable;
+    }
+
+    public void setCurrentlyAvailable(boolean currentlyAvailable) {
+        this.currentlyAvailable = currentlyAvailable;
     }
 }

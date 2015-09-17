@@ -38,12 +38,15 @@ public class ScheduledMeetingsActivity extends ActivityGroup {
         Intent  gencal  = new Intent(ScheduledMeetingsActivity.this, GeneralAgentCalendarActivity.class);
         TabHost.TabSpec spec =tabHost.newTabSpec("Meetings").setIndicator("Meetings").setContent(gencal);
         tabHost.addTab(spec);
-        gencal  = new Intent(ScheduledMeetingsActivity.this, MeetingByGroupActivity.class);
+        gencal  = new Intent(ScheduledMeetingsActivity.this, IndividualMeetingByCrop.class);
+        gencal.putExtra("type","individual");
         spec =tabHost.newTabSpec("Individual").setIndicator("Individual").setContent(gencal);
 
         tabHost.addTab(spec);
 
-        gencal  = new Intent(ScheduledMeetingsActivity.this, MeetingByGroupActivity.class);
+
+        gencal  = new Intent(ScheduledMeetingsActivity.this, AgentMeetings.class);
+        gencal.putExtra("type","group");
         spec =tabHost.newTabSpec("Group").setIndicator("Group").setContent(gencal);
 
         tabHost.addTab(spec);
@@ -53,12 +56,12 @@ public class ScheduledMeetingsActivity extends ActivityGroup {
 
 
 
-    public void mkAttendance(View view){
-        Intent intent = new Intent(ScheduledMeetingsActivity.this, ListCheckBoxActivity.class);
-//        intent.putExtra("type","search");
-//        intent.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString());
-
-        startActivity(intent);
-
-    }
+//    public void mkAttendance(View view){
+//        Intent intent = new Intent(ScheduledMeetingsActivity.this, ListCheckBoxActivity.class);
+////        intent.putExtra("type","search");
+////        intent.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString());
+//
+//        startActivity(intent);
+//
+//    }
 }

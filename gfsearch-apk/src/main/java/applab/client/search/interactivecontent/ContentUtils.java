@@ -58,6 +58,7 @@ public class ContentUtils {
         String[] items = new String[]{};
 
         File dir = new File(CONTENT_ROOT);
+        System.out.println("CONTENT_ROOT : "+CONTENT_ROOT);
         if (dir.exists()) {
             items = dir.list();
             if (items == null)

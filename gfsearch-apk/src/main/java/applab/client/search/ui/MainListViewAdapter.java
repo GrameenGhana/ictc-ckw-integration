@@ -293,16 +293,31 @@ public class MainListViewAdapter extends BaseAdapter {
     public void setSelectedObject(ListObject selectedObject) {
         this.selectedObject = selectedObject;
 
+        System.out.println("---------------------------------[[selected]]-----------------------------------");
+
         if (this.selectedObject instanceof SearchMenu) {
             items = menuItemService.getTopLevelSearchMenuItems((SearchMenu) this.selectedObject);
+            SearchMenu  sm = (SearchMenu) this.selectedObject;
+
+            System.out.println("Search Menu : "+sm.getId());
+            System.out.println("Search Label : "+sm.getLabel());
             notifyDataSetChanged();
         } else if (this.selectedObject instanceof SearchMenuItem) {
             items = menuItemService.getSearchMenuItems((SearchMenuItem) this.selectedObject);
+            SearchMenuItem  sm = (SearchMenuItem) this.selectedObject;
+
+            System.out.println("Search ID : "+sm.getId());
+            System.out.println("Search Label : "+sm.getLabel());
+            System.out.println("Search Parent : "+sm.getParentId());
+            System.out.println("Search MenuId: "+sm.getMenuId());
             notifyDataSetChanged();
         } else {
             items = menuItemService.getAllSearchMenus();
             notifyDataSetChanged();
         }
+
+        System.out.println("---------------------------------[[endselections]]-----------------------------------");
+
     }
 
     @Override

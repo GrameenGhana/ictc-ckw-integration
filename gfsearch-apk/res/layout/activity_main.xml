@@ -13,17 +13,16 @@
 
         <ImageView
                 android:layout_width="700dp"
-                android:layout_height="400dp"
+                android:layout_height="300dp"
                 android:id="@+id/imageView"
                 android:src="@drawable/smartex" android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="96dp"/>
+                android:layout_marginTop="96dp" android:layout_alignParentRight="true"/>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent" android:layout_below="@+id/imageView"
                 android:gravity="center" android:layout_centerVertical="true" android:background="@drawable/bg_edittext"
-                android:padding="2dp">
+                android:padding="2dp" android:id="@+id/linearLayout3">
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -53,7 +52,7 @@
                             android:textColor="#ffffffff"
                             android:textSize="17dp" android:paddingRight="50dp" android:textStyle="bold"/>
                     <EditText
-                            android:layout_width="400dp"
+                            android:layout_width="fill_parent"
                             android:layout_height="60dp"
                             android:id="@+id/edit_us_name"
                             android:background="@drawable/bg_edittext" android:textColor="#ffffffff"/>
@@ -85,5 +84,10 @@
                     android:background="#ffffffff"
                     android:textSize="19dp"/>
         </LinearLayout>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_pass_response" android:layout_above="@+id/linearLayout3"
+                android:layout_centerHorizontal="true" android:textColor="#ffff2804"/>
     </RelativeLayout>
 </ScrollView>

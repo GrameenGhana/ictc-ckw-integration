@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TableLayout android:padding="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tb1">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Program Dates"
+                      android:id="@+id/textView31" android:textColor="#ff046a17" android:textSize="17dp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Channel Type"  android:textColor="#ff046a17" android:textSize="17dp"
+                      android:id="@+id/textView30"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name"  android:textColor="#ff046a17" android:textSize="17dp"
+                    android:id="@+id/textView29"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location"  android:textColor="#ff046a17" android:textSize="17dp"
+                    android:id="@+id/textView32"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Languages"
+                      android:id="@+id/textView34"  android:textColor="#ff046a17" android:textSize="17dp"/>
+        </TableRow>
+        <TableRow android:layout_width="fill_parent" android:layout_height="fill_parent" android:dividerPadding="3dp" android:paddingBottom="3dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Region"     android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:id="@+id/txt_gtv_date"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TV"     android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:id="@+id/textView41"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="GTV"     android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:id="@+id/textView42"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"     android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:id="@+id/textView44"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView45"     android:textAppearance="?android:attr/textAppearanceMedium"/>
+        </TableRow>
+        <TableRow android:layout_width="fill_parent" android:layout_height="fill_parent"  android:dividerPadding="3dp" android:paddingBottom="3dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Region"     android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:id="@+id/txt_volta_star"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Radio"     android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:id="@+id/textView35"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Volta Star Radio"     android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:id="@+id/textView36"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"     android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:id="@+id/textView38" android:text="VR" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/textView39"     android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:text="Twi &amp; Ewe"/>
+        </TableRow>
+        <TableRow android:dividerPadding="3dp" android:paddingBottom="3dp"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Region"    android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:id="@+id/txt_radio_bar"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Radio"    android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:id="@+id/txt_channel_type"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Brong Ahafo Radio"     android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:id="@+id/textView37"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"     android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:id="@+id/lan_gtv" android:text="BA" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"     android:textAppearance="?android:attr/textAppearanceMedium"
+                      android:id="@+id/twiii" android:text="TWI"/>
+        </TableRow>
+    </TableLayout>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="More Information Call: 057665186"
+            android:id="@+id/textView33" android:textColor="#ff3d8438"/>
+    <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:layout_gravity="right">
+    </GridLayout>
+</LinearLayout>

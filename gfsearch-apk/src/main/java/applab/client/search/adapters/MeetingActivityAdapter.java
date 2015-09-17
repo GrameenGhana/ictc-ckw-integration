@@ -48,7 +48,7 @@ List<MeetingActivity> meetingActivities = null;
             view = minflater.inflate(R.layout.list_simple_text_text_, viewGroup, false);
         }
         TextView idex = (TextView) view.findViewById(R.id.lst_text_item_icon);
-        TextView names = (TextView) view.findViewById(R.id.lst_text_item_title);
+        TextView names = (TextView) view.findViewById(R.id.lst_text_item_titles);
        MeetingActivity ac = meetingActivities.get(i);
         names.setText(ac.getActivityName());
         idex.setText(ac.getMeetingIndex());

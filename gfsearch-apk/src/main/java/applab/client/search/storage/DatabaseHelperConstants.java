@@ -121,7 +121,7 @@ public final class DatabaseHelperConstants {
     public static final String ICTC_ACTUAL_MEETING_DATE= "actual_meet_date";
     public static final String ICTC_SCHEDULE_DATE= "schedule_date";
     public static final String ICTC_PROCEDUREE= "meeting_procedure";
-    public static final String ICTC_CROP= "remarks";
+    public static final String ICTC_CROP= "crop";
     public static final String ICTC_FARMER_MEETING_PROCEDURE= "ictc_meeting_PROCEDURE";
 
 
@@ -163,6 +163,21 @@ public final class DatabaseHelperConstants {
     public static final String ICTC_EARLIEST_START_DATE = "earliest_start";
     public static final String ICTC_LATEST_START_DATE= "latest_start";
     public static final String ICTC_ACTUAL_DATE= "actual_date";
+
+
+    public static final String ICTC_GPS_LOCATION = "ictc_farm_grp";
+    public static final String ICTC_LATITUDE= "latitude";
+    public static final String ICTC_LONGITUDE= "longitude";
+
+
+    public static final String ICTC_FARM_INPUTS= "ictc_farm_inputs";
+    public static final String ICTC_INPUT_NAME= "name";
+    public static final String ICTC_QTY_RECEIVED= "qty";
+    public static final String ICTC_QTY_GIVEN= "qty_given";
+    public static final String ICTC_DATE_RECEIVED= "date_received";
+    public static final String ICTC_STATUS= "status";
+    public static final String ICTC_DATE_CREATED= "date_created";
+
 
     /**
      * Farm Management Plan

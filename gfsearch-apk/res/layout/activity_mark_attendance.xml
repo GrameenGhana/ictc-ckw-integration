@@ -5,13 +5,63 @@
               android:gravity="center"
               android:background="#ffeeeeee">
 
-    <TextView android:layout_width="fill_parent"
-              android:layout_height="wrap_content" android:padding="10dp"
-              android:text="Mark Attendance " android:textSize="20sp" />
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                      android:layout_height="wrap_content">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
+                      android:text="Meeting" android:textSize="20sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New Text"
+                      android:id="@+id/txt_meeting_attendance_header"/>
+        </LinearLayout>
+        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
+                      android:layout_height="fill_parent">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
+                      android:text="Meeting Date" android:textSize="20sp" />
+            <DatePicker
+                    android:padding="0dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/datePicker" android:calendarViewShown="false" />
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Time"
+                        android:id="@+id/textView5"/>
+                <TimePicker android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:id="@+id/timePicker3">
+                    <TimePicker android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                android:id="@+id/timePicker2"/>
+                </TimePicker>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+                <TimePicker
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/timePicker"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
     <Button android:id="@+id/findSelected"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="markAttendanceSelect"
             android:text="Click to map Attendance" />
 
     <ListView android:id="@+id/lst_attendance" android:layout_width="fill_parent"

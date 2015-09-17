@@ -20,7 +20,7 @@
 
 
     <TextView
-            android:id="@+id/lst_text_item_title"
+            android:id="@+id/lst_text_item_titles"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/lst_text_item_icon"
