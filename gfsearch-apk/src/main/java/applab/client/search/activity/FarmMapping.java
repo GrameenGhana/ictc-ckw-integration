@@ -16,6 +16,7 @@ import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.ConnectionUtil;
 import applab.client.search.utils.GoogleMapUtils;
+import applab.client.search.utils.IctcCKwUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -88,7 +89,7 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
                 System.out.println("Farm Coordiates : "+gps.size());
                 TextView fArea = (TextView) findViewById(R.id.txt_map_fm_area);
 //            fArea.setText((farmer.getLandArea())+" m2  ");
-                fArea.setText(Html.fromHtml((farmer.getLandArea())+" m<sup>2</sup> Perimeter : "+farmer.getSizePlot()+" m "));
+                fArea.setText(Html.fromHtml((farmer.getLandArea())+" m<sup>2</sup> Perimeter : "+ IctcCKwUtil.formatDouble(farmer.getSizePlot())+" m "));
                 fArea = (TextView) findViewById(R.id.txt_coordinate_no);
                 fArea.setText(String.valueOf(gps.size()));
                 for (FarmGPSLocation gpsLoc : gps) {
@@ -235,7 +236,7 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
             DecimalFormat df = new DecimalFormat("#.000000");
 
             TextView fm = (TextView) findViewById(R.id.txt_map_fm_area);
-            fm.setText(Html.fromHtml(df.format(area) + " m<sup>2</sup>"));
+            fm.setText(Html.fromHtml(df.format(area) + " m<sup>2</sup> Perimeter : "+perimeter+" m"));
 
             fm = (TextView) findViewById(R.id.txt_coordinate_no);
 
@@ -252,8 +253,7 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
             dbHelper.updateFarmer(farmer.getFarmID(), area,perimeter);
 
 
-            double areas = GoogleMapUtils.computeArea(lats);
-            System.out.println("Other Area : "+areas);
+
             JSONObject l = new JSONObject();
             try {
                 l.put("points",mapPoints);

@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class  AgentVisitUtil {
 
-    public static String TV_PROGRAM="";
+    public static String TV_PROGRAM="View TV Schedule";
     String tv=   "GTV\nGTV_DATE\n" +
             "3:00pm - 3:30pm\n" +
             "Radio \n" +
@@ -41,14 +41,14 @@ public class  AgentVisitUtil {
     public static  String SHARE_INPUT_PACKAGE ="Input Package";
 
     public static  String DELIVER_INPUTS ="Deliver Inputs";
-
+    public static  String SELECT_FARMER ="Select Farmer";
     public static List<MeetingActivity> getMeetingActivity(int meetingIndex){
         List<MeetingActivity> activities = new ArrayList<MeetingActivity>();
         if(1==meetingIndex){
             activities.add(new applab.client.search.model.MeetingActivity("Get Ploughing Dates for Tractor","G","A",1,"",false));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Bio Data", "I", "T",2,LAUNCH_TAROWORKS+"2. FARMER REGISTRATION"));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Farmer Data","I","T",3,LAUNCH_TAROWORKS+"2. FARMER REGISTRATION"));
-            activities.add(new applab.client.search.model.MeetingActivity(SHARE_INPUT_PACKAGE,"-","A",4,"Share Inputs"));
+            activities.add(new applab.client.search.model.MeetingActivity(SHARE_INPUT_PACKAGE,"-","A",4,SELECT_FARMER+"\nShare Inputs"));
             activities.add(new applab.client.search.model.MeetingActivity("Share TV Schedule","A","A",5, replaceRadioTVSchedule()));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Request for Assistance","G","c",6,LAUNCH_CKW));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Meeting Question","G","A",7,MEETING_QUESITONS,false));
@@ -57,7 +57,7 @@ public class  AgentVisitUtil {
             activities.add(new applab.client.search.model.MeetingActivity(COLLECT_FARM_MEASUREMENT,"G","A",1,""));
             activities.add(new applab.client.search.model.MeetingActivity("Baseline Data Collection", "I", "T",2,LAUNCH_TAROWORKS+"3. Farmer Baseline Data"));
             activities.add(new applab.client.search.model.MeetingActivity("Farm Planning","I","T",3,LAUNCH_TAROWORKS+"5. Farm Management Plan"));
-            activities.add(new applab.client.search.model.MeetingActivity(DELIVER_INPUTS,"-","A",4,""));
+            activities.add(new applab.client.search.model.MeetingActivity(DELIVER_INPUTS,"-","A",4,SELECT_FARMER));
             activities.add(new applab.client.search.model.MeetingActivity("Confirm Delivery of Inputs/Receipt","A","A",5,"",false));
             activities.add(new applab.client.search.model.MeetingActivity("Provide technical Assistance","G","C",6,LAUNCH_CKW));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Request for Attendance","G","A",7,ATTENDANCE,false));

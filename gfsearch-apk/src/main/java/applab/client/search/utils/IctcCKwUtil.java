@@ -2,6 +2,7 @@ package applab.client.search.utils;
 
 import android.content.Context;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -88,4 +89,16 @@ public class IctcCKwUtil {
     }
 
 
+
+    public static String formatDouble(double amt){
+
+        DecimalFormat df = new DecimalFormat("#.000");
+
+        return df.format(amt);
+    } public static String formatDouble(String amt){
+
+        DecimalFormat df = new DecimalFormat("#.000");
+
+        return df.format(amt);
+    }
 }

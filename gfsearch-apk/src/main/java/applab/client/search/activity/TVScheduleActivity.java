@@ -2,6 +2,8 @@ package applab.client.search.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,15 +33,23 @@ public class TVScheduleActivity extends Activity {
 
 
         String gtv = IctcCKwUtil.getNextDate(Calendar.SUNDAY);
-        String readio = IctcCKwUtil.getNextDate(Calendar.SATURDAY);
+        String radio = IctcCKwUtil.getNextDate(Calendar.SATURDAY);
 
         TextView t =(TextView)  findViewById(R.id.txt_gtv_date);
-        t.setText(gtv+"\n3:00pm - 3:30pm");
+        t.setText(gtv);
 
         t =(TextView)  findViewById(R.id.txt_radio_bar);
-        t.setText(readio+"\n7:00pm - 8:00pm");
+        t.setText(radio);
         t =(TextView)  findViewById(R.id.txt_volta_star);
-        t.setText(readio+"\n7:00pm - 8:00pm");
+        t.setText(readio);
 
+    }
+
+    public void callNo(View view){
+
+        System.out.println("Calling  : 057665186");
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "057665186"));
+        startActivity(intent);
+        System.out.println("Done calling 057665186");
     }
 }
