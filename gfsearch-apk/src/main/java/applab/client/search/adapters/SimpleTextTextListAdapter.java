@@ -21,6 +21,7 @@ public class SimpleTextTextListAdapter  extends BaseAdapter {
     String  [] contents = null;
     String  [] firstLetter =null;
     String  [] colors = null;
+    boolean [] enabled = null;
     public int lastExpandedGroupPosition;
 
     public SimpleTextTextListAdapter(Context mContext,
@@ -32,7 +33,24 @@ public class SimpleTextTextListAdapter  extends BaseAdapter {
         this.mContext = mContext;
         this.contents = contents;
         this.colors = colors;
+        System.out.println("Contents  : "+contents.length);
         this.firstLetter = firstLetter;
+        minflater = LayoutInflater.from(mContext);
+    }
+
+    public SimpleTextTextListAdapter(Context mContext,
+                                     String  []  contents,
+                                     String []  firstLetter,boolean [] enabled,
+
+
+                                     String [] colors
+    ) {
+        this.mContext = mContext;
+        this.contents = contents;
+        this.colors = colors;
+        System.out.println("Contents  : "+contents.length);
+        this.firstLetter = firstLetter;
+        this.enabled = enabled;
         minflater = LayoutInflater.from(mContext);
     }
     public SimpleTextTextListAdapter(Context mContext,
@@ -45,8 +63,10 @@ public class SimpleTextTextListAdapter  extends BaseAdapter {
         this.contents = contents;;
         colors[0] =(color);
         this.firstLetter = firstLetter;
+        Arrays.fill(enabled,true);
         minflater = LayoutInflater.from(mContext);
     }
+
     public int getCount() {
         return contents.length;
     }
@@ -63,11 +83,24 @@ public class SimpleTextTextListAdapter  extends BaseAdapter {
         if (view == null) {
             view = minflater.inflate(R.layout.list_simple_text_text_, viewGroup, false);
         }
-        TextView title = (TextView) view.findViewById(R.id.lst_text_item_title);
         TextView icon = (TextView) view.findViewById(R.id.lst_text_item_icon);
 
-        icon.setBackgroundColor(Color.parseColor(getColor()));
+
         icon.setText(firstLetter[i]);
+
+
+        TextView title = (TextView) view.findViewById(R.id.lst_text_item_titles);
+
+        if(!enabled[i]){
+            title.setTextColor(Color.parseColor("#cccccc"));
+            icon.setBackgroundColor(Color.parseColor("#cccccc"));
+        }else{
+            icon.setBackgroundColor(Color.parseColor(getColor()));
+            title.setTextColor(Color.parseColor("#666666"));
+        }
+        if(null==title){
+            System.out.println("Title is null");
+        }else
         title.setText(contents[(i)]);
         return view;
     }

@@ -201,6 +201,17 @@ public class MenuItemService {
         return buildSearchMenuItems(cursor);
     }
 
+    public List<SearchMenuItem>  getSearchMenuItemByLabel(String label){
+
+//        System.out.println("LabelSM  : "+label);
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
+        search.addFilterEqual(DatabaseHelperConstants.MENU_ITEM_LABEL_COLUMN, label);
+
+        Cursor cursor = StorageManager.getInstance().getRecords(search);
+        return buildSearchMenuItems(cursor);
+    }
+
     /**
      * gets the total number of search menu items for the given parent menu identifier.
      *

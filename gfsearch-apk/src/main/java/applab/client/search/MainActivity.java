@@ -17,6 +17,7 @@ import android.widget.ListView;
 import applab.client.search.activity.DashboardActivity;
 import applab.client.search.interactivecontent.InteractiveContentViewFragment;
 import applab.client.search.location.GpsManager;
+import applab.client.search.model.Farmer;
 import applab.client.search.services.MenuItemService;
 import applab.client.search.settings.SettingsActivity;
 import applab.client.search.settings.SettingsManager;
@@ -37,7 +38,7 @@ public class MainActivity extends Activity implements ActionMode.Callback {
     private ActionBarDrawerToggle drawerToggle;
     private DefaultViewFragment defaultFragment;
     private MenuItem backNavigationMenuItem = null;
-
+    String  searchCrop ="";
     /**
      * Called when the activity is first created.
      *
@@ -89,6 +90,17 @@ public class MainActivity extends Activity implements ActionMode.Callback {
 
             //get GPS location
             GpsManager.getInstance().update();
+            //Set Default List Item
+            Bundle extras = getIntent().getExtras();
+
+            try {
+                searchCrop = extras.getString("SEARCH_CROP");
+
+
+            } catch (Exception e) {
+
+            }
+
 
             selectItem(0);
         } catch (Exception ex) {
@@ -456,11 +468,17 @@ public class MainActivity extends Activity implements ActionMode.Callback {
 
     private void displayDefaultFragment() {
         FragmentManager fragmentManager = getFragmentManager();
+Bundle bundle = new Bundle();
+        bundle.putString("SELECTED_CROP",searchCrop);
 
         Fragment fragment = fragmentManager.findFragmentByTag(DefaultViewFragment.FRAGMENT_TAG);
+
+
         if (fragment == null) {
             fragment = new DefaultViewFragment();
         }
+
+        fragment.setArguments(bundle);
 
         //insert the fragment by replacing the existing fragment.
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment,

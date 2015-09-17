@@ -2,22 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent" >
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="View Schedules by individuals and Group"
-                android:id="@+id/textView3"/>
-    </LinearLayout>
     <TabHost
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/tabHost" android:layout_gravity="center_horizontal">
+            android:layout_height="wrap_content" android:id="@+id/tabHost2">
         <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -32,13 +21,19 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent">
                 <LinearLayout
-                        android:id="@+id/linearLayout"
+                        android:id="@+id/tab1"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:orientation="vertical">
                 </LinearLayout>
                 <LinearLayout
-                        android:id="@+id/linearLayout2"
+                        android:id="@+id/tab2"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:orientation="vertical">
+                </LinearLayout>
+                <LinearLayout
+                        android:id="@+id/tab3"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:orientation="vertical">

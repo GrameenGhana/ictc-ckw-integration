@@ -31,26 +31,31 @@
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" android:paddingTop="30dp">
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Farm Management Plan"
-                    android:id="@+id/fmp_farmer" android:layout_gravity="right" android:textColor="#ff07530f"/>
-            <Button
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Map Farm"
-                    android:onClick="mapFarm"
-                    android:id="@+id/btn_map_farm" android:layout_gravity="right"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Farm Plan"
+                        android:id="@+id/fmp_farmer" android:layout_gravity="right" android:textColor="#ff07530f"/>
+                <Button
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Map Farm"
+                        android:onClick="mapFarm"
+                        android:id="@+id/btn_map_farm" android:layout_gravity="right"/>
+                <Button
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Get Farmer Input"
+                        android:onClick="farmerInput"
+                        android:id="@+id/btn_input_farm" android:layout_gravity="right"/>
+            </LinearLayout>
 
-            <Button
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Get Farmer Input"
-                    android:onClick="farmerInput"
-                    android:id="@+id/btn_input_farm" android:layout_gravity="right"/>
             <TableLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content" android:background="@drawable/bg_transparent_green"
@@ -477,247 +482,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Previous Visits"
+                        android:text="Agents Visits"
                         android:id="@+id/textView43" android:textColor="#ff07530f" android:textStyle="italic"/>
             </LinearLayout>
-            <TableLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:background="@drawable/bg_transparent_green"
-                    android:padding="10dp">
-                <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" android:gravity="center_vertical">
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="10 June 2015"
-                            android:id="@+id/textView44" android:paddingRight="10dp" android:textColor="#ffcb3b3a"/>
-                    <TextView
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Visit 1: Post -harvest and processing"
-                            android:id="@+id/textView45" android:paddingRight="15dp"/>
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/imageView6" android:src="@drawable/ic_volume" android:paddingRight="10dp"/>
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/imageView7" android:src="@drawable/ic_gallery"
-                            android:paddingRight="10dp"/>
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/imageView8" android:src="@drawable/ic_camera"/>
-                </TableRow>
-                <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" android:gravity="center_vertical">
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="10 July 2015"
-                            android:paddingRight="10dp" android:textColor="#ffcb3b3a"/>
-                    <TextView
-                            android:layout_width="250dp"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Visit 2: Post -harvest and processing"
-                            android:paddingRight="15dp"/>
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_volume"/>
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_gallery"/>
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_camera"/>
-                </TableRow>
-            </TableLayout>
-
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Upcoming Visits"
-                        android:textColor="#ff07530f" android:textStyle="italic"/>
-            </LinearLayout>
-            <TableLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:background="@drawable/bg_transparent_green"
-                    android:padding="10dp">
-                <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" android:gravity="center_vertical">
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="10 Aug 2015"
-                            android:paddingRight="10dp" android:textColor="#ffcb3b3a"/>
-                    <TextView
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Visit 3: Visit #3"
-                            android:paddingRight="15dp"/>
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_volume" android:paddingRight="10dp"/>
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_gallery" android:paddingRight="10dp"/>
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_camera"/>
-                </TableRow>
-                <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" android:gravity="center_vertical">
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="20 Sept 2015"
-                            android:paddingRight="10dp" android:textColor="#ffcb3b3a"/>
-                    <TextView
-                            android:layout_width="250dp"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Visit 4: Post -harvest and processing"
-                            android:paddingRight="15dp"/>
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_volume"/>
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_gallery"/>
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_camera"/>
-                </TableRow>
-            </TableLayout>
 
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" android:gravity="center" android:padding="10dp">
-            <TableLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
-                    android:background="@drawable/bg_transparent_green" android:padding="20dp">
-                <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent">
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Gross Margin"
-                            android:id="@+id/textView28" android:paddingRight="30dp"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Item"
-                            android:id="@+id/textView29" android:paddingRight="30dp"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Unit Cost"
-                            android:id="@+id/textView30" android:paddingRight="30dp"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Quantity"
-                            android:id="@+id/textView31" android:paddingRight="30dp"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Amount"
-                            android:id="@+id/textView32" android:paddingRight="30dp"/>
-                </TableRow>
-                <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" android:padding="11dp">
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Ploughing"
-                            android:id="@+id/textView33"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Labour"
-                            android:id="@+id/textView34"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="30"
-                            android:id="@+id/textView35"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="3"
-                            android:id="@+id/textView36"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="90"
-                            android:id="@+id/textView37"/>
-                </TableRow>
-                <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" android:padding="11dp">
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Fertilizer Cost"
-                            android:id="@+id/textView38"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Bag"
-                            android:id="@+id/textView39"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="40"
-                            android:id="@+id/textView40"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2"
-                            android:id="@+id/textView41"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="80"
-                            android:id="@+id/textView42"/>
-                </TableRow>
-            </TableLayout>
+                android:layout_height="297dp" android:gravity="center" android:padding="10dp"
+                android:weightSum="1">
+            <ListView
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/lst_ind_farm_visit" android:layout_weight="5.45"/>
         </LinearLayout>
 
 

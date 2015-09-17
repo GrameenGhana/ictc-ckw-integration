@@ -7,6 +7,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 import applab.client.search.R;
+import applab.client.search.model.Farmer;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by Software Developer on 30/07/2015.
@@ -25,6 +29,26 @@ public class FarmersAdapter extends BaseAdapter {
                           String[] mainCrop,
                           String[] groups) {
 
+        this.name = name;
+        this.location = location;
+        this.mainCrop = mainCrop;
+        this.groups = groups;
+        minflater = LayoutInflater.from(mContext);
+    } public FarmersAdapter(Context mContext,
+                           List<Farmer> farmerList) {
+
+        name = new String [farmerList.size()];
+        location = new String [farmerList.size()];
+        mainCrop = new String [farmerList.size()];;
+        groups= new String [farmerList.size()];
+        int i=0;
+        for (Farmer f: farmerList){
+            name[i]=f.getFullname();
+            location[i]=f.getLocationOfLand();
+            mainCrop[i]=f.getMainCrop();
+            groups[i]=f.getFarmerBasedOrg();
+            i++;
+        }
         this.name = name;
         this.location = location;
         this.mainCrop = mainCrop;

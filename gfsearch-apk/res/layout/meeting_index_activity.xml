@@ -10,6 +10,11 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Activities For Meeting"
             android:id="@+id/act_4_meeting"/>
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/act_farmer_details"/>
     <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

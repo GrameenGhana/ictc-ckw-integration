@@ -194,8 +194,20 @@ public class DashboardActivity extends Activity {
 //                //resetDisplayMenus();
 //                selectItem(0);
 //            }
+            else if (item.getItemId() == R.id.action_logout) {helper.resetFarmer();
+                Intent intent = new Intent().setClass(this, StartUpActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                this.startActivity(intent);
+
+            }
+
             else if (item.getItemId() == android.R.id.home) {
                 Intent intent = new Intent().setClass(this, DashboardActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                this.startActivity(intent);
+
+            } else if (item.getItemId() ==R.id.action_meeting_items) {
+                Intent intent = new Intent().setClass(this, ScheduledMeetingsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                 this.startActivity(intent);
 

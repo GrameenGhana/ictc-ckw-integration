@@ -15,10 +15,14 @@ public class Meeting {
     private int meetingIndex;
     private String farmer;
     private String remark;
+    private String crop;
+    private String season;
 
 
+    private Farmer  farmerDetails;
 
-    public Meeting(String id, String type, String title, Date scheduledDate, Date meetingDate, int attended, int meetingIndex, String farmer, String remark) {
+
+    public Meeting(String id, String type, String title, Date scheduledDate, Date meetingDate, int attended, int meetingIndex, String farmer, String remark,String crop,String season) {
         this.id = id;
         this.type = type;
         this.title = title;
@@ -28,6 +32,8 @@ public class Meeting {
         this.meetingIndex = meetingIndex;
         this.farmer = farmer;
         this.remark = remark;
+        this.crop = crop;
+        this.setSeason(season);
     }
 
     public String getId() {
@@ -100,5 +106,29 @@ public class Meeting {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getCrop() {
+        return crop;
+    }
+
+    public void setCrop(String crop) {
+        this.crop = crop;
+    }
+
+    public String getSeason() {
+        return season;
+    }
+
+    public void setSeason(String season) {
+        this.season = season;
+    }
+
+    public Farmer getFarmerDetails() {
+        return farmerDetails;
+    }
+
+    public void setFarmerDetails(Farmer farmerDetails) {
+        this.farmerDetails = farmerDetails;
     }
 }

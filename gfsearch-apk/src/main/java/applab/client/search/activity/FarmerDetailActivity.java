@@ -7,11 +7,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.*;
 import applab.client.search.R;
+import applab.client.search.adapters.MeetingInvAdapter;
 import applab.client.search.model.Farmer;
+import applab.client.search.model.Meeting;
+import applab.client.search.storage.DatabaseHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Software Developer on 30/07/2015.
@@ -25,7 +29,12 @@ public class FarmerDetailActivity extends Activity {
     private String mainCrop;
     private String location;
     private TextView textViewLocation;
+    ListView list;
+    DatabaseHelper dbHelper=null;
     Farmer farmer = null;
+    List<Meeting> meetings = new ArrayList<Meeting>();
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,16 +49,18 @@ public class FarmerDetailActivity extends Activity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Farmer Details");
 
-            try {
-                Bundle extras = getIntent().getExtras();
-                if (extras != null) {
-                    farmer = (Farmer) extras.get("farmer");
+        dbHelper = new DatabaseHelper(getBaseContext());
+        try {
+            Bundle extras = getIntent().getExtras();
+            if (extras != null) {
+                farmer = (Farmer) extras.get("farmer");
 
-                    location = farmer.getCommunity();
-                    name = farmer.getLastName() + " , " + farmer.getFirstName();
-                }
+                farmer = dbHelper.findFarmer(farmer.getFarmID());
+                location = farmer.getCommunity();
+                name = farmer.getLastName() + " , " + farmer.getFirstName();
+            }
 
-                mainCrop = farmer.getMainCrop();
+            mainCrop = farmer.getMainCrop();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -180,22 +191,44 @@ public class FarmerDetailActivity extends Activity {
 //            textViewPercentageSold.setText(">80%");
         }
 
+
+
+        list = (ListView) findViewById(R.id.lst_ind_farm_visit);
+        meetings =  dbHelper.getFarmerMeetings(farmer.getFarmID());
+
+        System.out.println("Meeting Indexx : "+meetings.size());
+        System.out.println("Ktd : "+list.toString());
+
+
+        String  [] colors =  getResources().getStringArray(R.array.text_colors);
+        MeetingInvAdapter adapter = new MeetingInvAdapter(FarmerDetailActivity.this, meetings, getResources().getStringArray(R.array.text_colors));
+        list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(FarmerDetailActivity.this,MeetingIndexActivity.class);
+                intent.putExtra("mi",meetings.get(i).getMeetingIndex());
+                intent.putExtra("mt", meetings.get(i).getTitle());
+                intent.putExtra("farmerId", meetings.get(i).getFarmer());
+                startActivity(intent);
+
+            }
+        });
     }
 
     public void mapFarm(View view) {
 //        Intent intent = new Intent(FarmerDetailActivity.this, ListCheckBoxActivity.class);
         Intent intent = new Intent(FarmerDetailActivity.this, FarmMapping.class);
         intent.putExtra("type","search");
-        intent.putExtra("farmer_id",farmer.getFarmID());
 //        intent.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString());
-
+        intent.putExtra("farmer",farmer);
         startActivity(intent);
     }
 
     public void farmerInput(View view) {
 //        Intent intent = new Intent(FarmerDetailActivity.this, ListCheckBoxActivity.class);
         Intent intent = new Intent(FarmerDetailActivity.this, FarmerInputActivty.class);
-        intent.putExtra("farmerid",farmer);
+        intent.putExtra("farmer",farmer);
 //        intent.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString());
 
         startActivity(intent);

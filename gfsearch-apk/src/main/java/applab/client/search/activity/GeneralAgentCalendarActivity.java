@@ -35,14 +35,15 @@ public class GeneralAgentCalendarActivity extends Activity {
                 "2nd Group Meeting",
                 "2nd Individual Meeting",
                 "3rd Group Meeting",
-                "3rd Individual Meeting"};
+                "4rd Group Meeting"};
 
 
         final String []   firstLetter = {"1","2","3","4","5","6"};
+        boolean [] enabled={true,true,true,true,true,true};
 
 
 
-        SimpleTextTextListAdapter adapter = new SimpleTextTextListAdapter(GeneralAgentCalendarActivity.this, titles,firstLetter, getResources().getStringArray(R.array.text_colors));
+        SimpleTextTextListAdapter adapter = new SimpleTextTextListAdapter(GeneralAgentCalendarActivity.this, titles,firstLetter,enabled, getResources().getStringArray(R.array.text_colors));
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
