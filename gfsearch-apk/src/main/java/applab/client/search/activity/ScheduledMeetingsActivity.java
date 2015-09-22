@@ -1,7 +1,9 @@
 package applab.client.search.activity;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.ActivityGroup;
+import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;

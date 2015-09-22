@@ -61,7 +61,7 @@ public class ListCheckBoxActivity extends FragmentActivity {
         v.setText(title);
         final List<Farmer> farmers = helper.getFarmers();
 
-        ListCheckboxAdapter adapter = new ListCheckboxAdapter(ListCheckBoxActivity.this, farmers);
+        ListCheckboxAdapter adapter = new ListCheckboxAdapter(ListCheckBoxActivity.this, farmers,getResources().getStringArray(R.array.text_colors));
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

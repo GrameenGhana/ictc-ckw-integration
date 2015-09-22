@@ -1,6 +1,7 @@
 package applab.client.search.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,19 @@ public class ListCheckboxAdapter extends BaseAdapter {
     private final Context mContext;
     private final List<Farmer> farmers;
     private final boolean [] selected;
-    public ListCheckboxAdapter(Context c, List<Farmer> farmers) {
+    String  [] colors = null;
+    public ListCheckboxAdapter(Context c, List<Farmer> farmers,String  [] colors) {
         mContext = c;
-         this.farmers = farmers;
+        this.farmers = farmers;
         this.selected = new  boolean[farmers.size()];
         Arrays.fill(selected,false);
+        this.colors = colors;
+    } public ListCheckboxAdapter(Context c, List<Farmer> farmers) {
+        mContext = c;
+        this.farmers = farmers;
+        this.selected = new  boolean[farmers.size()];
+        Arrays.fill(selected,false);
+
     }
 
     public int getCount() {
@@ -55,6 +64,10 @@ public class ListCheckboxAdapter extends BaseAdapter {
         }
         CheckBox chk = (CheckBox) grid.findViewById(R.id.lst_chk);
         TextView farmer = (TextView) grid.findViewById(R.id.lst_farmer);
+        TextView tr = (TextView) grid.findViewById(R.id.lst_farmer_initial);
+        tr.setBackgroundColor(Color.parseColor(getColor()));
+        tr.setText(farmers.get(i).getFullname().substring(0,1));
+
         farmer.setText(farmers.get(i).getFullname());
         chk.setTag(i);
 
@@ -75,7 +88,12 @@ public class ListCheckboxAdapter extends BaseAdapter {
                 });
 
 
-        farmer.setText(farmers.get(i).getFirstName());
+//        farmer.setText(farmers.get(i).getFirstName());
         return grid;
     }
+
+    public String getColor(){
+        return colors[(new Double(Math.floor(Math.random()*colors.length)).intValue())];
+    }
 }
+

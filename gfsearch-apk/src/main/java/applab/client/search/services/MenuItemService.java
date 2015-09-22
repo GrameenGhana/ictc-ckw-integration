@@ -10,6 +10,7 @@ import applab.client.search.storage.StorageManager;
 import applab.client.search.storage.search.Filter;
 import applab.client.search.storage.search.Search;
 
+import java.awt.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -212,6 +213,18 @@ public class MenuItemService {
         return buildSearchMenuItems(cursor);
     }
 
+
+    public List<SearchMenuItem>  getSearchMenuItemByLabelAndParent(String parentId,String label){
+
+//        System.out.println("LabelSM  : "+label);
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
+        search.addFilterLike(DatabaseHelperConstants.MENU_ITEM_LABEL_COLUMN, label);
+        search.addFilterEqual(DatabaseHelperConstants.MENU_ITEM_PARENTID_COLUMN, parentId);
+
+        Cursor cursor = StorageManager.getInstance().getRecords(search);
+        return buildSearchMenuItems(cursor);
+    }
     /**
      * gets the total number of search menu items for the given parent menu identifier.
      *

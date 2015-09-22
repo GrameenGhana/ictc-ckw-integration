@@ -1,6 +1,8 @@
 package applab.client.search.utils;
 
 import android.content.Context;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -13,6 +15,10 @@ import java.util.TimeZone;
  * Created by skwakwa on 9/10/15.
  */
 public class IctcCKwUtil {
+
+    public static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd");
+    public static final DateTimeFormatter TIME_FORMAT = DateTimeFormat.forPattern("HH:mm:ss");
 
 
     public static Date formatDateTime(String timeToFormat) {

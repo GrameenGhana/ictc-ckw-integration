@@ -1,14 +1,22 @@
 package applab.client.search.activity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import applab.client.search.R;
+import applab.client.search.adapters.ListCheckboxAdapter;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
+import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by skwakwa on 9/2/15.

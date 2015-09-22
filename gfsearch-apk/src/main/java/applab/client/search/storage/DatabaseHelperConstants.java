@@ -125,6 +125,19 @@ public final class DatabaseHelperConstants {
     public static final String ICTC_FARMER_MEETING_PROCEDURE= "ictc_meeting_PROCEDURE";
 
 
+    //tracker
+
+
+    public static final String ICTC_TRACKER_LOG_TABLE= "ictc_tracker";
+
+    public static final String ICTC_TRACKER_SUBMITTED_DATE= "submitted_date";
+    public static final String ICTC_USER_ID= "user_id";
+    public static final String ICTC_TRACKER_MODULE = "module";
+    public static final String ICTC_TRACKER_START_DATETIME = "starttime";
+    public static final String ICTC_TRACKER_END_DATETIME = "endtime";
+    public static final String ICTC_TRACKER_DATA = "data";
+    public static final String ICTC_TRACKER_SUBMITTED = "submitted";
+    public static final String ICTC_TRACKER_INPROGRESS = "inprogress";
 
 
     public static final String SIZE_PLOT = "size_plot";

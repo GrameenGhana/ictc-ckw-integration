@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.widget.Toast;
 import applab.client.search.activity.DashboardActivity;
+import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import org.apache.http.HttpResponse;
@@ -100,10 +101,24 @@ public class ConnectionUtil {
                         String aResponse = msg.getData().getString("message");
 
                         if(type.equalsIgnoreCase("login")){
+//
 
                             try {
+//                                startActivity(intent);
+                                if ((null != aResponse)) {
+                                    JSONObject resp = new JSONObject(aResponse);
+                                    if(resp.getString("rc").equalsIgnoreCase("00")){
+                                       // Intent intent1 = new Intent(,DashboardActivity.class);
+                                        Toast.makeText(context,"Login Successful",Toast.LENGTH_LONG).show();
+                                        refreshFarmerInfo(context,intent, "us=", "details","Login Successful, Loading Agent Data");
+                                        context.startActivity(intent);
+                                    }else{
+                                        Toast.makeText(context,"Wrong Username or password",Toast.LENGTH_LONG).show();
+                                    }
+                                }else{
+                                    Toast.makeText(context,"Wrong Username or password",Toast.LENGTH_LONG).show();
 
-
+                                }
                             }catch(Exception e){
 
                             }
@@ -149,13 +164,58 @@ public class ConnectionUtil {
                                             cnt++;
                                         }
 
+                                        System.out.println( "Saving farmer "+i);
 
-
-                                        databaseHelper.saveFarmer(vals[0], vals[1], vals[2], vals[3],
+                                        Farmer f = databaseHelper.saveFarmer(vals[0], vals[1], vals[2], vals[3],
                                                 vals[4], vals[5], vals[6], vals[7], vals[8], vals[9], vals[10], vals[11], vals[12], vals[13], vals[14],
                                                 vals[15], vals[16], vals[17], vals[18],
+
                                                 vals[19], vals[20], vals[21], vals[22], vals[23], vals[24], vals[25], vals[26], vals[27], vals[28], vals[29], vals[30], vals[31], vals[32]);
 
+
+
+                                        JSONArray meetings = farmer.getJSONArray("meeting");
+
+
+                                        if (meetings != null) {
+
+                                            int grpCnt = 1;
+                                            int individaulCnt = 1;
+                                            for (int k = 0; k < meetings.length(); k++) {
+                                                JSONObject meet = meetings.getJSONObject(k);
+
+                                                //    public Meeting saveMeeting(String id, St
+                                                // ring type, String title, Date scheduledDate, Date meetingDate, int attended, int meetingIndex, String farmer,
+                                                String typeMeet = meet.getString("ty");
+                                                String title = "";
+                                                // String remark,String crop,String season){
+
+                                                //{"ty":"individual","midx":"1","sd":"01/03/2105","sea":"1","ed":"30/03/2015"},{"ty":"group","midx":"4","sd":"01/08/2015","sea":"1","ed":"31/08/2015"},
+                                                // {"ty":"group","midx":"1","sd":"01/02/2015","sea":"1","ed":"28/02/2015"}
+                                                if (typeMeet.contains("ind")) {
+                                                    title = individaulCnt + " " + typeMeet.toUpperCase() + " Meeting";
+                                                    individaulCnt++;
+                                                } else {
+
+                                                    title = grpCnt + " " + typeMeet.toUpperCase() + " Meeting";
+                                                    grpCnt++;
+                                                }
+                                                databaseHelper.saveMeeting("",
+
+                                                        meet.getString("ty"),
+                                                        title,
+                                                        IctcCKwUtil.formatSlashDates(meet.getString("sd")),
+                                                        null,
+                                                       0,// meet.getInt("at"),
+                                                        meet.getInt("midx"),
+                                                        f.getFarmID(),
+                                                        "",
+                                                        f.getMainCrop(), meet.getString("sea")
+                                                );
+
+
+                                            }
+                                        }
 //                                    farmersCnt++;
                                     }
 

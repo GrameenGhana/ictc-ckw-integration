@@ -1,6 +1,9 @@
 package applab.client.search.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
@@ -78,18 +81,24 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
 
                 fm = (TextView) findViewById(R.id.txt_map_fm_loc);
                 fm.setText(farmer.getCommunity());
-
-
+                System.out.println("Befor DSHOW");
+                showDialog("Note of Farm Measurement", "Follow these steps to measure the "+
+                        farmer.getFullname()
+                        +"'s farm: \n\n1. Walk around the area to be cultivated. \n" +
+                        "\n" +
+                        "2. Tap the screen every 5 steps. You must select at least 3 points before you finish walking around the farm. \n" +
+                        "\n" +
+                        "3. Once you have gone around the farm, tap and hold the screen until you see a number. That is the area of your farm in square metres. ");
+                System.out.println("After BSHOW");
                 List<FarmGPSLocation> gps = dbHelper.getFarmerCoordinates(farmer.getFarmID());
 
-                DecimalFormat df = new DecimalFormat("#.000000");
 
                 System.out.println("FarmderID : "+farmer.getId());
                 System.out.println("FarmerID : "+farmer.getFarmID());
                 System.out.println("Farm Coordiates : "+gps.size());
                 TextView fArea = (TextView) findViewById(R.id.txt_map_fm_area);
 //            fArea.setText((farmer.getLandArea())+" m2  ");
-                fArea.setText(Html.fromHtml((farmer.getLandArea())+" m<sup>2</sup> Perimeter : "+ IctcCKwUtil.formatDouble(farmer.getSizePlot())+" m "));
+                fArea.setText(Html.fromHtml((IctcCKwUtil.formatDouble(farmer.getLandArea()))+" m<sup>2</sup> Perimeter : "+ IctcCKwUtil.formatDouble(farmer.getSizePlot())+" m "));
                 fArea = (TextView) findViewById(R.id.txt_coordinate_no);
                 fArea.setText(String.valueOf(gps.size()));
                 for (FarmGPSLocation gpsLoc : gps) {
@@ -112,6 +121,12 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
                     options.visible( true );
                     mMap.addPolyline(options);
                 }
+
+//                "1. Walk around the area to be cultivated. \n" +
+//                        "\n" +
+//                        "2. Tap the screen every 5 steps. You must select at least 3 points before you finish walking around the farm. \n" +
+//                        "\n" +
+//                        "3. Once you have gone around the farm, tap and hold the screen until you see a number. That is the area of your farm in square metres. ");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -236,7 +251,7 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
             DecimalFormat df = new DecimalFormat("#.000000");
 
             TextView fm = (TextView) findViewById(R.id.txt_map_fm_area);
-            fm.setText(Html.fromHtml(df.format(area) + " m<sup>2</sup> Perimeter : "+perimeter+" m"));
+            fm.setText(Html.fromHtml(IctcCKwUtil.formatDouble(area) + " m<sup>2</sup> Perimeter : "+IctcCKwUtil.formatDouble(perimeter)+" m"));
 
             fm = (TextView) findViewById(R.id.txt_coordinate_no);
 
@@ -380,6 +395,36 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
         double sinHalf = sin(x * 0.5);
         return sinHalf * sinHalf;
     }
+
+    public void showDialog(final String title,final String  msg) throws Exception
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(FarmMapping.this);
+
+        builder.setTitle(title);
+
+        builder.setMessage(msg);
+
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+
+                dialog.dismiss();
+            }
+        });
+
+//        builder.setNegativeButton("No", new DialogInterface.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which)
+//            {
+//                dialog.dismiss();
+//            }
+//        });
+
+        builder.show();
+    }
+
 
 }
 

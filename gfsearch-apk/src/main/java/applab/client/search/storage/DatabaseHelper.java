@@ -9,6 +9,8 @@ import android.util.Log;
 import applab.client.search.model.*;
 import applab.client.search.utils.IctcCKwUtil;
 import com.sun.org.apache.xpath.internal.SourceTree;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,6 +66,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         database.execSQL(getICTCFarmerMeetingsProcedure());
         database.execSQL(getICTCFarmGpsLocation());
         database.execSQL(getICTCFarmInputs());
+        database.execSQL(getICTCTrackerTable());
         System.out.println("After table");
     }
 
@@ -101,7 +104,8 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         sqlCommand.append(DatabaseHelperConstants.ICTC_REMARK).append(" TEXT DEFAULT '' ,");
         sqlCommand.append(DatabaseHelperConstants.ICTC_FARMER_ID).append(" TEXT DEFAULT '' ,");
         sqlCommand.append(DatabaseHelperConstants.ICTC_SEASON).append(" int DEFAULT 1 ,");
-        sqlCommand.append(DatabaseHelperConstants.ICTC_CROP).append(" TEXT DEFAULT '' ");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_CROP).append(" TEXT DEFAULT '' ," +
+                "UNIQUE ("+DatabaseHelperConstants.ICTC_FARMER_ID+", "+DatabaseHelperConstants.ICTC_MEEING_INDEX+","+DatabaseHelperConstants.ICTC_TYPE+") ON CONFLICT REPLACE");
         sqlCommand.append(");");
         return sqlCommand.toString();
 
@@ -284,6 +288,22 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+
+    private String getICTCTrackerTable() {
+        String l_sql = "create table if not exists " + DatabaseHelperConstants.ICTC_TRACKER_LOG_TABLE + " ("
+                + DatabaseHelperConstants.ICTC_ID + " integer primary key autoincrement, "
+                + DatabaseHelperConstants.ICTC_USER_ID + " text, "
+                + DatabaseHelperConstants.ICTC_TRACKER_MODULE + " text, "
+                + DatabaseHelperConstants.ICTC_TRACKER_START_DATETIME + " string , "
+                + DatabaseHelperConstants.ICTC_TRACKER_END_DATETIME + " string , "
+
+                + DatabaseHelperConstants.ICTC_TRACKER_SUBMITTED_DATE + " string , "
+                +DatabaseHelperConstants.ICTC_TRACKER_DATA
+                + " text, " + DatabaseHelperConstants.ICTC_TRACKER_SUBMITTED + " integer default 0, "
+
+                + DatabaseHelperConstants.ICTC_TRACKER_INPROGRESS + " integer default 0)";
+        return l_sql;
+    }
 
     private String getSearchLogTableInitializationSql() {
         StringBuilder sqlCommand = new StringBuilder();
@@ -1023,4 +1043,83 @@ type+=" ";
 
         return response;
     }
+
+
+    public void insertCCHLog(String module, String data, String starttime,
+                             String endtime) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String userid ="";
+//                prefs.getString(ctx.getString(R.string.prefs_username), "noid");
+      insertCCHLog(userid,module,data,starttime,endtime);
+
+    }
+
+
+    public void insertCCHLog(String userid,String module, String data, String starttime,
+                             String endtime) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelperConstants.ICTC_USER_ID, userid);
+        values.put(DatabaseHelperConstants.ICTC_TRACKER_MODULE, module);
+        values.put(DatabaseHelperConstants.ICTC_TRACKER_DATA, data);
+        values.put(DatabaseHelperConstants.ICTC_TRACKER_START_DATETIME, starttime);
+        values.put(DatabaseHelperConstants.ICTC_TRACKER_END_DATETIME, endtime);
+        // Log.v("insertCCHLOG", values.toString());
+        db.insertOrThrow(DatabaseHelperConstants.ICTC_TRACKER_LOG_TABLE, null, values);
+        db.close();
+    }
+
+    public int markCCHLogSubmitted(long rowId) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelperConstants.ICTC_TRACKER_SUBMITTED, 1);
+        return  this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_TRACKER_LOG_TABLE, values, DatabaseHelperConstants.ICTC_ID + "="
+                + rowId, null);
+    }
+
+
+    public Payload getCCHUnsentLog() {
+
+        String s = DatabaseHelperConstants.ICTC_TRACKER_SUBMITTED + "=? ";
+        String[] args = new String[] { "0" };
+        Cursor c = this.getWritableDatabase().query(DatabaseHelperConstants.ICTC_TRACKER_LOG_TABLE, null, s, args, null, null, null);
+        c.moveToFirst();
+
+        ArrayList<Object> sl = new ArrayList<Object>();
+        while (c.isAfterLast() == false) {
+            TrackerLog so = new TrackerLog();
+            so.setId(c.getLong(c.getColumnIndex(DatabaseHelperConstants.ICTC_ID)));
+
+            String content = "";
+
+            try {
+                JSONObject json = new JSONObject();
+                json.put("user_id",
+                        c.getString(c.getColumnIndex(DatabaseHelperConstants.ICTC_USER_ID)));
+                json.put("data",
+                        c.getString(c.getColumnIndex(DatabaseHelperConstants.ICTC_TRACKER_DATA)));
+                json.put("module",
+                        c.getString(c.getColumnIndex(DatabaseHelperConstants.ICTC_TRACKER_MODULE)));
+                json.put("start_time", c.getString(c
+                        .getColumnIndex(DatabaseHelperConstants.ICTC_TRACKER_START_DATETIME)));
+                json.put("end_time",
+                        c.getString(c.getColumnIndex(DatabaseHelperConstants.ICTC_TRACKER_END_DATETIME)));
+                content = json.toString();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            so.setContent(content);
+            sl.add(so);
+            c.moveToNext();
+        }
+
+        Payload p = new Payload(sl);
+        c.close();
+
+        return p;
+    }
+
 }

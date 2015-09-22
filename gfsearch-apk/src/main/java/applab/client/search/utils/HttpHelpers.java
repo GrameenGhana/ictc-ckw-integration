@@ -13,8 +13,6 @@
 package applab.client.search.utils;
 
 import android.util.Log;
-import applab.client.search.ApplicationRegistry;
-import applab.client.search.GlobalConstants;
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -29,6 +27,8 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
+import applab.client.search.ApplicationRegistry;
+import applab.client.search.GlobalConstants;
 
 import java.io.*;
 import java.net.*;

@@ -186,6 +186,7 @@ public class FarmerActivitySelectFarmer extends Activity {
             Intent intent= new Intent(FarmerActivitySelectFarmer.this, MainActivity.class);
             intent.putExtra("farmer",farmer);
             intent.putExtra("SEARCH_CROP",farmer.getMainCrop());
+            intent.putExtra("SEARCH_TITLE",detail);
             startActivity(intent);
         }
     }

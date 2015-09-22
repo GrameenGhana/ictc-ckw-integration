@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class  AgentVisitUtil {
 
-    public static String TV_PROGRAM="View TV Schedule";
+    public static String TV_PROGRAM="Press OK to view the schedule of radio and TV programmes nationwide";
     String tv=   "GTV\nGTV_DATE\n" +
             "3:00pm - 3:30pm\n" +
             "Radio \n" +
@@ -30,8 +30,8 @@ public class  AgentVisitUtil {
             "Select Job \n" ;
 
     public static String ATTENDANCE="" +
-            "CLICK ON Meetings" +
-            "\nAdd Meetings and take Attendance " ;
+            "" +
+            "\n Select farmers who attended this meeting. \nSet the meeting date, \nas well as the start \nand end times for this meeting. " ;
     public static String MEETING_QUESITONS="" +
             "CLICK ON Meetings" +
             "\nAdd Meetings and take Attendance " ;
@@ -46,21 +46,21 @@ public class  AgentVisitUtil {
         List<MeetingActivity> activities = new ArrayList<MeetingActivity>();
         if(1==meetingIndex){
             activities.add(new applab.client.search.model.MeetingActivity("Get Ploughing Dates for Tractor","G","A",1,"",false));
-            activities.add(new applab.client.search.model.MeetingActivity("Collect Bio Data", "I", "T",2,LAUNCH_TAROWORKS+"2. FARMER REGISTRATION"));
-            activities.add(new applab.client.search.model.MeetingActivity("Collect Farmer Data","I","T",3,LAUNCH_TAROWORKS+"2. FARMER REGISTRATION"));
+            activities.add(new applab.client.search.model.MeetingActivity("Farmer Registration", "I", "T",2,LAUNCH_TAROWORKS+"2. FARMER REGISTRATION"));
+//            activities.add(new applab.client.search.model.MeetingActivity("Collect Farmer Data","I","T",3,LAUNCH_TAROWORKS+"2. FARMER REGISTRATION"));
             activities.add(new applab.client.search.model.MeetingActivity(SHARE_INPUT_PACKAGE,"-","A",4,SELECT_FARMER+"\nShare Inputs"));
             activities.add(new applab.client.search.model.MeetingActivity("Share TV Schedule","A","A",5, replaceRadioTVSchedule()));
-            activities.add(new applab.client.search.model.MeetingActivity("Collect Request for Assistance","G","c",6,LAUNCH_CKW));
+            activities.add(new applab.client.search.model.MeetingActivity("Collect Request for Assistance","G","T",6,LAUNCH_TAROWORKS+"\nTechnical Needs Survey"));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Meeting Question","G","A",7,MEETING_QUESITONS,false));
             activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE,"G","A",8,ATTENDANCE));
         }else if(2==meetingIndex){
-            activities.add(new applab.client.search.model.MeetingActivity(COLLECT_FARM_MEASUREMENT,"G","A",1,""));
+            activities.add(new applab.client.search.model.MeetingActivity(COLLECT_FARM_MEASUREMENT,"G","A",1,"Select a farmer, and measure his farm according to the instructions provided. "));
             activities.add(new applab.client.search.model.MeetingActivity("Baseline Data Collection", "I", "T",2,LAUNCH_TAROWORKS+"3. Farmer Baseline Data"));
-            activities.add(new applab.client.search.model.MeetingActivity("Farm Planning","I","T",3,LAUNCH_TAROWORKS+"5. Farm Management Plan"));
+            activities.add(new applab.client.search.model.MeetingActivity("Farm Management Planning (Production)","I","T",3,LAUNCH_TAROWORKS+"5. FMP PRODUCTION NEW"));
             activities.add(new applab.client.search.model.MeetingActivity(DELIVER_INPUTS,"-","A",4,SELECT_FARMER));
             activities.add(new applab.client.search.model.MeetingActivity("Confirm Delivery of Inputs/Receipt","A","A",5,"",false));
             activities.add(new applab.client.search.model.MeetingActivity("Provide technical Assistance","G","C",6,LAUNCH_CKW));
-            activities.add(new applab.client.search.model.MeetingActivity("Collect Request for Attendance","G","A",7,ATTENDANCE,false));
+            activities.add(new applab.client.search.model.MeetingActivity("Collect Request for Assistance","T","A",7,LAUNCH_TAROWORKS+"\nTechnical Needs Survey",false));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Meeting Question","G","A",8,MEETING_QUESITONS,false));
             activities.add(new applab.client.search.model.MeetingActivity("Share TV Schedule","G","A",9,replaceRadioTVSchedule()));
         }else if(3==meetingIndex){
@@ -69,12 +69,12 @@ public class  AgentVisitUtil {
             activities.add(new applab.client.search.model.MeetingActivity("Provide technical Assistance","G","C",3,LAUNCH_CKW));
             activities.add(new applab.client.search.model.MeetingActivity("Play A Game","-","A",4,"Game Coming Soon",false));
             activities.add(new applab.client.search.model.MeetingActivity("Share TV Schedule","G","A",5, replaceRadioTVSchedule()));
-            activities.add(new applab.client.search.model.MeetingActivity("Collect Request for ASSISTANCE","G","A",6,"",false));
+            activities.add(new applab.client.search.model.MeetingActivity("Collect Request for ASSISTANCE","G","T",6,LAUNCH_TAROWORKS+"\nTechnical Needs Survey",true));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Meeting Question","G","A",7,MEETING_QUESITONS,false));
             activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE,"G","A",8,ATTENDANCE));
         }else if(4==meetingIndex){
-            activities.add(new applab.client.search.model.MeetingActivity("Farm Plan Update","G","T",1,LAUNCH_TAROWORKS+" 5. Farm Management Plan"));
-            activities.add(new applab.client.search.model.MeetingActivity("Crop Inspection and update of Crop Status", "I", "T",2,LAUNCH_TAROWORKS+"5. Farm Management Plan"));
+            activities.add(new applab.client.search.model.MeetingActivity("Farm Management Planning (Post Harvest)","G","T",1,LAUNCH_TAROWORKS+" 5. FMP POST HARVEST NEW"));
+            activities.add(new applab.client.search.model.MeetingActivity("Crop Inspection and update of Crop Status", "I", "T",2,LAUNCH_TAROWORKS+"5. Farm Management Plan",false));
             activities.add(new applab.client.search.model.MeetingActivity("Provide technical Assistance","G","C",3,LAUNCH_CKW));
             activities.add(new applab.client.search.model.MeetingActivity("Baseline on Post Harvest Management","I","T",4,LAUNCH_TAROWORKS));
             activities.add(new applab.client.search.model.MeetingActivity("Post harvest management Planning","-","T",5,LAUNCH_TAROWORKS));
