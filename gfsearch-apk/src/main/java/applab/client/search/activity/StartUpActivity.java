@@ -8,15 +8,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import applab.client.search.R;
-import applab.client.search.model.Farmer;
 import applab.client.search.services.LoginTask;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.TextView;
-import applab.client.search.utils.ConnectionUtil;
-import applab.client.search.utils.IctcCKwUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -52,37 +49,19 @@ public class StartUpActivity extends Activity {
         mTitleTextView.setText("Login");
 
         databaseHelper = new DatabaseHelper(getBaseContext());
-
         if(databaseHelper.farmerCount()>0)
         {
             Intent intent = new Intent(StartUpActivity.this, DashboardActivity.class);
             startActivity(intent);
         }
 
-
-
-
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
-
-
 
         final EditText userEdit = (EditText) findViewById(R.id.edit_us_name);
         final EditText passEdit = (EditText) findViewById(R.id.user_pwd);
         final TextView error = (TextView) findViewById(R.id.text_log_error);
-        login_button = (Button) findViewById(R.id.main_button_login); try {
-            Bundle b = getIntent().getExtras();
-            String err = b.getString("err");
-            String usname = b.getString("us");
-            if(!err.isEmpty()){
-                TextView tv =    ((TextView) findViewById(R.id.txt_pass_response));
-                tv.setText("Wrong Username or Password Please Try Again");
-                userEdit.setText(usname);
-            }
-        }catch(Exception e){
-
-
-        }
+        login_button = (Button) findViewById(R.id.main_button_login);
         login_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 if (userEdit.getText().toString().isEmpty() || passEdit.getText().toString().isEmpty()) {
@@ -91,8 +70,7 @@ public class StartUpActivity extends Activity {
                     Intent intent = new Intent(StartUpActivity.this, DashboardActivity.class);
                     databaseHelper = new DatabaseHelper(getBaseContext());
 
-//                    ConnectionUtil.refreshFarmerInfo(getBaseContext(),intent,"us=" + userEdit.getText() + "&pwd=" + passEdit.getText(),"login","Login Please wait");
-                    getData(intent, "us=" + userEdit.getText() + "&pwd=" + passEdit.getText(), "login","Login Please wait",userEdit.getText().toString());
+                    getData(intent,"us="+userEdit.getText()+"&pwd="+passEdit.getText(),"login","Login Please wait");
 //
                 }
             }
@@ -114,7 +92,7 @@ public class StartUpActivity extends Activity {
     }
 
 
-    public void getData(final Intent intent, final String queryString, final String type,String msg , final String us) {
+    public void getData(final Intent intent, final String queryString, final String type,String msg ) {
 
         // String url="http://sandbox-ictchallenge.cs80.force.com/getTest";
 
@@ -150,17 +128,9 @@ public class StartUpActivity extends Activity {
                         serverResponse += line;
                     }
 
-                    System.out.println("Serrver Rsponse3  : "+serverResponse);
+//                    System.out.println("Serrver Rsponse  : "+serverResponse);
 
-
-                    if(serverResponse.isEmpty()){
-                        System.out.println("Server Rsponse Empty");
-                        Intent i = new Intent(getBaseContext(),StartUpActivity.class);
-                        i.putExtra("err","Invalid Username or Password");
-                        i.putExtra("us",us);
-                        startActivity(i);
-                    }else
-                    {threadMsg(serverResponse,type);}
+                    threadMsg(serverResponse,type);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
@@ -192,27 +162,19 @@ public class StartUpActivity extends Activity {
                         String type  = msg.getData().getString("type");
                         String aResponse = msg.getData().getString("message");
 
-                        System.out.println("Server Response : "+aResponse);
                         if(type.equalsIgnoreCase("login")){
 
                             try {
-//
+                                startActivity(intent);
                                 if ((null != aResponse)) {
                                     JSONObject resp = new JSONObject(aResponse);
                                     if(resp.getString("rc").equalsIgnoreCase("00")){
                                         Intent intent1 = new Intent(getBaseContext(),DashboardActivity.class);
-                                        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);      intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         Toast.makeText(getBaseContext(),"Login Successful",Toast.LENGTH_LONG).show();
-                                        //getData(intent, "", "details", "Login Successful, Loading Agent Data");
-                                        ConnectionUtil.refreshFarmerInfo(getBaseContext(), intent1, "", "details", "Loading Farmer Data");
-                                        startActivity(intent);
+                                        getData(intent, "", "details","Login Successful, Loading Agent Data");
                                     }else{
                                         Toast.makeText(getBaseContext(),"Wrong Username or password",Toast.LENGTH_LONG).show();
-                                        ((TextView)findViewById(R.id.txt_pass_response)).setText("Wrong Username or Password Please Try Again");
                                     }
-                                }else{
-
-                                    ((TextView)findViewById(R.id.txt_pass_response)).setText("Wrong Username or Password Please Try Again");
                                 }
                                 }catch(Exception e){
 
@@ -260,55 +222,13 @@ public class StartUpActivity extends Activity {
                                         }
 
 
-                                        Farmer f = databaseHelper.saveFarmer(vals[0], vals[1], vals[2], vals[3],
+
+                                        databaseHelper.saveFarmer(vals[0], vals[1], vals[2], vals[3],
                                                 vals[4], vals[5], vals[6], vals[7], vals[8], vals[9], vals[10], vals[11], vals[12], vals[13], vals[14],
                                                 vals[15], vals[16], vals[17], vals[18],
                                                 vals[19], vals[20], vals[21], vals[22], vals[23], vals[24], vals[25], vals[26], vals[27], vals[28], vals[29], vals[30], vals[31], vals[32]);
 
-
-                                        JSONArray meetings = farmer.getJSONArray("meeting");
-
-                                        if (meetings != null) {
-
-                                        int grpCnt = 1;
-                                        int individaulCnt = 1;
-                                        for (int k = 0; k < meetings.length(); k++) {
-                                            JSONObject meet = meetings.getJSONObject(k);
-
-                                            //    public Meeting saveMeeting(String id, St
-                                            // ring type, String title, Date scheduledDate, Date meetingDate, int attended, int meetingIndex, String farmer,
-                                            String typeMeet = meet.getString("ty");
-                                            String title = "";
-                                            // String remark,String crop,String season){
-
-                                            //{"ty":"individual","midx":"1","sd":"01/03/2105","sea":"1","ed":"30/03/2015"},{"ty":"group","midx":"4","sd":"01/08/2015","sea":"1","ed":"31/08/2015"},
-                                            // {"ty":"group","midx":"1","sd":"01/02/2015","sea":"1","ed":"28/02/2015"}
-                                            if (typeMeet.contains("ind")) {
-                                                title = individaulCnt + " " + typeMeet.toUpperCase() + " Meeting";
-                                                individaulCnt++;
-                                            } else {
-
-                                                title = grpCnt + " " + typeMeet.toUpperCase() + " Meeting";
-                                                grpCnt++;
-                                            }
-                                            databaseHelper.saveMeeting(meet.getString("id"),
-
-                                                    meet.getString("ty"),
-                                                    title,
-                                                    IctcCKwUtil.formatSlashDates(meet.getString("sd")),
-                                                    null,
-                                                    meet.getInt("at"),
-                                                    meet.getInt("midx"),
-                                                    f.getFarmID(),
-                                                    "",
-                                                    f.getMainCrop(), meet.getString("sea")
-                                            );
-
-
-                                        }
-                                    }
 //                                    farmersCnt++;
-
                                     }
 
 

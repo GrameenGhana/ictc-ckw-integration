@@ -5,12 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
 import android.util.Log;
-import applab.client.search.storage.StorageManager;
-import com.google.gson.*;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.entity.AbstractHttpEntity;
-import org.apache.http.message.BasicNameValuePair;
 import applab.client.search.ApplicationRegistry;
 import applab.client.search.R;
 import applab.client.search.location.GpsManager;
@@ -22,13 +16,23 @@ import applab.client.search.services.MenuItemService;
 import applab.client.search.settings.SettingsConstants;
 import applab.client.search.settings.SettingsManager;
 import applab.client.search.storage.DatabaseHelperConstants;
+import applab.client.search.storage.StorageManager;
 import applab.client.search.utils.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.entity.AbstractHttpEntity;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A Facade that handles synchronization of search menus and menu items.

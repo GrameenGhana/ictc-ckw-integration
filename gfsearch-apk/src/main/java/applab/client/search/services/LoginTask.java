@@ -4,14 +4,11 @@ package applab.client.search.services;
  * Created by skwakwa on 8/4/15.
  */
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
-
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import applab.client.search.model.Payload;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import applab.client.search.synchronization.SubmitListener;
@@ -22,16 +19,11 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
-
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
-import android.util.Log;
+import java.io.*;
+import java.util.ArrayList;
 
 public class LoginTask extends AsyncTask<Payload, Object, Payload> {
 

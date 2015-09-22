@@ -7,11 +7,8 @@ import android.view.*;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import applab.client.search.model.ListObject;
-import applab.client.search.model.SearchMenuItem;
-import applab.client.search.services.MenuItemService;
 import applab.client.search.ui.*;
 
-import java.util.List;
 import java.util.Stack;
 
 /**
@@ -25,7 +22,6 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
     private MenuItem backNavigationMenuItem = null;
     private ActionMode actionMode;
 
-
     public DefaultViewFragment() {
     }
 
@@ -35,11 +31,8 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
 
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(NAVIGATION_STACK_SAVED_STATE_KEY)) {
-
-            System.out.println("NAVIGATION_STACK_SAVED_STATE_KEY");
             setListObjectNavigationStack((Stack<ListObject>) savedInstanceState.get(NAVIGATION_STACK_SAVED_STATE_KEY));
         } else {
-            System.out.println("Done No Item");
             setListObjectNavigationStack(new Stack<ListObject>());
         }
     }
@@ -47,20 +40,7 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.default_view_fragment, container, false);
-
-        String crop ="";
-        System.out.println("DefaultViewFragment.onCreateView");
-        Bundle mBundle = new Bundle();
-        mBundle = getArguments();
-        try {
-                  crop = mBundle.getString("SELECTED_CROP");
-        }   catch (Exception e) {
-
-        }
-
-
-        System.out.println("Selected CropNoted : "+crop);
-        initMainListView(view,crop);
+        initMainListView(view);
 
         return view;
     }
@@ -86,19 +66,12 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
         }
     }
 
-    private void initMainListView(View container,String selectedCrop) {
+    private void initMainListView(View container) {
         setMainListView((ListView) container.findViewById(R.id.main_list));
 
         final MainListViewAdapter listViewAdapter = new MainListViewAdapter(getActivity());
         getMainListView().setAdapter(listViewAdapter);
 
-        if(!selectedCrop.isEmpty()) {
-            List<SearchMenuItem> itemSelected = new MenuItemService().getSearchMenuItemByLabel(selectedCrop);
-
-            if(!itemSelected.isEmpty()){
-                selectListElement(itemSelected.get(0),listViewAdapter);
-            }
-        }
         getMainListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

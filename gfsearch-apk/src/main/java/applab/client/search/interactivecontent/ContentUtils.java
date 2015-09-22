@@ -3,7 +3,6 @@ package applab.client.search.interactivecontent;
 import android.os.Environment;
 
 import java.io.File;
-import java.security.PublicKey;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 

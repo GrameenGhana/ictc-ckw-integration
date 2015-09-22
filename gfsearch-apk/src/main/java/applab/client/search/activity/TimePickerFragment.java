@@ -1,19 +1,13 @@
 package applab.client.search.activity;
 
-/**
- * Created by skwakwa on 9/17/15.
- */
-
+import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.TimePickerDialog;
+import android.os.Bundle;
+import android.text.format.DateFormat;
+import android.widget.TimePicker;
 
-        import android.app.Dialog;
-        import android.app.DialogFragment;
-        import android.app.TimePickerDialog;
-        import android.os.Bundle;
-        import android.text.format.DateFormat;
-        import android.widget.TimePicker;
-
-        import java.util.Calendar;
+import java.util.Calendar;
 
 /**
  * Created by grameen on 9/17/15.

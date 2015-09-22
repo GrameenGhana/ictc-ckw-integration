@@ -9,10 +9,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import applab.client.search.R;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Created by skwakwa on 9/2/15.
  */
