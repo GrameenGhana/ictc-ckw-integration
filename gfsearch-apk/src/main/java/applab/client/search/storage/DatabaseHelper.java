@@ -571,7 +571,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    public  FarmGPSLocation saveGPSLocation(double lat,double longitude,String farmerId){
+    public  long saveGPSLocation(double lat,double longitude,String farmerId){
 
         SQLiteDatabase db = getWritableDatabase();
 
@@ -581,9 +581,9 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DatabaseHelperConstants.ICTC_FARMER_ID, farmerId);
 
 
-        db.insert(DatabaseHelperConstants.ICTC_GPS_LOCATION, null, values);
+       return  db.insert(DatabaseHelperConstants.ICTC_GPS_LOCATION, null, values);
 
-        return  null;
+//        return  null;
     }
 
 
@@ -614,7 +614,10 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public List<FarmGPSLocation> getFarmerCoordinates(String q){
+        String qr="select * from "+DatabaseHelperConstants.ICTC_GPS_LOCATION+" WHERE "+DatabaseHelperConstants.ICTC_FARMER_ID+"= '"+q+"'";
+        System.out.println("QR : "+qr);
         Cursor localCursor = this.getWritableDatabase().rawQuery("select * from "+DatabaseHelperConstants.ICTC_GPS_LOCATION+" WHERE "+DatabaseHelperConstants.ICTC_FARMER_ID+"= '"+q+"'", null);
+
         List<FarmGPSLocation> response = new ArrayList<FarmGPSLocation>();
         while (localCursor.moveToNext()) {
             response.add(getGPSLocation(localCursor));
@@ -764,7 +767,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return response;
     }
     public List<Meeting> getFarmerMeetings(String farmer){
-        return getMeetings(findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING )+" WHERE "+DatabaseHelperConstants.ICTC_FARMER_ID+" ='"+farmer+"' ");
+        return getMeetings(findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING) + " WHERE " + DatabaseHelperConstants.ICTC_FARMER_ID + " ='" + farmer + "' ");
     }
     public int getMeetingsAttended(String farmer){
         return getAggregateValue("SELECT count(*) FROM "+DatabaseHelperConstants.ICTC_FARMER_MEETING+" WHERE "+DatabaseHelperConstants.ICTC_FARMER+" ='"+farmer+"' and attended=1");
@@ -898,7 +901,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean deleteQuery(String table,String fieldName,String fieldValue,String equator){
 
-        return deleteTable(table," where "+fieldName+equator+" '"+fieldValue+"'");
+        return deleteTable(table, " where " + fieldName + equator + " '" + fieldValue + "'");
     }
     public boolean deleteQuery(String table,String fieldName,String fieldValue){
 

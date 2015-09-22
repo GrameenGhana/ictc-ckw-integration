@@ -105,6 +105,14 @@ public class IctcCKwUtil {
 
         DecimalFormat df = new DecimalFormat("#.000");
 
-        return df.format(amt);
-    }
+        try {
+            return df.format(Double.parseDouble(amt));
+
+        }catch (Exception e){
+
+
+        }
+
+        return "0.0";
+        }
 }

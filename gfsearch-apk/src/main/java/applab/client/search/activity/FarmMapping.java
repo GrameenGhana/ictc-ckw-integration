@@ -82,7 +82,6 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
 
                 fm = (TextView) findViewById(R.id.txt_map_fm_loc);
                 fm.setText(farmer.getCommunity());
-                System.out.println("Befor DSHOW");
                 showDialog("Note of Farm Measurement", "Follow these steps to measure the "+
                         farmer.getFullname()
                         +"'s farm: \n\n1. Walk around the area to be cultivated. \n" +
@@ -90,22 +89,20 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
                         "2. Tap the screen every 5 steps. You must select at least 3 points before you finish walking around the farm. \n" +
                         "\n" +
                         "3. Once you have gone around the farm, tap and hold the screen until you see a number. That is the area of your farm in square metres. ");
-                System.out.println("After BSHOW");
+
                 List<FarmGPSLocation> gps = dbHelper.getFarmerCoordinates(farmer.getFarmID());
 
 
-                System.out.println("FarmderID : "+farmer.getId());
-                System.out.println("FarmerID : "+farmer.getFarmID());
-                System.out.println("Farm Coordiates : "+gps.size());
+                System.out.println("GOS  : "+gps.size());
+
                 TextView fArea = (TextView) findViewById(R.id.txt_map_fm_area);
 //            fArea.setText((farmer.getLandArea())+" m2  ");
-                fArea.setText(Html.fromHtml((IctcCKwUtil.formatDouble(farmer.getLandArea()))+" m<sup>2</sup> Perimeter : "+ IctcCKwUtil.formatDouble(farmer.getSizePlot())+" m "));
+                fArea.setText(Html.fromHtml(IctcCKwUtil.formatDouble(farmer.getLandArea()) + " m<sup>2</sup> Perimeter : " + IctcCKwUtil.formatDouble(farmer.getSizePlot()) + " m "));
                 fArea = (TextView) findViewById(R.id.txt_coordinate_no);
                 fArea.setText(String.valueOf(gps.size()));
                 for (FarmGPSLocation gpsLoc : gps) {
 
 
-                    System.out.println("Lat: "+gpsLoc.getLatitude()+" | Long : "+gpsLoc.getLongitude());
                     mMap.addMarker(new MarkerOptions()
                             .position(new LatLng(gpsLoc.getLatitude(), gpsLoc.getLongitude()))
                             .title("Farm Map Point " + farmer.getLandArea()));
@@ -263,8 +260,8 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
             dbHelper.deleteFarmerGPS(farmer.getFarmID());
             System.out.println("Saving Points");
             for (Coordinate coordinate : points) {
-                dbHelper.saveGPSLocation(coordinate.x, coordinate.y, farmer.getFarmID());
-                System.out.println("Done saving  Pnts: ");
+               long  l =  dbHelper.saveGPSLocation(coordinate.x, coordinate.y, farmer.getFarmID());
+                System.out.println("Done saving  Pnts: "+l);
             }
             dbHelper.updateFarmer(farmer.getFarmID(), area,perimeter);
 
