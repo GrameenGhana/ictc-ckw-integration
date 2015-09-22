@@ -14,12 +14,24 @@
         android:focusableInTouchMode="false"
         android:text="" />
 
-<TextView
+    <TextView
+            android:id="@+id/lst_farmer_initial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/lst_chk"
+            android:layout_toRightOf="@+id/lst_chk"
+            android:text="T" android:layout_alignTop="@+id/lst_chk" android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textSize="20dp"
+            android:textColor="#fff9fbff" android:background="#ff596aff"/>
+    <TextView
         android:id="@+id/lst_farmer"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/lst_chk"
-        android:layout_toRightOf="@+id/lst_chk"
-        android:text="" android:layout_alignTop="@+id/lst_chk" android:layout_alignParentRight="true"/>
+        android:layout_alignBottom="@+id/lst_farmer_initial"
+        android:layout_toRightOf="@+id/lst_farmer_initial"
+        android:text="" android:layout_alignTop="@+id/lst_farmer_initial" android:layout_alignParentRight="true"/>
 
 </RelativeLayout>

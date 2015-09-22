@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
-import applab.client.search.activity.DashboardActivity;
 import applab.client.search.interactivecontent.InteractiveContentViewFragment;
 import applab.client.search.location.GpsManager;
 import applab.client.search.model.Farmer;
@@ -25,6 +24,7 @@ import applab.client.search.synchronization.BackgroundSynchronizationConfigurer;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import applab.client.search.synchronization.SynchronizationListener;
 import applab.client.search.synchronization.SynchronizationManager;
+import applab.client.search.activity.DashboardActivity;
 import applab.client.search.utils.ConnectionUtil;
 import applab.client.search.utils.DeviceMetadata;
 
@@ -39,6 +39,7 @@ public class MainActivity extends Activity implements ActionMode.Callback {
     private DefaultViewFragment defaultFragment;
     private MenuItem backNavigationMenuItem = null;
     String  searchCrop ="";
+    String  labelName = "";
     /**
      * Called when the activity is first created.
      *
@@ -95,6 +96,7 @@ public class MainActivity extends Activity implements ActionMode.Callback {
 
             try {
                 searchCrop = extras.getString("SEARCH_CROP");
+                labelName= extras.getString("SEARCH_TITLE");
 
 
             } catch (Exception e) {
@@ -470,6 +472,7 @@ public class MainActivity extends Activity implements ActionMode.Callback {
         FragmentManager fragmentManager = getFragmentManager();
 Bundle bundle = new Bundle();
         bundle.putString("SELECTED_CROP",searchCrop);
+        bundle.putString("SELECTED_LABEL",labelName);
 
         Fragment fragment = fragmentManager.findFragmentByTag(DefaultViewFragment.FRAGMENT_TAG);
 
