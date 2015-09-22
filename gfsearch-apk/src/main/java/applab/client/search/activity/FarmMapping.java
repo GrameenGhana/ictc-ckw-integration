@@ -72,6 +72,7 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 farmer = (Farmer) extras.get("farmer");
+                farmer = dbHelper.findFarmer(farmer.getFarmID());
                 TextView fm = (TextView) findViewById(R.id.txt_map_fm_farmer);
                 fm.setText(farmer.getFullname());
 
