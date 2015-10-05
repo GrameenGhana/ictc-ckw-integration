@@ -102,6 +102,7 @@ public class ContentUtils {
     }
 
     public static boolean containsVideo(String desc) {
+        if(null == desc || desc.isEmpty()) return false;
 //        String regPattern="\\{((V|v)ideo:[^]]+)\\}";
         Pattern pattern = Pattern.compile(VIDEO_PLACEHOLDER);
         Matcher matcher = pattern.matcher(desc);
@@ -109,13 +110,16 @@ public class ContentUtils {
     }
 
     public static boolean containsAudio(String desc) {
+        if(null == desc || desc.isEmpty()) return false;
         Pattern pattern = Pattern.compile(AUDIO_PLACEHOLDER);
         Matcher matcher = pattern.matcher(desc);
         return matcher.find();
     }
 
     public static String replaceMultimediaPlaceholder(String content) {
-
+        if(null == content || content.isEmpty() )
+            return "";
         return content.replaceAll(ContentUtils.VIDEO_PLACEHOLDER, "").replaceAll(ContentUtils.AUDIO_PLACEHOLDER, "");
     }
+
 }

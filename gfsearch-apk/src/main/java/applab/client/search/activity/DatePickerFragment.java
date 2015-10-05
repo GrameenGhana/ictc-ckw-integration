@@ -13,6 +13,7 @@ import java.util.Calendar;
  */
 public   class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
+    String dateSet ="";
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -28,5 +29,11 @@ public   class DatePickerFragment extends DialogFragment
 
     public void onDateSet(DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
+        dateSet=year+"-"+month+"-"+day;
+    }
+
+
+    public  String getDateSet(){
+        return dateSet;
     }
 }

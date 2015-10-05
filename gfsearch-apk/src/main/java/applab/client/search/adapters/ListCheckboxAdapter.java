@@ -12,6 +12,7 @@ import android.widget.Toast;
 import applab.client.search.R;
 import applab.client.search.model.Farmer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,17 +25,21 @@ public class ListCheckboxAdapter extends BaseAdapter {
     private final List<Farmer> farmers;
     private final boolean [] selected;
     String  [] colors = null;
+
+
     public ListCheckboxAdapter(Context c, List<Farmer> farmers,String  [] colors) {
         mContext = c;
         this.farmers = farmers;
         this.selected = new  boolean[farmers.size()];
         Arrays.fill(selected,false);
         this.colors = colors;
+
     } public ListCheckboxAdapter(Context c, List<Farmer> farmers) {
         mContext = c;
         this.farmers = farmers;
         this.selected = new  boolean[farmers.size()];
         Arrays.fill(selected,false);
+
 
     }
 
@@ -92,6 +97,11 @@ public class ListCheckboxAdapter extends BaseAdapter {
         return grid;
     }
 
+
+    public boolean[] getSelectedIndex(){
+        return selected;
+
+    }
     public String getColor(){
         return colors[(new Double(Math.floor(Math.random()*colors.length)).intValue())];
     }

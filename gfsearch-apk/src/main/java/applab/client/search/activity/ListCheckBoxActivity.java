@@ -17,6 +17,7 @@ import applab.client.search.adapters.ListCheckboxAdapter;
 import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelper;
 
+import java.awt.*;
 import java.util.List;
 
 /**
@@ -26,9 +27,10 @@ public class ListCheckBoxActivity extends FragmentActivity {
     private ListView list;
 
     String title;
-    int index;
+    int meetingIndex;
     DatabaseHelper helper;
-
+    ListCheckboxAdapter adapter = null;
+     List<Farmer> farmerList = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,27 +56,36 @@ public class ListCheckBoxActivity extends FragmentActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             title = (String) extras.get("title");
-            index = (Integer) extras.get("index");
+            meetingIndex = (Integer) extras.get("index");
 
 
         }
         v.setText(title);
         final List<Farmer> farmers = helper.getFarmers();
 
-        ListCheckboxAdapter adapter = new ListCheckboxAdapter(ListCheckBoxActivity.this, farmers,getResources().getStringArray(R.array.text_colors));
+        farmerList = farmers;
+      adapter = new ListCheckboxAdapter(ListCheckBoxActivity.this, farmers,getResources().getStringArray(R.array.text_colors));
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                System.out.println("Selected "+farmers.get(i).getFullname());
+
+
+                Toast.makeText(getBaseContext(),
+                                "Clicked on Checkbox: " + farmers.get(i).getFullname() +
+                                        " is " ,
+                                Toast.LENGTH_LONG).show();
+                System.out.println("Selected " + farmers.get(i).getFullname());
             }
         });
 
 
     }
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
+        DatePickerFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(),"DatePicker");
+
+        Toast.makeText(getBaseContext(),newFragment.getDateSet(),Toast.LENGTH_LONG).show();
     }
 
 
@@ -85,6 +96,24 @@ public class ListCheckBoxActivity extends FragmentActivity {
 
     public void markAttendanceSelect(View view){
 
+        boolean [] selected = adapter.getSelectedIndex();
+        String attenden =" ";
+        String notInAttendance=" ";
+        for(int i=0;i<farmerList.size();i++){
+            Farmer f = farmerList.get(i);
+            if(selected[i])
+                attenden+="'"+f.getFarmID()+"',";
+            else
+                notInAttendance+="'"+f.getFarmID()+"',";
+        }
+
+        System.out.println();
+
+
+        helper.markAttendanceByMeetingIndex(String.valueOf(meetingIndex),attenden.substring(0,attenden.length()-1),1);
+        helper.markAttendanceByMeetingIndex(String.valueOf(meetingIndex),notInAttendance.substring(0,attenden.length()-1),0);
+        
+        
         Toast.makeText(getBaseContext(),"Taken Attendance",Toast.LENGTH_LONG).show();
     }
 }

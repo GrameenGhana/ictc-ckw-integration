@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import applab.client.search.R;
 import applab.client.search.model.Meeting;
@@ -57,7 +58,12 @@ public class MeetingInvAdapter extends BaseAdapter {
         TextView day = (TextView) view.findViewById(R.id.list_event_day);
         TextView title = (TextView) view.findViewById(R.id.list_event_name);
         TextView detail = (TextView) view.findViewById(R.id.lst_event_detail);
-        Meeting ac = meetingActivities.get(i);;
+        Meeting ac = meetingActivities.get(i);
+
+        System.out.println("Has Attended : "+ac.getAttended());
+
+
+
 
         String [] months = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
         Calendar cal  = Calendar.getInstance();
@@ -74,6 +80,16 @@ public class MeetingInvAdapter extends BaseAdapter {
         } else {
             detail.setText(ac.getCrop());
             day.setText("");
+
+
+        }
+
+        if(ac.getAttended()==1)  {
+//            RelativeLayout r = (RelativeLayout) view.findViewById(R.id.relativityMeetings);
+
+            day.setBackgroundColor(Color.parseColor("#cccccc"));
+            detail.setBackgroundColor(Color.parseColor("#cccccc"));
+            month.setBackgroundColor(Color.parseColor("#cccccc"));
         }
         //;
         return view;

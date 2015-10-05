@@ -12,34 +12,37 @@
                android:layout_alignParentBottom="true"
                android:background="#dddddd"/>
 
-    <TextView android:id="@+id/title"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_toRightOf="@+id/img"
-              android:singleLine="true"
-              android:ellipsize="marquee"
-              android:textStyle="bold"
-              android:textSize="15dip"
-              android:layout_alignWithParentIfMissing="true" android:layout_alignTop="@+id/img"/>
-
-    <ImageView android:id="@+id/image_vid"
-               android:layout_width="wrap_content" android:layout_height="wrap_content"
-               android:layout_alignTop="@+id/title"
-               android:layout_toRightOf="@+id/title"
-               android:layout_alignParentRight="true"
-               android:layout_alignParentTop="true"
-               android:layout_marginLeft="6dip"/>
-    <ImageView android:id="@+id/image_aud" android:layout_width="wrap_content" android:layout_height="wrap_content"
-               android:layout_alignTop="@+id/image_vid"
-               android:layout_toRightOf="@+id/image_vid"
-               android:layout_alignParentRight="true"
-               android:layout_alignParentTop="true"
-               android:layout_marginRight="6dip"/>
+    <TableLayout
+            android:id="@+id/tabc"
+            android:layout_toRightOf="@id/img"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="8">
+            <TextView android:id="@+id/title"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:singleLine="true"
+                      android:ellipsize="marquee"
+                      android:textStyle="bold"
+                      android:textSize="15sp"
+                      android:layout_weight="6"/>
+            <ImageView android:id="@+id/image_vid"
+                       android:layout_width="wrap_content" android:layout_height="wrap_content"
+                       android:layout_marginLeft="6dip" android:contentDescription="Video" android:layout_weight="1"
+                       android:src="@drawable/video"/>
+            <ImageView android:id="@+id/image_aud" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                       android:layout_marginRight="6dip" android:contentDescription="Audio" android:layout_weight="1"
+                       android:src="@drawable/sound"/>
+        </TableRow>
+    </TableLayout>
     <TextView android:id="@+id/description"
               android:layout_width="fill_parent"
               android:layout_height="match_parent"
               android:layout_toRightOf="@id/img"
-              android:layout_alignBottom="@id/title"
+              android:layout_alignBottom="@id/tabc"
               android:layout_alignParentRight="true"
               android:layout_alignParentBottom="true"
               android:textSize="13dip"

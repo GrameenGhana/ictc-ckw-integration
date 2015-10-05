@@ -42,14 +42,14 @@ public class StartUpActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
-        LayoutInflater mInflater = LayoutInflater.from(this);
-
-        View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
-        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
-        mTitleTextView.setText("Login");
+//        ActionBar mActionBar = getActionBar();
+//        mActionBar.setDisplayShowHomeEnabled(false);
+//        mActionBar.setDisplayShowTitleEnabled(false);
+//        LayoutInflater mInflater = LayoutInflater.from(this);
+//
+//        View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
+//        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
+//        mTitleTextView.setText("Login");
 
         databaseHelper = new DatabaseHelper(getBaseContext());
 
@@ -62,8 +62,8 @@ public class StartUpActivity extends Activity {
 
 
 
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
+//        mActionBar.setCustomView(mCustomView);
+//        mActionBar.setDisplayShowCustomEnabled(true);
 
 
 

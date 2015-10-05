@@ -40,6 +40,7 @@ public class MainActivity extends Activity implements ActionMode.Callback {
     private MenuItem backNavigationMenuItem = null;
     String  searchCrop ="";
     String  labelName = "";
+    Farmer f=null;
     /**
      * Called when the activity is first created.
      *
@@ -97,7 +98,7 @@ public class MainActivity extends Activity implements ActionMode.Callback {
             try {
                 searchCrop = extras.getString("SEARCH_CROP");
                 labelName= extras.getString("SEARCH_TITLE");
-
+                f= (Farmer) extras.get("farmer");
 
             } catch (Exception e) {
 
@@ -473,7 +474,14 @@ public class MainActivity extends Activity implements ActionMode.Callback {
 Bundle bundle = new Bundle();
         bundle.putString("SELECTED_CROP",searchCrop);
         bundle.putString("SELECTED_LABEL",labelName);
+        if(null!=f) {
+            bundle.putString("SELECTED_FARMER", f.getFarmID());
+            bundle.putString("SELECTED_FARMER_NAME", f.getFullname());
+        } else {
+            bundle.putString("SELECTED_FARMER", "");
+            bundle.putString("SELECTED_FARMER_NAME","");
 
+        }
         Fragment fragment = fragmentManager.findFragmentByTag(DefaultViewFragment.FRAGMENT_TAG);
 
 

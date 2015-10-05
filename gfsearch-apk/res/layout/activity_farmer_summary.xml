@@ -487,15 +487,29 @@
             </LinearLayout>
 
         </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="340dp">
+            <ListView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:id="@+id/list_ind_meet" android:headerDividersEnabled="true"/>
+        </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="297dp" android:gravity="center" android:padding="10dp"
-                android:weightSum="1">
+                android:layout_height="340dp">
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Inputs Given"
+                        android:id="@+id/textView33"
+                        android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="#ff07530f" android:textStyle="italic"/>
+            </LinearLayout>
             <ListView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:id="@+id/lst_ind_farm_visit" android:layout_weight="5.45"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lst_inputs"/>
         </LinearLayout>
 
 

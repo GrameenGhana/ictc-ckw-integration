@@ -74,9 +74,9 @@ public class FarmerInputActivty extends Activity {
              EditText seedbags = (EditText) findViewById(R.id.seedbags);
             EditText fertilizerBags = (EditText) findViewById(R.id.fertilizerbags);
 
-             String fertilizerInput = null;
-             String seedInput = null;
-             String ploughingInput = null;
+             String fertilizerInput = "0";
+             String seedInput = "0";
+             String ploughingInput = "0";
             public void onClick(View view) {
                 if (seed.isEnabled())
                     seedInput = seedbags.getText().toString();
@@ -90,6 +90,7 @@ public class FarmerInputActivty extends Activity {
                 ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, parameterurl, "fi", "input sent to server");
 
 
+                String v="";
                 if(myInputs.size()>0){
 
                     for(FarmerInputs fi : myInputs){
@@ -102,11 +103,20 @@ public class FarmerInputActivty extends Activity {
                                 fi.setQty(1.0);
                             }
                         }
-
+v="Saved Successfully";
                         helper.updateFarmInput(fi);
                     }
                 }else{
+
+
                     System.out.println("Saving FI");
+                    if(seedInput.isEmpty()) {seedInput="0";
+                    v="Some Values where Empty";
+                    }
+                    if(fertilizerInput.isEmpty()) {
+                        fertilizerInput = "0";
+                        v="Some Values where Empty";
+                    }
                     FarmerInputs farmSeeds = new FarmerInputs(0,"seeds",new Date(),"0",Double.parseDouble(seedInput), farmer.getFarmID());
                     FarmerInputs farmFert = new FarmerInputs(0,"fertiliser",new Date(),"0",Double.parseDouble(fertilizerInput), farmer.getFarmID());
                     FarmerInputs farmplough = new FarmerInputs(0,"plough",new Date(),"0",ploughingInput.equalsIgnoreCase("Yes")? 1.0:0.0, farmer.getFarmID());
@@ -124,7 +134,7 @@ public class FarmerInputActivty extends Activity {
 
 
                 try {
-                    showDialog("Add More Inputs","Inputs Saved! \nWould You Like to Add More Inputs for other farmers");
+                    showDialog("Add More Inputs",v+"\nWould You Like to Add More Inputs for other farmers");
                 }catch(Exception e){
 
 

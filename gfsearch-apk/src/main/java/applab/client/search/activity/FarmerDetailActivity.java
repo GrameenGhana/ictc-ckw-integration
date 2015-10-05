@@ -2,6 +2,7 @@ package applab.client.search.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ActivityGroup;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,17 +11,20 @@ import android.view.View;
 import android.widget.*;
 import applab.client.search.R;
 import applab.client.search.adapters.MeetingInvAdapter;
+import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.model.Farmer;
+import applab.client.search.model.FarmerInputs;
 import applab.client.search.model.Meeting;
 import applab.client.search.storage.DatabaseHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by Software Developer on 30/07/2015.
  */
-public class FarmerDetailActivity extends Activity {
+public class FarmerDetailActivity extends ActivityGroup {
     private TextView textViewName;
     private TextView textViewMainCrop;
     private TextView textViewProportion;
@@ -34,7 +38,7 @@ public class FarmerDetailActivity extends Activity {
     Farmer farmer = null;
     List<Meeting> meetings = new ArrayList<Meeting>();
 
-
+    List<FarmerInputs> myInputs =new ArrayList<FarmerInputs>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,9 +57,13 @@ public class FarmerDetailActivity extends Activity {
         try {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
-                farmer = (Farmer) extras.get("farmer");
+                String farmerId = (String) extras.get("farmerId");
 
-                farmer = dbHelper.findFarmer(farmer.getFarmID());
+                if(null == farmerId ||farmerId.isEmpty()) {
+                    farmer = (Farmer) extras.get("farmer");
+                    farmerId = farmer.getFarmID();
+                }
+                farmer = dbHelper.findFarmer(farmerId);
                 location = farmer.getCommunity();
                 name = farmer.getLastName() + " , " + farmer.getFirstName();
             }
@@ -79,6 +87,7 @@ public class FarmerDetailActivity extends Activity {
         });
         final Farmer myFarmer = farmer;
         mActionBar.setCustomView(mCustomView);
+        myInputs =  dbHelper.getIndividualFarmerInputs(farmer.getFarmID());
         mActionBar.setDisplayShowCustomEnabled(true);
 //        textViewName=(TextView) findViewById(R.id.textView_name);
 //        textViewName.setText(name);
@@ -192,28 +201,32 @@ public class FarmerDetailActivity extends Activity {
         }
 
 
-
-        list = (ListView) findViewById(R.id.lst_ind_farm_visit);
-        meetings =  dbHelper.getFarmerMeetings(farmer.getFarmID());
-
-        System.out.println("Meeting Indexx : "+meetings.size());
-        System.out.println("Ktd : "+list.toString());
+        setValuesForFields();
+        setMeetingList();
 
 
-        String  [] colors =  getResources().getStringArray(R.array.text_colors);
-        MeetingInvAdapter adapter = new MeetingInvAdapter(FarmerDetailActivity.this, meetings, getResources().getStringArray(R.array.text_colors));
-        list.setAdapter(adapter);
+//        TabHost tabHost = (TabHost)findViewById(R.id.tabHost3);
+//        tabHost.setup(this.getLocalActivityManager());
+//        Intent gencal  = null;
+//
+//        gencal  = new Intent(FarmerDetailActivity.this, FarmerMeetingActivity.class);
+//        gencal.putExtra("farmer", farmer.getFarmID());
+//        TabHost.TabSpec spec =tabHost.newTabSpec("Meetings").setIndicator("Meetings").setContent(gencal);
+//        tabHost.addTab(spec);
+//
+//
+//        gencal  = new Intent(FarmerDetailActivity.this, FarmerDetailInputActivity.class);
+//        gencal.putExtra("farmer", farmer.getFarmID());
+//        spec =tabHost.newTabSpec("Farm Inputs").setIndicator("Farm Inputs").setContent(gencal);
+//        tabHost.addTab(spec);
+//
+//
+//
+//        tabHost.setCurrentTab(0);
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(FarmerDetailActivity.this,MeetingIndexActivity.class);
-                intent.putExtra("mi",meetings.get(i).getMeetingIndex());
-                intent.putExtra("mt", meetings.get(i).getTitle());
-                intent.putExtra("farmerId", meetings.get(i).getFarmer());
-                startActivity(intent);
 
-            }
-        });
+
+
     }
 
     public void mapFarm(View view) {
@@ -232,5 +245,59 @@ public class FarmerDetailActivity extends Activity {
 //        intent.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString());
 
         startActivity(intent);
+    }
+
+    public void setValuesForFields(){
+
+        /**
+         *  FarmerInputReceivedWrapper seedsReceived = searchNeeds(farmers, "seeds");
+         FarmerInputReceivedWrapper fertReceived = searchNeeds(farmers, "fertiliser");
+         FarmerInputReceivedWrapper ploughReceived = searchNeeds(farmers, "plough");
+         */
+        String  [] details= new String[myInputs.size()];
+        String [] firstLetters= new String[myInputs.size()];
+        boolean  [] enabled = new boolean[myInputs.size()];
+        Arrays.fill(enabled, true);
+
+        int cnt=0;
+        for(FarmerInputs fi : myInputs){
+            String title="";
+            firstLetters[cnt]=String.valueOf(fi.getQty());
+            details[cnt]= fi.getName();
+            cnt++;
+        }
+      ListView  listView = (ListView)findViewById(R.id.lst_inputs);
+
+        ListAdapter adapter = new SimpleTextTextListAdapter(FarmerDetailActivity.this, details,firstLetters ,enabled,getResources().getStringArray(R.array.text_colors));
+        listView.setAdapter(adapter);
+
+
+    }
+    public void setMeetingList(){
+        list = (ListView) findViewById(R.id.list_ind_meet);
+        meetings =  dbHelper.getFarmerMeetings(farmer.getFarmID());
+
+        System.out.println("Meeting Indexx : "+meetings.size());
+        System.out.println("Ktd : "+list.toString());
+
+
+        String  [] colors =  getResources().getStringArray(R.array.text_colors);
+        MeetingInvAdapter adapter = new MeetingInvAdapter(FarmerDetailActivity.this, meetings, getResources().getStringArray(R.array.text_colors));
+        list.setAdapter(adapter);
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(FarmerDetailActivity.this,MeetingIndexActivity.class);
+                intent.putExtra("mi",meetings.get(i).getMeetingIndex());
+                intent.putExtra("mid",meetings.get(i).getId());
+                intent.putExtra("mtype",meetings.get(i).getType());
+                intent.putExtra("atd",meetings.get(i).getAttended());
+                System.out.println("Sendt ID : "+meetings.get(i).getId());
+                intent.putExtra("mt", meetings.get(i).getTitle());
+                intent.putExtra("farmerId", meetings.get(i).getFarmer());
+                startActivity(intent);
+
+            }
+        });
     }
 }

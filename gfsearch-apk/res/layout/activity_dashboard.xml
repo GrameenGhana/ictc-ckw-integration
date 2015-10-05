@@ -1,111 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" android:background="@drawable/bg" android:padding="20dp"
+        android:dividerPadding="10dp"
+        >
+<LinearLayout
+        android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent" android:background="@drawable/bg" android:padding="20dp"
+              android:layout_height="match_parent"
               android:dividerPadding="10dp">
 
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="178dp" android:gravity="center_vertical" android:background="@drawable/bg_edittext">
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="313dp"
-                android:layout_height="fill_parent" android:padding="10dp">
-            <TextView
-                    android:layout_width="257dp"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Supervisor: Kofi Ananse"
-                    android:id="@+id/supervisor_name"  android:textColor="#ffffffff"/>
-            <TableLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
-                <TableRow
-                        android:id="@+id/tableRow_communities"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:gravity="center_vertical"
-                        android:paddingTop="10dp">
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/imageView2" android:src="@drawable/ic_comm"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="4 Communities"
-                            android:id="@+id/community_count" android:textColor="#ffffffff"/>
-                </TableRow>
-                <TableRow
-                        android:id="@+id/tableRow_farmers"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" android:gravity="center_vertical"
-                        android:paddingTop="10dp">
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/imageView3" android:src="@drawable/ic_farmer"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="300 Farmers"
-                            android:id="@+id/farmer_cnt" android:textColor="#ffffffff"/>
-                </TableRow>
-            </TableLayout>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:padding="10dp">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Resources"
-                    android:id="@+id/textView7" android:textColor="#ffffffff" android:textStyle="bold"
-                    />
-            <TableLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-                <TableRow
-                        android:id="@+id/tableRow_taroWorks"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" android:gravity="center_vertical" android:paddingTop="20dp">
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/imageView4" android:src="@drawable/taroworks"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="TaroWorks"
-                            android:id="@+id/textView8" android:textColor="#ffffffff"/>
-                </TableRow>
-                <TableRow
-                        android:id="@+id/tableRow_ckw"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" android:gravity="center_vertical" android:paddingTop="20dp">
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="64dp"
-                            android:id="@+id/imageView5" android:src="@drawable/app_logo"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="CKW Search"
-                            android:id="@+id/textView9" android:textColor="#ffffffff"/>
-                </TableRow>
-            </TableLayout>
-        </LinearLayout>
-    </LinearLayout>
-    <View android:layout_width="match_parent" android:layout_height="10dp"></View>
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -143,38 +49,59 @@
             </TableRow>
         </TableLayout>
     </LinearLayout>
+    <View android:layout_width="match_parent" android:layout_height="10dp"></View>
     <ViewStub
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/viewStub" android:layout_gravity="right"/>
     <View android:layout_width="match_parent" android:layout_height="10dp"></View>
-    <TextView
-            android:text=" Prices for maize in Ejura: 200
-                                 Prices for maize in Fankyenebra: 300
-                                 Prices for Rice in Kintampo: 350
-                                 Prices for Rice in Ejura: 200
-                                 Prices for Beans in Ejura: 200
-                                 Prices for Rice in Fankyenebra: 300
-                                 Prices for maize in Fankyenebra: 300
-                                 Prices for Rice in Fankyenebra: 300   "
-            android:id="@+id/MarqueeText"
+    <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:numColumns="2" android:verticalSpacing="30dp" >
+        <LinearLayout
+                android:background="@drawable/bg_edittext"
+                android:padding="5dp"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_columnSpan="2" android:id="@+id/fd">
+            <TextView
+                    android:text=" Prices for maize in Ejura: 200
+                                         Prices for maize in Fankyenebra: 300
+                                         Prices for Rice in Kintampo: 350
+                                         Prices for Rice in Ejura: 200
+                                         Prices for Beans in Ejura: 200
+                                         Prices for Rice in Fankyenebra: 300
+                                         Prices for maize in Fankyenebra: 300
+                                         Prices for Rice in Fankyenebra: 300   "
+                    android:id="@+id/MarqueeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="81dp"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="false"
+                    android:paddingLeft="15dip"
+                    android:paddingRight="15dip"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:freezesText="true"
+                    android:drawableLeft="@drawable/ic_star"
+                    android:textColor="#ffffffff"
+                    android:textStyle="bold|italic" android:gravity="center_vertical" android:paddingBottom="20dp"/>
+        </LinearLayout>
+    </GridLayout>
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:paddingLeft="15dip"
-            android:paddingRight="15dip"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:freezesText="true"
-            android:drawableLeft="@drawable/ic_star"
-            android:textColor="#ffffffff"
-            android:textStyle="bold|italic" android:gravity="center_vertical" android:paddingBottom="20dp"/>
+            android:layout_height="wrap_content" android:padding="10dp">
+    </LinearLayout>
     <GridView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="784dp"
             android:id="@+id/gridView" android:numColumns="2" android:verticalSpacing="30dp"
             android:horizontalSpacing="30dp"/>
+
+
 </LinearLayout>
+
+</ScrollView>

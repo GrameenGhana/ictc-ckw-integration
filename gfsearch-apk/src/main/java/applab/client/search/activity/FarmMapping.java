@@ -64,6 +64,8 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acttivity_farm_mapping);
+
+
         setUpMapIfNeeded();
 
         dbHelper = new DatabaseHelper(getBaseContext());
@@ -97,28 +99,24 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
 
                 TextView fArea = (TextView) findViewById(R.id.txt_map_fm_area);
 //            fArea.setText((farmer.getLandArea())+" m2  ");
-                fArea.setText(Html.fromHtml(IctcCKwUtil.formatDouble(farmer.getLandArea()) + " m<sup>2</sup> Perimeter : " + IctcCKwUtil.formatDouble(farmer.getSizePlot()) + " m "));
+                fArea.setText(Html.fromHtml(": "+IctcCKwUtil.formatDouble(farmer.getLandArea()) + " m<sup>2</sup> Perimeter : " + IctcCKwUtil.formatDouble(farmer.getSizePlot()) + " m "));
                 fArea = (TextView) findViewById(R.id.txt_coordinate_no);
                 fArea.setText(String.valueOf(gps.size()));
                 for (FarmGPSLocation gpsLoc : gps) {
 
 
-                    mMap.addMarker(new MarkerOptions()
-                            .position(new LatLng(gpsLoc.getLatitude(), gpsLoc.getLongitude()))
-                            .title("Farm Map Point " + farmer.getLandArea()));
+//                    mMap.addMarker(new MarkerOptions()
+//                            .position(new LatLng(gpsLoc.getLatitude(), gpsLoc.getLongitude()))
+//                            .title("Farm Map Point " + farmer.getLandArea()));
                     options.add(new LatLng(gpsLoc.getLatitude(), gpsLoc.getLongitude()));
 
                 }
 
 
 
-                if(options.getPoints().size()>1)
-                {
-                    options.color( Color.parseColor("#CC0000FF") );
-                    options.width( 5 );
-                    options.visible( true );
-                    mMap.addPolyline(options);
-                }
+
+
+                setUpMapIfNeeded();
 
 //                "1. Walk around the area to be cultivated. \n" +
 //                        "\n" +
@@ -164,6 +162,13 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
                 mMap.setMyLocationEnabled(true);
                 locateMe();
                 setUpMap();
+                if(options.getPoints().size()>1)
+                {
+                    options.color( Color.parseColor("#CC0000FF") );
+                    options.width( 5 );
+                    options.visible( true );
+                    mMap.addPolyline(options);
+                }
             }
         }
     }
@@ -283,6 +288,8 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
                     Toast.LENGTH_LONG).show();
 
         }
+        setUpMapIfNeeded();
+
     }
 
 

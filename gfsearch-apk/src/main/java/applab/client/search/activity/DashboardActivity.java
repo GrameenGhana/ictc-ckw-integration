@@ -39,7 +39,7 @@ public class DashboardActivity extends Activity {
     private TableRow tableRow_communities;
     private TableRow tableRow_farmers;
     private TableRow tableRow_taroWorks;
-    private TableRow tableRow_ckw;
+    private LinearLayout tableRow_ckw;
 
     DatabaseHelper helper;
 
@@ -59,14 +59,14 @@ public class DashboardActivity extends Activity {
         mTitleTextView.setText("Dashboard");
 
 
-        TextView st = (TextView) findViewById(R.id.farmer_cnt);
-        if (null == st) {
-            System.out.println("farmer cnt shd not be null ");
-        } else
-            st.setText(helper.farmerCount() + " Farmers");
-
-        TextView tv = (TextView) findViewById(R.id.community_count);
-        tv.setText(helper.farmerCountByCommunityGroup().size() + " Communities");
+//        TextView st = (TextView) findViewById(R.id.farmer_cnt);
+//        if (null == st) {
+//            System.out.println("farmer cnt shd not be null ");
+//        } else
+//            st.setText(helper.farmerCount() + " Farmers");
+//
+//        TextView tv = (TextView) findViewById(R.id.community_count);
+//        tv.setText(helper.farmerCountByCommunityGroup().size() + " Communities");
 
 
         mActionBar.setCustomView(mCustomView);
@@ -85,56 +85,49 @@ public class DashboardActivity extends Activity {
             }
         });
 //getData();
-        String[] titles = {"Prices", "Meetings", "Clusters", "Communities"};
-        tableRow_communities = (TableRow) findViewById(R.id.tableRow_communities);
-        tableRow_farmers = (TableRow) findViewById(R.id.tableRow_farmers);
-        tableRow_taroWorks = (TableRow) findViewById(R.id.tableRow_taroWorks);
-        tableRow_ckw = (TableRow) findViewById(R.id.tableRow_ckw);
-        int[] images = {R.drawable.ic_cedi, R.drawable.ic_id, R.drawable.ic_clusters, R.drawable.ic_community};
+        String[] titles = {"Clients", "Meetings", "Suppliers", "Markets","Technical Assistance"};
+//        tableRow_communities = (TableRow) findViewById(R.id.tableRow_communities);
+//        tableRow_farmers = (TableRow) findViewById(R.id.tableRow_farmers);
+
+        int[] images = {R.drawable.ic_clusters, R.drawable.ic_id,R.drawable.ic_cedi,  R.drawable.ic_community,  R.drawable.mobile_app_icon};
         DashboardMenuAdapter adapter = new DashboardMenuAdapter(DashboardActivity.this, images, titles);
         grid_menu.setAdapter(adapter);
-        tableRow_communities.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, CommunityActivity.class);
-                startActivity(intent);
-            }
-        });
-        tableRow_farmers.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, FarmerActivity.class);
-                intent.putExtra("type", "farmer");
-                startActivity(intent);
-            }
-        });
-        tableRow_ckw.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
-        tableRow_taroWorks.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("org.grameen.taro");
-                startActivity(launchIntent);
-            }
-        });
+//        tableRow_communities.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//                Intent intent = new Intent(DashboardActivity.this, CommunityActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+//        tableRow_farmers.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View view) {
+//                Intent intent = new Intent(DashboardActivity.this, FarmerActivity.class);
+//                intent.putExtra("type", "farmer");
+//                startActivity(intent);
+//            }
+//        });
+
         grid_menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent;
                 switch (i) {
                     case 0:
-                        intent = new Intent(DashboardActivity.this, PricesActivity.class);
+                        intent = new Intent(DashboardActivity.this, ClientActivity.class);
                         startActivity(intent);
-                        break; case 1:
+                        break;
+                    case 1:
                         intent = new Intent(DashboardActivity.this, ScheduledMeetingsActivity.class);
                         startActivity(intent);
                         break;
                     case 2:
-                        intent = new Intent(DashboardActivity.this, ClusterActivity.class);
+                        intent = new Intent(DashboardActivity.this, SupplierActivity.class);
                         startActivity(intent);
                         break;
                     case 3:
-                        intent = new Intent(DashboardActivity.this, CommunityActivity.class);
+                        intent = new Intent(DashboardActivity.this, MarketActivity.class);
+                        startActivity(intent);
+                        break;
+                    case 4:
+                        intent = new Intent(DashboardActivity.this, MainActivity.class);
                         startActivity(intent);
                         break;
                 }

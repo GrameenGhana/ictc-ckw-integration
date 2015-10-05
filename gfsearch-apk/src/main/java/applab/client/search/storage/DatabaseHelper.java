@@ -753,7 +753,43 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         System.out.println("Meeting Cnt  : "+response.size());
         return response;
     }
+    public List<Meeting> getGroupMeetings(String crop){
+        String q="select * from "+DatabaseHelperConstants.ICTC_FARMER_MEETING+" WHERE "+DatabaseHelperConstants.ICTC_TYPE+" ='group'  and  "+DatabaseHelperConstants.ICTC_CROP+"='"+crop+"' order by "+DatabaseHelperConstants.ICTC_SCHEDULE_DATE+" ASC ";
+        System.out.println("Query  : "+q);
+        Cursor localCursor = this.getWritableDatabase().rawQuery(q, null);
+        List<Meeting> response = new ArrayList<Meeting>();
+        while (localCursor.moveToNext()) {
+            response.add(getMeeting(localCursor));
+        }
 
+        System.out.println("Meeting Cnt  : "+response.size());
+        return response;
+    }
+
+
+    public List<Meeting> getIndividualMeetings(String crop,String index){
+        String q="select * from "+DatabaseHelperConstants.ICTC_FARMER_MEETING+" WHERE "+DatabaseHelperConstants.ICTC_TYPE+" ='individual'  and  "+DatabaseHelperConstants.ICTC_CROP+"='"+crop+"' and "+DatabaseHelperConstants.ICTC_MEEING_INDEX+"= "+index+" order by "+DatabaseHelperConstants.ICTC_ATTENDED+"  ASC ";
+        System.out.println("Query  : "+q);
+        Cursor localCursor = this.getWritableDatabase().rawQuery(q, null);
+        List<Meeting> response = new ArrayList<Meeting>();
+        while (localCursor.moveToNext()) {
+            response.add(getMeeting(localCursor));
+        }
+
+        System.out.println("Meeting Cnt  : "+response.size());
+        return response;
+    }public List<Meeting> getGroupMeetings(String crop,String index){
+        String q="select * from "+DatabaseHelperConstants.ICTC_FARMER_MEETING+" WHERE "+DatabaseHelperConstants.ICTC_TYPE+" ='group'  and  "+DatabaseHelperConstants.ICTC_CROP+"='"+crop+"' and "+DatabaseHelperConstants.ICTC_MEEING_INDEX+"= "+index+" order by "+DatabaseHelperConstants.ICTC_ATTENDED+"  ASC ";
+        System.out.println("Query  : "+q);
+        Cursor localCursor = this.getWritableDatabase().rawQuery(q, null);
+        List<Meeting> response = new ArrayList<Meeting>();
+        while (localCursor.moveToNext()) {
+            response.add(getMeeting(localCursor));
+        }
+
+        System.out.println("Meeting Cnt  : "+response.size());
+        return response;
+    }
 
 
     public List<Meeting> getMeetings(String q){
@@ -767,7 +803,23 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return response;
     }
     public List<Meeting> getFarmerMeetings(String farmer){
-        return getMeetings(findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING) + " WHERE " + DatabaseHelperConstants.ICTC_FARMER_ID + " ='" + farmer + "' ");
+        return getMeetings(findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING) + " WHERE " + DatabaseHelperConstants.ICTC_FARMER_ID + " ='" + farmer + "'  order by "+DatabaseHelperConstants.ICTC_ATTENDED+"  ASC , "+DatabaseHelperConstants.ICTC_MEEING_INDEX+" asc ");
+    }
+
+    public Meeting getFarmerMeetings(String farmer,int meetingIndex){
+        List<Meeting> mt = getMeetings(findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING) + " WHERE " + DatabaseHelperConstants.ICTC_FARMER_ID + " ='" + farmer + "'  and "+DatabaseHelperConstants.ICTC_MEEING_INDEX+"="+meetingIndex);
+
+        if(mt.size()>0)
+            mt.get(0);
+        return  null;
+    }
+
+    public Meeting getFarmerMeetingsById(String id){
+        List<Meeting> mt = getMeetings(findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING) + " WHERE " + DatabaseHelperConstants.ICTC_ID + " =" + id );
+
+        if(mt.size()>0)
+            mt.get(0);
+        return  null;
     }
     public int getMeetingsAttended(String farmer){
         return getAggregateValue("SELECT count(*) FROM "+DatabaseHelperConstants.ICTC_FARMER_MEETING+" WHERE "+DatabaseHelperConstants.ICTC_FARMER+" ='"+farmer+"' and attended=1");
@@ -776,6 +828,10 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 /**
      * @return
      */
+
+
+
+
 
     public List<Farmer> getFarmersSearch(String query) {
         Cursor localCursor = this.getWritableDatabase().rawQuery(query, null);
@@ -961,6 +1017,39 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
         return getGeneralCountQuery(table,"","*");
     }
+
+public void markAttendance(String meetingIndex,String ids){
+
+    ContentValues newValues = new ContentValues();
+    newValues.put(DatabaseHelperConstants.ICTC_ATTENDED, String.valueOf(1));
+
+    this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_FARMER_MEETING, newValues, DatabaseHelperConstants.ICTC_ID+" IN ("+ids+") ", null);
+}
+    public void markAttendanceByMeetingIndex(String meetingIndex,String ids){
+
+        ContentValues newValues = new ContentValues();
+        newValues.put(DatabaseHelperConstants.ICTC_ATTENDED, String.valueOf(1));
+
+        this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_FARMER_MEETING, newValues, DatabaseHelperConstants.ICTC_MEEING_INDEX+" = "+meetingIndex+" and  "+DatabaseHelperConstants.ICTC_FARMER_ID+" IN ("+ids+") ", null);
+    }
+
+    public void markAttendanceByMeetingIndex(String meetingIndex,String ids,int attended){
+
+        ContentValues newValues = new ContentValues();
+        newValues.put(DatabaseHelperConstants.ICTC_ATTENDED, String.valueOf(attended));
+
+        this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_FARMER_MEETING, newValues, DatabaseHelperConstants.ICTC_MEEING_INDEX+" = "+meetingIndex+" and  "+DatabaseHelperConstants.ICTC_FARMER_ID+" IN ("+ids+") ", null);
+    }
+
+
+    public void markAttendanceByMeetingIndex(String meetingIndex,String ids,String type,int attended){
+
+        ContentValues newValues = new ContentValues();
+        newValues.put(DatabaseHelperConstants.ICTC_ATTENDED, String.valueOf(attended));
+
+        this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_FARMER_MEETING, newValues, DatabaseHelperConstants.ICTC_MEEING_INDEX+" = "+meetingIndex+" and  "+DatabaseHelperConstants.ICTC_FARMER_ID+" IN ("+ids+") and  "+DatabaseHelperConstants.ICTC_TYPE+"='"+type+"'", null);
+    }
+
 
     /**
      * returns queries like select count(*) from tableName

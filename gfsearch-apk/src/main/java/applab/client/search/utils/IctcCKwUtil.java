@@ -95,6 +95,25 @@ public class IctcCKwUtil {
     }
 
 
+    public static  String getNextDate(int dayOfWeek,int weeksMore){
+        Date date  = new Date();
+        Calendar cal = Calendar.getInstance();
+
+
+        String replaceWith ="";
+        int currentDayofWeek =  cal.get(Calendar.DAY_OF_WEEK);
+
+            int weekAddition =7+(weeksMore*7);
+//            if(dayOfWeek>currentDayofWeek)
+//                weekAddition = 0;
+            cal.add(Calendar.DATE, (weekAddition-currentDayofWeek+dayOfWeek));
+            SimpleDateFormat df = new SimpleDateFormat("E  MMM d");
+            replaceWith = df.format(cal.getTime());
+
+
+        return replaceWith;
+    }
+
 
     public static String formatDouble(double amt){
 

@@ -2,21 +2,20 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="6dip" >
+                android:padding="6dip"
+                android:id="@+id/simp_rel_lay">
 
     <TextView
             android:id="@+id/lst_text_item_icon"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:focusable="false"
             android:text="1"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
             android:textSize="20dp"
-            android:textColor="#fff9fbff" android:background="#ff596aff"/>
+            android:textColor="#fff9fbff" android:background="#ff596aff"   android:gravity="center"/>
 
 
     <TextView

@@ -39,12 +39,15 @@ public class SimpleTextTextListAdapter  extends BaseAdapter {
         this.colors = colors;
         System.out.println("Contents  : "+contents.length);
         this.firstLetter = firstLetter;
+        enabled = new boolean[firstLetter.length];
+        Arrays.fill(enabled,true);
         minflater = LayoutInflater.from(mContext);
     }
 
     public SimpleTextTextListAdapter(Context mContext,
                                      String  []  contents,
-                                     String []  firstLetter,boolean [] enabled,
+                                     String []  firstLetter,
+                                     boolean [] enabled,
 
 
                                      String [] colors
@@ -87,6 +90,7 @@ public class SimpleTextTextListAdapter  extends BaseAdapter {
         if (view == null) {
             view = minflater.inflate(R.layout.list_simple_text_text_, viewGroup, false);
         }
+        System.out.println("getView");
         TextView icon = (TextView) view.findViewById(R.id.lst_text_item_icon);
 
 

@@ -19,6 +19,7 @@ import applab.client.search.R;
 import applab.client.search.adapters.MeetingActivityAdapter;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.model.Farmer;
+import applab.client.search.model.Meeting;
 import applab.client.search.model.MeetingActivity;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.AgentVisitUtil;
@@ -37,7 +38,8 @@ public class MeetingIndexActivity extends Activity {
     DatabaseHelper helper;
     String titler = "";
     String farmerId="";
-    Farmer farmer=null;
+    Farmer farmer=null; String mtype ="";
+    boolean isFarmerSelected=false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,22 +53,40 @@ public class MeetingIndexActivity extends Activity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Meeting Activity");
 
-
+isFarmerSelected= true;
         helper = new DatabaseHelper(getBaseContext());
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
         list = (ListView) findViewById(R.id.lst_meeting_index);
         Bundle extras = getIntent().getExtras();
         int meetingIndex = 0;
-
+        Button b = (Button) findViewById(R.id.btn_nxt_mark_attendance);
+        b.setVisibility(Button.INVISIBLE);
         if (extras != null) {
             meetingIndex = (Integer) extras.get("mi");
             titler = (String) extras.get("mt");
             farmerId = (String) extras.get("farmerId");
-            if(null != farmerId) {
+            String meetId = (String) extras.get("mid");
+             mtype = (String) extras.get("mtype");
+            int atd = (Integer) extras.get("atd");
+            if(null != farmerId && farmerId.length()>0) {
                 farmer = helper.findFarmer(farmerId);
+isFarmerSelected=true;
+                String part = (atd==1)?" [Already Attended]":"";
                 TextView title = (TextView) findViewById(R.id.act_farmer_details);
-                title.setText("Farmer >> "+farmer.getFullname());
+                title.setText("Farmer >> "+farmer.getFullname() +part);
+                System.out.println("Meeting Id : " + meetId);
+                System.out.println("mtyppe Id : "+mtype);
+                Meeting meeting  = helper.getFarmerMeetingsById(meetId);
+//if(null!=meeting){
+    System.out.println("meeting not not null");
+                if(mtype.toLowerCase().contains("ind")){
+
+                    b.setVisibility(Button.VISIBLE);
+                }
+
+
+
             }index=meetingIndex;
             meetingTitle=titler;
         }
@@ -98,7 +118,7 @@ public class MeetingIndexActivity extends Activity {
 
                 try {
 if(meetings.get(i).isCurrentlyAvailable()) {
-    showDialog(meetings.get(i).getActivityName(), meetings.get(i).getDescription(), meetings.get(i).getApplicationToHandle(), index, meetingTitle);
+    showDialog(meetings.get(i).getActivityName(), meetings.get(i).getDescription(), meetings.get(i).getApplicationToHandle(), index, meetingTitle,titler,isFarmerSelected);
 }    } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -107,11 +127,17 @@ if(meetings.get(i).isCurrentlyAvailable()) {
 
 
     }
-    public void showDialog(final String title,final String  msg, final String type, final int idx, final String  meetTitle) throws Exception
+    public void showDialog(final String title,final String  msg, final String type, final int idx, final String  meetTitle,final String meetingType,boolean selected) throws Exception
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(MeetingIndexActivity.this);
+        System.out.println("Meet type : "+meetingType);
 
         builder.setTitle(title);
+
+        if(selected){
+            if(null!=farmer)
+            msg.replace("Select Farmer",farmer.getFullname()+" Already Selected");
+        }
 
         builder.setMessage(msg);
 
@@ -124,15 +150,28 @@ if(meetings.get(i).isCurrentlyAvailable()) {
 //                    Intent intent = new Intent(MeetingIndexActivity.this, MainActivity.class);
 //                    startActivity(intent);
 
-                    Intent intent = new Intent(MeetingIndexActivity.this, FarmerActivitySelectFarmer.class);
+                    if(meetingType.toLowerCase().contains("group")){
+                        Intent intent = new Intent(MeetingIndexActivity.this, CropSelectorActivity.class);
 
-                    intent.putExtra("index",idx);
-                    intent.putExtra("title",meetTitle);
-                    intent.putExtra("detail",title);
-                    intent.putExtra("farmer",farmer);
+                        intent.putExtra("index",idx);
+                        intent.putExtra("title",meetTitle);
+                        intent.putExtra("detail",title);
+                        intent.putExtra("farmer",farmer);
 //                    if(title.equalsIgnoreCase(AgentVisitUtil.COLLECT_FARM_MEASUREMENT)){
                         intent.putExtra("type","ckw");
                         startActivity(intent);
+                    }else{
+                        Intent intent = new Intent(MeetingIndexActivity.this, FarmerActivitySelectFarmer.class);
+
+                        intent.putExtra("index",idx);
+                        intent.putExtra("title",meetTitle);
+                        intent.putExtra("detail",title);
+                        intent.putExtra("farmer",farmer);
+//                    if(title.equalsIgnoreCase(AgentVisitUtil.COLLECT_FARM_MEASUREMENT)){
+                        intent.putExtra("type","ckw");
+                        startActivity(intent);
+                    }
+
 //                    }
 
                 }else if(type.equalsIgnoreCase("T")){
@@ -213,5 +252,14 @@ if(meetings.get(i).isCurrentlyAvailable()) {
 
 
         return null;
+    }
+
+    public void processMakeAttendance(View view){
+
+        Intent intent= new Intent(MeetingIndexActivity.this, IndividualMeetingAAttendance.class);
+        intent.putExtra("farmer",farmer);
+        intent.putExtra("title",meetingTitle);
+        intent.putExtra("index",index);
+        startActivity(intent);
     }
 }

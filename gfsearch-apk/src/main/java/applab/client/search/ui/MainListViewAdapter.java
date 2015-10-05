@@ -176,14 +176,13 @@ public class MainListViewAdapter extends BaseAdapter {
         ListObject listObject = (ListObject) getItem(position);
 
         if (listObject != null) {
-            String desc = listObject.getDescription() + SearchMenuItemActivity.TEMP_AUDIO_VIDEO_FILE;
+            String desc = listObject.getDescription() ;//+ SearchMenuItemActivity.TEMP_AUDIO_VIDEO_FILE;
             String label = listObject.getLabel();
-            if (ContentUtils.containsAudio(desc))
-//               label +=(" (a) ");
-                if (ContentUtils.containsVideo(desc))
-//                label +=(" (v) ");
 
-                    titleView.setText(label);
+
+            titleView.setText(label);
+
+
             if (listObject.getDescription() != null && listObject.getDescription().startsWith("No Content")) {
                 descriptionView.setText("");
                 desc = "";
@@ -193,13 +192,18 @@ public class MainListViewAdapter extends BaseAdapter {
 
 
             if (ContentUtils.containsAudio(desc)) {
-                imageAudo.setImageResource(R.drawable.sound);
+//                imageAudo.setImageResource(R.drawable.sound);
                 imageAudo.setVisibility(ImageView.VISIBLE);
+                System.out.println("Visible AudioI");
+            }else{
+                imageAudo.setVisibility(ImageView.INVISIBLE);
             }
             if (ContentUtils.containsVideo(desc)) {
-                imageVideo.setImageResource(R.drawable.video);
+//                imageVideo.setImageResource(R.drawable.video);
                 imageVideo.setVisibility(ImageView.VISIBLE);
-                System.out.println("Desc Video");
+                System.out.println("Desc VideoII");
+            }else{
+                imageVideo.setVisibility(ImageView.INVISIBLE);
             }
 
 

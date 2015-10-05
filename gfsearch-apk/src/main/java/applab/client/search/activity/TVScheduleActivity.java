@@ -8,17 +8,22 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 import applab.client.search.R;
+import applab.client.search.adapters.SimpleTextTextListAdapter;
+import applab.client.search.adapters.TvScheduleAdaptor;
+import applab.client.search.model.wrapper.CommunicationSchedule;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.IctcCKwUtil;
 
-import java.util.Calendar;
+import java.util.*;
 
 /**
  * Created by skwakwa on 9/17/15.
  */
 public class TVScheduleActivity extends Activity {
+    ExpandableListView list;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,20 +40,52 @@ public class TVScheduleActivity extends Activity {
 ;        mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
 
+        list = (ExpandableListView) findViewById(R.id.exp_comm_sch);
+
+        List<CommunicationSchedule> cons = new ArrayList<CommunicationSchedule>();
+        // CommunicationSchedule(int icon,String title,String nextDate,String time,String language)
+        cons.add(new CommunicationSchedule(R.drawable.tv_48x48,"GTV",IctcCKwUtil.getNextDate(Calendar.SUNDAY),"3:00 - 4:00","English"));
+        cons.add(new CommunicationSchedule(R.drawable.radio_48x48,"Volta Star Radio",IctcCKwUtil.getNextDate(Calendar.SATURDAY),"7:00 - 8:00","Twi"));
+        cons.add(new CommunicationSchedule(R.drawable.radio_48x48,"Brong Ahafo Radio",IctcCKwUtil.getNextDate(Calendar.SATURDAY),"7:00 - 8:00","Ewe & Twi"));
 
 
-        String gtv = IctcCKwUtil.getNextDate(Calendar.SUNDAY);
+
+
+
+        List<CommunicationSchedule> gtv = new ArrayList<CommunicationSchedule>();
+        gtv.add(new CommunicationSchedule(R.drawable.mobile_app_icon,"Introduction",IctcCKwUtil.getNextDate(Calendar.SUNDAY),"3:00 - 4:00","English"));
+        gtv.add(new CommunicationSchedule(R.drawable.mobile_app_icon,"Title I",IctcCKwUtil.getNextDate(Calendar.SUNDAY,1),"7:00 - 8:00","English"));
+        gtv.add(new CommunicationSchedule(R.drawable.mobile_app_icon,"title 2",IctcCKwUtil.getNextDate(Calendar.SUNDAY,2),"7:00 - 8:00","English"));
+
+        List<CommunicationSchedule> vstar = new ArrayList<CommunicationSchedule>();
+        vstar.add(new CommunicationSchedule(R.drawable.mobile_app_icon,"Introduction",IctcCKwUtil.getNextDate(Calendar.SATURDAY),"3:00 - 4:00","English"));
+        vstar.add(new CommunicationSchedule(R.drawable.mobile_app_icon,"Title I",IctcCKwUtil.getNextDate(Calendar.SATURDAY,1),"7:00 - 8:00","English"));
+        vstar.add(new CommunicationSchedule(R.drawable.mobile_app_icon,"title 2",IctcCKwUtil.getNextDate(Calendar.SATURDAY,2),"7:00 - 8:00","English"));
+
+        List<CommunicationSchedule> rBa = new ArrayList<CommunicationSchedule>();
+
+        rBa.add(new CommunicationSchedule(R.drawable.mobile_app_icon,"Introduction",IctcCKwUtil.getNextDate(Calendar.SATURDAY),"3:00 - 4:00","English"));
+        rBa.add(new CommunicationSchedule(R.drawable.mobile_app_icon,"Title I",IctcCKwUtil.getNextDate(Calendar.SATURDAY,1),"7:00 - 8:00","English"));
+        rBa.add(new CommunicationSchedule(R.drawable.mobile_app_icon,"title 2",IctcCKwUtil.getNextDate(Calendar.SATURDAY,2),"7:00 - 8:00","English"));
+
+        String gtvs = IctcCKwUtil.getNextDate(Calendar.SUNDAY);
         String radio = IctcCKwUtil.getNextDate(Calendar.SATURDAY);
 
-        TextView t =(TextView)  findViewById(R.id.txt_gtv_day);
-        t.setText(gtv);
+        Map<String,List<CommunicationSchedule>> commSchedules = new HashMap<String,List<CommunicationSchedule>>();
+        commSchedules.put("0",gtv);
+        commSchedules.put("1",vstar);
+        commSchedules.put("2",rBa);
 
-        t =(TextView)  findViewById(R.id.txt_radio_bar_day);
-        t.setText(radio);
 
-        t =(TextView)  findViewById(R.id.txt_volta_star_day);
-        t.setText(radio);
-        TextView tv = (TextView) findViewById(R.id.txt_call_meida_line);
+
+
+        TvScheduleAdaptor adapter = new TvScheduleAdaptor(TVScheduleActivity.this,cons,commSchedules,getResources().getStringArray(R.array.text_colors),list);
+        list.setAdapter(adapter);
+
+
+
+
+        TextView tv = (TextView) findViewById(R.id.txt_call_meida_lines);
         tv.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 System.out.println("Calling  : 057665186");

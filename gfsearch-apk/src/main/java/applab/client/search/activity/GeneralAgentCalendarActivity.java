@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 0540106352
  * Created by skwakwa on 9/2/15.
  */
 public class GeneralAgentCalendarActivity extends Activity {
@@ -59,6 +60,12 @@ public class GeneralAgentCalendarActivity extends Activity {
                 Intent intent = new Intent(GeneralAgentCalendarActivity.this,MeetingIndexActivity.class);
                 intent.putExtra("mi",(i+1));
                 intent.putExtra("mt",titles[i]);
+
+
+                intent.putExtra("mid","1");
+                intent.putExtra("mtype","");
+                intent.putExtra("atd",0);
+                intent.putExtra("farmerId", "");
                 startActivity(intent);
 
 
