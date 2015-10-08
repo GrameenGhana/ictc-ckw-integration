@@ -81,12 +81,19 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
                 fm = (TextView) findViewById(R.id.txt_map_fm_crop);
                 fm.setText(farmer.getMainCrop());
 
+                LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+                if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                    Toast.makeText(this, "GPS is Enabled in your devide", Toast.LENGTH_SHORT).show();
+                }else{
+                    showGPSDisabledAlertToUser();
+                }
 
                 fm = (TextView) findViewById(R.id.txt_map_fm_loc);
                 fm.setText(farmer.getCommunity());
                 showDialog("Note of Farm Measurement", "Follow these steps to measure the "+
                         farmer.getFullname()
-                        +"'s farm: \n\n1. Walk around the area to be cultivated. \n" +
+                        +"'s farm: \n\n1. Press the map and start walking \n 2.Walk around the area to be cultivated. \n" +
                         "\n" +
                         "2. Tap the screen every 5 steps. You must select at least 3 points before you finish walking around the farm. \n" +
                         "\n" +
@@ -152,6 +159,7 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
      * method in {@link #onResume()} to guarantee that it will be called.
      */
     private void setUpMapIfNeeded() {
+
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
@@ -428,6 +436,28 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
 //        });
 
         builder.show();
+    }
+
+    private void showGPSDisabledAlertToUser(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("GPS is disabled in your device. Would you like to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Goto Settings Page To Enable GPS",
+                        new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                                Intent callGPSSettingIntent = new Intent(
+                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(callGPSSettingIntent);
+                            }
+                        });
+        alertDialogBuilder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int id){
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
     }
 
 

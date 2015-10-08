@@ -17,7 +17,6 @@ import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.AgentVisitUtil;
 import applab.client.search.utils.ConnectionUtil;
 
-import javax.xml.soap.Text;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

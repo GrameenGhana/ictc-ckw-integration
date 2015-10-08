@@ -13,7 +13,6 @@ import applab.client.search.model.SearchMenuItem;
 import applab.client.search.services.MenuItemService;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.ui.*;
-import com.sun.org.apache.xpath.internal.SourceTree;
 
 import java.util.List;
 import java.util.Stack;

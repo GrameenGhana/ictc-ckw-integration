@@ -29,4 +29,6 @@
           android:title="Meetings" android:icon="@drawable/ic_refresh"/>
     <item android:id="@+id/action_logout" android:showAsAction="never"
                                                                               android:title="Logout" android:icon="@drawable/ic_refresh"/>
+
+    <item android:id="@+id/action_logout" android:title="@string/action_logout" />
 </menu>

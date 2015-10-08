@@ -23,7 +23,7 @@ import applab.client.search.model.Meeting;
 import applab.client.search.model.MeetingActivity;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.AgentVisitUtil;
-import sun.management.Agent;
+
 
 import java.util.List;
 
