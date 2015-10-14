@@ -71,14 +71,14 @@ public class AgentMeetings extends Activity {
 //        mActionBar.setDisplayShowCustomEnabled(true);
         //lst_agt_list
         list = (ExpandableListView) findViewById(R.id.lst_meet_view);
-
+        list.setGroupIndicator(null);
         System.out.println("Meeting Indexx : "+meetings.size());
         System.out.println("Ktd : "+list.toString());
 
 
         String  [] colors =  getResources().getStringArray(R.array.text_colors);
 
-        FarmerMeetingGrpAdapter adapter = new FarmerMeetingGrpAdapter(AgentMeetings.this, clusters, clustersDate,getResources().getStringArray(R.array.text_colors), list);
+        FarmerMeetingGrpAdapter adapter = new FarmerMeetingGrpAdapter(AgentMeetings.this, clusters, clustersDate,AgentMeetings.this.getResources().getStringArray(R.array.text_colors), list);
 
 //        MeetingInvAdapter adapter = new MeetingInvAdapter(AgentMeetings.this, meetings, getResources().getStringArray(R.array.text_colors));
         list.setAdapter(adapter);

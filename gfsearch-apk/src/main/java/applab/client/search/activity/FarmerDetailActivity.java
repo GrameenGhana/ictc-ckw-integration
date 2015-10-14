@@ -3,9 +3,11 @@ package applab.client.search.activity;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActivityGroup;
+import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
@@ -39,16 +41,19 @@ public class FarmerDetailActivity extends ActivityGroup {
     List<Meeting> meetings = new ArrayList<Meeting>();
 
     List<FarmerInputs> myInputs =new ArrayList<FarmerInputs>();
+    private TabHost tabHost;
+    private LinearLayout linearlayout_crop;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_farmer_summary);
+        setContentView(R.layout.activity_new_farmer_summary);
         ActionBar mActionBar = getActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
-
+        tabHost = (TabHost) findViewById(R.id.tabHost3);
+        linearlayout_crop=(LinearLayout) findViewById(R.id.linearlayout_crops);
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Farmer Details");
@@ -67,7 +72,6 @@ public class FarmerDetailActivity extends ActivityGroup {
                 location = farmer.getCommunity();
                 name = farmer.getLastName() + " , " + farmer.getFirstName();
             }
-
             mainCrop = farmer.getMainCrop();
 
         } catch (Exception e) {
@@ -89,16 +93,54 @@ public class FarmerDetailActivity extends ActivityGroup {
         mActionBar.setCustomView(mCustomView);
         myInputs =  dbHelper.getIndividualFarmerInputs(farmer.getFarmID());
         mActionBar.setDisplayShowCustomEnabled(true);
-//        textViewName=(TextView) findViewById(R.id.textView_name);
-//        textViewName.setText(name);
-//        textViewMainCrop=(TextView) findViewById(R.id.textView_fp_mainCrop);
-//        textViewMainCrop.setText(mainCrop);
+      textViewName=(TextView) findViewById(R.id.textView_name);
+        textViewName.setText(farmer.getLastName() + " " + farmer.getFirstName());
+        textViewMainCrop=(TextView) findViewById(R.id.textView_mainCrop);
+        textViewMainCrop.setText(farmer.getMainCrop());
         textViewProportion = (TextView) findViewById(R.id.textView_proportion);
+        textViewLocation=(TextView) findViewById(R.id.textView_location);
+        LocalActivityManager mLocalActivityManager = new LocalActivityManager(FarmerDetailActivity.this,false);
+        mLocalActivityManager.dispatchCreate(savedInstanceState); // state will be bundle your activity state which you get in onCreate
+        tabHost.setup(mLocalActivityManager);
+        FragmentTabHost.TabSpec spec = tabHost.newTabSpec("tag");
+        spec.setIndicator("Farm Plan");
+        spec.setContent(new Intent(FarmerDetailActivity.this, FarmManagementPlanActivity.class)
+                .putExtra("farmer", farmer));
+        tabHost.addTab(spec);
+
+        spec = tabHost.newTabSpec("tag1");
+        spec.setIndicator("Map Farm");
+        spec.setContent(new Intent(FarmerDetailActivity.this, FarmMapping.class)
+                .putExtra("type", "search")
+                .putExtra("farmer", farmer));
+        tabHost.addTab(spec);
+
+        spec = tabHost.newTabSpec("tag2");
+        spec.setIndicator("Get Farmer Input");
+        spec.setContent(new Intent(FarmerDetailActivity.this, FarmerInputActivty.class)
+                //.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString())
+                .putExtra("farmer", farmer));
+        tabHost.addTab(spec);
+        tabHost.setCurrentTab(0);
+        tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
+            @Override
+            public void onTabChanged(String arg0) {
+                if (tabHost.getCurrentTab() == 1) {
+                    linearlayout_crop.setVisibility(View.GONE);
+                } else if (tabHost.getCurrentTab() == 2) {
+                    linearlayout_crop.setVisibility(View.GONE);
+                }else if(tabHost.getCurrentTab()==0){
+                    linearlayout_crop.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
 //        textViewLocation=(TextView) findViewById(R.id.textView_location);
 //
 //        textViewLocation.setText(location);
 //        System.out.println("FarmingiD : " + farmer.getId());
 
+        /*
         Button fmpButton = (Button) findViewById(R.id.fmp_farmer);
         fmpButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -109,10 +151,10 @@ public class FarmerDetailActivity extends ActivityGroup {
                 );
                 startActivity(intent);
             }
-        });
+        });*/
 //}
 
-
+/*
         textViewName = (TextView) findViewById(R.id.textView_name);
         textViewName.setText(farmer.getLastName() + ", " + farmer.getFirstName());
         textViewName = (TextView) findViewById(R.id.textView_fp_community);
@@ -185,7 +227,7 @@ public class FarmerDetailActivity extends ActivityGroup {
         textViewName.setText(farmer.getVillage());
 
         textViewName = (TextView) findViewById(R.id.textView_fp_labour);
-        textViewName.setText(farmer.getLabour());
+        textViewName.setText(farmer.getLabour());*/
         if (mainCrop.equalsIgnoreCase("Rice")) {
             Drawable rice = FarmerDetailActivity.this.getResources().getDrawable(R.drawable.ic_rice);
             textViewProportion.setCompoundDrawablesWithIntrinsicBounds(rice, null, null, null);
@@ -223,12 +265,8 @@ public class FarmerDetailActivity extends ActivityGroup {
 //
 //
 //        tabHost.setCurrentTab(0);
-
-
-
-
     }
-
+/*
     public void mapFarm(View view) {
 //        Intent intent = new Intent(FarmerDetailActivity.this, ListCheckBoxActivity.class);
         Intent intent = new Intent(FarmerDetailActivity.this, FarmMapping.class);
@@ -245,7 +283,7 @@ public class FarmerDetailActivity extends ActivityGroup {
 //        intent.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString());
 
         startActivity(intent);
-    }
+    }*/
 
     public void setValuesForFields(){
 

@@ -29,9 +29,9 @@ public class FarmManagementPlanActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fmp);
-        ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+       // ActionBar mActionBar = getActionBar();
+        //mActionBar.setDisplayShowHomeEnabled(false);
+        //mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
 
 //        helper = new DatabaseHelper(getBaseContext());
@@ -41,8 +41,8 @@ public class FarmManagementPlanActivity extends Activity {
         mTitleTextView.setText("Farmer Management Plan");
         setContentView(R.layout.activity_fmp);
 
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+       // mActionBar.setDisplayShowHomeEnabled(false);
+       // mActionBar.setDisplayShowTitleEnabled(false);
         Farmer farmer = null;
         try {
             Bundle extras = getIntent().getExtras();
@@ -69,8 +69,8 @@ public class FarmManagementPlanActivity extends Activity {
                 startActivity(intent);
             }
         });
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
+        //mActionBar.setCustomView(mCustomView);
+       // mActionBar.setDisplayShowCustomEnabled(true);
 //        textViewName=(TextView) findViewById(R.id.textView_name);
 //        textViewName.setText(name);
 //        textViewMainCrop=(TextView) findViewById(R.id.textView_fmp_mainCrop);

@@ -64,8 +64,6 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acttivity_farm_mapping);
-
-
         setUpMapIfNeeded();
 
         dbHelper = new DatabaseHelper(getBaseContext());

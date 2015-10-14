@@ -5,10 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import applab.client.search.R;
 import applab.client.search.model.Farmer;
 
@@ -69,9 +66,10 @@ public class ListCheckboxAdapter extends BaseAdapter {
         }
         CheckBox chk = (CheckBox) grid.findViewById(R.id.lst_chk);
         TextView farmer = (TextView) grid.findViewById(R.id.lst_farmer);
-        TextView tr = (TextView) grid.findViewById(R.id.lst_farmer_initial);
+        ImageView tr = (ImageView) grid.findViewById(R.id.lst_farmer_initial);
         tr.setBackgroundColor(Color.parseColor(getColor()));
-        tr.setText(farmers.get(i).getFullname().substring(0,1));
+        //tr.setText(farmers.get(i).getFullname().substring(0,1));
+
 
         farmer.setText(farmers.get(i).getFullname());
         chk.setTag(i);

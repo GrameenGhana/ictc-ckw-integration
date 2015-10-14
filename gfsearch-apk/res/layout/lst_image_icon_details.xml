@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent" android:id="@+id/kt">
+              android:layout_height="match_parent" android:id="@+id/kt" android:gravity="center_vertical">
 
     <TableLayout
             android:id="@+id/tabc"
@@ -11,8 +11,8 @@
             android:layout_height="wrap_content">
         <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_weight="10">
+                android:layout_height="wrap_content"
+                android:layout_weight="11">
             <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
@@ -20,7 +20,7 @@
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:layout_weight="6">
+                    android:layout_height="wrap_content" android:layout_weight="6" android:gravity="center_vertical">
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -35,7 +35,8 @@
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent" android:layout_weight="2">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2" android:gravity="center_vertical">
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -47,6 +48,11 @@
                         android:text="New Text"
                         android:id="@+id/txt_item_4" android:textColor="#777777"/>
             </LinearLayout>
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/imageView7" android:src="@drawable/ic_down_arrow_dark"/>
         </TableRow>
     </TableLayout>
 </LinearLayout>

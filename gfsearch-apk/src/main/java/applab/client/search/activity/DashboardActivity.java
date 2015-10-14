@@ -16,6 +16,7 @@ import applab.client.search.model.Farmer;
 import applab.client.search.settings.SettingsActivity;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
+import applab.client.search.utils.AboutActivity;
 import applab.client.search.utils.ConnectionUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -42,6 +43,12 @@ public class DashboardActivity extends Activity {
     private LinearLayout tableRow_ckw;
 
     DatabaseHelper helper;
+    private LinearLayout clients;
+    private LinearLayout meetings;
+    private LinearLayout suppliers;
+    private LinearLayout markets;
+    private LinearLayout technical;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,9 +96,44 @@ public class DashboardActivity extends Activity {
 //        tableRow_communities = (TableRow) findViewById(R.id.tableRow_communities);
 //        tableRow_farmers = (TableRow) findViewById(R.id.tableRow_farmers);
 
-        int[] images = {R.drawable.ic_clusters, R.drawable.ic_id,R.drawable.ic_cedi,  R.drawable.ic_community,  R.drawable.mobile_app_icon};
+        int[] images = {R.drawable.ic_clients, R.drawable.ic_meetings,R.drawable.ic_suppliers,  R.drawable.ic_markets,  R.drawable.ic_technical};
         DashboardMenuAdapter adapter = new DashboardMenuAdapter(DashboardActivity.this, images, titles);
         grid_menu.setAdapter(adapter);
+        clients=(LinearLayout) findViewById(R.id.clients);
+        clients.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(DashboardActivity.this, ClientActivity.class);
+                startActivity(intent);
+            }
+        });
+        meetings=(LinearLayout) findViewById(R.id.meetings);
+        meetings.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(DashboardActivity.this, ScheduledMeetingsActivity.class);
+                startActivity(intent);
+            }
+        });
+        suppliers=(LinearLayout) findViewById(R.id.suppliers);
+        suppliers.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(DashboardActivity.this, SupplierActivity.class);
+                startActivity(intent);
+            }
+        });
+        markets=(LinearLayout) findViewById(R.id.markets);
+        markets.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+               Intent intent = new Intent(DashboardActivity.this, MarketActivity.class);
+                startActivity(intent);
+            }
+        });
+        technical=(LinearLayout) findViewById(R.id.technical);
+        technical.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+               Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
 //        tableRow_communities.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View view) {
 //                Intent intent = new Intent(DashboardActivity.this, CommunityActivity.class);
@@ -171,7 +213,7 @@ public class DashboardActivity extends Activity {
 //                Intent intent = new Intent().setClass(this, AboutActivity.class);
 //                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 //                this.startActivity(intent);
-                Intent intent = new Intent().setClass(this, DashboardActivity.class);
+                Intent intent = new Intent().setClass(this, AboutActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                 this.startActivity(intent);
             }
@@ -193,18 +235,17 @@ public class DashboardActivity extends Activity {
                 this.startActivity(intent);
 
             }
-
             else if (item.getItemId() == android.R.id.home) {
                 Intent intent = new Intent().setClass(this, DashboardActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                 this.startActivity(intent);
 
-            } else if (item.getItemId() ==R.id.action_meeting_items) {
+            } /*else if (item.getItemId() ==R.id.action_meeting_items) {
                 Intent intent = new Intent().setClass(this, ScheduledMeetingsActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                 this.startActivity(intent);
 
-            }
+            }*/
         } catch (Exception ex) {
             Log.e(MainActivity.class.getName(), "", ex);
         }

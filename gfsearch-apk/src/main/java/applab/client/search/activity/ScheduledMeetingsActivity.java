@@ -45,11 +45,11 @@ public class ScheduledMeetingsActivity extends ActivityGroup {
         tabHost.addTab(spec);
 
 
-        gencal  = new Intent(ScheduledMeetingsActivity.this, AgentMeetings.class);
+       /* gencal  = new Intent(ScheduledMeetingsActivity.this, AgentMeetings.class);
         gencal.putExtra("type","group");
         spec =tabHost.newTabSpec("Group").setIndicator("Group").setContent(gencal);
 
-        tabHost.addTab(spec);
+        tabHost.addTab(spec);*/
         tabHost.setCurrentTab(0);
 //        TabHost.TabSpec spec =
     }

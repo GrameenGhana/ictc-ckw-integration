@@ -61,7 +61,7 @@ public class DashboardMenuAdapter extends BaseAdapter {
         TextView title = (TextView) grid.findViewById(R.id.textView_title);
         title.setText(titles[position]);
         imageView.setImageResource(Imageid[position]);
-        imageView.setMaxHeight(250);
+        imageView.setMaxHeight(130);
 
         return grid;
     }

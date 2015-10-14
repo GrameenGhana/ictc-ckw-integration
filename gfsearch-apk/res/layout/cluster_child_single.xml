@@ -1,88 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:layout_width="match_parent"
+              android:layout_width="fill_parent"
               android:layout_height="match_parent" android:gravity="center">
 
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:gravity="center">
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView11" android:src="@drawable/ic_person"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Large Text"
-                android:id="@+id/textView_name"
-                android:textColor="#ff0e4918" android:textStyle="bold|italic"/>
-        <ViewStub
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/viewStub"
-                android:layout_gravity="right"/>
-        <View android:layout_width="300dp"
-              android:layout_height="5dp"
-              android:background="#ff0d481b"
-                ></View>
-    </LinearLayout>
-    <TableLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-        <TableRow
+            android:layout_height="wrap_content"
+            android:gravity="center">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:weightSum="5"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-        </TableRow>
-        <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:gravity="clip_vertical">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/textView19" android:text="Main Crop:" android:textColor="#ff0e4918"
-                    android:textStyle="bold"/>
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical" android:paddingTop="3dp" android:paddingBottom="12dp">
             <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/imageView_crop" android:src="@drawable/ic_maize" android:visibility="gone"/>
+                    android:layout_weight="1"
+                    android:id="@+id/imageView11"
+                    android:src="@drawable/ic_person"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_weight="2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Large Text"
+                        android:id="@+id/textView_name"
+                        android:textColor="#ff0e4918"
+                        android:textStyle="bold|italic"/>
+            </LinearLayout>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Medium Text"
-                    android:id="@+id/textView_mainCrop" android:textStyle="italic"/>
-        </TableRow>
-    </TableLayout>
+                    android:layout_weight="1"
+                    android:id="@+id/textView_mainCrop"
+                    android:textStyle="italic" android:paddingLeft="30dp"/>
+        </LinearLayout>
+    </LinearLayout>
     <LinearLayout
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="wrap_content"
+            android:weightSum="3">
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:gravity="left|center">
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:gravity="left|center" android:paddingBottom="10dp">
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:drawableLeft="@drawable/ic_location"
                     android:text=" Location: "
-                    android:id="@+id/textView12" android:textColor="#ff0e4918" android:textStyle="bold"/>
+                    android:id="@+id/textView12" android:textColor="#ff0e4918" android:textStyle="bold"
+                    android:paddingLeft="20dp"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Medium Text"
                     android:id="@+id/textView_location" android:textStyle="italic"/>
         </LinearLayout>
         <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -95,7 +87,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Medium Text"
                     android:id="@+id/textView_groups" android:textStyle="italic"/>
         </LinearLayout>
     </LinearLayout>

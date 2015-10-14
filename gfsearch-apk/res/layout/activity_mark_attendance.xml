@@ -79,7 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="markAttendanceSelect"
-            android:text="Click to map Attendance" />
+            android:text="Click to register Attendance" />
 
     <ListView android:id="@+id/lst_attendance" android:layout_width="fill_parent"
               android:layout_height="fill_parent" />

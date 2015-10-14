@@ -8,10 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
 import applab.client.search.R;
 import applab.client.search.adapters.ListCheckboxAdapter;
 import applab.client.search.model.Farmer;
@@ -31,6 +28,8 @@ public class ListCheckBoxActivity extends FragmentActivity {
     DatabaseHelper helper;
     ListCheckboxAdapter adapter = null;
      List<Farmer> farmerList = null;
+    private CheckBox cb;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,10 +66,12 @@ public class ListCheckBoxActivity extends FragmentActivity {
       adapter = new ListCheckboxAdapter(ListCheckBoxActivity.this, farmers,getResources().getStringArray(R.array.text_colors));
         list.setAdapter(adapter);
 
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-
+                cb=(CheckBox)list.getChildAt(i).findViewById(R.id.lst_chk);
+                cb.setChecked(true);
                 Toast.makeText(getBaseContext(),
                                 "Clicked on Checkbox: " + farmers.get(i).getFullname() +
                                         " is " ,

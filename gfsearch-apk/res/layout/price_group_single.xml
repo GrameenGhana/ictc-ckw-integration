@@ -7,12 +7,16 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:gravity="center_vertical"
-            android:background="@drawable/bg_green_rounded" android:padding="20dp">
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:weightSum="4"
+            android:background="@drawable/bg_green_rounded"
+            android:padding="20dp">
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView_icon"
+                android:layout_weight="1"
                 android:src="@drawable/ic_maize"/>
         <TextView
                 android:layout_width="wrap_content"
@@ -20,6 +24,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
                 android:id="@+id/textView_title"
+                android:layout_weight="2"
                 android:paddingLeft="20dp" android:textColor="#ffffffff"/>
         <TextView
                 android:layout_width="wrap_content"
@@ -27,6 +32,11 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text=""
                 android:id="@+id/textView_summary"
-                android:paddingLeft="20dp" android:textColor="#ffffffff"/>
+                android:paddingLeft="20dp" android:textColor="#ffffffff" android:visibility="visible"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/imageView5" android:src="@drawable/ic_down_arrow"/>
     </LinearLayout>
 </LinearLayout>

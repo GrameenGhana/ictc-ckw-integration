@@ -38,10 +38,10 @@ public class ClusterActivity extends Activity {
         mTitleTextView.setText("Clusters");
 
         DatabaseHelper helper = new DatabaseHelper(getBaseContext());
-
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
         list = (ExpandableListView) findViewById(R.id.expandableListView);
+        list.setGroupIndicator(null);
         final List<String> clusters = new ArrayList<String>();
         clusters.add("Cluster 1");
         clusters.add("Cluster 2");

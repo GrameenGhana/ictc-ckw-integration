@@ -101,7 +101,7 @@ public class FarmerMeetingGrpAdapter extends BaseExpandableListAdapter {
 
         RelativeLayout l = (RelativeLayout) view.findViewById(R.id.simp_rel_lay);
 
-        l.setBackgroundColor(Color.parseColor("#87A03B"));
+       // l.setBackgroundColor(Color.parseColor("#87A03B"));
 //#87A03B
 
         TextView names = (TextView) view.findViewById(R.id.lst_text_item_titles);
@@ -110,8 +110,7 @@ public class FarmerMeetingGrpAdapter extends BaseExpandableListAdapter {
 
         String cluster = listTitles.get(groupPosition);
         names.setText(Html.fromHtml(cluster));
-        names.setTextColor(Color.parseColor("#ffffff"));
-
+        names.setTextColor(Color.parseColor("#000000"));
         Meeting  m= clusterData.get(listTitles.get(groupPosition)).get(0);
 
         Calendar cal  = Calendar.getInstance();
@@ -125,7 +124,7 @@ public class FarmerMeetingGrpAdapter extends BaseExpandableListAdapter {
 
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View view, ViewGroup viewGroup) {
         if (view == null) {
-            view = minflater.inflate(R.layout.list_simple_text_text_, viewGroup, false);
+            view = minflater.inflate(R.layout.list_simple_child_text, viewGroup, false);
         }
         List<Meeting> farmers = clusterData.get(listTitles.get(groupPosition));
         Meeting farmer = farmers.get(childPosition);

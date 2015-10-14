@@ -453,63 +453,64 @@
         </LinearLayout>
         <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="354dp"
-                android:layout_height="wrap_content" android:gravity="center">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Proportion of Crops Sold"
-                    android:drawableLeft="@drawable/ic_maize"
-                    android:id="@+id/textView_proportion"
-                    android:textColor="#ff07530f" android:gravity="center_vertical"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text=">80%"
-                    android:id="@+id/textView_percentageSold" android:textSize="50dp"/>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" android:gravity="center">
             <LinearLayout
                     android:orientation="vertical"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_width="354dp"
+                    android:layout_height="wrap_content" android:gravity="center">
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Agents Visits"
-                        android:id="@+id/textView43" android:textColor="#ff07530f" android:textStyle="italic"/>
-            </LinearLayout>
-
-        </LinearLayout>
-        <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="340dp">
-            <ListView android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:id="@+id/list_ind_meet" android:headerDividersEnabled="true"/>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="340dp">
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
+                        android:text="Proportion of Crops Sold"
+                        android:drawableLeft="@drawable/ic_maize"
+                        android:id="@+id/textView_proportion"
+                        android:textColor="#ff07530f" android:gravity="center_vertical"/>
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Inputs Given"
-                        android:id="@+id/textView33"
-                        android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="#ff07530f" android:textStyle="italic"/>
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text=">80%"
+                        android:id="@+id/textView_percentageSold" android:textSize="50dp"/>
             </LinearLayout>
-            <ListView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/lst_inputs"/>
+            <LinearLayout android:orientation="horizontal"
+                          android:layout_width="fill_parent"
+                          android:weightSum="2"
+                          android:layout_height="340dp">
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:layout_height="fill_parent">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Agents Visits"
+                            android:id="@+id/textView43" android:textColor="#ff07530f" android:textStyle="italic"/>
+                    <ListView android:layout_width="wrap_content"
+                              android:layout_height="wrap_content"
+                              android:id="@+id/list_ind_meet"
+                              android:headerDividersEnabled="true"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="fill_parent"
+                        android:layout_weight="1"
+                        android:layout_height="fill_parent">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Inputs Given"
+                            android:id="@+id/textView33"
+                            android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="#ff07530f" android:textStyle="italic"/>
+                    <ListView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/lst_inputs"/>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
 

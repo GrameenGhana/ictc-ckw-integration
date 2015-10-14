@@ -41,12 +41,12 @@ public class TVScheduleActivity extends Activity {
         mActionBar.setDisplayShowCustomEnabled(true);
 
         list = (ExpandableListView) findViewById(R.id.exp_comm_sch);
-
+        list.setGroupIndicator(null);
         List<CommunicationSchedule> cons = new ArrayList<CommunicationSchedule>();
         // CommunicationSchedule(int icon,String title,String nextDate,String time,String language)
-        cons.add(new CommunicationSchedule(R.drawable.tv_48x48,"GTV",IctcCKwUtil.getNextDate(Calendar.SUNDAY),"3:00 - 4:00","English"));
-        cons.add(new CommunicationSchedule(R.drawable.radio_48x48,"Volta Star Radio",IctcCKwUtil.getNextDate(Calendar.SATURDAY),"7:00 - 8:00","Twi"));
-        cons.add(new CommunicationSchedule(R.drawable.radio_48x48,"Brong Ahafo Radio",IctcCKwUtil.getNextDate(Calendar.SATURDAY),"7:00 - 8:00","Ewe & Twi"));
+        cons.add(new CommunicationSchedule(R.drawable.ic_tv,"GTV",IctcCKwUtil.getNextDate(Calendar.SUNDAY),"3:00 - 4:00","English"));
+        cons.add(new CommunicationSchedule(R.drawable.ic_radio,"Volta Star Radio",IctcCKwUtil.getNextDate(Calendar.SATURDAY),"7:00 - 8:00","Twi"));
+        cons.add(new CommunicationSchedule(R.drawable.ic_radio,"Brong Ahafo Radio",IctcCKwUtil.getNextDate(Calendar.SATURDAY),"7:00 - 8:00","Ewe & Twi"));
 
 
 
