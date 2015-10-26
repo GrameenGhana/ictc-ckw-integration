@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Created by skwakwa on 9/23/15.
  */
-public class IndividualMeetingAAttendance extends Activity {
+public class IndividualMeetingAAttendance extends BaseActivity {
 
     private ListView list;
 
@@ -49,16 +49,13 @@ public class IndividualMeetingAAttendance extends Activity {
         helper = new DatabaseHelper(getBaseContext());
 
 
-
-
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             title = (String) extras.get("title");
             meetingIndex = (Integer) extras.get("index");
              farm= (Farmer) extras.get("farmer");
-
-
         }
+
         TextView v =(TextView) findViewById(R.id.meetingName);
         v.setText(title);
 
@@ -66,6 +63,7 @@ public class IndividualMeetingAAttendance extends Activity {
         v.setText(farm.getFullname());
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
+        super.setDetails(helper,"Farmer","Farm Individual Meeting");
     }
 
     public void showDatePickerDialog(View v) {

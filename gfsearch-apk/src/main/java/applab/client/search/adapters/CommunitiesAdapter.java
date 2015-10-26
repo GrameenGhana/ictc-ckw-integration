@@ -8,6 +8,10 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import applab.client.search.R;
+import applab.client.search.model.Farmer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Software Developer on 30/07/2015.
@@ -17,11 +21,18 @@ public class CommunitiesAdapter extends BaseAdapter {
     private final Context mContext;
     private final String[] names;
     private final String[] farmers;
+    List<Farmer> farmerList= new ArrayList<Farmer>();
 
     public CommunitiesAdapter(Context c, String[] names, String[] farmers) {
         mContext = c;
         this.names = names;
         this.farmers = farmers;
+    }
+    public CommunitiesAdapter(Context c, String[] names, String[] farmers,List<Farmer> fs) {
+        mContext = c;
+        this.names = names;
+        this.farmers = farmers;
+        this.farmerList =fs;
     }
 
     public int getCount() {
@@ -48,6 +59,7 @@ public class CommunitiesAdapter extends BaseAdapter {
         } else {
             grid = (View) view;
         }
+
         TextView name = (TextView) grid.findViewById(R.id.textView_community);
         TextView farmer = (TextView) grid.findViewById(R.id.textView_farmers);
         name.setText(names[i]);

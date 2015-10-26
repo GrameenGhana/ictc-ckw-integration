@@ -11,12 +11,8 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:id="@+id/txt_farmer_ckw" android:onClick="viewFarmer"/>
+                android:layout_height="wrap_content" android:id="@+id/default_view_profile">
+            <include layout="@layout/cluster_child_single" />
         </LinearLayout>
         <ListView android:id="@+id/main_list"
                   android:layout_width="fill_parent"

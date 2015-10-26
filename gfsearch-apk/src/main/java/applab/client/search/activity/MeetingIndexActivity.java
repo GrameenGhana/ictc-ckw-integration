@@ -10,10 +10,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.view.ViewGroup;
+import android.widget.*;
 import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.adapters.MeetingActivityAdapter;
@@ -23,6 +21,7 @@ import applab.client.search.model.Meeting;
 import applab.client.search.model.MeetingActivity;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.AgentVisitUtil;
+import applab.client.search.utils.IctcCKwUtil;
 
 
 import java.util.List;
@@ -30,7 +29,7 @@ import java.util.List;
 /**
  * Created by skwakwa on 9/2/15.
  */
-public class MeetingIndexActivity extends Activity {
+public class MeetingIndexActivity extends BaseActivity {
     private ListView list;
 
     int index;
@@ -53,6 +52,8 @@ public class MeetingIndexActivity extends Activity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Meeting Activity");
 
+        LinearLayout ll = (LinearLayout)findViewById(R.id.default_view_profile_item);
+
 isFarmerSelected= true;
         helper = new DatabaseHelper(getBaseContext());
         mActionBar.setCustomView(mCustomView);
@@ -61,7 +62,7 @@ isFarmerSelected= true;
         Bundle extras = getIntent().getExtras();
         int meetingIndex = 0;
         Button b = (Button) findViewById(R.id.btn_nxt_mark_attendance);
-        b.setVisibility(Button.INVISIBLE);
+        b.setVisibility(Button.GONE);
         if (extras != null) {
             meetingIndex = (Integer) extras.get("mi");
             titler = (String) extras.get("mt");
@@ -69,17 +70,23 @@ isFarmerSelected= true;
             String meetId = (String) extras.get("mid");
              mtype = (String) extras.get("mtype");
             int atd = (Integer) extras.get("atd");
-            if(null != farmerId && farmerId.length()>0) {
+            if(null != farmerId && farmerId.length()>0 && titler.toLowerCase().contains("individual")) {
+
                 farmer = helper.findFarmer(farmerId);
-isFarmerSelected=true;
+                isFarmerSelected=true;
                 String part = (atd==1)?" [Already Attended]":"";
                 TextView title = (TextView) findViewById(R.id.act_farmer_details);
+
+
                 title.setText("Farmer >> "+farmer.getFullname() +part);
+                title.setVisibility(View.GONE);
                 System.out.println("Meeting Id : " + meetId);
                 System.out.println("mtyppe Id : "+mtype);
                 Meeting meeting  = helper.getFarmerMeetingsById(meetId);
 //if(null!=meeting){
-    System.out.println("meeting not not null");
+                System.out.println("meeting not not null");
+                ViewGroup view = (ViewGroup)getWindow().getDecorView();
+                IctcCKwUtil.setFarmerDetails(view,R.id.default_view_profile_item,farmer.getFullname(),farmer,true);
                 if(mtype.toLowerCase().contains("ind")){
 
                     b.setVisibility(Button.VISIBLE);
@@ -87,12 +94,17 @@ isFarmerSelected=true;
 
 
 
-            }index=meetingIndex;
+            }else{
+                ll.setVisibility(View.GONE);
+
+            }
+            index=meetingIndex;
             meetingTitle=titler;
         }
 
+        super.setDetails(new DatabaseHelper(getBaseContext()),"Meeting","Meeting Index");
         TextView title = (TextView) findViewById(R.id.act_4_meeting);
-        title.setText(titler+" #"+meetingIndex);
+        title.setText(AgentVisitUtil.getMeetingTitle(meetingIndex));
 
         final List<applab.client.search.model.MeetingActivity> meetings = AgentVisitUtil.getMeetingActivity(meetingIndex);
         final String []   titles = new String[meetings.size()];
@@ -114,7 +126,6 @@ isFarmerSelected=true;
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
 
                 try {
 if(meetings.get(i).isCurrentlyAvailable()) {
@@ -194,6 +205,30 @@ if(meetings.get(i).isCurrentlyAvailable()) {
                     intent.putExtra("index",idx);
                     intent.putExtra("title",meetTitle);
                     startActivity(intent);
+
+                }else if(title.equalsIgnoreCase(AgentVisitUtil.AGREED_ACTIVITIES_FOR_NEXT_MEETING)){
+                    if(meetingType.toLowerCase().contains("group")){
+                        Intent intent = new Intent(MeetingIndexActivity.this, CropSelectorActivity.class);
+
+                        intent.putExtra("index",idx);
+                        intent.putExtra("title",meetTitle);
+                        intent.putExtra("detail",title);
+                        intent.putExtra("farmer",farmer);
+//                    if(title.equalsIgnoreCase(AgentVisitUtil.COLLECT_FARM_MEASUREMENT)){
+                        intent.putExtra("type","nma");
+                        startActivity(intent);
+                    }else{
+                        Intent intent = new Intent(MeetingIndexActivity.this, FarmerActivitySelectFarmer.class);
+
+
+                        intent.putExtra("index",idx);
+                        intent.putExtra("title",meetTitle);
+                        intent.putExtra("detail",title);
+                        intent.putExtra("farmer",farmer);
+//                    if(title.equalsIgnoreCase(AgentVisitUtil.COLLECT_FARM_MEASUREMENT)){
+                        intent.putExtra("type","nma");
+                        startActivity(intent);
+                    }
 
                 }
                 else if(type.equalsIgnoreCase("A")){

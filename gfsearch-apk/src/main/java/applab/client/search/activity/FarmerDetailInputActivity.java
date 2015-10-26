@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by skwakwa on 9/23/15.
  */
-public class FarmerDetailInputActivity extends Activity {
+public class FarmerDetailInputActivity extends BaseActivity {
     DatabaseHelper helper = null;
     List<FarmerInputs> myInputs =new ArrayList<FarmerInputs>();
 
@@ -48,6 +48,7 @@ public class FarmerDetailInputActivity extends Activity {
         }
 
         final String f = farmer_id;
+        super.setDetails(helper,"Farmer","Farmer Details Input");
 
     }
 

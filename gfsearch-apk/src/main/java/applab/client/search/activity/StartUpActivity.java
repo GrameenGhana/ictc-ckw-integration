@@ -10,11 +10,13 @@ import android.widget.*;
 import applab.client.search.R;
 import applab.client.search.model.Farmer;
 import applab.client.search.services.LoginTask;
+import applab.client.search.services.TrackerService;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.TextView;
+import applab.client.search.utils.AgentVisitUtil;
 import applab.client.search.utils.ConnectionUtil;
 import applab.client.search.utils.IctcCKwUtil;
 import org.apache.http.HttpResponse;
@@ -33,7 +35,7 @@ import java.io.InputStreamReader;
 /**
  * Created by Software Developer on 29/07/2015.
  */
-public class StartUpActivity extends Activity {
+public class StartUpActivity extends BaseActivity {
     private Button login_button;
     LoginTask mAuthTask = null;
     DatabaseHelper databaseHelper;
@@ -52,19 +54,29 @@ public class StartUpActivity extends Activity {
 //        mTitleTextView.setText("Login");
 
         databaseHelper = new DatabaseHelper(getBaseContext());
+        super.setDetails(databaseHelper,"Dashboard","Startup");
 
+
+        Intent service = new Intent(this, TrackerService.class);
+        Bundle tb = new Bundle();
+        tb.putBoolean("backgroundData", true);
+        service.putExtras(tb);
+        this.startService(service);
+        databaseHelper.alterFarmerTable();
         if(databaseHelper.farmerCount()>0)
         {
+            if(databaseHelper.getMeetingSettingCount()==0){
+
+                AgentVisitUtil.setMeetingSettings(databaseHelper);
+            }
             Intent intent = new Intent(StartUpActivity.this, DashboardActivity.class);
             startActivity(intent);
         }
 
 
 
-
 //        mActionBar.setCustomView(mCustomView);
 //        mActionBar.setDisplayShowCustomEnabled(true);
-
 
 
         final EditText userEdit = (EditText) findViewById(R.id.edit_us_name);
@@ -91,8 +103,11 @@ public class StartUpActivity extends Activity {
                     Intent intent = new Intent(StartUpActivity.this, DashboardActivity.class);
                     databaseHelper = new DatabaseHelper(getBaseContext());
 
+                    ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
+
+                    startActivity(intent);
 //                    ConnectionUtil.refreshFarmerInfo(getBaseContext(),intent,"us=" + userEdit.getText() + "&pwd=" + passEdit.getText(),"login","Login Please wait");
-                    getData(intent, "us=" + userEdit.getText() + "&pwd=" + passEdit.getText(), "login","Login Please wait",userEdit.getText().toString());
+//                    getData(intent, "us=" + userEdit.getText() + "&pwd=" + passEdit.getText(), "login","Login Please wait",userEdit.getText().toString());
 //
                 }
             }
@@ -204,7 +219,7 @@ public class StartUpActivity extends Activity {
                                         intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);      intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         Toast.makeText(getBaseContext(),"Login Successful",Toast.LENGTH_LONG).show();
                                         //getData(intent, "", "details", "Login Successful, Loading Agent Data");
-                                        ConnectionUtil.refreshFarmerInfo(getBaseContext(), intent1, "", "details", "Loading Farmer Data");
+                                        ConnectionUtil.refreshFarmerInfo(getBaseContext(), intent1, "", "fdetails", "Loading Farmer Data");
                                         startActivity(intent);
                                     }else{
                                         Toast.makeText(getBaseContext(),"Wrong Username or password",Toast.LENGTH_LONG).show();
@@ -248,8 +263,58 @@ public class StartUpActivity extends Activity {
                                                 "landarea", "date_plant", "date_man_weed", "pos_contact", "mon_sell_start", "mon_fin_pro_sold",
                                                 "maincrop"
                                         };
+
                                         String[] vals = new String[keys.length];
                                         int cnt = 0;
+                                        Farmer farmerDetail = new Farmer();
+
+                                        JSONObject fItem = farmer.getJSONObject("farmer");
+                                        JSONObject bioData = fItem.getJSONObject("biodata");
+
+                                        /**
+
+
+                                         "region": "1. Ashanti",
+                                         "maritalstatus": "1. Single",
+                                         "village": "Wwww",
+                                         "nickname": "Cj",
+                                         "": "0",
+                                         "": "Rice",
+                                         "age": "25",
+                                         "community": "Xxxx",
+                                         "gender": "2. Male",
+                                         "lastname": "Osei",
+                                         "numberofdependants": "0",
+                                         "firstname": "cecil",
+                                         "education": "1. No formal schooling",
+                                         "farmerid": "a0m24000004wWGQAA2"
+                                         */
+                                        farmerDetail.setRegion(bioData.getString("region"));
+                                        farmerDetail.setMaritalStatus(bioData.getString("maritalstatus"));
+                                        farmerDetail.setVillage(bioData.getString("village"));
+                                        farmerDetail.setRegion(bioData.getString("nickname"));
+                                        farmerDetail.setRegion(bioData.getString("majorcrop"));
+                                        farmerDetail.setRegion(bioData.getString("region"));
+
+
+
+                                        /*
+                                        *  "region": "2. Brong-Ahafo",
+                    "maritalstatus": "2. Married",
+                    "village": "Kumawu",
+                    "nickname": "Spomega",
+                    "numberofchildren": "3",
+                    "majorcrop": "Rice",
+                    "age": "58",
+                    "community": "Kumawu",
+                    "gender": "2. Male",
+                    "lastname": "Davis",
+                    "numberofdependants": "5",
+                    "firstname": "Joe",
+                    "education": "3. Middle/JHS",
+                    "farmerid": "a0m24000004xT82AAE"
+                                        *
+                                        * */
                                         for (String key : keys) {
                                             try {
                                                 vals[cnt] = farmer.getString(key);
@@ -263,7 +328,8 @@ public class StartUpActivity extends Activity {
                                         Farmer f = databaseHelper.saveFarmer(vals[0], vals[1], vals[2], vals[3],
                                                 vals[4], vals[5], vals[6], vals[7], vals[8], vals[9], vals[10], vals[11], vals[12], vals[13], vals[14],
                                                 vals[15], vals[16], vals[17], vals[18],
-                                                vals[19], vals[20], vals[21], vals[22], vals[23], vals[24], vals[25], vals[26], vals[27], vals[28], vals[29], vals[30], vals[31], vals[32]);
+                                                vals[19], vals[20], vals[21], vals[22], vals[23], vals[24], vals[25], vals[26], vals[27], vals[28], vals[29], vals[30], vals[31], vals[32]
+                                                ,"{}","{}","{}","{}","{}");
 
 
                                         JSONArray meetings = farmer.getJSONArray("meeting");

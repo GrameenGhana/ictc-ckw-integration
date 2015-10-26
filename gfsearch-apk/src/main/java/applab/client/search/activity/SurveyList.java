@@ -9,13 +9,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import applab.client.search.R;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
+import applab.client.search.storage.DatabaseHelper;
 
 /**
  * Created by skwakwa on 9/29/15.
  */
-public class SurveyList extends Activity {
+public class SurveyList extends BaseActivity {
     ListView list=null;
     public static String DETAILS_COMING_SOON="Details Coming Soon";
     @Override
@@ -56,11 +58,18 @@ public class SurveyList extends Activity {
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent launchIntent = getPackageManager().getLaunchIntentForPackage("org.grameen.taro");
-                launchIntent.putExtra("survey_name",titles[i]);
-                startActivity(launchIntent);
+                try {
+                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage("org.grameen.taro");
+                    launchIntent.putExtra("survey_name",titles[i]);
+                    startActivity(launchIntent);
+                }catch(Exception e){
+                    Toast.makeText(view.getContext(),"Tarowokrs not installed",Toast.LENGTH_LONG);
+
+                }
+
             }
         });
+        super.setDetails(new DatabaseHelper(getBaseContext()),"Supplier","Supplier");
 
 
     }

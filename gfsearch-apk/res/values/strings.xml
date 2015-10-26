@@ -112,4 +112,33 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="prefServerDefault">http://104.236.220.225:8080/ICTC/</string>
+    <string name="prefServerYabr3">http://188.226.189.149/cch/yabr3/</string>
+    <string name="prefServerTimeoutConnectionDefault">10000</string>
+    <string name="prefServerTimeoutResponseDefault">20000</string>
+    <string name="prefs_api_key">prefApiKey</string>
+
+
+    <string name="prefs_highlightCompleted">prefHighlightCompleted</string>
+    <string name="prefs_language">prefLanguage</string>
+    <string name="prefs_last_media_scan">prefLastMediaScan</string>
+    <string name="prefs_metadata">prefMetadata</string>
+    <string name="prefs_schedule_reminders_no">prefNoScheduleReminders</string>
+    <string name="prefs_schedule_reminders_show">prefShowScheduleReminders</string>
+    <string name="prefs_section_numbers_show">prefShowSectionNumbers</string>
+    <string name="prefs_server">prefServer</string>
+    <string name="prefs_server_timeout_connection">prefServerTimeoutConnection</string>
+    <string name="prefs_server_timeout_response">prefServerTimeoutResponse</string>
+    <string name="prefs_username">prefUsername</string>
+    <string name="prefs_points">prefPoints</string>
+    <string name="prefs_badges">prefBadges</string>
+    <string name="prefs_background_data_connect">true</string>
+    <string name="prefs_scoring_enabled">prefScoringEnabled</string>
+
+    <string name="login_complete">Logged in</string>
+    <string name="error_login">Invalid username/password\nPlease try again</string>
+    <string name="error_connection">Error connecting to server. Please check you have an active internet connection and try again.</string>
+    <string name="error_connection_required">You need an active internet connection to access this page. Please turn on wifi or mobile internet connection and try again.</string>
+    <string name="error_processing_response">Error processing response</string>
+
 </resources>

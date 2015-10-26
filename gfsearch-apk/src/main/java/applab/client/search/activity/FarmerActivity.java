@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by Software Developer on 30/07/2015.
  */
-public class FarmerActivity extends Activity {
+public class FarmerActivity extends BaseActivity {
     private ListView list;
     List<Farmer> myFarmers = null;
 
@@ -48,6 +48,8 @@ public class FarmerActivity extends Activity {
             }
         });
         mTitleTextView.setText("Farmers");
+        mActionBar.setCustomView(mCustomView);
+        mActionBar.setDisplayShowCustomEnabled(true);
 
         String type = "farmer";
         Bundle extras = getIntent().getExtras();
@@ -67,6 +69,8 @@ public class FarmerActivity extends Activity {
             myFarmers = helper.searchFarmer(q);
         }
 
+
+        super.setDetails(helper,"Farmer","Farm Mapping");
         String[] names = new String[myFarmers.size()];
         String[] locations = new String[myFarmers.size()];
         String[] mainCrops = new String[myFarmers.size()];
@@ -82,10 +86,9 @@ public class FarmerActivity extends Activity {
             ids[cnt] = f.getId();
             cnt++;
         }
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
+
         list = (ListView) findViewById(R.id.listView);
-        FarmersAdapter adapter = new FarmersAdapter(FarmerActivity.this, names, locations, mainCrops, groups);
+        FarmersAdapter adapter = new FarmersAdapter(FarmerActivity.this, names, locations, mainCrops, groups,myFarmers);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

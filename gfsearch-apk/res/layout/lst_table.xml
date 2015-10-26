@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_tab_key" android:layout_weight="4"  android:inputType="textMultiLine" android:padding="3dp" android:textSize="16dp"
+                android:textColor="#666666" android:text="Hello"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_tab_value" android:layout_weight="6"  android:inputType="textMultiLine"  android:padding="3dp" android:textSize="16dp"
+                android:textColor="#333333" android:text="Hi" android:gravity="right" android:layout_marginRight="20dp"/>
+    </LinearLayout>
+</LinearLayout>

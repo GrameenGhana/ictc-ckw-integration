@@ -3,80 +3,14 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent" android:id="@+id/vv" android:weightSum="1">
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:orientation="vertical"
-                  android:layout_width="fill_parent"
-                  android:layout_height="wrap_content" android:gravity="center" android:background="#ffe8e8e8">
-
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center">
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:weightSum="5"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center_vertical" android:paddingTop="3dp" android:paddingBottom="12dp">
-                <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/imageView11"
-                        android:src="@drawable/ic_person"/>
-                <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_weight="2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
-                        android:gravity="center">
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Large Text"
-                            android:id="@+id/txt_map_fm_farmer"
-                            android:textColor="#ff0e4918"
-                            android:textStyle="bold|italic"/>
-                </LinearLayout>
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:layout_weight="1"
-                        android:id="@+id/txt_map_fm_crop"
-                        android:textStyle="italic" android:paddingLeft="30dp"/>
-            </LinearLayout>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="3">
-            <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:gravity="left|center" android:paddingBottom="10dp">
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:drawableLeft="@drawable/ic_location"
-                        android:text=" Location: "
-                        android:id="@+id/textView12" android:textColor="#ff0e4918" android:textStyle="bold"
-                        android:paddingLeft="20dp"/>
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:id="@+id/txt_map_fm_loc" android:textStyle="italic"/>
-            </LinearLayout>
-        </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <include layout="@layout/cluster_child_single" />
     </LinearLayout>
-    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:weightSum="1">
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:weightSum="1"
+                 >
     <CheckBox
             android:layout_width="118dp"
             android:layout_height="wrap_content"

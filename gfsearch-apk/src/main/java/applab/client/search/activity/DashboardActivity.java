@@ -12,10 +12,15 @@ import android.widget.*;
 import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.adapters.DashboardMenuAdapter;
+import applab.client.search.application.IctcCkwIntegration;
 import applab.client.search.model.Farmer;
+import applab.client.search.model.Payload;
+import applab.client.search.services.TrackerService;
 import applab.client.search.settings.SettingsActivity;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.storage.DatabaseHelperConstants;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
+import applab.client.search.task.IctcTrackerLogTask;
 import applab.client.search.utils.AboutActivity;
 import applab.client.search.utils.ConnectionUtil;
 import org.apache.http.HttpResponse;
@@ -35,7 +40,7 @@ import java.util.List;
 /**
  * Created by Software Developer on 30/07/2015.
  */
-public class DashboardActivity extends Activity {
+public class DashboardActivity extends BaseActivity {
     private GridView grid_menu;
     private TableRow tableRow_communities;
     private TableRow tableRow_farmers;
@@ -64,6 +69,15 @@ public class DashboardActivity extends Activity {
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Dashboard");
+
+        System.out.println("Initial Setup");
+        Intent service = new Intent(this, TrackerService.class);
+        Bundle tb = new Bundle();
+        System.out.println("Middle Position");
+        tb.putBoolean("backgroundData", true);
+        service.putExtras(tb);
+        this.startService(service);
+        System.out.println("My Product");
 
 
 //        TextView st = (TextView) findViewById(R.id.farmer_cnt);
@@ -98,6 +112,9 @@ public class DashboardActivity extends Activity {
 
         int[] images = {R.drawable.ic_clients, R.drawable.ic_meetings,R.drawable.ic_suppliers,  R.drawable.ic_markets,  R.drawable.ic_technical};
         DashboardMenuAdapter adapter = new DashboardMenuAdapter(DashboardActivity.this, images, titles);
+
+
+        super.setDetails(helper,"Dashboard","Dashboard");
         grid_menu.setAdapter(adapter);
         clients=(LinearLayout) findViewById(R.id.clients);
         clients.setOnClickListener(new View.OnClickListener() {
@@ -130,10 +147,13 @@ public class DashboardActivity extends Activity {
         technical=(LinearLayout) findViewById(R.id.technical);
         technical.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-               Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
+                Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
+
+
+     //   helper.deleteTable(DatabaseHelperConstants.ICTC_TRACKER_LOG_TABLE,"");
 //        tableRow_communities.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View view) {
 //                Intent intent = new Intent(DashboardActivity.this, CommunityActivity.class);
@@ -224,6 +244,24 @@ public class DashboardActivity extends Activity {
 //                this.startActivity(intent);
                 //(final Context context,final DatabaseHelper databaseHelper,final Intent intent, final String queryString, final String type,String msg )
                 ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
+
+                System.out.println("Payload Refresh farmer Data");
+//                IctcCkwIntegration app = null;
+//                try {
+//                    app=(IctcCkwIntegration) this.getApplication();
+//
+//                }catch(Exception e){
+//                    System.out.println("Exceptione e: "+e.getLocalizedMessage());
+//                }
+                System.out.println("Payload ppapp ");
+                DatabaseHelper dbh = new DatabaseHelper(getBaseContext());
+                System.out.println("Payload dbh ");
+                Payload mqp = dbh.getCCHUnsentLog();
+                System.out.println("Payload unset ");
+                IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(this);
+                System.out.println("Payload stask ");
+                omUpdateCCHLogTask.execute(mqp);
+                System.out.println("Payload execute ");
             }
 //            else if (item.getItemId() == android.R.id.home) {
 //                //resetDisplayMenus();
@@ -254,7 +292,7 @@ public class DashboardActivity extends Activity {
     }
 
 
-    public void getData() {
+    public void getSData() {
 
         // String url="http://sandbox-ictchallenge.cs80.force.com/getTest";
 

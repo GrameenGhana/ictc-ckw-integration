@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by skwakwa on 8/30/15.
  */
-public class ListCheckBoxActivity extends FragmentActivity {
+public class ListCheckBoxActivity extends BaseFragmentActivity {
     private ListView list;
 
     String title;
@@ -48,6 +48,7 @@ public class ListCheckBoxActivity extends FragmentActivity {
         mActionBar.setDisplayShowCustomEnabled(true);
         list = (ListView) findViewById(R.id.lst_attendance);
 
+        super.setDetails(helper,"Meeting","Mark Group Attendance");
 
         TextView v =(TextView) findViewById(R.id.txt_meeting_attendance_header);
 
@@ -71,7 +72,7 @@ public class ListCheckBoxActivity extends FragmentActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 cb=(CheckBox)list.getChildAt(i).findViewById(R.id.lst_chk);
-                cb.setChecked(true);
+                    cb.setChecked(!cb.isChecked());
                 Toast.makeText(getBaseContext(),
                                 "Clicked on Checkbox: " + farmers.get(i).getFullname() +
                                         " is " ,

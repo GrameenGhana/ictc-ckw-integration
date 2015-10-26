@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Created by skwakwa on 9/10/15.
  */
-public class AgentMeetings extends Activity {
+public class AgentMeetings extends BaseActivity {
     private ExpandableListView list;
     DatabaseHelper helper=null;
     List<Meeting> meetings = new ArrayList<Meeting>();
@@ -75,7 +75,7 @@ public class AgentMeetings extends Activity {
         System.out.println("Meeting Indexx : "+meetings.size());
         System.out.println("Ktd : "+list.toString());
 
-
+        super.setDetails(helper,"Client","Client Home");
         String  [] colors =  getResources().getStringArray(R.array.text_colors);
 
         FarmerMeetingGrpAdapter adapter = new FarmerMeetingGrpAdapter(AgentMeetings.this, clusters, clustersDate,AgentMeetings.this.getResources().getStringArray(R.array.text_colors), list);

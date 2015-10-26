@@ -2,17 +2,18 @@ package applab.client.search;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.*;
-import android.widget.AdapterView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 import applab.client.search.activity.FarmerDetailActivity;
+import applab.client.search.model.Farmer;
 import applab.client.search.model.ListObject;
 import applab.client.search.model.SearchMenuItem;
 import applab.client.search.services.MenuItemService;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.ui.*;
+import applab.client.search.utils.IctcCKwUtil;
 
 import java.util.List;
 import java.util.Stack;
@@ -57,18 +58,22 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
         System.out.println("DefaultViewFragment.onCreateView");
         Bundle mBundle = new Bundle();
         mBundle = getArguments();
+        Farmer f = null;
         try {
                   crop = mBundle.getString("SELECTED_CROP");
             detail = mBundle.getString("SELECTED_LABEL");
             farmerId= mBundle.getString("SELECTED_FARMER");
             farmerName= mBundle.getString("SELECTED_FARMER_NAME");
+            if(!farmerId.isEmpty()){
+                f = new DatabaseHelper(container.getContext()).findFarmer(farmerId);
+            }
         }   catch (Exception e) {
 
         }
 
 
         System.out.println("Selected CropNoted : "+crop);
-        initMainListView(view,crop,detail,farmerName);
+        initMainListView(view,crop,detail,farmerName,f);
 
         return view;
     }
@@ -94,37 +99,12 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
         }
     }
 
-    private void initMainListView(View container,String selectedCrop,String label,String farmerName) {
+    private void initMainListView(View container,String selectedCrop,String label,String farmerName,Farmer farmer) {
         setMainListView((ListView) container.findViewById(R.id.main_list));
 
         final MainListViewAdapter listViewAdapter = new MainListViewAdapter(getActivity());
         getMainListView().setAdapter(listViewAdapter);
-        TextView tv= (TextView)container.findViewById(R.id.txt_farmer_ckw);
-        if(!farmerName.isEmpty()){
-            tv.setText(farmerName);
-            tv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    System.out.println("Clicjed Txt");
-                    if(null == farmerId || farmerId.isEmpty()){
-
-                    }else{
-                        //view actionget
-                        Intent i = new Intent(getActivity(),FarmerDetailActivity.class);
-
-                        i.putExtra("farmerId",farmerId);
-                        startActivity(i);
-                    }
-                }
-            });
-//            tv.setOnClickListener();
-        }else
-        {
-            tv.setVisibility(TextView.INVISIBLE);
-
-        }
-
+        IctcCKwUtil.setFarmerDetails(container,R.id.default_view_profile,farmerName,farmer,true);
         if(!selectedCrop.isEmpty()) {
             List<SearchMenuItem> itemSelected = new MenuItemService().getSearchMenuItemByLabel(selectedCrop);
 

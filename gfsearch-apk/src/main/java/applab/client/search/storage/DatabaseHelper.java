@@ -7,11 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import applab.client.search.model.*;
+import applab.client.search.model.wrapper.MeetingSettingWrapper;
 import applab.client.search.utils.IctcCKwUtil;
-import com.sun.org.apache.xpath.internal.SourceTree;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -67,6 +68,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         database.execSQL(getICTCFarmGpsLocation());
         database.execSQL(getICTCFarmInputs());
         database.execSQL(getICTCTrackerTable());
+        database.execSQL(getICTCMeetingSettingItem());
         System.out.println("After table");
     }
 
@@ -106,6 +108,28 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         sqlCommand.append(DatabaseHelperConstants.ICTC_SEASON).append(" int DEFAULT 1 ,");
         sqlCommand.append(DatabaseHelperConstants.ICTC_CROP).append(" TEXT DEFAULT '' ," +
                 "UNIQUE ("+DatabaseHelperConstants.ICTC_FARMER_ID+", "+DatabaseHelperConstants.ICTC_MEEING_INDEX+","+DatabaseHelperConstants.ICTC_TYPE+") ON CONFLICT REPLACE");
+        sqlCommand.append(");");
+        return sqlCommand.toString();
+
+    }
+
+
+    public String getICTCMeetingSettingItem() {
+        StringBuilder sqlCommand = new StringBuilder();
+        System.out.println("Order to create "+DatabaseHelperConstants.ICTC_FARMER_MEETING_SETTINGS);
+        //
+        sqlCommand.append(" CREATE TABLE IF NOT EXISTS ").append(DatabaseHelperConstants.ICTC_FARMER_MEETING_SETTINGS
+        );
+        sqlCommand.append("(");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_TYPE).append(" TEXT,");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_MEEING_INDEX).append(" INT DEFAULT 0,");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_SEASON).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_TRACKER_START_DATETIME).append(" TEXT DEFAULT  '',");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_TRACKER_END_DATETIME).append("  TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_ACTIVITY).append(" text DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_CROP).append(" TEXT DEFAULT '' ," +
+                "UNIQUE ("+DatabaseHelperConstants.ICTC_CROP+", "+DatabaseHelperConstants.ICTC_MEEING_INDEX+","+DatabaseHelperConstants.ICTC_TYPE+") ON CONFLICT REPLACE");
         sqlCommand.append(");");
         return sqlCommand.toString();
 
@@ -198,7 +222,13 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         sqlCommand.append(DatabaseHelperConstants.DATE_MANUAL_WEEDING).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.POS_CONTACT).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.MONTH_SELLING_STARTS).append(" TEXT DEFAULT '',");
-        sqlCommand.append(DatabaseHelperConstants.MONTH_FINAL_PRODUCT_SOLD).append(" TEXT DEFAULT ''");
+        sqlCommand.append(DatabaseHelperConstants.MONTH_FINAL_PRODUCT_SOLD).append(" TEXT DEFAULT '',");
+//jUST ADDED
+        sqlCommand.append(DatabaseHelperConstants.ICTC_FARMER_POSTHARVEST).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_FARMER_PRODUCTION).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_FARMER_BASELINEPOSTHARVEST).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_FARMER_BASELINEPRODUCTION).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_BASELINE_PRODUCTION_BADGET).append(" TEXT DEFAULT ''");
 
 /**
  values.put(DatabaseHelperConstants., SIZE_PLOT);
@@ -223,6 +253,28 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
         sqlCommand.append(");");
         return sqlCommand.toString();
+    }
+
+
+    public void alterFarmerTable(){
+        SQLiteDatabase db = getWritableDatabase();
+        StringBuilder sqlCommand = new StringBuilder();
+//        db.execSQL("ALTER TABLE ").append(DatabaseHelperConstants.ICTC_FARMER);
+
+        try{
+        db.execSQL("ALTER TABLE " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_POSTHARVEST+" TEXT DEFAULT '{}'");
+        db.execSQL("ALTER TABLE " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_PRODUCTION+" TEXT DEFAULT '{}'");
+        db.execSQL("ALTER TABLE " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_BASELINEPOSTHARVEST+" TEXT DEFAULT '{}'");
+        db.execSQL("ALTER TABLE  " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_BASELINEPRODUCTION+" TEXT DEFAULT '{}'");
+        db.execSQL("ALTER TABLE "+DatabaseHelperConstants.ICTC_FARMER+" ADD COLUMN "+DatabaseHelperConstants.ICTC_BASELINE_PRODUCTION_BADGET+" TEXT DEFAULT '{}'");
+        }catch(Exception e){
+
+        }
+
+
+
+
+
     }
 
     private String getICTCFarmerMngPlanTable() {
@@ -465,7 +517,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                 region, age, gender, maritalStatus, numberOfChildren, numberOfDependants,
                 education, cluster, farmID, "", "", "", "", "", "", "",
                 "", "", "", "", "", "",
-                "", "", "", "", "");
+                "", "", "", "", "","{}","{}","{}","{}","{}");
     }
 
     public Farmer saveFarmer(String firstName, String lastName, String nickname, String community, String village, String district,
@@ -488,7 +540,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                              String POS_CONTACT,
                              String MONTH_SELLING_STARTS,
                              String MONTH_FINAL_PRODUCT_SOLD,
-                             String mainCrop) {
+                             String mainCrop, String production,String postHarvest,String budget,String baselineProduction,String baselinePostHarvest) {
         SQLiteDatabase db = getWritableDatabase();
         if ("mainpointofsaleorcontact".equalsIgnoreCase(POS_CONTACT))
             POS_CONTACT = "";
@@ -504,6 +556,10 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
             MONTH_FINAL_PRODUCT_SOLD = "";
         if (LABOUR.equalsIgnoreCase("labouruse"))
             LABOUR = "";
+
+        String  [] reg = region.split(" ");
+//        if(reg.length>0)
+//          region  =reg[1];
         ContentValues values = new ContentValues();
         values.put(DatabaseHelperConstants.SIZE_PLOT, SIZE_PLOT);
         values.put(DatabaseHelperConstants.LABOUR, LABOUR);
@@ -540,12 +596,20 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DatabaseHelperConstants.CLUSTER, cluster);
         values.put(DatabaseHelperConstants.EDUCATION, education);
 
+
+        values.put(DatabaseHelperConstants.ICTC_FARMER_BASELINEPOSTHARVEST, baselinePostHarvest);
+        values.put(DatabaseHelperConstants.ICTC_FARMER_BASELINEPRODUCTION, baselineProduction);
+        values.put(DatabaseHelperConstants.ICTC_BASELINE_PRODUCTION_BADGET, budget);
+        values.put(DatabaseHelperConstants.ICTC_FARMER_PRODUCTION, production);
+        values.put(DatabaseHelperConstants.ICTC_FARMER_POSTHARVEST, postHarvest);
+
         System.out.println("Saving MainCrop : " + maritalStatus);
 
 
         values.put(DatabaseHelperConstants.FARMER_ID, farmID);
 
-        db.insert(DatabaseHelperConstants.ICTC_FARMER, null, values);
+        long id = db.insert(DatabaseHelperConstants.ICTC_FARMER, null, values);
+        Log.i(this.getClass().getName(),"Serrve Farmer 1"+id);
         //    public Farmer(String firstName, String lastName, String village, String nickname, String community, String district, String region, String age, String gender, String maritalStatus, String numberOfChildren, String numberOfDependants, String education, String cluster, String farmID, String sizePlot, String labour, String dateOfLandIdentification, String locationOfLand, String targetArea, String expectedPriceInTon, String variety, String targetNextSeason, String techNeeds1, String techNeeds2, String farmerBasedOrg, String plantingDate, String landArea, String dateManualWeeding, String posContact, String monthSellingStarts, String monthFinalProductSold) {
 
         return new Farmer(firstName, lastName, nickname, community, village, district, region, age, gender, maritalStatus, numberOfChildren, numberOfDependants, education, cluster, farmID,
@@ -665,7 +729,91 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                     localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_SEASON))
                  );
         Farmer f = findFarmer(met.getFarmer());
+        System.out.println("Meeting farmer :"+f);
         met.setFarmerDetails(f);
+        return  met;
+    }
+
+    public void meetingSettingCreation(){
+        SQLiteDatabase db = getWritableDatabase();
+        System.out.println("Creating Table");
+        db.execSQL(getICTCMeetingSettingItem());
+
+        System.out.println("Creating Table After Meeting creation");
+
+    }
+
+
+    public void saveMeetingSetting(String crop,String type,String index,String season,String start,String end,String activity){
+        SQLiteDatabase db = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelperConstants.ICTC_TYPE, type);
+        values.put(DatabaseHelperConstants.ICTC_CROP, crop);
+        values.put(DatabaseHelperConstants.ICTC_MEEING_INDEX, index);
+        values.put(DatabaseHelperConstants.ICTC_SEASON, season);
+        values.put(DatabaseHelperConstants.ICTC_TRACKER_START_DATETIME, start);
+        values.put(DatabaseHelperConstants.ICTC_TRACKER_END_DATETIME, end);
+        values.put(DatabaseHelperConstants.ICTC_ACTIVITY, activity);
+
+
+        long id = db.insert(DatabaseHelperConstants.ICTC_FARMER_MEETING_SETTINGS, null, values);
+
+        System.out.println("MSettingID : "+id);
+    }
+
+    public long getMeetingSettingCount(){
+        try {
+            return getAggregateValue(getGeneralCountQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING_SETTINGS));
+
+        }catch(Exception e){
+
+        }
+return 0l;
+    }
+
+    public List<MeetingSettingWrapper> getAllMeetingSettings(){
+        String q=findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING_SETTINGS);
+        Cursor localCursor = this.getWritableDatabase().rawQuery(q, null);
+
+        return getCursorMeetingSettings(localCursor);
+    }
+
+
+    public List<MeetingSettingWrapper> getMeetingSettings(String type,String index,String crop){
+
+        System.out.println(index+" -  "+type+" - "+crop);
+        String q=findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING_SETTINGS+" where "+DatabaseHelperConstants.ICTC_MEEING_INDEX+"="+index+" and "+DatabaseHelperConstants.ICTC_CROP+"='"+crop+"'  and  "+DatabaseHelperConstants.ICTC_TYPE+"='"+type+"' ");
+        Cursor localCursor = this.getWritableDatabase().rawQuery(q, null);
+
+        return getCursorMeetingSettings(localCursor);
+    }
+
+    public List<MeetingSettingWrapper> getCursorMeetingSettings(Cursor localCursor){
+        List<MeetingSettingWrapper> settings = new ArrayList<MeetingSettingWrapper>();
+        while (localCursor.moveToNext()) {
+            settings.add(getMeetingDetails(localCursor));
+        }
+
+        return settings;
+    }
+
+
+
+
+    private MeetingSettingWrapper getMeetingDetails(Cursor localCursor){
+
+
+        //String crop,String type, String meetingIndex, String season, String startDate, String endDate, String acts
+        MeetingSettingWrapper met = new MeetingSettingWrapper(
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_CROP)),
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_TYPE)),
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_MEEING_INDEX)),
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_SEASON)),
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_TRACKER_START_DATETIME)),
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_TRACKER_END_DATETIME)),
+                localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_ACTIVITY))
+        );
         return  met;
     }
 
@@ -768,12 +916,14 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public List<Meeting> getIndividualMeetings(String crop,String index){
-        String q="select * from "+DatabaseHelperConstants.ICTC_FARMER_MEETING+" WHERE "+DatabaseHelperConstants.ICTC_TYPE+" ='individual'  and  "+DatabaseHelperConstants.ICTC_CROP+"='"+crop+"' and "+DatabaseHelperConstants.ICTC_MEEING_INDEX+"= "+index+" order by "+DatabaseHelperConstants.ICTC_ATTENDED+"  ASC ";
+        String q="select * from "+DatabaseHelperConstants.ICTC_FARMER_MEETING+" WHERE "+DatabaseHelperConstants.ICTC_TYPE+" ='individual'  and  "+DatabaseHelperConstants.ICTC_CROP+"='"+crop+"' and "+DatabaseHelperConstants.ICTC_MEEING_INDEX+"= "+index+"  and "+DatabaseHelperConstants.ICTC_FARMER_ID+" is not null order by "+DatabaseHelperConstants.ICTC_ATTENDED+"  ASC ";
         System.out.println("Query  : "+q);
         Cursor localCursor = this.getWritableDatabase().rawQuery(q, null);
         List<Meeting> response = new ArrayList<Meeting>();
         while (localCursor.moveToNext()) {
-            response.add(getMeeting(localCursor));
+            Meeting  m = getMeeting(localCursor);
+            if(m.getFarmerDetails()!=null)
+            response.add(m);
         }
 
         System.out.println("Meeting Cnt  : "+response.size());
@@ -803,7 +953,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return response;
     }
     public List<Meeting> getFarmerMeetings(String farmer){
-        return getMeetings(findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING) + " WHERE " + DatabaseHelperConstants.ICTC_FARMER_ID + " ='" + farmer + "'  order by "+DatabaseHelperConstants.ICTC_ATTENDED+"  ASC , "+DatabaseHelperConstants.ICTC_MEEING_INDEX+" asc ");
+        return getMeetings(findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING) + " WHERE " + DatabaseHelperConstants.ICTC_FARMER_ID + " ='" + farmer + "'  order by "+DatabaseHelperConstants.ICTC_ATTENDED+"  ASC ,  "+DatabaseHelperConstants.ICTC_ID+" asc ");
     }
 
     public Meeting getFarmerMeetings(String farmer,int meetingIndex){
@@ -822,7 +972,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return  null;
     }
     public int getMeetingsAttended(String farmer){
-        return getAggregateValue("SELECT count(*) FROM "+DatabaseHelperConstants.ICTC_FARMER_MEETING+" WHERE "+DatabaseHelperConstants.ICTC_FARMER+" ='"+farmer+"' and attended=1");
+        return getAggregateValue("SELECT count(*) FROM " + DatabaseHelperConstants.ICTC_FARMER_MEETING + " WHERE " + DatabaseHelperConstants.ICTC_FARMER + " ='" + farmer + "' and attended=1");
     }
 
 /**
@@ -839,7 +989,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         while (localCursor.moveToNext()) {
 
             System.out.println("MM : " + localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.MAIN_CROP)));
-            response.add(new Farmer(
+           Farmer f  = new Farmer(
                     localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
                     localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.OTHER_NAMES)),
                     localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.NICKNAME)),
@@ -875,7 +1025,17 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
                     localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.MONTH_FINAL_PRODUCT_SOLD)),
 
-                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.MAIN_CROP))));
+                    localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.MAIN_CROP)));
+
+            f.setBaselinepostharvest(localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_FARMER_BASELINEPOSTHARVEST)));
+            f.setBaselineProduction(localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_FARMER_BASELINEPRODUCTION)));
+            f.setBaselineProductionBudget(localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_BASELINE_PRODUCTION_BADGET)));
+            f.setPostharvest(localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_FARMER_POSTHARVEST)));
+            f.setProduction(localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_FARMER_PRODUCTION)));
+
+
+
+            response.add(f);
         }
         return response;
     }
@@ -897,6 +1057,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     }
     public Farmer findFarmer(String  id) {
         String query =findAllQuery(DatabaseHelperConstants.ICTC_FARMER ) + "  where  " + DatabaseHelperConstants.ICTC_FARMER_ID+ "= '" + id + "' ";
+        System.out.println("Query : "+query);
         List<Farmer> f = getFarmersSearch(query);
         if(f.size()>0)
             return f.get(0);
@@ -923,7 +1084,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
 
     public int farmerCount(String searchBy, String searchValue) {
-        String query =getGeneralCountQuery(DatabaseHelperConstants.ICTC_FARMER )+ "  where   " + searchBy + " = '" + searchValue + "'";
+        String query =getGeneralCountQuery(DatabaseHelperConstants.ICTC_FARMER)+ "  where   " + searchBy + " = '" + searchValue + "'";
 
         return getAggregateValue(query);
     }
@@ -961,7 +1122,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     }
     public boolean deleteQuery(String table,String fieldName,String fieldValue){
 
-        return deleteQuery(table,fieldName,fieldValue,"=");
+        return deleteQuery(table, fieldName, fieldValue, "=");
     }
 
 
@@ -1015,7 +1176,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     private String getGeneralCountQuery(String table)
     {
 
-        return getGeneralCountQuery(table,"","*");
+        return getGeneralCountQuery(table, "", "*");
     }
 
 public void markAttendance(String meetingIndex,String ids){
@@ -1090,7 +1251,7 @@ type+=" ";
     }
 
 
-    public void saveFarmInput(FarmerInputs farmerInputs)
+    public long saveFarmInput(FarmerInputs farmerInputs)
     {
         ContentValues newValues = new ContentValues();
         newValues.put(DatabaseHelperConstants.ICTC_QTY_GIVEN, farmerInputs.getQty());
@@ -1100,7 +1261,7 @@ type+=" ";
         newValues.put(DatabaseHelperConstants.ICTC_DATE_RECEIVED, IctcCKwUtil.formatStringDateTime(farmerInputs.getDateReceived()));
         newValues.put(DatabaseHelperConstants.ICTC_QTY_RECEIVED, farmerInputs.getQtyReceived());
         newValues.put(DatabaseHelperConstants.ICTC_STATUS, farmerInputs.getStatus());
-        this.getWritableDatabase().insert(DatabaseHelperConstants.ICTC_FARM_INPUTS,null,newValues);
+        return this.getWritableDatabase().insert(DatabaseHelperConstants.ICTC_FARM_INPUTS, null, newValues);
     }
 
 
@@ -1112,7 +1273,7 @@ type+=" ";
         newValues.put(DatabaseHelperConstants.ICTC_QTY_RECEIVED, farmerInputs.getQtyReceived());
         newValues.put(DatabaseHelperConstants.ICTC_STATUS, farmerInputs.getStatus());
 
-        this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_FARM_INPUTS, newValues, DatabaseHelperConstants.ICTC_FARMER_ID+"='"+farmerInputs+"'", null);
+        this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_FARM_INPUTS, newValues, DatabaseHelperConstants.ICTC_ID+"='"+farmerInputs.getId()+"'", null);
 
     }
 
@@ -1136,12 +1297,22 @@ type+=" ";
         return response;
     }
 
+    public void insertCCHLog(String module, String data, long starttime,
+                             long endtime) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        String userid ="mofa1234";
+//                prefs.getString(ctx.getString(R.string.prefs_username), "noid");
+        insertCCHLog(userid, module, data, String.valueOf(starttime),String.valueOf(endtime));
+
+    }
+
 
     public void insertCCHLog(String module, String data, String starttime,
                              String endtime) {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        String userid ="";
+        String userid ="mofa1234";
 //                prefs.getString(ctx.getString(R.string.prefs_username), "noid");
       insertCCHLog(userid,module,data,starttime,endtime);
 
@@ -1153,6 +1324,7 @@ type+=" ";
 
         SQLiteDatabase db = this.getWritableDatabase();
 
+        System.out.println("Data4Phone : "+userid+" - "+data);
         ContentValues values = new ContentValues();
         values.put(DatabaseHelperConstants.ICTC_USER_ID, userid);
         values.put(DatabaseHelperConstants.ICTC_TRACKER_MODULE, module);
@@ -1172,7 +1344,22 @@ type+=" ";
     }
 
 
+    public int markCCHLogsAsSubmitted(String rowIds) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelperConstants.ICTC_TRACKER_SUBMITTED, 1);
+        return  this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_TRACKER_LOG_TABLE, values, DatabaseHelperConstants.ICTC_ID + " in ("
+                + rowIds+")", null);
+    }
+
+    public int markCCHLogsAsSubmitting(String rowIds) {
+        ContentValues values = new ContentValues();
+        values.put(DatabaseHelperConstants.ICTC_TRACKER_SUBMITTED, 2);
+        return  this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_TRACKER_LOG_TABLE, values, DatabaseHelperConstants.ICTC_ID + " in ("
+                + rowIds+")", null);
+    }
+
     public Payload getCCHUnsentLog() {
+
 
         String s = DatabaseHelperConstants.ICTC_TRACKER_SUBMITTED + "=? ";
         String[] args = new String[] { "0" };
@@ -1190,6 +1377,8 @@ type+=" ";
                 JSONObject json = new JSONObject();
                 json.put("user_id",
                         c.getString(c.getColumnIndex(DatabaseHelperConstants.ICTC_USER_ID)));
+                json.put("id",
+                        c.getString(c.getColumnIndex(DatabaseHelperConstants.ICTC_ID)));
                 json.put("data",
                         c.getString(c.getColumnIndex(DatabaseHelperConstants.ICTC_TRACKER_DATA)));
                 json.put("module",

@@ -128,23 +128,27 @@ public class FarmerMeetingGrpAdapter extends BaseExpandableListAdapter {
         }
         List<Meeting> farmers = clusterData.get(listTitles.get(groupPosition));
         Meeting farmer = farmers.get(childPosition);
-        TextView names = (TextView) view.findViewById(R.id.lst_text_item_titles);
-        TextView icon = (TextView) view.findViewById(R.id.lst_text_item_icon);
+        TextView names = (TextView) view.findViewById(R.id.lst_text_item_titles1);
+        TextView icon = (TextView) view.findViewById(R.id.lst_text_item_icon1);
+
 
         RelativeLayout l = (RelativeLayout) view.findViewById(R.id.simp_rel_lay);
-        //To check it out
-        if(farmer.getAttended()==1 && childPosition>0) {
+        if(farmer.getFarmerDetails()== null)
+            l.setVisibility(View.GONE);
+        else {
+            //To check it out
+            if (farmer.getAttended() == 1 && childPosition > 0) {
 
-            names.setTextColor(Color.parseColor("#cccccc"));
-            icon.setBackgroundColor(Color.parseColor("#cccccc"));
-        }else{
-            l.setBackgroundColor(Color.parseColor("#ffffff"));
-        }
+                names.setTextColor(Color.parseColor("#cccccc"));
+                icon.setBackgroundColor(Color.parseColor("#cccccc"));
+            } else {
+                l.setBackgroundColor(Color.parseColor("#ffffff"));
+            }
 
-        names.setText(farmer.getFarmerDetails().getFullname());
+            names.setText(farmer.getFarmerDetails().getFullname());
 
-        icon.setText(String.valueOf(farmer.getFarmerDetails().getLastName().charAt(0)));
-        return view;
+            icon.setText(String.valueOf(farmer.getFarmerDetails().getLastName().charAt(0)));
+        }return view;
     }
 
     public boolean isChildSelectable(int i, int i1) {

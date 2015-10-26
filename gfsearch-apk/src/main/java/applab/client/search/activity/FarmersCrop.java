@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -26,7 +27,7 @@ import java.util.List;
 /**
  * Created by skwakwa on 9/29/15.
  */
-public class FarmersCrop extends Activity {
+public class FarmersCrop extends BaseActivity {
     DatabaseHelper helper = null;
     List<Farmer> farmers =new ArrayList<Farmer>();
 String crop="";
@@ -63,14 +64,31 @@ String crop="";
 
         }
 
+        super.setDetails(helper,"Farmer","Farmer Crop");
 
-        SimpleTextTextListAdapter adapter = new SimpleTextTextListAdapter(FarmersCrop.this, titles, firstLetter, enabled, getResources().getStringArray(R.array.text_colors));
+
+
+//        SimpleTextTextListAdapter adapter = new SimpleTextTextListAdapter(FarmersCrop.this, titles, firstLetter, enabled, getResources().getStringArray(R.array.text_colors),farmers);
+//        listView.setAdapter(adapter);
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                processOnClickRequest(farmers, i);
+//            }
+//        });
+
+
+        FarmersAdapter adapter = new FarmersAdapter(FarmersCrop.this, titles, firstLetter, titles, getResources().getStringArray(R.array.text_colors),farmers);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+               Log.i(this.getClass().getName(),"List Position "+i);
                 processOnClickRequest(farmers, i);
+
             }
+
         });
+
+
 
         EditText editText = (EditText) findViewById(R.id.editText);
 
@@ -99,21 +117,23 @@ String crop="";
                 String[] firstLetters =  new String[farmSearchedList.size()];
                 boolean[] enable = new boolean[farmSearchedList.size()];
                 int cnt=0;
+                final List<Farmer> fList = new ArrayList<Farmer>();
 
                 for(Farmer f: farmSearchedList){
                     title[cnt]=f.getFullname();
                     firstLetters[cnt]=String.valueOf(f.getFullname().charAt(0));
                     enable[cnt]=true;
                     cnt++;
+                    fList.add(f);
                 }
 
                 System.out.println("farmSearchedList : "+cnt);
-                SimpleTextTextListAdapter adapter = new SimpleTextTextListAdapter(FarmersCrop.this, title, firstLetters, enable, getResources().getStringArray(R.array.text_colors));
+                FarmersAdapter adapter = new FarmersAdapter(FarmersCrop.this, title, firstLetters, title, getResources().getStringArray(R.array.text_colors),farmSearchedList);
                 listView.setAdapter(adapter);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                        Intent intent;
-                        processOnClickRequest(farmSearchedList,i);
+                        processOnClickRequest(fList,i);
+
                     }
 
                 });

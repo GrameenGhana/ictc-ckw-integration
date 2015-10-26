@@ -12,11 +12,12 @@ import android.widget.TextView;
 import applab.client.search.R;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.model.MeetingActivity;
+import applab.client.search.storage.DatabaseHelper;
 
 /**
  * Created by skwakwa on 9/29/15.
  */
-public class ClientActivity extends Activity {
+public class ClientActivity extends BaseActivity {
     ListView list = null;
     public static String DETAILS_COMING_SOON = "Details Coming Soon";
 
@@ -33,10 +34,11 @@ public class ClientActivity extends Activity {
 
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
-        mTitleTextView.setText("Suppliers");
+        mTitleTextView.setText("Clients");
 
 
-
+        DatabaseHelper dh = new DatabaseHelper(getBaseContext());
+        super.setDetails(dh,"Client","Client Home");
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
         //,, ,

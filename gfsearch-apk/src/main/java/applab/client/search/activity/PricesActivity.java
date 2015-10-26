@@ -9,11 +9,12 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import applab.client.search.R;
 import applab.client.search.adapters.PriceListAdapter;
+import applab.client.search.storage.DatabaseHelper;
 
 /**
  * Created by Software Developer on 30/07/2015.
  */
-public class PricesActivity extends Activity {
+public class PricesActivity extends BaseActivity {
     private ExpandableListView list;
 
     @Override
@@ -39,5 +40,7 @@ public class PricesActivity extends Activity {
         String[] groupTitles = {"Maize", "Rice", "Cassava"};
         PriceListAdapter adapter = new PriceListAdapter(PricesActivity.this, groupTitles, icons, maizePrices, ricePrices, beansPrices, list);
         list.setAdapter(adapter);
+
+        super.setDetails(new DatabaseHelper(getBaseContext()),"Market","Prices");
     }
 }

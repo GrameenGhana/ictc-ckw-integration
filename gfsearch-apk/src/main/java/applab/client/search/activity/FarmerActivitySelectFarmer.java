@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * Created by skwakwa on 9/11/15.
  */
-public class FarmerActivitySelectFarmer extends Activity {
+public class FarmerActivitySelectFarmer extends BaseActivity {
     private ListView list;
     List<Farmer> myFarmers = null;
 
@@ -32,7 +32,9 @@ public class FarmerActivitySelectFarmer extends Activity {
     String type = "farmer";
     String detail ="";
     Farmer farmer = null;
+    String [] extraData;
 
+    int meetingIndex;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,10 +66,34 @@ public class FarmerActivitySelectFarmer extends Activity {
         try {
             type = extras.getString("type");
 
+            meetingIndex = extras.getInt("index");
+            System.out.println("TYpe : "+meetingIndex);
+            if(type.equalsIgnoreCase("MI")){
+                try {
+
+                    System.out.println("MI  : "+type);
+                    extraData= new  String[6];
+
+                    extraData[0]=String.valueOf(extras.getInt("mi"));
+                    extraData[1]=extras.getString("mt");
+                    extraData[2]=extras.getString("mid");
+                    extraData[3]=extras.getString("mtype");
+                    extraData[4]=String.valueOf(extras.getInt("atd"));
+
+                    System.out.println("MI Index : "+extraData[0]);
+
+                }catch(Exception e){
+
+                    System.out.println("ExceptionMI Index e :"+e.getLocalizedMessage());
+                    e.printStackTrace();
+                }
+
+            }
             detail = extras.getString("detail");
 
 
             farmer = (Farmer) extras.get("farmer");
+
             if(null!=farmer){
                 processOnClickRequest(farmer);
             }
@@ -80,6 +106,7 @@ public class FarmerActivitySelectFarmer extends Activity {
 
 
 
+        super.setDetails(helper,"Farmer","Farmer Select",detail,"");
 
         EditText editText = (EditText) findViewById(R.id.txt_search_fsp);
 
@@ -108,10 +135,11 @@ public class FarmerActivitySelectFarmer extends Activity {
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
         list = (ListView) findViewById(R.id.lst_farmer_fsf);
-        final FarmersAdapter adapter = new FarmersAdapter(FarmerActivitySelectFarmer.this, names, locations, mainCrops, groups);
+        final FarmersAdapter adapter = new FarmersAdapter(FarmerActivitySelectFarmer.this, names, locations, mainCrops, groups,myFarmers);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                System.out.println("Farmer Sel : "+i);
                 processOnClickRequest(myFarmers, i);
 
             }
@@ -188,8 +216,26 @@ public class FarmerActivitySelectFarmer extends Activity {
             intent.putExtra("SEARCH_CROP",farmer.getMainCrop());
             intent.putExtra("SEARCH_TITLE",detail);
             startActivity(intent);
+        }else if(type.equalsIgnoreCase("MI")){
+
+            System.out.println("Extra Data : "+extraData.length);
+            Intent intent = new Intent(FarmerActivitySelectFarmer.this, MeetingIndexActivity.class);
+            intent.putExtra("mi",Integer.parseInt(extraData[0]));
+            intent.putExtra("mt", extraData[1]);
+            intent.putExtra("mid",extraData[2]);
+            intent.putExtra("mtype",extraData[3]);
+            intent.putExtra("atd", Integer.parseInt(extraData[4]));
+            intent.putExtra("farmerId", farmer.getFarmID());
+            startActivity(intent);
+        }else if(type.equalsIgnoreCase("nma")) {
+            Intent intent = new Intent(FarmerActivitySelectFarmer.this, NextMeetingActivity.class);
+            intent.putExtra("mi",meetingIndex);
+            intent.putExtra("mtype","Individual");
+            intent.putExtra("farmer",farmer);
+            intent.putExtra("crop", farmer.getMainCrop());
+            startActivity(intent);
         }
-    }
+        }
 
 
     public void processOnClickRequest(List<Farmer> farmers,int i){

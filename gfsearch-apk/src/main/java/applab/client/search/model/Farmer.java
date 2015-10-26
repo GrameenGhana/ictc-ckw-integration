@@ -1,5 +1,8 @@
 package applab.client.search.model;
 
+import android.util.Log;
+import org.json.JSONObject;
+
 /**
  * represent a farmer record
  * <p/>
@@ -26,6 +29,7 @@ public class Farmer extends ListObject {
     private String cluster;
     private String farmID;
 
+    private String phoneNumber;
     private String sizePlot;
     private String labour;
     private String dateOfLandIdentification;
@@ -46,6 +50,13 @@ public class Farmer extends ListObject {
     private String monthFinalProductSold;
     private String mainCrop;
 
+
+
+    private String production;
+    private String baselineProductionBudget;
+private String baselineProduction;
+    private String baselinepostharvest;
+    private String postharvest;
 
     /*public String getFarmerId() {
         return farmerId;
@@ -489,4 +500,144 @@ public class Farmer extends ListObject {
     public String getFullname()
     {
         return firstName+"  "+lastName;
-    }}
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getProduction() {
+        return production;
+    }
+
+    public void setProduction(String production) {
+        this.production = production;
+    }
+
+    public String getBaselineProductionBudget() {
+        return baselineProductionBudget;
+    }
+
+    public void setBaselineProductionBudget(String baselineProductionBudget) {
+        this.baselineProductionBudget = baselineProductionBudget;
+    }
+
+    public String getBaselineProduction() {
+        return baselineProduction;
+    }
+
+    public void setBaselineProduction(String baselineProduction) {
+        this.baselineProduction = baselineProduction;
+    }
+
+    public String getBaselinepostharvest() {
+        return baselinepostharvest;
+    }
+
+    public void setBaselinepostharvest(String baselinepostharvest) {
+        this.baselinepostharvest = baselinepostharvest;
+    }
+
+    public String getPostharvest() {
+        return postharvest;
+    }
+
+    public void setPostharvest(String postharvest) {
+        this.postharvest = postharvest;
+    }
+
+
+
+
+
+    public String getgetBaselineProductionBudgetItem(String name){
+        return  getJSONItem(getBaselineProductionBudgetJSON(),name);
+    }
+
+
+    public JSONObject getBaselineProductionBudgetJSON(){
+        try {
+           return new JSONObject(getBaselinepostharvest());
+        }catch (Exception e ){
+
+        }
+        return null;
+    }
+
+
+    public String getBaselineProductionItem(String name){
+        return  getJSONItem(getBaselineProductionJSON(),name);
+    }
+
+
+    public JSONObject getBaselineProductionJSON(){
+        try {
+         return   new JSONObject(getBaselineProduction());
+        }catch (Exception e ){
+
+        }
+        return null;
+    }
+
+    public JSONObject getProductionJSON(){
+        Log.i(this.getClass().getName(),"roduucti "+getProduction());
+        try {
+         return   new JSONObject(getProduction());
+        }catch (Exception e ){
+            System.out.println("Production E : "+e.getLocalizedMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public String getPostHarvestItem(String name){
+        return  getJSONItem(getProductionJSON(),name);
+    }
+
+
+    public JSONObject getPostHarvestJSON(){
+        try {
+           return new JSONObject(getPostharvest());
+        }catch (Exception e ){
+
+        }
+        return null;
+    }
+
+
+
+    public String getProductionItem(String name){
+        return  getJSONItem(getProductionJSON(),name);
+    }
+
+
+
+    public JSONObject getBaselinePostHarvestJSON(){
+        try {
+          return  new JSONObject(getBaselinepostharvest());
+        }catch (Exception e ){
+
+        }
+        return null;
+
+
+    }
+     public String getBaselinePostHarvestItem(String name){
+        return  getJSONItem(getBaselinePostHarvestJSON(),name);
+     }
+
+    public String getJSONItem(JSONObject jobj,String item){
+        if(null != jobj) {
+            try {
+                return jobj.getString(item);
+            } catch (Exception e) {
+
+            }
+        }
+        return  "";
+
+    }
+}

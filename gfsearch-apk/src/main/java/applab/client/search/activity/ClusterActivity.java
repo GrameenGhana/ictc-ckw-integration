@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Created by Software Developer on 30/07/2015.
  */
-public class ClusterActivity extends Activity {
+public class ClusterActivity extends BaseActivity {
     private ExpandableListView list;
 
     @Override
@@ -60,9 +60,12 @@ public class ClusterActivity extends Activity {
         String[] groups = {"Hohoe", "Lead Farmers", "Early Adopter, Lead Farmers", "Hohoe, Lead Farmers", "Early Adopters, Hohoe, Lead Farmers", "Early Adopters, Hohoe, Lead Farmers", "Early Adopters, Hohoe, Lead Farmers"};
         int[] icons = {R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster};
         String[] groupTitles = {"Cluster 1", "Cluster 2", "Cluster 3"};
+
+
         ClusterAdapter adapter = new ClusterAdapter(ClusterActivity.this, clusters, clustersDate, icons, list);
         list.setAdapter(adapter);
 
+        super.setDetails(helper,"Client","Clustering");
         Button mButton = (Button) mCustomView.findViewById(R.id.search_btn);
         mButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

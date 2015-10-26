@@ -1,6 +1,7 @@
 package applab.client.search.utils;
 
 import applab.client.search.model.MeetingActivity;
+import applab.client.search.storage.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,8 +43,11 @@ public class  AgentVisitUtil {
 
     public static  String DELIVER_INPUTS ="Deliver Inputs";
     public static  String SELECT_FARMER ="Select Farmer";
+    public static  String AGREED_ACTIVITIES_FOR_NEXT_MEETING ="Activities for Next Meeting";
+
     public static List<MeetingActivity> getMeetingActivity(int meetingIndex){
         List<MeetingActivity> activities = new ArrayList<MeetingActivity>();
+        MeetingActivity activity=  new MeetingActivity(AGREED_ACTIVITIES_FOR_NEXT_MEETING,"A","A",1,"Agreed Activities for Next Meeting");
         if(1==meetingIndex){
             activities.add(new applab.client.search.model.MeetingActivity("Get Ploughing Dates for Tractor","G","A",1,"",false));
             activities.add(new applab.client.search.model.MeetingActivity("Farmer Registration", "I", "T",2,LAUNCH_TAROWORKS+"2. FARMER REGISTRATION"));
@@ -69,7 +73,7 @@ public class  AgentVisitUtil {
             activities.add(new applab.client.search.model.MeetingActivity("Provide technical Assistance","G","C",3,LAUNCH_CKW));
             activities.add(new applab.client.search.model.MeetingActivity("Play A Game","-","A",4,"Game Coming Soon",false));
             activities.add(new applab.client.search.model.MeetingActivity("Share TV Schedule","G","A",5, replaceRadioTVSchedule()));
-            activities.add(new applab.client.search.model.MeetingActivity("Collect Request for ASSISTANCE","G","T",6,LAUNCH_TAROWORKS+"\nTechnical Needs Survey",true));
+            activities.add(new applab.client.search.model.MeetingActivity("Collect Request for ASSISTANCE","G","T",6,LAUNCH_TAROWORKS+"\nTechnical Needs Survey",false));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Meeting Question","G","A",7,MEETING_QUESITONS,false));
             activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE,"G","A",8,ATTENDANCE));
         }else if(4==meetingIndex){
@@ -91,7 +95,7 @@ public class  AgentVisitUtil {
             activities.add(new applab.client.search.model.MeetingActivity("Farm Plan Update","-","T",4,LAUNCH_TAROWORKS));
             activities.add(new applab.client.search.model.MeetingActivity("Agree Activities to be completed on next visit","A","A",5,"Things agreed on",false));
             activities.add(new applab.client.search.model.MeetingActivity("Share TV Schedule","G","A",9, replaceRadioTVSchedule()));
-            activities.add(new applab.client.search.model.MeetingActivity("Collect Request for Assistance","G","C",7,LAUNCH_CKW));
+            activities.add(new applab.client.search.model.MeetingActivity("Collect Request for Assistance","G","C",7,LAUNCH_CKW,false));
             activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE,"G","A",8,ATTENDANCE));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Meeting Questions","G","A",8,MEETING_QUESITONS,false));
         }else if(6==meetingIndex){
@@ -100,12 +104,99 @@ public class  AgentVisitUtil {
             activities.add(new applab.client.search.model.MeetingActivity("Collect Farmer Feedback","I","A",3,"Collect Farmer Feedback",false));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Agent Feedback","-","A",4,"Collect Agent Feedback",false));
         }
+        activities.add(activity);
         return  activities;
     }
 
 
     public static String replaceRadioTVSchedule(){
-  return TV_PROGRAM.replaceAll("GTV_DATE",IctcCKwUtil.getNextDate(Calendar.SUNDAY)).replaceAll("VOLTA_RADIO_DATE",IctcCKwUtil.getNextDate(Calendar.SATURDAY));
+         return TV_PROGRAM.replaceAll("GTV_DATE",IctcCKwUtil.getNextDate(Calendar.SUNDAY)).replaceAll("VOLTA_RADIO_DATE",IctcCKwUtil.getNextDate(Calendar.SATURDAY));
+    }
+
+
+    public  static int getMeetingPosition(int index,String type){
+        if(type.equalsIgnoreCase("Group")){
+            if(index==1)
+                return 1;
+            else if(index==2) return 3;
+            else return index+2;
+
+        }else if(type.equalsIgnoreCase("Individual")){
+            if(index==1) return 2; else return 4;
+        }
+
+        return 1;
+
+    }
+
+
+    public static  String getMeetingTitle(int index)
+    {
+        return getMeetingTitles()[index];
+
+    }
+
+    public static String  [] getMeetingTitles(){
+        final String []   titles = {
+                "",
+                "Initial Group Meetings",
+                "1st Individual Meetings",
+                "2nd Group Meeting",
+                "2nd Individual Meeting",
+                "3rd Group Meeting",
+                "4rd Group Meeting"};
+        return titles;
+    }
+
+    public static void setMeetingSettings(DatabaseHelper helper){
+helper.meetingSettingCreation();
+
+        helper.saveMeetingSetting("Maize", "Group", "1", "1", "02", "02", "Land Clearing,Land preparation (ploughing)");
+        helper.saveMeetingSetting("Maize", "Individual", "1", "1", "03", "03", "Planting,First weed control (if no herbicide applied),Basal Fertilizer application");
+
+        helper.saveMeetingSetting("Maize", "Group", "2", "2", "05", "05", "First/Second Weeding,Top-dress fertilizer application");
+
+        helper.saveMeetingSetting("Maize", "Individual", "2", "1", "06", "06", "Harvesting ");
+
+        helper.saveMeetingSetting("Maize", "Group", "3", "3", "07", "07", "Post-harvest processing");
+        helper.saveMeetingSetting("Maize", "Group", "4", "4", "09", "09", "");
+
+        helper.saveMeetingSetting("Cassava", "Group", "1", "1", "02-10", "02-01", "Land Clearing,Land preparation (ploughing)");
+
+        helper.saveMeetingSetting("Cassava", "Individual", "1", "1", "02-10", "02-01", "Planting,First weed control (if no herbicide applied),Basal Fertilizer application");
+
+        helper.saveMeetingSetting("Cassava", "Group", "2", "2", "02-10", "02-01", "First/Second Weeding,Third Weeding");
+
+        helper.saveMeetingSetting("Cassava", "Individual", "2", "1", "02-10", "02-01", "Harvesting ");
+
+        helper.saveMeetingSetting("Cassava", "Group", "3", "3", "02-10", "02-01", "Post-harvest processing");
+        helper.saveMeetingSetting("Cassava", "Group", "4", "4", "02-10", "02-01", "");
+
+        helper.saveMeetingSetting("Rice", "Group", "1", "1", "02-10", "02-01", "Land Clearing,Land preparation (ploughing)");
+
+        helper.saveMeetingSetting("Rice", "Individual", "1", "1", "02-10", "02-01", "Planting,First weed control (if no herbicide applied),Basal Fertilizer application");
+
+        helper.saveMeetingSetting("Rice", "Group", "2", "2", "02-10", "02-01", " First/Second Weeding,Top-dress fertilizer application");
+
+        helper.saveMeetingSetting("Rice", "Individual", "2", "1", "02-10", "02-01", "Harvesting");
+
+        helper.saveMeetingSetting("Rice", "Group", "3", "3", "02-10", "02-01", "Post-harvest processing");
+        helper.saveMeetingSetting("Rice", "Group", "4", "4", "02-10", "02-01", "");
+
+        helper.saveMeetingSetting("Yam", "Group", "1", "1", "02-10", "02-01", "Land Clearing,Land preparation (ploughing)");
+
+        helper.saveMeetingSetting("Yam", "Individual", "1", "1", "02-10", "02-01", "Planting,First weed control (if no herbicide applied),Basal Fertilizer application");
+
+        helper.saveMeetingSetting("Yam", "Group", "2", "2", "02-10", "02-01", "First/Second Weeding");
+
+        helper.saveMeetingSetting("Yam", "Individual", "2", "1", "02-10", "02-01", "Second/Third weeding,Harvesting");
+
+        helper.saveMeetingSetting("Yam", "Group", "3", "3", "02-10", "02-01", "Third/fourth weeding,Second HarvestingPost-harvest processing");
+
+        helper.saveMeetingSetting("Yam", "Group", "4", "4", "02-10", "02-01", "");
+
+
+
     }
 
 

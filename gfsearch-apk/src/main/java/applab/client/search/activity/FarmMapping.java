@@ -48,7 +48,7 @@ import static java.lang.Math.sin;
 /**
  * Created by skwakwa on 8/28/15.
  */
-public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
+public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener {
     PolylineOptions options = new PolylineOptions();
     JSONArray mapPoints = new JSONArray();
     Farmer farmer =null;
@@ -60,24 +60,35 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
     List<LatLng> listed = new ArrayList<LatLng>();
     DatabaseHelper dbHelper=null;
     static final double EARTH_RADIUS = 6371009;
+    int gpsCnt=0;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.acttivity_farm_mapping);
-        setUpMapIfNeeded();
-
+//        setUpMapIfNeeded();
+//
         dbHelper = new DatabaseHelper(getBaseContext());
+        super.setDetails(dbHelper,"Farmer","Farm Mapping");
 
         try {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 farmer = (Farmer) extras.get("farmer");
                 farmer = dbHelper.findFarmer(farmer.getFarmID());
-                TextView fm = (TextView) findViewById(R.id.txt_map_fm_farmer);
-                fm.setText(farmer.getFullname());
+//                TextView fm = (TextView) findViewById(R.id.txt_map_fm_farmer);
+//                fm.setText(farmer.getFullname());
+                String sh ="";
+                try {
+                   sh =  (String) extras.get("sh");
+                }catch (Exception e){
 
-                fm = (TextView) findViewById(R.id.txt_map_fm_crop);
-                fm.setText(farmer.getMainCrop());
+                }
+//                fm = (TextView) findViewById(R.id.txt_map_fm_crop);
+//                fm.setText(farmer.getMainCrop());
+//
+//                fm = (TextView) findViewById(R.id.txt_map_fm_loc);
+//                fm.setText(farmer.getCommunity());
+                IctcCKwUtil.setFarmerDetails(getWindow().getDecorView().getRootView(),R.id.ccs_layout,farmer.getFullname(),farmer,true);
 
                 LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
@@ -87,42 +98,21 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
                     showGPSDisabledAlertToUser();
                 }
 
-                fm = (TextView) findViewById(R.id.txt_map_fm_loc);
-                fm.setText(farmer.getCommunity());
-                showDialog("Note of Farm Measurement", "Follow these steps to measure the "+
-                        farmer.getFullname()
-                        +"'s farm: \n\n1. Press the map and start walking \n 2.Walk around the area to be cultivated. \n" +
-                        "\n" +
-                        "2. Tap the screen every 5 steps. You must select at least 3 points before you finish walking around the farm. \n" +
-                        "\n" +
-                        "3. Once you have gone around the farm, tap and hold the screen until you see a number. That is the area of your farm in square metres. ");
 
-                List<FarmGPSLocation> gps = dbHelper.getFarmerCoordinates(farmer.getFarmID());
+                if(!sh.equalsIgnoreCase("0")) {
+                    showDialog("Note of Farm Measurement", "Follow these steps to measure the " +
+                            farmer.getFullname()
+                            + "'s farm: \n\n1. Press the map and start walking \n 2.Walk around the area to be cultivated. \n" +
+                            "\n" +
+                            "2. Tap the screen every 5 steps. You must select at least 3 points before you finish walking around the farm. \n" +
+                            "\n" +
+                            "3. Once you have gone around the farm, tap and hold the screen until you see a number. That is the area of your farm in square metres. ");
 
 
-                System.out.println("GOS  : "+gps.size());
-
-                TextView fArea = (TextView) findViewById(R.id.txt_map_fm_area);
-//            fArea.setText((farmer.getLandArea())+" m2  ");
-                fArea.setText(Html.fromHtml(": "+IctcCKwUtil.formatDouble(farmer.getLandArea()) + " m<sup>2</sup> Perimeter : " + IctcCKwUtil.formatDouble(farmer.getSizePlot()) + " m "));
-                fArea = (TextView) findViewById(R.id.txt_coordinate_no);
-                fArea.setText(String.valueOf(gps.size()));
-                for (FarmGPSLocation gpsLoc : gps) {
 
 
-//                    mMap.addMarker(new MarkerOptions()
-//                            .position(new LatLng(gpsLoc.getLatitude(), gpsLoc.getLongitude()))
-//                            .title("Farm Map Point " + farmer.getLandArea()));
-                    options.add(new LatLng(gpsLoc.getLatitude(), gpsLoc.getLongitude()));
-
+                    setUpMapIfNeeded();
                 }
-
-
-
-
-
-                setUpMapIfNeeded();
-
 //                "1. Walk around the area to be cultivated. \n" +
 //                        "\n" +
 //                        "2. Tap the screen every 5 steps. You must select at least 3 points before you finish walking around the farm. \n" +
@@ -157,7 +147,28 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
      * method in {@link #onResume()} to guarantee that it will be called.
      */
     private void setUpMapIfNeeded() {
+        List<FarmGPSLocation> gps = dbHelper.getFarmerCoordinates(farmer.getFarmID());
 
+
+        System.out.println("GOS  : " + gps.size());
+
+
+        gpsCnt = gps.size();
+        for (FarmGPSLocation gpsLoc : gps) {
+
+
+//                    mMap.addMarker(new MarkerOptions()
+//                            .position(new LatLng(gpsLoc.getLatitude(), gpsLoc.getLongitude()))
+//                            .title("Farm Map Point " + farmer.getLandArea()));
+            options.add(new LatLng(gpsLoc.getLatitude(), gpsLoc.getLongitude()));
+
+        }
+        System.out.println("Options : ");
+        TextView fArea = (TextView) findViewById(R.id.txt_map_fm_area);
+//            fArea.setText((farmer.getLandArea())+" m2  ");
+        fArea.setText(Html.fromHtml(": " + IctcCKwUtil.formatDouble(farmer.getLandArea()) + " m<sup>2</sup> Perimeter : " + IctcCKwUtil.formatDouble(farmer.getSizePlot()) + " m "));
+        fArea = (TextView) findViewById(R.id.txt_coordinate_no);
+        fArea.setText(String.valueOf(gps.size()));
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
@@ -249,43 +260,13 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
 
 
         if(points.size()>3) {
-            polygon = gf.createPolygon(new LinearRing(new CoordinateArraySequence(points
-                    .toArray(new Coordinate[points.size()])), gf), null);
-            //double area = (polygon.getArea() * (Math.PI / 180) * 6378137) * 100000;
-            double area = computeSignedArea(listed,EARTH_RADIUS);
-            double perimeter = computeLength(listed);
-            Toast.makeText(getApplicationContext(),
-                    "" + polygon.getArea(),
-                    Toast.LENGTH_LONG).show();
-            DecimalFormat df = new DecimalFormat("#.000000");
-
-            TextView fm = (TextView) findViewById(R.id.txt_map_fm_area);
-            fm.setText(Html.fromHtml(IctcCKwUtil.formatDouble(area) + " m<sup>2</sup> Perimeter : "+IctcCKwUtil.formatDouble(perimeter)+" m"));
-
-            fm = (TextView) findViewById(R.id.txt_coordinate_no);
-
-            Toast.makeText(getApplicationContext(),
-                    "" + df.format(area),
-                    Toast.LENGTH_LONG).show();
-
-            dbHelper.deleteFarmerGPS(farmer.getFarmID());
-            System.out.println("Saving Points");
-            for (Coordinate coordinate : points) {
-               long  l =  dbHelper.saveGPSLocation(coordinate.x, coordinate.y, farmer.getFarmID());
-                System.out.println("Done saving  Pnts: "+l);
-            }
-            dbHelper.updateFarmer(farmer.getFarmID(), area,perimeter);
-
-
-
-            JSONObject l = new JSONObject();
-            try {
-                l.put("points",mapPoints);
-                l.put("area",area);
-                l.put("perimeter",perimeter);
-                ConnectionUtil.refreshFarmerInfo(getBaseContext(),null, "fid="+farmer+"&l="+URLEncoder.encode(l.toString()),"fmap","Syncing Farm Mapping");
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if(gpsCnt==0){
+                processSaveCoordinates();
+            }else{
+                try {
+                    showConfirmCordinateSave();
+                }catch (Exception e){
+                }
             }
         }else{
 
@@ -456,6 +437,109 @@ public class FarmMapping extends FragmentActivity implements GoogleMap.OnMapClic
                 });
         AlertDialog alert = alertDialogBuilder.create();
         alert.show();
+    }
+
+
+    private void showConfirmCordinateSave(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Farmer Already Has coordinates")
+                .setCancelable(false)
+                .setPositiveButton("Coordinates Already Exist\nClicking on the OK button would overwrite them",
+                        new DialogInterface.OnClickListener(){
+                            public void onClick(DialogInterface dialog, int id){
+                        processSaveCoordinates();
+                            }
+                        });
+        alertDialogBuilder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener(){
+                    public void onClick(DialogInterface dialog, int id){
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+    }
+
+    public void processSaveCoordinates(){
+
+        polygon = gf.createPolygon(new LinearRing(new CoordinateArraySequence(points
+                .toArray(new Coordinate[points.size()])), gf), null);
+        //double area = (polygon.getArea() * (Math.PI / 180) * 6378137) * 100000;
+        double area = computeSignedArea(listed,EARTH_RADIUS);
+        double perimeter = computeLength(listed);
+        Toast.makeText(getApplicationContext(),
+                "" + polygon.getArea(),
+                Toast.LENGTH_LONG).show();
+        DecimalFormat df = new DecimalFormat("#.000000");
+
+        TextView fm = (TextView) findViewById(R.id.txt_map_fm_area);
+        fm.setText(Html.fromHtml(IctcCKwUtil.formatDouble(area) + " m<sup>2</sup> Perimeter : "+IctcCKwUtil.formatDouble(perimeter)+" m"));
+
+        fm = (TextView) findViewById(R.id.txt_coordinate_no);
+
+        Toast.makeText(getApplicationContext(),
+                "" + df.format(area),
+                Toast.LENGTH_LONG).show();
+
+        dbHelper.deleteFarmerGPS(farmer.getFarmID());
+        System.out.println("Saving Points");
+        JSONArray jsonCoordinate = new JSONArray();
+        for (Coordinate coordinate : points) {
+            long  l =  dbHelper.saveGPSLocation(coordinate.x, coordinate.y, farmer.getFarmID());
+            System.out.println("Saved GPS: "+l);
+            JSONObject obj = new JSONObject();
+            try {
+
+                obj.put("x",String.valueOf(coordinate.x));
+                obj.put("y",String.valueOf(coordinate.y));
+                jsonCoordinate.put(obj);
+            }catch (Exception e){
+
+            }
+            System.out.println("Done saving  Pnts: "+l);
+        }
+
+        JSONObject objs = new JSONObject();
+        try {
+
+            objs.put("user_id",farmer.getFarmID());
+            objs.put("page","Farm Map Input");
+            objs.put("area",String.valueOf(area));
+            objs.put("perimeter",String.valueOf(perimeter));
+            objs.put("section",farmer.getFullname());
+            objs.put("coordinates",jsonCoordinate);
+            objs.put("imei",IctcCKwUtil.getImei(getBaseContext()));
+            objs.put("version",IctcCKwUtil.getAppVersion());
+            objs.put("battery",IctcCKwUtil.getBatteryLevel(getBaseContext()));
+            dbHelper.insertCCHLog("Farmer",objs.toString(),super.getStartTime(), System.currentTimeMillis());
+
+
+            /**
+             *    obj.put("page", page);
+             obj.put("section", section);
+             obj.put("battery", (battery));
+             obj.put("version", version);
+             obj.put("imei", imei);
+             */
+
+        }catch(Exception e ){
+
+        }
+
+        dbHelper.updateFarmer(farmer.getFarmID(), area,perimeter);
+
+
+
+        JSONObject l = new JSONObject();
+        try {
+            l.put("points",mapPoints);
+            l.put("area",area);
+//                l.put("perimeter",perimeter);
+//                ConnectionUtil.refreshFarmerInfo(getBaseContext(),null, "fid="+farmer+"&l="+URLEncoder.encode(l.toString()),"fmap","Syncing Farm Mapping");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
 

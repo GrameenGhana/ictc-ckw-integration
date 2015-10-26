@@ -59,7 +59,7 @@
         <activity android:name=".activity.DashboardActivity"/>
         <activity android:name=".activity.PricesActivity"/>
         <activity android:name=".activity.ClusterActivity"/>
-        <activity android:name=".activity.FarmerDetailActivity"/>
+        <activity android:name=".activity.FarmerDetailActivity" />
         <activity android:name=".activity.CommunityActivity"/>
         <activity android:name=".activity.FarmerActivity"/>
         <activity android:name=".activity.BaseActivity"/>
@@ -89,6 +89,14 @@
         <activity android:name=".activity.CropSelectorActivity"/>
         <activity android:name=".activity.CropCalendarActivity"/>
         <activity android:name=".utils.AboutActivity" android:label="About"/>
+        <activity android:name=".activity.FarmerProfileActivity" android:label="activity_farmer_profile"/>
+        <activity android:name=".activity.NextMeetingActivity" android:label="next_meeting_activity"/>
+        <activity android:name=".activity.FarmerDetailedProfile" android:label="activity_farmer_detailed_profile">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <service android:name=".synchronization.BackgroundSynchronizationService"/>
 
         <receiver android:name=".synchronization.SynchBroadcastReceiver">
@@ -110,6 +118,9 @@
                 <action android:name="android.intent.action.PACKAGE_CHANGED"/>
                 <data android:host="package" android:path="applab.client.search"/>
             </intent-filter>
+        </receiver>
+
+        <receiver android:name=".services.TrackerStartServiceReceiver" >
         </receiver>
     </application>
 

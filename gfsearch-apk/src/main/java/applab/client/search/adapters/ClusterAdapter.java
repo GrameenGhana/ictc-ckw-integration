@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import applab.client.search.R;
 import applab.client.search.model.Farmer;
+import applab.client.search.utils.IctcCKwUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -110,41 +111,48 @@ public class ClusterAdapter extends BaseExpandableListAdapter {
         if (view == null) {
             view = minflater.inflate(R.layout.cluster_child_single, viewGroup, false);
         }
+
+
         List<Farmer> farmers = clusterData.get(listTitles.get(groupPosition));
         Farmer farmer = farmers.get(childPosition);
-        TextView names = (TextView) view.findViewById(R.id.textView_name);
-        TextView locations = (TextView) view.findViewById(R.id.textView_location);
-        TextView mainCrops = (TextView) view.findViewById(R.id.textView_mainCrop);
-        TextView group = (TextView) view.findViewById(R.id.textView_groups);
-        ImageView icon = (ImageView) view.findViewById(R.id.imageView_icon);
-        String crop = farmer.getMainCrop();
-        if (crop.equalsIgnoreCase("Maize")) {
-            Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_maize);
-            // icon.setBackground(drawable);
-            mainCrops.setText("Maize");
-            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
-        } else if (crop.equalsIgnoreCase("Cassava")) {
-            Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_cassava);
-            mainCrops.setText("Cassava");
-            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
-            //icon.setBackgroundDrawable(drawable);
-        } else if (crop.equalsIgnoreCase("Beans")) {
-            Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_beans);
-            mainCrops.setText("Beans");
-            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
-            // icon.setBackgroundDrawable(drawable);
-        } else if (crop.equalsIgnoreCase("Rice")) {
-            Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_rice);
-            mainCrops.setText("Rice");
-            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
-            // icon.setBackgroundDrawable(drawable);
-        }
-        names.setText(farmer.getLastName() + " " + farmer.getFirstName());
-        locations.setText(farmer.getCommunity()+", "+farmer.getDistrict()+", "+farmer.getRegion());
-       // Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_maize);
-        //mainCrops.setText(crop);
-        //mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
-        group.setText("Farmer");
+
+
+        IctcCKwUtil.setFarmerDetails(view,R.id.ccs_layout,farmer.getFullname(),farmer);
+//        TextView names = (TextView) view.findViewById(R.id.textView_name);
+//        TextView locations = (TextView) view.findViewById(R.id.textView_location);
+//        TextView mainCrops = (TextView) view.findViewById(R.id.textView_mainCrop);
+//        TextView group = (TextView) view.findViewById(R.id.textView_groups);
+//        ImageView icon = (ImageView) view.findViewById(R.id.imageView_icon);
+//        String crop = farmer.getMainCrop();
+//        if (crop.equalsIgnoreCase("Maize")) {
+//            Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_maize);
+//            // icon.setBackground(drawable);
+//            mainCrops.setText("Maize");
+//            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+//        } else if (crop.equalsIgnoreCase("Cassava")) {
+//            Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_cassava);
+//            mainCrops.setText("Cassava");
+//            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+//            //icon.setBackgroundDrawable(drawable);
+//        } else if (crop.equalsIgnoreCase("Beans")) {
+//            Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_beans);
+//            mainCrops.setText("Beans");
+//            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
+//            // icon.setBackgroundDrawable(drawable);
+//        } else if (crop.equalsIgnoreCase("Rice")) {
+//            Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_rice);
+//            mainCrops.setText("Rice");
+//            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+//            // icon.setBackgroundDrawable(drawable);
+//        }
+//
+//
+//        names.setText(farmer.getLastName() + " " + farmer.getFirstName());
+//        locations.setText(farmer.getCommunity()+", "+farmer.getDistrict()+", "+farmer.getRegion());
+//       // Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_maize);
+//        //mainCrops.setText(crop);
+//        //mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+//        group.setText("Farmer");
         return view;
     }
 
@@ -156,7 +164,6 @@ public class ClusterAdapter extends BaseExpandableListAdapter {
 
         if (groupPosition != lastExpandedGroupPosition) {
             list.collapseGroup(lastExpandedGroupPosition);
-
         }
 
         super.onGroupExpanded(groupPosition);

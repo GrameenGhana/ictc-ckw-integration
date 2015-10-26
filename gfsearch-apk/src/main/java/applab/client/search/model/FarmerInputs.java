@@ -1,5 +1,9 @@
 package applab.client.search.model;
 
+import com.google.gson.Gson;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
 
 /**
@@ -129,5 +133,13 @@ public class FarmerInputs {
 
     public void setQtyReceived(double qtyReceived) {
         this.qtyReceived = qtyReceived;
+    }
+
+
+    public JSONObject getJson() throws JSONException {
+        Gson gson = new Gson();
+        String json = gson.toJson(this);
+        JSONObject obj = new JSONObject(json);
+        return obj;
     }
 }

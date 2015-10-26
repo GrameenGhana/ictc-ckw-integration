@@ -14,10 +14,12 @@ import android.widget.*;
 import applab.client.search.R;
 import applab.client.search.adapters.MeetingInvAdapter;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
+import applab.client.search.model.FarmManagementPlan;
 import applab.client.search.model.Farmer;
 import applab.client.search.model.FarmerInputs;
 import applab.client.search.model.Meeting;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.utils.IctcCKwUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +28,7 @@ import java.util.List;
 /**
  * Created by Software Developer on 30/07/2015.
  */
-public class FarmerDetailActivity extends ActivityGroup {
+public class FarmerDetailActivity extends BaseActivityGroup {
     private TextView textViewName;
     private TextView textViewMainCrop;
     private TextView textViewProportion;
@@ -71,6 +73,7 @@ public class FarmerDetailActivity extends ActivityGroup {
                 farmer = dbHelper.findFarmer(farmerId);
                 location = farmer.getCommunity();
                 name = farmer.getLastName() + " , " + farmer.getFirstName();
+
             }
             mainCrop = farmer.getMainCrop();
 
@@ -93,30 +96,66 @@ public class FarmerDetailActivity extends ActivityGroup {
         mActionBar.setCustomView(mCustomView);
         myInputs =  dbHelper.getIndividualFarmerInputs(farmer.getFarmID());
         mActionBar.setDisplayShowCustomEnabled(true);
-      textViewName=(TextView) findViewById(R.id.textView_name);
-        textViewName.setText(farmer.getLastName() + " " + farmer.getFirstName());
-        textViewMainCrop=(TextView) findViewById(R.id.textView_mainCrop);
-        textViewMainCrop.setText(farmer.getMainCrop());
+
+        TextView names = (TextView) findViewById(R.id.textView_name);
+        TextView locations = (TextView) findViewById(R.id.textView_location);
+        TextView mainCrops = (TextView)findViewById(R.id.textView_mainCrop);
+        TextView group = (TextView) findViewById(R.id.textView_groups);
+        ImageView icon = (ImageView) findViewById(R.id.imageView_icon);
+        String crop = farmer.getMainCrop();
+        if (crop.equalsIgnoreCase("Maize")) {
+            Drawable drawable = getBaseContext().getResources().getDrawable(R.drawable.ic_maize);
+            // icon.setBackground(drawable);
+            mainCrops.setText("Maize");
+            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+        } else if (crop.equalsIgnoreCase("Cassava")) {
+            Drawable drawable = getBaseContext().getResources().getDrawable(R.drawable.ic_cassava);
+            mainCrops.setText("Cassava");
+            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+            //icon.setBackgroundDrawable(drawable);
+        } else if (crop.equalsIgnoreCase("Beans")) {
+            Drawable drawable = getBaseContext().getResources().getDrawable(R.drawable.ic_beans);
+            mainCrops.setText("Beans");
+            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
+            // icon.setBackgroundDrawable(drawable);
+        } else if (crop.equalsIgnoreCase("Rice")) {
+            Drawable drawable = getBaseContext().getResources().getDrawable(R.drawable.ic_rice);
+            mainCrops.setText("Rice");
+            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+            // icon.setBackgroundDrawable(drawable);
+        }
+
+
+        names.setText(farmer.getLastName() + " " + farmer.getFirstName());
+        locations.setText(farmer.getCommunity()+", "+farmer.getDistrict()+", "+farmer.getRegion());
+        // Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_maize);
+        //mainCrops.setText(crop);
+        //mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+        group.setText("Farmer");
+//      textViewName=(TextView) findViewById(R.id.textView_name);
+//        textViewName.setText(farmer.getLastName() + " " + farmer.getFirstName());
+//        textViewMainCrop=(TextView) findViewById(R.id.textView_mainCrop);
+//        textViewMainCrop.setText(farmer.getMainCrop());
         textViewProportion = (TextView) findViewById(R.id.textView_proportion);
-        textViewLocation=(TextView) findViewById(R.id.textView_location);
+//        textViewLocation=(TextView) findViewById(R.id.textView_location);
         LocalActivityManager mLocalActivityManager = new LocalActivityManager(FarmerDetailActivity.this,false);
         mLocalActivityManager.dispatchCreate(savedInstanceState); // state will be bundle your activity state which you get in onCreate
         tabHost.setup(mLocalActivityManager);
         FragmentTabHost.TabSpec spec = tabHost.newTabSpec("tag");
-        spec.setIndicator("Farm Plan");
-        spec.setContent(new Intent(FarmerDetailActivity.this, FarmManagementPlanActivity.class)
+        spec.setIndicator("Farmer Profile");
+        spec.setContent(new Intent(FarmerDetailActivity.this, FarmerDetailedProfile.class)
                 .putExtra("farmer", farmer));
         tabHost.addTab(spec);
 
         spec = tabHost.newTabSpec("tag1");
-        spec.setIndicator("Map Farm");
-        spec.setContent(new Intent(FarmerDetailActivity.this, FarmMapping.class)
+        spec.setIndicator("Farm Management Plan");
+        spec.setContent(new Intent(FarmerDetailActivity.this, FarmManagementPlanActivity.class)
                 .putExtra("type", "search")
                 .putExtra("farmer", farmer));
         tabHost.addTab(spec);
 
         spec = tabHost.newTabSpec("tag2");
-        spec.setIndicator("Get Farmer Input");
+        spec.setIndicator("Farmer Input");
         spec.setContent(new Intent(FarmerDetailActivity.this, FarmerInputActivty.class)
                 //.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString())
                 .putExtra("farmer", farmer));
@@ -135,6 +174,10 @@ public class FarmerDetailActivity extends ActivityGroup {
             }
         });
 
+
+        super.setDetails(dbHelper,"Farmer","Farmer Details");
+        super.setSection(name);
+        IctcCKwUtil.setFarmerDetails(getWindow().getDecorView().getRootView(),R.id.profile_container,farmer.getFullname(),farmer);
 //        textViewLocation=(TextView) findViewById(R.id.textView_location);
 //
 //        textViewLocation.setText(location);
@@ -228,19 +271,19 @@ public class FarmerDetailActivity extends ActivityGroup {
 
         textViewName = (TextView) findViewById(R.id.textView_fp_labour);
         textViewName.setText(farmer.getLabour());*/
-        if (mainCrop.equalsIgnoreCase("Rice")) {
-            Drawable rice = FarmerDetailActivity.this.getResources().getDrawable(R.drawable.ic_rice);
-            textViewProportion.setCompoundDrawablesWithIntrinsicBounds(rice, null, null, null);
-//            textViewPercentageSold.setText(">50%");
-        } else if (mainCrop.equalsIgnoreCase("Cassava")) {
-            Drawable cassava = FarmerDetailActivity.this.getResources().getDrawable(R.drawable.ic_cassava);
-            textViewProportion.setCompoundDrawablesWithIntrinsicBounds(cassava, null, null, null);
-//            textViewPercentageSold.setText(">70%");
-        } else if (mainCrop.equalsIgnoreCase("Maize")) {
-            Drawable maize = FarmerDetailActivity.this.getResources().getDrawable(R.drawable.ic_maize);
-            textViewProportion.setCompoundDrawablesWithIntrinsicBounds(maize, null, null, null);
-//            textViewPercentageSold.setText(">80%");
-        }
+//        if (mainCrop.equalsIgnoreCase("Rice")) {
+//            Drawable rice = FarmerDetailActivity.this.getResources().getDrawable(R.drawable.ic_rice);
+//            textViewProportion.setCompoundDrawablesWithIntrinsicBounds(rice, null, null, null);
+////            textViewPercentageSold.setText(">50%");
+//        } else if (mainCrop.equalsIgnoreCase("Cassava")) {
+//            Drawable cassava = FarmerDetailActivity.this.getResources().getDrawable(R.drawable.ic_cassava);
+//            textViewProportion.setCompoundDrawablesWithIntrinsicBounds(cassava, null, null, null);
+////            textViewPercentageSold.setText(">70%");
+//        } else if (mainCrop.equalsIgnoreCase("Maize")) {
+//            Drawable maize = FarmerDetailActivity.this.getResources().getDrawable(R.drawable.ic_maize);
+//            textViewProportion.setCompoundDrawablesWithIntrinsicBounds(maize, null, null, null);
+////            textViewPercentageSold.setText(">80%");
+//        }
 
 
         setValuesForFields();
@@ -300,8 +343,15 @@ public class FarmerDetailActivity extends ActivityGroup {
         int cnt=0;
         for(FarmerInputs fi : myInputs){
             String title="";
-            firstLetters[cnt]=String.valueOf(fi.getQty());
-            details[cnt]= fi.getName();
+            String xt="";String act=String.valueOf(fi.getQty());
+            if(fi.getQty()<1.0){
+                xt=" Not Given ";
+                act="NA";
+            }
+            firstLetters[cnt]=act;
+
+            details[cnt]= fi.getName()+xt;
+
             cnt++;
         }
       ListView  listView = (ListView)findViewById(R.id.lst_inputs);
@@ -326,7 +376,7 @@ public class FarmerDetailActivity extends ActivityGroup {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(FarmerDetailActivity.this,MeetingIndexActivity.class);
-                intent.putExtra("mi",meetings.get(i).getMeetingIndex());
+                intent.putExtra("mi",meetings.get(i).getMeetingPosition());
                 intent.putExtra("mid",meetings.get(i).getId());
                 intent.putExtra("mtype",meetings.get(i).getType());
                 intent.putExtra("atd",meetings.get(i).getAttended());

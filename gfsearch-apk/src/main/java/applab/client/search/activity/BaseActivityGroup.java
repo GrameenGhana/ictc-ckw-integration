@@ -1,7 +1,9 @@
 package applab.client.search.activity;
 
 import android.app.ActivityGroup;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.IctcCKwUtil;
 import org.json.JSONObject;
@@ -67,6 +69,7 @@ public class BaseActivityGroup extends ActivityGroup {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
         JSONObject obj=null;
 
         try {
@@ -77,13 +80,13 @@ public class BaseActivityGroup extends ActivityGroup {
 
             obj.put("page", page);
             obj.put("section", section);
-            obj.put("battery", battery);
+            obj.put("battery", (battery));
             obj.put("version", version);
             obj.put("imei", imei);
         }catch (Exception e){
 
         }
-
+        System.out.println("   System.out.println(Data4) : "+obj.toString());
         hp.insertCCHLog(module, obj.toString(), startTime, System.currentTimeMillis());
     }
 
@@ -126,5 +129,17 @@ public class BaseActivityGroup extends ActivityGroup {
     public void setData(String data) {
         this.data = data;
     }
+    public String getSection() {
+        return section;
+    }
 
+    public void setSection(String data) {
+        this.section = data;
+    }
+
+    public void showHome(View view){
+
+        Intent t =  new Intent(view.getContext(),DashboardActivity.class);
+        view.getContext().startActivity(t);
+    }
 }

@@ -111,6 +111,7 @@ public final class DatabaseHelperConstants {
 
 
     public static final String ICTC_FARMER_MEETING= "ictc_meeting";
+    public static final String ICTC_FARMER_MEETING_SETTINGS= "ictc_meeting_settings";
     public static final String ICTC_TYPE= "meeting_type";
     public static final String ICTC_SEASON= "season";
     public static final String ICTC_REMARK= "remark";
@@ -125,6 +126,13 @@ public final class DatabaseHelperConstants {
     public static final String ICTC_FARMER_MEETING_PROCEDURE= "ictc_meeting_PROCEDURE";
 
 
+
+
+    public static final String ICTC_FARMER_POSTHARVEST= "postharvest";
+    public static final String ICTC_FARMER_PRODUCTION= "production";
+    public static final String ICTC_FARMER_BASELINEPOSTHARVEST= "baselinepostharvest";
+    public static final String ICTC_FARMER_BASELINEPRODUCTION= "baselineproduction";
+    public static final String ICTC_BASELINE_PRODUCTION_BADGET= "baselineproductionbadget";
     //tracker
 
 

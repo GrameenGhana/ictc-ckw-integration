@@ -22,7 +22,7 @@ import java.util.*;
 /**
  * Created by skwakwa on 9/17/15.
  */
-public class TVScheduleActivity extends Activity {
+public class TVScheduleActivity extends BaseActivity {
     ExpandableListView list;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,6 +95,9 @@ public class TVScheduleActivity extends Activity {
                 startActivity(intent);
             }
         });
+//
+        super.setDetails(new DatabaseHelper(getBaseContext()),"Supplier","Supplier");
+
 
     }
 

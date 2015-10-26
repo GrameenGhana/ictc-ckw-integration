@@ -17,7 +17,7 @@ import applab.client.search.storage.DatabaseHelper;
 /**
  * Created by skwakwa on 9/29/15.
  */
-public class SupplierActivity extends Activity {
+public class SupplierActivity extends BaseActivity {
     ListView list=null;
 public static String DETAILS_COMING_SOON="Details Coming Soon";
     @Override
@@ -61,6 +61,6 @@ public static String DETAILS_COMING_SOON="Details Coming Soon";
 //            }
 //        });
 
-
+        super.setDetails(new DatabaseHelper(getBaseContext()),"Supplier","Supplier");
     }
 }

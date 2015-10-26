@@ -16,6 +16,9 @@ import applab.client.search.model.FarmerInputs;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.AgentVisitUtil;
 import applab.client.search.utils.ConnectionUtil;
+import applab.client.search.utils.IctcCKwUtil;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,11 +27,12 @@ import java.util.List;
 /**
  * Created by grameen on 9/9/15.
  */
-public class FarmerInputActivty extends Activity {
+public class FarmerInputActivty extends BaseActivity {
 
     DatabaseHelper helper = null;
     List<FarmerInputs> myInputs =new  ArrayList<FarmerInputs>();
     Farmer farmer=null;
+    long stime =0l;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -38,20 +42,21 @@ public class FarmerInputActivty extends Activity {
         setContentView(R.layout.input_activity);
 
         helper = new DatabaseHelper(getBaseContext());
+        boolean includeHeader = false;
         try {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 farmer = (Farmer) extras.get("farmer");
-                TextView fm = (TextView) findViewById(R.id.txt_map_fm_farmer);
-                fm.setText(farmer.getFullname());
+                try{
+                    includeHeader = extras.getBoolean("standalone");
 
-                fm = (TextView) findViewById(R.id.txt_map_fm_crop);
-                fm.setText(farmer.getMainCrop());
+                }catch(Exception e){}
+                if(includeHeader) {
+                    IctcCKwUtil.setFarmerDetails(getWindow().getDecorView().getRootView(), R.id.ccs_layout, farmer.getFullname(), farmer, true);
+                }else{
 
-
-                fm = (TextView) findViewById(R.id.txt_map_fm_loc);
-                fm.setText(farmer.getCommunity());
-
+                    IctcCKwUtil.setFarmerDetails(getWindow().getDecorView().getRootView(), R.id.ccs_layout, "", farmer, true);
+                }
                myInputs =  helper.getIndividualFarmerInputs(farmer.getFarmID());
 
                 System.out.println("MyInputs :"+myInputs.size());
@@ -63,6 +68,8 @@ public class FarmerInputActivty extends Activity {
 
         final String f = farmer_id;
 
+        super.setDetails(helper,"Farmer","Farmer Input");
+        stime = super.getStartTime();
 
 
         Button save = (Button) findViewById(R.id.btnInputSave);
@@ -76,18 +83,22 @@ public class FarmerInputActivty extends Activity {
              String fertilizerInput = "0";
              String seedInput = "0";
              String ploughingInput = "0";
+
             public void onClick(View view) {
-                if (seed.isEnabled())
+
+//              if (seed.isChecked())
                     seedInput = seedbags.getText().toString();
-                if (fertilizer.isEnabled())
+//              if (fertilizer.isChecked())
                     fertilizerInput = fertilizerBags.getText().toString();
-                if (ploughing.isEnabled())
+                if (ploughing.isChecked())
                     ploughingInput = "Yes";
+
+                System.out.println("Plough Enabled : "+ploughingInput);
 
                 String parameterurl = "fid="+f+"&s=" + seedInput + "&f=" + fertilizerInput + "&p=" + ploughingInput;
                 System.out.println(parameterurl);
-                ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, parameterurl, "fi", "input sent to server");
-
+//                ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, parameterurl, "fi", "input sent to server");
+//
 
                 String v="";
                 if(myInputs.size()>0){
@@ -98,18 +109,22 @@ public class FarmerInputActivty extends Activity {
                         }else if(fi.getName().equalsIgnoreCase("fertiliser")){
                             fi.setQty(Double.parseDouble(fertilizerInput));
                         }else if(fi.getName().equalsIgnoreCase("plough")){
-                            if(ploughing.isEnabled()){
+                            if(ploughing.isChecked()){
                                 fi.setQty(1.0);
+                            }
+                            else{fi.setQty(0);
                             }
                         }
 v="Saved Successfully";
+                        System.out.println("Saving : "+fi.getId()+" <> "+fi.getName()+fi.getQty());
                         helper.updateFarmInput(fi);
                     }
                 }else{
 
 
                     System.out.println("Saving FI");
-                    if(seedInput.isEmpty()) {seedInput="0";
+                    if(seedInput.isEmpty()) {
+                        seedInput="0";
                     v="Some Values where Empty";
                     }
                     if(fertilizerInput.isEmpty()) {
@@ -118,7 +133,10 @@ v="Saved Successfully";
                     }
                     FarmerInputs farmSeeds = new FarmerInputs(0,"seeds",new Date(),"0",Double.parseDouble(seedInput), farmer.getFarmID());
                     FarmerInputs farmFert = new FarmerInputs(0,"fertiliser",new Date(),"0",Double.parseDouble(fertilizerInput), farmer.getFarmID());
-                    FarmerInputs farmplough = new FarmerInputs(0,"plough",new Date(),"0",ploughingInput.equalsIgnoreCase("Yes")? 1.0:0.0, farmer.getFarmID());
+                    double pValue=0;
+                    if(ploughingInput.equalsIgnoreCase("Yes"))
+                        pValue=1;
+                    FarmerInputs farmplough = new FarmerInputs(0,"plough",new Date(),"0",pValue, farmer.getFarmID());
 
                     helper.saveFarmInput(farmSeeds);
                     System.out.println("FI Seeds");
@@ -127,10 +145,30 @@ v="Saved Successfully";
                     System.out.println("FI Fertiliser");
                     helper.saveFarmInput(farmplough);
                     System.out.println("Fi Plough");
+                    JSONObject objs = new JSONObject();
+                    JSONArray inputs = new JSONArray();
+                    try {
+                        inputs.put(farmFert.getJson());
+                        inputs.put(farmplough.getJson());
+                        inputs.put(farmSeeds.getJson());
+
+                        objs.put("user_id",farmer.getFarmID());
+                        objs.put("page","Farmer Input");
+
+                        objs.put("section",farmer.getFullname());
+                        objs.put("farm_inputs",inputs);
+                        objs.put("imei", IctcCKwUtil.getImei(getBaseContext()));
+                        objs.put("version",IctcCKwUtil.getAppVersion());
+                        objs.put("battery",IctcCKwUtil.getBatteryLevel(getBaseContext()));
+                        helper.insertCCHLog("Farmer",objs.toString(),stime, System.currentTimeMillis());
+
+                    }catch(Exception e ){
+
+                    }
+
 
                     myInputs = helper.getIndividualFarmerInputs(farmer.getFarmID());
                 }
-
 
                 try {
                     showDialog("Add More Inputs",v+"\nWould You Like to Add More Inputs for other farmers");
@@ -140,10 +178,7 @@ v="Saved Successfully";
                 }
 
             }
-
-
         });
-
 
     }
 

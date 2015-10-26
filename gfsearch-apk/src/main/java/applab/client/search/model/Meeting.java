@@ -1,5 +1,8 @@
 package applab.client.search.model;
 
+import applab.client.search.utils.AgentVisitUtil;
+import applab.client.search.utils.IctcCKwUtil;
+
 import java.util.Date;
 
 /**
@@ -130,5 +133,9 @@ public class Meeting {
 
     public void setFarmerDetails(Farmer farmerDetails) {
         this.farmerDetails = farmerDetails;
+    }
+
+    public int getMeetingPosition(){
+        return AgentVisitUtil.getMeetingPosition(meetingIndex,type);
     }
 }

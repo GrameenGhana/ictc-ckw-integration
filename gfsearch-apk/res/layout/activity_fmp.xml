@@ -3,7 +3,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/scrollView_fp"
-            android:padding="20dp">
+            android:padding="20dp" android:fillViewport="false">
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -28,6 +28,19 @@
               android:background="#ff0d481b"
                 ></View>
         <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Map Farm"
+                    android:id="@+id/button2"
+                    android:drawableLeft="@drawable/ic_map_farm" android:onClick="mapFarm"/>
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CKW"
+                    android:id="@+id/ckw_profile_btn" android:drawableLeft="@drawable/app_logo" android:onClick="ckwClick"/>
+        </LinearLayout>
+        <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" android:paddingTop="30dp">
@@ -44,13 +57,28 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceLarge"
                             android:text="Size of plot : "
-                            android:textColor="#ff07530f"/>
+                            android:textColor="#ff07530f" />
                     <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="Estimated LOE: 3 hours a week"
                             android:id="@+id/textView_fmp_plot_size"/>
+                </TableRow>
+                <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Perimeter : "
+                            android:textColor="#ff07530f" />
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:id="@+id/textView_fmp_perimeter"/>
                 </TableRow>
                 <TableRow
                         android:layout_width="fill_parent"
@@ -135,26 +163,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="50 bags"
                             android:id="@+id/textView_fmp_land_loc"/>
-                </TableRow>
-
-
-                <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent">
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceLarge"
-                            android:text="Target Area:"
-                            android:textColor="#ff07530f"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="50 bags"
-                            android:id="@+id/textView_fmp_target_area"/>
                 </TableRow>
 
 
@@ -171,7 +180,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="50 bags"
                             android:id="@+id/textView_fmp_target_per_acre"/>
                 </TableRow>
 
@@ -189,7 +197,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="50 bags"
                             android:id="@+id/textView_fmp_price_ton"/>
                 </TableRow>
 
@@ -207,7 +214,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="50 bags"
                             android:id="@+id/textView_fmp_variety"/>
                 </TableRow>
 
@@ -225,7 +231,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="50 bags"
                             android:id="@+id/textView_fmp_target_next_season"/>
                 </TableRow>
 
@@ -243,7 +248,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="50 bags"
                             android:id="@+id/textView_fmp_tech_needs"/>
                 </TableRow>
 
@@ -261,7 +265,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="50 bags"
                             android:id="@+id/textView_fmp_fbo"/>
                 </TableRow>
 
@@ -279,7 +282,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="50 bags"
                             android:id="@+id/textView_fmp_plant_date"/>
                 </TableRow>
 
@@ -296,7 +298,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="50 bags"
                             android:id="@+id/textView_fmp_manual_weed_control"/>
                 </TableRow>
 
@@ -314,7 +315,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="50 bags"
                             android:id="@+id/textView_fmp_main_contact_sales"/>
                 </TableRow>
 
@@ -332,7 +332,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="50 bags"
                             android:id="@+id/textView_fmp_month_sale_begin"/>
                 </TableRow>
 
@@ -350,7 +349,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="50 bags"
                             android:id="@+id/textView_fmp_month_final_product_sold"/>
                 </TableRow>
 
@@ -368,7 +366,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="50 bags"
                             android:id="@+id/textView_fmp_price_final_batch_sold"/>
                 </TableRow>
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -14,17 +15,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import applab.client.search.application.IctcCkwIntegration;
 import applab.client.search.interactivecontent.InteractiveContentViewFragment;
 import applab.client.search.location.GpsManager;
 import applab.client.search.model.Farmer;
+import applab.client.search.model.Payload;
 import applab.client.search.services.MenuItemService;
 import applab.client.search.settings.SettingsActivity;
 import applab.client.search.settings.SettingsManager;
+import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.BackgroundSynchronizationConfigurer;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import applab.client.search.synchronization.SynchronizationListener;
 import applab.client.search.synchronization.SynchronizationManager;
 import applab.client.search.activity.DashboardActivity;
+import applab.client.search.task.IctcTrackerLogTask;
 import applab.client.search.utils.ConnectionUtil;
 import applab.client.search.utils.DeviceMetadata;
 
@@ -189,9 +194,11 @@ public class MainActivity extends Activity implements ActionMode.Callback {
                 this.startActivityForResult(intent, 0);
             } /*else if (item.getItemId() == R.id.action_nav_back) {
                 listViewBackNavigation();
-            } */ else if (item.getItemId() == R.id.action_synchronise) {
-                startSynchronization();
-            } else if (item.getItemId() == R.id.action_about) {
+            } */
+            //else if (item.getItemId() == R.id.action_synchronise) {
+              //  startSynchronization();
+        //    }
+        else if (item.getItemId() == R.id.action_about) {
 //                Intent intent = new Intent().setClass(this, AboutActivity.class);
 //                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 //                this.startActivity(intent);
@@ -205,8 +212,20 @@ public class MainActivity extends Activity implements ActionMode.Callback {
 //                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 //                this.startActivity(intent);
                 //(final Context context,final DatabaseHelper databaseHelper,final Intent intent, final String queryString, final String type,String msg )
-                ConnectionUtil.refreshFarmerInfo(getBaseContext(),null,"", IctcCkwIntegrationSync.GET_FARMER_DETAILS,"Refreshing farmer Data");
+//                ConnectionUtil.refreshFarmerInfo(getBaseContext(),null,"", IctcCkwIntegrationSync.GET_FARMER_DETAILS,"Refreshing farmer Data");
+                System.out.println("Payload Refresh farmer Data");
+                IctcCkwIntegration app = (IctcCkwIntegration) this.getApplication();
+                System.out.println("Payload ppapp ");
+                DatabaseHelper dbh = new DatabaseHelper(getBaseContext());
+                System.out.println("Payload dbh ");
+                Payload mqp = dbh.getCCHUnsentLog();
+                System.out.println("Payload unset ");
+                app.omUpdateCCHLogTask = new IctcTrackerLogTask(this);
+                System.out.println("Payload stask ");
+                app.omUpdateCCHLogTask.execute(mqp);
+                System.out.println("Payload execute ");
             }
+
 //            else if (item.getItemId() == android.R.id.home) {
 //                //resetDisplayMenus();
 //                selectItem(0);

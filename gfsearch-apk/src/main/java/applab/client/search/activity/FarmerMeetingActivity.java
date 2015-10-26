@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by skwakwa on 9/23/15.
  */
-public class FarmerMeetingActivity extends Activity {
+public class FarmerMeetingActivity extends BaseActivity {
 
     ListView list;
     DatabaseHelper dbHelper=null;
@@ -34,10 +34,7 @@ public class FarmerMeetingActivity extends Activity {
             if (extras != null) {
                 farmer = (String) extras.get("farmer");
 
-                }
-
-
-
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,6 +68,8 @@ public class FarmerMeetingActivity extends Activity {
 
             }
         });
+
+        super.setDetails(dbHelper,"Farmer","Farmer Meeting Input");
     }
 
 

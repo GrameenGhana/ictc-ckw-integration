@@ -9,6 +9,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 import applab.client.search.R;
 import applab.client.search.model.Farmer;
+import applab.client.search.utils.IctcCKwUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,6 +25,7 @@ public class FarmersAdapter extends BaseAdapter {
     String[] mainCrop;
     String[] groups;
 
+    List<Farmer> farmers;
     public FarmersAdapter(Context mContext,
                           String[] name,
                           String[] location,
@@ -35,9 +37,28 @@ public class FarmersAdapter extends BaseAdapter {
         this.mainCrop = mainCrop;
         this.groups = groups;
         minflater = LayoutInflater.from(mContext);
-    } public FarmersAdapter(Context mContext,
+    }
+
+    public FarmersAdapter(Context mContext,
+                          String[] name,
+                          String[] location,
+                          String[] mainCrop,
+                          String[] groups,
+                          List<Farmer> farmerList) {
+
+        this.name = name;
+        this.location = location;
+        this.mainCrop = mainCrop;
+        this.groups = groups;
+        minflater = LayoutInflater.from(mContext);
+        this.farmers = farmerList;
+    }
+
+
+    public FarmersAdapter(Context mContext,
                            List<Farmer> farmerList) {
 
+        this.farmers =farmerList;
         name = new String [farmerList.size()];
         location = new String [farmerList.size()];
         mainCrop = new String [farmerList.size()];;
@@ -73,14 +94,20 @@ public class FarmersAdapter extends BaseAdapter {
         if (view == null) {
             view = minflater.inflate(R.layout.cluster_child_single, viewGroup, false);
         }
-        TextView names = (TextView) view.findViewById(R.id.textView_name);
-        TextView locations = (TextView) view.findViewById(R.id.textView_location);
-        TextView mainCrops = (TextView) view.findViewById(R.id.textView_mainCrop);
-        TextView group = (TextView) view.findViewById(R.id.textView_groups);
-        names.setText(name[i]);
-        locations.setText(location[i]);
-        mainCrops.setText(mainCrop[i]);
-        group.setText(groups[i]);
+
+
+        if(farmers.size()>0)
+        IctcCKwUtil.setFarmerDetails(view,R.id.ccs_layout,name[i],farmers.get(i));
+     else {
+            TextView names = (TextView) view.findViewById(R.id.textView_name);
+            TextView locations = (TextView) view.findViewById(R.id.textView_location);
+            TextView mainCrops = (TextView) view.findViewById(R.id.textView_mainCrop);
+            TextView group = (TextView) view.findViewById(R.id.textView_groups);
+            names.setText(name[i]);
+            locations.setText(location[i]);
+            mainCrops.setText(mainCrop[i]);
+            group.setText(groups[i]);
+        }
         return view;
     }
 }

@@ -22,7 +22,7 @@ import java.util.List;
  * 0540106352
  * Created by skwakwa on 9/2/15.
  */
-public class GeneralAgentCalendarActivity extends Activity {
+public class GeneralAgentCalendarActivity extends BaseActivity {
 
     private ListView list;
 
@@ -47,7 +47,7 @@ public class GeneralAgentCalendarActivity extends Activity {
                 "4rd Group Meeting"};
 
 
-        final String []   firstLetter = {"1","2","3","4","5","6"};
+        final String []   firstLetter = {"A","2","3","4","5","6"};
         boolean [] enabled={true,true,true,true,true,true};
 
 
@@ -57,19 +57,31 @@ public class GeneralAgentCalendarActivity extends Activity {
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(GeneralAgentCalendarActivity.this,MeetingIndexActivity.class);
-                intent.putExtra("mi",(i+1));
-                intent.putExtra("mt",titles[i]);
-
-
-                intent.putExtra("mid","1");
-                intent.putExtra("mtype","");
-                intent.putExtra("atd",0);
-                intent.putExtra("farmerId", "");
-                startActivity(intent);
-
-
-            }
+                if (titles[i].toLowerCase().contains("individual") ){
+                    System.out.println("Individual item");
+                    Intent intent = new Intent(GeneralAgentCalendarActivity.this, FarmerActivitySelectFarmer.class);
+                    intent.putExtra("mi", (i + 1));
+                    intent.putExtra("type","MI");
+                    intent.putExtra("detail",titles[i]);
+                    intent.putExtra("mt", titles[i]);
+                    intent.putExtra("mid", "1");
+                    intent.putExtra("mtype", "");
+                    intent.putExtra("atd", 0);
+                    intent.putExtra("farmerId", "");
+                    startActivity(intent);
+                }else {
+                    System.out.println("Other Item");
+                    Intent intent = new Intent(GeneralAgentCalendarActivity.this, MeetingIndexActivity.class);
+                    intent.putExtra("mi", (i + 1));
+                    intent.putExtra("mt", titles[i]);
+                    intent.putExtra("mid", "1");
+                    intent.putExtra("mtype", "");
+                    intent.putExtra("atd", 0);
+                    intent.putExtra("farmerId", "");
+                    startActivity(intent);
+                }}
         });
+helper = new DatabaseHelper(getBaseContext());
+        super.setDetails(new DatabaseHelper(getBaseContext()),"Client","Agent Calendar");
     }
 }

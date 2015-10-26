@@ -20,9 +20,9 @@ import java.util.List;
  * Created by skwakwa on 8/4/15.
  */
 public class IctcCkwIntegrationSync {
-    public static String ICTC_SERVER_URL = "http://188.166.30.140:8080/ICTC/MobileController?";
-
-    public static String GET_FARMER_DETAILS ="details";
+//    public static String ICTC_SERVER_URL = "http://188.166.30.140:8080/ICTC/MobileController?";
+    public static String ICTC_SERVER_URL = "http://104.236.220.225:8080/ICTC/api/v1?";
+    public static String GET_FARMER_DETAILS ="fdetails";
     public static String LOGIN ="login";
 
     public static void syncFarmerDetails() {

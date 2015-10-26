@@ -11,11 +11,12 @@ import android.view.View;
 import android.widget.TabHost;
 import android.widget.TextView;
 import applab.client.search.R;
+import applab.client.search.storage.DatabaseHelper;
 
 /**
  * Created by skwakwa on 8/30/15.
  */
-public class ScheduledMeetingsActivity extends ActivityGroup {
+public class ScheduledMeetingsActivity extends BaseActivityGroup {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,7 @@ public class ScheduledMeetingsActivity extends ActivityGroup {
 
         tabHost.addTab(spec);*/
         tabHost.setCurrentTab(0);
+        super.setDetails(new DatabaseHelper(getBaseContext()),"Meeting","Scheduled Meeting Activity");
 //        TabHost.TabSpec spec =
     }
 

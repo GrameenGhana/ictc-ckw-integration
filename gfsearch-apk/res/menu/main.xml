@@ -5,10 +5,10 @@
             android:orderInCategory="100" android:showAsAction="always"
             android:title="@string/action_forward" android:icon="@drawable/navigation_forward"
             android:visible="false"/>-->
-    <item android:id="@+id/action_synchronise"
-          android:showAsAction="never"
-          android:title="@string/synchronise"
-          android:icon="@drawable/ic_refresh"/>
+    <!--<item android:id="@+id/action_synchronise"-->
+          <!--android:showAsAction="never"-->
+          <!--android:title="@string/synchronise"-->
+          <!--android:icon="@drawable/ic_refresh"/>-->
     <item android:id="@+id/home"
           android:showAsAction="never"
           android:title="@string/home"

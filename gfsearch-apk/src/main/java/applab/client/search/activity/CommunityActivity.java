@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Created by Software Developer on 30/07/2015.
  */
-public class CommunityActivity extends Activity {
+public class CommunityActivity extends BaseActivity {
     private ListView list;
 
     DatabaseHelper helper;
@@ -48,7 +48,7 @@ public class CommunityActivity extends Activity {
             farmers[cnt] = String.valueOf(wr.getCounter());
             cnt++;
         }
-
+        super.setDetails(helper,"Client","Community");
         Button mButton = (Button) mCustomView.findViewById(R.id.search_btn);
         mButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

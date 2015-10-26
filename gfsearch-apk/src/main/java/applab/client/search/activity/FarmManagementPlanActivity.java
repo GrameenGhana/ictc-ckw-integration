@@ -9,13 +9,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.model.Farmer;
+import applab.client.search.storage.DatabaseHelper;
 
 /**
  * Created by skwakwa on 8/25/15.
  */
-public class FarmManagementPlanActivity extends Activity {
+public class FarmManagementPlanActivity extends BaseActivity {
     private TextView textViewName;
     private TextView textViewMainCrop;
     private TextView textViewProportion;
@@ -24,6 +26,7 @@ public class FarmManagementPlanActivity extends Activity {
     private String mainCrop;
     private String location;
     private TextView textViewLocation;
+    Farmer farmer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,7 @@ public class FarmManagementPlanActivity extends Activity {
 
        // mActionBar.setDisplayShowHomeEnabled(false);
        // mActionBar.setDisplayShowTitleEnabled(false);
-        Farmer farmer = null;
+
         try {
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
@@ -98,6 +101,9 @@ public class FarmManagementPlanActivity extends Activity {
         textViewName = (TextView) findViewById(R.id.textView_fmp_fbo);
         textViewName.setText(farmer.getFarmerBasedOrg());
 
+        textViewName = (TextView) findViewById(R.id.textView_fmp_mainCrop);
+        textViewName.setText(farmer.getMainCrop());
+
 
         textViewName = (TextView) findViewById(R.id.textView_fmp_labour);
         textViewName.setText(farmer.getLabour());
@@ -128,20 +134,21 @@ public class FarmManagementPlanActivity extends Activity {
         textViewName.setText(farmer.getPlantingDate());
 
         textViewName = (TextView) findViewById(R.id.textView_fmp_plot_size);
-        textViewName.setText(farmer.getSizePlot());
+        textViewName.setText(farmer.getLandArea());
+
 
 
         textViewName = (TextView) findViewById(R.id.textView_fmp_price_final_batch_sold);
         textViewName.setText(farmer.getExpectedPriceInTon());
 
 
-        textViewName = (TextView) findViewById(R.id.textView_fmp_target_area);
-        textViewName.setText(farmer.getTargetArea());
+        textViewName = (TextView) findViewById(R.id.textView_fmp_perimeter);
+        textViewName.setText(farmer.getSizePlot());
         textViewMainCrop = (TextView) findViewById(R.id.textView_fmp_target_next_season);
         textViewMainCrop.setText(farmer.getTargetNextSeason());
 
         textViewName = (TextView) findViewById(R.id.textView_fmp_target_per_acre);
-        textViewName.setText(farmer.getTargetArea());
+//        textViewName.setText(farmer.getTargetArea());
 
         textViewName = (TextView) findViewById(R.id.textView_fmp_tech_needs);
         textViewName.setText(farmer.getTechNeeds1());
@@ -153,5 +160,25 @@ public class FarmManagementPlanActivity extends Activity {
 
         textViewName = (TextView) findViewById(R.id.textView_fmp_labour);
         textViewName.setText(farmer.getLabour());
+        super.setDetails(new DatabaseHelper(getBaseContext()), "Farmer", "Farmer Management");
+
+
+    }
+
+    public void mapFarm(View view){
+
+        Intent i = new Intent(FarmManagementPlanActivity.this,FarmMapping.class);
+        i.putExtra("farmer",farmer);
+        startActivity(i);
+//        return null;
+    }
+
+    public void ckwClick(View view){
+        Intent i = new Intent(FarmManagementPlanActivity.this,MainActivity.class);
+        i.putExtra("farmer",farmer);
+        i.putExtra("SEARCH_CROP",farmer.getMainCrop());
+        i.putExtra("SEARCH_TITLE","");
+        startActivity(i);
+
     }
 }

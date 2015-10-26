@@ -18,7 +18,7 @@ import applab.client.search.model.Farmer;
 public class CropSelectorActivity extends Activity {
 
     ListView list = null;
-    Farmer farmer;String detail="";
+    Farmer farmer;String detail=""; String type="";int meetingIndex;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,19 +31,15 @@ public class CropSelectorActivity extends Activity {
         LayoutInflater mInflater = LayoutInflater.from(this);
 
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
-        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         Button mButton = (Button) mCustomView.findViewById(R.id.search_btn);
         mButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(CropSelectorActivity.this, FarmerActivity.class);
                 intent.putExtra("type", "search");
                 intent.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString());
-
                 startActivity(intent);
             }
         });
-
-        String type="";
 
 
 
@@ -51,18 +47,24 @@ public class CropSelectorActivity extends Activity {
         try {
             type = extras.getString("type");
 
+
             detail = extras.getString("detail");
 
-
             farmer = (Farmer) extras.get("farmer");
-
-
+            meetingIndex =(Integer) extras.get("index");
         } catch (Exception e) {
+
+
 
         }
 
+        System.out.println("MeetingIDx : "+meetingIndex);
+        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
+
         mTitleTextView.setText("Select Crop "+detail);
 
+        mTitleTextView =(TextView) findViewById(R.id.fsf_act_title);
+        mTitleTextView.setText(detail);
 
         final String[] titles =
                 {"Maize","Cassava","Yam","Rice"};
@@ -78,11 +80,21 @@ public class CropSelectorActivity extends Activity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Intent intent= new Intent(CropSelectorActivity.this, MainActivity.class);
-                intent.putExtra("farmer",farmer);
-                intent.putExtra("SEARCH_CROP",titles[i]);
-                intent.putExtra("SEARCH_TITLE",detail);
-                startActivity(intent);
+                if(type.equalsIgnoreCase("CKW")) {
+                    Intent intent = new Intent(CropSelectorActivity.this, MainActivity.class);
+                    intent.putExtra("farmer", farmer);
+                    intent.putExtra("SEARCH_CROP", titles[i]);
+                    intent.putExtra("SEARCH_TITLE", detail);
+                    startActivity(intent);
+                }
+                //Next meeting activity
+                else if(type.equalsIgnoreCase("nma")){
+                    Intent intent = new Intent(CropSelectorActivity.this, NextMeetingActivity.class);
+                    intent.putExtra("mi", meetingIndex);
+                    intent.putExtra("mtype", "Group");
+                    intent.putExtra("crop", titles[i]);
+                    startActivity(intent);
+                }
             }
 
         });

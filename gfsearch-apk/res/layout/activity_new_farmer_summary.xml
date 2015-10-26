@@ -2,7 +2,7 @@
 <ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView">
+        android:id="@+id/scrollView" android:fillViewport="false">
 <LinearLayout
               android:orientation="vertical"
               android:layout_width="fill_parent"
@@ -12,6 +12,12 @@
               android:padding="5dp">
 
     <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:id="@+id/profile_container" android:background="#fff0f0f0">
+        <include layout="@layout/cluster_child_single"/>
+        </LinearLayout>
+        <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" android:visibility="gone">

@@ -11,11 +11,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import applab.client.search.R;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
+import applab.client.search.storage.DatabaseHelper;
 
 /**
  * Created by skwakwa on 9/29/15.
  */
-public class MarketActivity extends Activity {
+public class MarketActivity extends BaseActivity {
     ListView list = null;
     public static String DETAILS_COMING_SOON = "Details Coming Soon";
 
@@ -59,7 +60,7 @@ public class MarketActivity extends Activity {
                 startActivity(intent);
             }
         });
-
+        super.setDetails(new DatabaseHelper(getBaseContext()),"Market","Market");
 
     }
 }
