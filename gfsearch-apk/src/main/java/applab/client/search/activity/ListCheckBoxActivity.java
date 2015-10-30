@@ -13,6 +13,8 @@ import applab.client.search.R;
 import applab.client.search.adapters.ListCheckboxAdapter;
 import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.utils.IctcCKwUtil;
+import org.json.JSONObject;
 
 import java.awt.*;
 import java.util.List;
@@ -30,6 +32,7 @@ public class ListCheckBoxActivity extends BaseFragmentActivity {
      List<Farmer> farmerList = null;
     private CheckBox cb;
 
+    long stime;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +51,8 @@ public class ListCheckBoxActivity extends BaseFragmentActivity {
         mActionBar.setDisplayShowCustomEnabled(true);
         list = (ListView) findViewById(R.id.lst_attendance);
 
+
+        stime = System.currentTimeMillis();
         super.setDetails(helper,"Meeting","Mark Group Attendance");
 
         TextView v =(TextView) findViewById(R.id.txt_meeting_attendance_header);
@@ -114,8 +119,28 @@ public class ListCheckBoxActivity extends BaseFragmentActivity {
 
         helper.markAttendanceByMeetingIndex(String.valueOf(meetingIndex),attenden.substring(0,attenden.length()-1),1);
         helper.markAttendanceByMeetingIndex(String.valueOf(meetingIndex),notInAttendance.substring(0,attenden.length()-1),0);
-        
-        
+
+
+        JSONObject objs = new JSONObject();
+
+        try {
+
+
+            objs.put("meeting_index",meetingIndex);
+            objs.put("title",title);
+            objs.put("page","Mark Group Attendance");
+            objs.put("type","Group");
+            objs.put("section",title);
+            objs.put("attendees",attenden);
+            objs.put("absentees",notInAttendance);
+            objs.put("imei", IctcCKwUtil.getImei(getBaseContext()));
+            objs.put("version",IctcCKwUtil.getAppVersion());
+            objs.put("battery",IctcCKwUtil.getBatteryLevel(getBaseContext()));
+            helper.insertCCHLog("Meeting",objs.toString(),stime, System.currentTimeMillis());
+
+        }catch(Exception e ){
+
+        }
         Toast.makeText(getBaseContext(),"Taken Attendance",Toast.LENGTH_LONG).show();
     }
 }

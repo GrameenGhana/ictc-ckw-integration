@@ -13,6 +13,8 @@ import applab.client.search.R;
 import applab.client.search.adapters.ListCheckboxAdapter;
 import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.utils.IctcCKwUtil;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -85,6 +87,8 @@ public class IndividualMeetingAAttendance extends BaseActivity {
         String attendended =" '"+farm.getFarmID()+"'";
 
         helper.markAttendanceByMeetingIndex(String.valueOf(meetingIndex),attendended,"individual",1);
+
+
         Toast.makeText(getBaseContext(),"Taken Attendance",Toast.LENGTH_LONG).show();
     }
 }

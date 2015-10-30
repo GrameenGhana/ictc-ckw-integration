@@ -272,10 +272,8 @@ if(meetings.get(i).isCurrentlyAvailable()) {
 
     public Intent processOnClickRequest(String type){
         if(type.equalsIgnoreCase("farm-map")){
-
             Intent intent= new Intent(MeetingIndexActivity.this, FarmMapping.class);
             intent.putExtra("farmer",farmer);
-
            return intent;
         }else if(type.equalsIgnoreCase("farm-input")){
 
@@ -284,14 +282,12 @@ if(meetings.get(i).isCurrentlyAvailable()) {
 
             startActivity(intent);
         }
-
-
         return null;
     }
 
     public void processMakeAttendance(View view){
 
-        Intent intent= new Intent(MeetingIndexActivity.this, IndividualMeetingAAttendance.class);
+        Intent intent= new Intent(MeetingIndexActivity.this, MeetingAttendanceActivity.class);
         intent.putExtra("farmer",farmer);
         intent.putExtra("title",meetingTitle);
         intent.putExtra("index",index);

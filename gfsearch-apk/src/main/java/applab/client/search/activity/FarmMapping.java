@@ -99,7 +99,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
                 }
 
 
-                if(!sh.equalsIgnoreCase("0")) {
+//                if(!sh.equalsIgnoreCase("0")) {
                     showDialog("Note of Farm Measurement", "Follow these steps to measure the " +
                             farmer.getFullname()
                             + "'s farm: \n\n1. Press the map and start walking \n 2.Walk around the area to be cultivated. \n" +
@@ -112,7 +112,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
 
 
                     setUpMapIfNeeded();
-                }
+//                }
 //                "1. Walk around the area to be cultivated. \n" +
 //                        "\n" +
 //                        "2. Tap the screen every 5 steps. You must select at least 3 points before you finish walking around the farm. \n" +
@@ -515,6 +515,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
 
 
             /**
+             *
              *    obj.put("page", page);
              obj.put("section", section);
              obj.put("battery", (battery));

@@ -134,7 +134,7 @@ v="Saved Successfully";
 
 
                         objs.put("user_id",farmer.getFarmID());
-                        objs.put("page","Farmer Input");
+                        objs.put("page","Farmer Input Received");
                         objs.put("type","edit");
                         objs.put("section","");
                         objs.put("farm_inputs",inputs);

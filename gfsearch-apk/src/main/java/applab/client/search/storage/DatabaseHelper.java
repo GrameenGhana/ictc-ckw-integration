@@ -897,6 +897,7 @@ return 0l;
 
         return response;
     }
+
     public List<Meeting> getIndividualMeetings(String crop){
         String q="select * from "+DatabaseHelperConstants.ICTC_FARMER_MEETING+" WHERE "+DatabaseHelperConstants.ICTC_TYPE+" ='individual'  and  "+DatabaseHelperConstants.ICTC_CROP+"='"+crop+"' order by "+DatabaseHelperConstants.ICTC_SCHEDULE_DATE+" ASC ";
         System.out.println("Query  : "+q);
@@ -909,6 +910,7 @@ return 0l;
         System.out.println("Meeting Cnt  : "+response.size());
         return response;
     }
+
     public List<Meeting> getGroupMeetings(String crop){
         String q="select * from "+DatabaseHelperConstants.ICTC_FARMER_MEETING+" WHERE "+DatabaseHelperConstants.ICTC_TYPE+" ='group'  and  "+DatabaseHelperConstants.ICTC_CROP+"='"+crop+"' order by "+DatabaseHelperConstants.ICTC_SCHEDULE_DATE+" ASC ";
         System.out.println("Query  : "+q);
@@ -962,6 +964,14 @@ return 0l;
     }
     public List<Meeting> getFarmerMeetings(String farmer){
         return getMeetings(findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING) + " WHERE " + DatabaseHelperConstants.ICTC_FARMER_ID + " ='" + farmer + "'  order by "+DatabaseHelperConstants.ICTC_ATTENDED+"  ASC ,  "+DatabaseHelperConstants.ICTC_ID+" asc ");
+    }
+
+
+    public List<Farmer> getFarmerByMeetingAttended(String index,String type ){
+//        return getMeetings(findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING) + " WHERE " + DatabaseHelperConstants.ICTC_FARMER_ID + " ='" + farmer + "'  order by "+DatabaseHelperConstants.ICTC_ATTENDED+"  ASC ,  "+DatabaseHelperConstants.ICTC_ID+" asc ");
+        List<Farmer> mt = getFarmersSearch(findAllQuery(DatabaseHelperConstants.ICTC_FARMER) + "  inner join " + DatabaseHelperConstants.ICTC_FARMER_MEETING + " m on  t." + DatabaseHelperConstants.ICTC_FARMER_ID + "=m." + DatabaseHelperConstants.ICTC_FARMER_ID + " WHERE t." + DatabaseHelperConstants.ICTC_ATTENDED + " =1"  );
+return mt;
+
     }
 
     public Meeting getFarmerMeetings(String farmer,int meetingIndex){
@@ -1178,7 +1188,7 @@ return 0l;
     private String findAllQuery(String table)
     {
 
-        return "select * from "+table;
+        return "select t.* from "+table+" t ";
     }
     private String getGeneralCountQuery(String table)
     {
@@ -1206,7 +1216,7 @@ public void markAttendance(String meetingIndex,String ids){
         ContentValues newValues = new ContentValues();
         newValues.put(DatabaseHelperConstants.ICTC_ATTENDED, String.valueOf(attended));
 
-        this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_FARMER_MEETING, newValues, DatabaseHelperConstants.ICTC_MEEING_INDEX+" = "+meetingIndex+" and  "+DatabaseHelperConstants.ICTC_FARMER_ID+" IN ("+ids+") ", null);
+        this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_FARMER_MEETING, newValues, DatabaseHelperConstants.ICTC_MEEING_INDEX+" = "+meetingIndex+" and  "+DatabaseHelperConstants.ICTC_FARMER_ID+" IN ("+ids+")  and  "+DatabaseHelperConstants.ICTC_TYPE+"='Group' ", null);
     }
 
 
