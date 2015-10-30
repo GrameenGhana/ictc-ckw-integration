@@ -295,6 +295,9 @@ public class MainActivity extends Activity implements ActionMode.Callback {
                             FragmentManager fragmentManager = getFragmentManager();
                             defaultFragment = (DefaultViewFragment) fragmentManager.findFragmentByTag(DefaultViewFragment.FRAGMENT_TAG);
                         }
+
+
+                        new MenuItemService().processMultimediaContent();
                         //we refresh the UI
                         ListView mainListView = defaultFragment.getMainListView();
                         if (mainListView != null) {

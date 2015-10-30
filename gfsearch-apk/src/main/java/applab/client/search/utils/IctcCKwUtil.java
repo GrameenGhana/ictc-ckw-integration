@@ -215,7 +215,11 @@ public class IctcCKwUtil {
             }
 
 
-            names.setText(farmer.getFullname());
+            if(!farmer.getNickname().isEmpty()){
+                names.setText(farmer.getFullname() + " (" + farmer.getNickname() + ")");
+            }else
+                names.setText(farmer.getFullname());
+
             if(farmer.getLandArea().isEmpty()){
                 locations.setTextColor(container.getResources().getColor(R.color.amber));
             }else{

@@ -21,6 +21,8 @@ import java.util.List;
 public class FarmerDetailInputActivity extends BaseActivity {
     DatabaseHelper helper = null;
     List<FarmerInputs> myInputs =new ArrayList<FarmerInputs>();
+    private ExpandableListView list;
+
 
     ListView listView;
     @Override

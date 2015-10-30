@@ -28,6 +28,13 @@ public class BaseFragmentActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
         startTime = System.currentTimeMillis();
     }
+//    @Override
+//    public void onBackPressed() {
+//        // your code.
+//        Intent  i = new Intent(this, DashboardActivity.class);
+//        startActivity(i);
+//    }
+
 
     public void setDetails(DatabaseHelper dh, String module, String page){
         this.hp =dh;

@@ -30,7 +30,7 @@ public class ProfileViewAdapter extends BaseExpandableListAdapter {
     public int[] groupIcons;
     List<String> listTitles = null;
     String [] colors ;
-
+boolean explandAll = false;
     Map<String, List<ItemWrapper>> clusterData = null;
 
     //    private final String[] name;
@@ -55,7 +55,23 @@ public class ProfileViewAdapter extends BaseExpandableListAdapter {
 //        this.colors = colors;
 
     }
+    public ProfileViewAdapter(Context mContext,
+                              List<String> titles,
+                              Map<String, List<ItemWrapper>> clusterData,
 
+                              ExpandableListView list,boolean explandAll) {
+//        groupItem = groupItems;
+        this.mContext = mContext;
+        listTitles = titles;
+        this.clusterData = clusterData;
+        this.groupIcons = groupIcons;
+
+        minflater = LayoutInflater.from(mContext);
+        this.list = list;
+        this.explandAll = explandAll;
+//        this.colors = colors;
+
+    }
     public int getGroupCount() {
         return listTitles.size();
     }
@@ -99,6 +115,11 @@ public class ProfileViewAdapter extends BaseExpandableListAdapter {
             view = minflater.inflate(R.layout.list_simple_text_text_, viewGroup, false);
         }
 
+
+        if(explandAll) {
+            ExpandableListView mExpandableListView = (ExpandableListView) viewGroup;
+            mExpandableListView.expandGroup(groupPosition);
+        }
         RelativeLayout l = (RelativeLayout) view.findViewById(R.id.simp_rel_lay);
 
         // l.setBackgroundColor(Color.parseColor("#87A03B"));
@@ -109,6 +130,7 @@ public class ProfileViewAdapter extends BaseExpandableListAdapter {
         String [] months = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
 
         String cluster = listTitles.get(groupPosition);
+
         names.setText(Html.fromHtml(cluster));
         names.setTextColor(Color.parseColor("#000000"));
         //Meeting  m= clusterData.get(listTitles.get(groupPosition)).get(0);

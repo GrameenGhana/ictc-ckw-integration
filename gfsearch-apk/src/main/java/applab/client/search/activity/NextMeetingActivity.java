@@ -60,6 +60,7 @@ public class NextMeetingActivity extends BaseActivity {
             Farmer f= (Farmer) extras.get("farmer");
 
             TextView tv= (TextView)findViewById(R.id.txt_nxt_header);
+            System.out.println("Meeting Index : "+meetingIndex+" - "+meetingType);
             tv.setText(AgentVisitUtil.getMeetingTitle(AgentVisitUtil.getMeetingPosition(meetingIndex,meetingType))+" Next Activities");
 
             if(null == f){

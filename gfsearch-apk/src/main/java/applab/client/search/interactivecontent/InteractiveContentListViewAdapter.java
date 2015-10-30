@@ -35,7 +35,7 @@ public class InteractiveContentListViewAdapter extends BaseAdapter {
 
     protected static Drawable getItemDrawable(String item) {
         Drawable drawable = null;
-        int width = 50, height = 50;
+        int width = 90, height = 90;
         drawable = ImageUtils.drawRandomColorImageWithText(ApplicationRegistry.getApplicationContext(),
                 item.substring(0, 1).toUpperCase(), width, height);
 

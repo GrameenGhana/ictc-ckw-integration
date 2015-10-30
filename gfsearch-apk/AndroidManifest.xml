@@ -1,137 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="2015061500"
-          android:versionName="2.0.1-SNAPSHOT" package="applab.client.search">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="applab.client.search"
+          android:versionCode="3"
+          android:versionName="1.0.1" >
 
-    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="18"/>
+    <uses-sdk
+            android:minSdkVersion="14"
+            android:targetSdkVersion="18" />
+    <!-- Application Permissions -->
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <application
+            android:allowBackup="true"
+            android:icon="@drawable/app_icon_new"
+            android:label="SmartEX"
+            android:theme="@style/AppTheme" >
+        <activity
+                android:name=".MainActivity"
+                android:launchMode="singleTop" >
 
-    <application android:allowBackup="true" android:debuggable="true"
-                 android:icon="@drawable/app_icon_new" android:label="SmartEX" android:theme="@style/AppTheme">
-        <activity android:launchMode="singleTop" android:name=".MainActivity">
             <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
+
         <meta-data
                 android:name="com.google.android.gms.version"
                 android:value="8115000" />
         <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
                 android:value="AIzaSyDRv4VkNNAdydQ5M21ov0aVB_q0vOpvTd4" />
-        <activity android:icon="@drawable/action_settings" android:name=".settings.SettingsActivity"
-                  android:parentActivityName=".MainActivity">
+
+        <activity
+                android:name=".settings.SettingsActivity"
+                android:icon="@drawable/action_settings"
+                android:parentActivityName=".MainActivity" >
             <intent-filter>
-                <action android:name="applab.client.search.settings.SettingsActivity"/>
-                <category android:name="android.intent.category.PREFERENCE"/>
+                <action android:name="applab.client.search.settings.SettingsActivity" />
+
+                <category android:name="android.intent.category.PREFERENCE" />
             </intent-filter>
 
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value="applab.client.search.MainActivity"/>
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="applab.client.search.MainActivity" />
         </activity>
-        <activity android:icon="@drawable/action_about" android:name=".ui.AboutActivity"
-                  android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value="applab.client.search.MainActivity"/>
+        <activity
+                android:name=".ui.AboutActivity"
+                android:icon="@drawable/action_about"
+                android:parentActivityName=".MainActivity" >
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="applab.client.search.MainActivity" />
         </activity>
-        <activity android:icon="@drawable/collections_view_as_list" android:name=".ui.SearchMenuItemActivity"
-                  android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value="applab.client.search.MainActivity"/>
+        <activity
+                android:name=".ui.SearchMenuItemActivity"
+                android:icon="@drawable/collections_view_as_list"
+                android:parentActivityName=".MainActivity" >
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="applab.client.search.MainActivity" />
         </activity>
-        <activity android:icon="@drawable/mobile_app_icon" android:name=".ui.ImageViewerActivity"
-                  android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value="applab.client.search.MainActivity"/>
+        <activity
+                android:name=".ui.ImageViewerActivity"
+                android:icon="@drawable/mobile_app_icon"
+                android:parentActivityName=".MainActivity" >
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="applab.client.search.MainActivity" />
         </activity>
-        <activity android:icon="@drawable/mobile_app_icon" android:name=".interactivecontent.ContentViewerActivity"
-                  android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value="applab.client.search.MainActivity"/>
+        <activity
+                android:name=".interactivecontent.ContentViewerActivity"
+                android:icon="@drawable/mobile_app_icon"
+                android:parentActivityName=".MainActivity" >
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="applab.client.search.MainActivity" />
         </activity>
-        <activity android:name=".activity.StartUpActivity">
+        <activity android:name=".activity.StartUpActivity" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.DashboardActivity"/>
-        <activity android:name=".activity.PricesActivity"/>
-        <activity android:name=".activity.ClusterActivity"/>
+        <activity android:name=".activity.DashboardActivity" />
+        <activity android:name=".activity.PricesActivity" />
+        <activity android:name=".activity.ClusterActivity" />
         <activity android:name=".activity.FarmerDetailActivity" />
-        <activity android:name=".activity.CommunityActivity"/>
-        <activity android:name=".activity.FarmerActivity"/>
-        <activity android:name=".activity.BaseActivity"/>
-        <activity android:name=".activity.FarmerSearchDetail"/>
-        <activity android:name=".activity.FarmManagementPlanActivity"/>
-        <activity android:name=".activity.FarmMapping"  android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ListCheckBoxActivity"/>
-        <activity android:name=".activity.ScheduledMeetingsActivity"/>
-        <activity android:name=".activity.MeetingIndexActivity"/>
-        <activity android:name=".activity.GeneralAgentCalendarActivity"/>
-        <activity android:name=".activity.MeetingByGroupActivity"/>
-        <activity android:name=".activity.FarmerInputActivty"/>
-        <activity android:name=".activity.AgentMeetings"/>
-        <activity android:name=".activity.FarmerActivitySelectFarmer"/>
-        <activity android:name=".activity.IndividualMeetingByCrop"/>
-        <activity android:name=".activity.TVScheduleActivity" android:label="tv_schedule_activity"/>
-        <activity android:name=".activity.IndividualMeetingAAttendance"/>
-        <activity android:name=".activity.FarmerMeetingActivity"/>
-        <activity android:name=".activity.FarmerDetailInputActivity"/>
-        <activity android:name=".activity.SupplierActivity"/>
-        <activity android:name=".activity.BlankActivityView"/>
-        <activity android:name=".activity.MarketActivity"/>
-        <activity android:name=".activity.ClientActivity"/>
-        <activity android:name=".activity.FarmerByCrop"/>
-        <activity android:name=".activity.FarmersCrop"/>
-        <activity android:name=".activity.SurveyList"/>
-        <activity android:name=".activity.CropSelectorActivity"/>
-        <activity android:name=".activity.CropCalendarActivity"/>
-        <activity android:name=".utils.AboutActivity" android:label="About"/>
-        <activity android:name=".activity.FarmerProfileActivity" android:label="activity_farmer_profile"/>
-        <activity android:name=".activity.NextMeetingActivity" android:label="next_meeting_activity"/>
-        <activity android:name=".activity.FarmerDetailedProfile" android:label="activity_farmer_detailed_profile">
+        <activity android:name=".activity.CommunityActivity" />
+        <activity android:name=".activity.FarmerActivity" />
+        <activity android:name=".activity.BaseActivity" />
+        <activity android:name=".activity.FarmerSearchDetail" />
+        <activity android:name=".activity.FarmManagementPlanActivity" />
+        <activity
+                android:name=".activity.FarmMapping"
+                android:screenOrientation="portrait" />
+        <activity android:name=".activity.ListCheckBoxActivity" />
+        <activity android:name=".activity.ScheduledMeetingsActivity" />
+        <activity android:name=".activity.MeetingIndexActivity" />
+        <activity android:name=".activity.GeneralAgentCalendarActivity" />
+        <activity android:name=".activity.MeetingByGroupActivity" />
+        <activity android:name=".activity.FarmerInputActivty" />
+        <activity android:name=".activity.AgentMeetings" />
+        <activity android:name=".activity.FarmerActivitySelectFarmer" />
+        <activity android:name=".activity.IndividualMeetingByCrop" />
+        <activity
+                android:name=".activity.TVScheduleActivity"
+                android:label="tv_schedule_activity" />
+        <activity android:name=".activity.IndividualMeetingAAttendance" />
+        <activity android:name=".activity.FarmerMeetingActivity" />
+        <activity android:name=".activity.FarmerDetailInputActivity" />
+        <activity android:name=".activity.SupplierActivity" />
+        <activity android:name=".activity.BlankActivityView" />
+        <activity android:name=".activity.MarketActivity" />
+        <activity android:name=".activity.ClientActivity" />
+        <activity android:name=".activity.FarmerByCrop" />
+        <activity android:name=".activity.FarmersCrop" />
+        <activity android:name=".activity.SurveyList" />
+        <activity android:name=".activity.CropSelectorActivity" />
+        <activity android:name=".activity.CropCalendarActivity" />
+        <activity
+                android:name=".utils.AboutActivity"
+                android:label="About" />
+        <activity
+                android:name=".activity.FarmerProfileActivity"
+                android:label="activity_farmer_profile" />
+        <activity
+                android:name=".activity.NextMeetingActivity"
+                android:label="next_meeting_activity" />
+        <activity
+                android:name=".activity.FarmerDetailedProfile"
+                android:label="activity_farmer_detailed_profile" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".synchronization.BackgroundSynchronizationService"/>
 
-        <receiver android:name=".synchronization.SynchBroadcastReceiver">
+        <service android:name=".synchronization.BackgroundSynchronizationService" />
+
+        <receiver android:name=".synchronization.SynchBroadcastReceiver" >
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="applab.client.search.synchronization.BACKGROUND_SYNC"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="applab.client.search.synchronization.BACKGROUND_SYNC" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name=".synchronization.BackgroundSynchronizationConfigurer">
+        <receiver android:name=".synchronization.BackgroundSynchronizationConfigurer" >
             <intent-filter>
-                <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
-                <action android:name="android.intent.action.TIME_SET"/>
-                <action android:name="applab.client.search.synchronization.BACKGROUND_SYNC_CONFIGURATION"/>
-                <action android:name="applab.client.search.settings.SETTINGS_CHANGED"/>
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="applab.client.search.synchronization.BACKGROUND_SYNC_CONFIGURATION" />
+                <action android:name="applab.client.search.settings.SETTINGS_CHANGED" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_INSTALL"/>
-                <action android:name="android.intent.action.PACKAGE_CHANGED"/>
-                <data android:host="package" android:path="applab.client.search"/>
+                <action android:name="android.intent.action.PACKAGE_INSTALL" />
+                <action android:name="android.intent.action.PACKAGE_CHANGED" />
+
+                <data
+                        android:host="package"
+                        android:path="applab.client.search" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".services.TrackerStartServiceReceiver" >
         </receiver>
     </application>
 
-    <!-- Application Permissions-->
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+
 </manifest>

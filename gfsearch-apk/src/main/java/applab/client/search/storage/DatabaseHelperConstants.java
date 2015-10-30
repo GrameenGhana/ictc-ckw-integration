@@ -133,6 +133,7 @@ public final class DatabaseHelperConstants {
     public static final String ICTC_FARMER_BASELINEPOSTHARVEST= "baselinepostharvest";
     public static final String ICTC_FARMER_BASELINEPRODUCTION= "baselineproduction";
     public static final String ICTC_BASELINE_PRODUCTION_BADGET= "baselineproductionbadget";
+    public static final String ICTC_TECH_NEEDS= "technical_needs";
     //tracker
 
 

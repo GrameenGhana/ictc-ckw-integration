@@ -39,12 +39,12 @@ public class GeneralAgentCalendarActivity extends BaseActivity {
 //        mActionBar.setDisplayShowCustomEnabled(true);
         list = (ListView) findViewById(R.id.lst_agent_lst_view);
 
-        final String []   titles = {"Initial Group Meetings",
-                "1st Individual Meetings",
+        final String []   titles = {"Initial Group Meeting",
+                "1st Individual Meeting",
                 "2nd Group Meeting",
                 "2nd Individual Meeting",
                 "3rd Group Meeting",
-                "4rd Group Meeting"};
+                "4th Group Meeting"};
 
 
         final String []   firstLetter = {"A","2","3","4","5","6"};

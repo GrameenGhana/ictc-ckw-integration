@@ -228,6 +228,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         sqlCommand.append(DatabaseHelperConstants.ICTC_FARMER_PRODUCTION).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.ICTC_FARMER_BASELINEPOSTHARVEST).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.ICTC_FARMER_BASELINEPRODUCTION).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_TECH_NEEDS).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.ICTC_BASELINE_PRODUCTION_BADGET).append(" TEXT DEFAULT ''");
 
 /**
@@ -262,11 +263,13 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 //        db.execSQL("ALTER TABLE ").append(DatabaseHelperConstants.ICTC_FARMER);
 
         try{
-        db.execSQL("ALTER TABLE " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_POSTHARVEST+" TEXT DEFAULT '{}'");
-        db.execSQL("ALTER TABLE " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_PRODUCTION+" TEXT DEFAULT '{}'");
-        db.execSQL("ALTER TABLE " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_BASELINEPOSTHARVEST+" TEXT DEFAULT '{}'");
-        db.execSQL("ALTER TABLE  " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_BASELINEPRODUCTION+" TEXT DEFAULT '{}'");
-        db.execSQL("ALTER TABLE "+DatabaseHelperConstants.ICTC_FARMER+" ADD COLUMN "+DatabaseHelperConstants.ICTC_BASELINE_PRODUCTION_BADGET+" TEXT DEFAULT '{}'");
+
+            db.execSQL("ALTER TABLE  " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_TECH_NEEDS+" TEXT DEFAULT '{}'");
+            db.execSQL("ALTER TABLE " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_POSTHARVEST+" TEXT DEFAULT '{}'");
+            db.execSQL("ALTER TABLE " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_PRODUCTION+" TEXT DEFAULT '{}'");
+            db.execSQL("ALTER TABLE " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_BASELINEPOSTHARVEST+" TEXT DEFAULT '{}'");
+            db.execSQL("ALTER TABLE  " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_BASELINEPRODUCTION+" TEXT DEFAULT '{}'");
+            db.execSQL("ALTER TABLE "+DatabaseHelperConstants.ICTC_FARMER+" ADD COLUMN "+DatabaseHelperConstants.ICTC_BASELINE_PRODUCTION_BADGET+" TEXT DEFAULT '{}'");
         }catch(Exception e){
 
         }
@@ -517,7 +520,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                 region, age, gender, maritalStatus, numberOfChildren, numberOfDependants,
                 education, cluster, farmID, "", "", "", "", "", "", "",
                 "", "", "", "", "", "",
-                "", "", "", "", "","{}","{}","{}","{}","{}");
+                "", "", "", "", "","{}","{}","{}","{}","{}","{}");
     }
 
     public Farmer saveFarmer(String firstName, String lastName, String nickname, String community, String village, String district,
@@ -540,7 +543,8 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                              String POS_CONTACT,
                              String MONTH_SELLING_STARTS,
                              String MONTH_FINAL_PRODUCT_SOLD,
-                             String mainCrop, String production,String postHarvest,String budget,String baselineProduction,String baselinePostHarvest) {
+                             String mainCrop, String production,String postHarvest,String budget,String baselineProduction,String baselinePostHarvest,
+                             String techNeeds) {
         SQLiteDatabase db = getWritableDatabase();
         if ("mainpointofsaleorcontact".equalsIgnoreCase(POS_CONTACT))
             POS_CONTACT = "";
@@ -558,8 +562,11 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
             LABOUR = "";
 
         String  [] reg = region.split(" ");
-//        if(reg.length>0)
-//          region  =reg[1];
+        if(reg.length>1)
+          region  =reg[1];
+        reg = gender.split(" ");
+        if(reg.length>1)
+            gender  =reg[1];
         ContentValues values = new ContentValues();
         values.put(DatabaseHelperConstants.SIZE_PLOT, SIZE_PLOT);
         values.put(DatabaseHelperConstants.LABOUR, LABOUR);
@@ -602,6 +609,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DatabaseHelperConstants.ICTC_BASELINE_PRODUCTION_BADGET, budget);
         values.put(DatabaseHelperConstants.ICTC_FARMER_PRODUCTION, production);
         values.put(DatabaseHelperConstants.ICTC_FARMER_POSTHARVEST, postHarvest);
+        values.put(DatabaseHelperConstants.ICTC_TECH_NEEDS, techNeeds);
 
         System.out.println("Saving MainCrop : " + maritalStatus);
 
@@ -984,7 +992,7 @@ return 0l;
 
 
     public List<Farmer> getFarmersSearch(String query) {
-        Cursor localCursor = this.getWritableDatabase().rawQuery(query, null);
+        Cursor localCursor = this.getWritableDatabase().rawQuery(query+" order by "+DatabaseHelperConstants.OTHER_NAMES+" asc ,"+DatabaseHelperConstants.FIRST_NAME+" asc", null);
         List<Farmer> response = new ArrayList<Farmer>();
         while (localCursor.moveToNext()) {
 
@@ -1032,8 +1040,7 @@ return 0l;
             f.setBaselineProductionBudget(localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_BASELINE_PRODUCTION_BADGET)));
             f.setPostharvest(localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_FARMER_POSTHARVEST)));
             f.setProduction(localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_FARMER_PRODUCTION)));
-
-
+            f.setTechnicalNeeds(localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_TECH_NEEDS)));
 
             response.add(f);
         }

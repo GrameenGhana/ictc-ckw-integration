@@ -8,6 +8,7 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Html;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,6 +54,7 @@ public class SearchMenuItemActivity extends Activity {
 
         View view = layoutInflater.inflate(R.layout.searchmenuitem, null, false);
         TextView textView = (TextView) view.findViewById(R.id.item_content);
+        TextView textViewTitle = (TextView) view.findViewById(R.id.item_content_title);
         ImageView imageView = (ImageView) view.findViewById(R.id.item_img);
         ImageView thumbnailView = (ImageView) view.findViewById(R.id.item_vid_placeholder);
         ImageView audioView = (ImageView) view.findViewById(R.id.item_aud_placeholder);
@@ -77,6 +79,7 @@ public class SearchMenuItemActivity extends Activity {
         }
 //        image=(ImageView) grid.findViewById(R.id.imageView_thumbnail);
 
+        textViewTitle.setText(searchMenuItem.getLabel());
         textView.setText(ContentUtils.replaceMultimediaPlaceholder(content));
 
         if (ImageUtils.imageExists(searchMenuItem.getId(), true)) {

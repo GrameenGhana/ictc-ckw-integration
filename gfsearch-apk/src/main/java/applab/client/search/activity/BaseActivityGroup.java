@@ -30,6 +30,14 @@ public class BaseActivityGroup extends ActivityGroup {
         startTime = System.currentTimeMillis();
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        // your code.
+//        Intent  i = new Intent(this, DashboardActivity.class);
+//        startActivity(i);
+//    }
+
+
     public void setDetails(DatabaseHelper dh, String module, String page){
         this.hp =dh;
         this.module= module;

@@ -54,9 +54,11 @@ public class Farmer extends ListObject {
 
     private String production;
     private String baselineProductionBudget;
-private String baselineProduction;
+    private String baselineProduction;
     private String baselinepostharvest;
     private String postharvest;
+    private String technicalNeeds;
+    private String fmpproductionbudget;
 
     /*public String getFarmerId() {
         return farmerId;
@@ -639,5 +641,39 @@ private String baselineProduction;
         }
         return  "";
 
+    }
+    public JSONObject getJSONObject(String f){
+        try {
+            return  new JSONObject(f);
+        }catch (Exception e){
+
+        }
+        return null;
+    }
+
+    public String getJSONValue(JSONObject obj,String key){
+
+        try {
+            return String.valueOf(obj.get(key));
+        }catch (Exception e){
+
+        }
+        return  "";
+    }
+
+    public String getTechnicalNeeds() {
+        return technicalNeeds;
+    }
+
+    public void setTechnicalNeeds(String technicalNeeds) {
+        this.technicalNeeds = technicalNeeds;
+    }
+
+    public String getFmpproductionbudget() {
+        return fmpproductionbudget;
+    }
+
+    public void setFmpproductionbudget(String fmpproductionbudget) {
+        this.fmpproductionbudget = fmpproductionbudget;
     }
 }

@@ -1,5 +1,7 @@
 package applab.client.search.storage.search;
 
+import android.util.Log;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -115,6 +117,8 @@ public class StandardSqlSearchProcessor implements SearchProcessor {
             content = filterToSql(search, junctionFilter);
         }
 
+
+        Log.i(this.getClass().getName(),content);
         return (content == null) ? "" : " WHERE " + content;
     }
 

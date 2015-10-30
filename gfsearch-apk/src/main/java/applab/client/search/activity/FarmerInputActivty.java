@@ -102,7 +102,7 @@ public class FarmerInputActivty extends BaseActivity {
 
                 String v="";
                 if(myInputs.size()>0){
-
+                    JSONArray inputs = new JSONArray();
                     for(FarmerInputs fi : myInputs){
                         if(fi.getName().equalsIgnoreCase("seeds")){
                            fi.setQty(Double.parseDouble(seedInput));
@@ -117,8 +117,36 @@ public class FarmerInputActivty extends BaseActivity {
                         }
 v="Saved Successfully";
                         System.out.println("Saving : "+fi.getId()+" <> "+fi.getName()+fi.getQty());
+                        try {
+                            inputs.put(fi.getJson());
+                        }catch(Exception e){
+
+                        }
+
                         helper.updateFarmInput(fi);
+
+
                     }
+
+                    JSONObject objs = new JSONObject();
+
+                    try {
+
+
+                        objs.put("user_id",farmer.getFarmID());
+                        objs.put("page","Farmer Input");
+                        objs.put("type","edit");
+                        objs.put("section","");
+                        objs.put("farm_inputs",inputs);
+                        objs.put("imei", IctcCKwUtil.getImei(getBaseContext()));
+                        objs.put("version",IctcCKwUtil.getAppVersion());
+                        objs.put("battery",IctcCKwUtil.getBatteryLevel(getBaseContext()));
+                        helper.insertCCHLog("Farmer",objs.toString(),stime, System.currentTimeMillis());
+
+                    }catch(Exception e ){
+
+                    }
+
                 }else{
 
 
@@ -154,8 +182,8 @@ v="Saved Successfully";
 
                         objs.put("user_id",farmer.getFarmID());
                         objs.put("page","Farmer Input");
-
-                        objs.put("section",farmer.getFullname());
+                        objs.put("type","edit");
+                        objs.put("section","");
                         objs.put("farm_inputs",inputs);
                         objs.put("imei", IctcCKwUtil.getImei(getBaseContext()));
                         objs.put("version",IctcCKwUtil.getAppVersion());
@@ -171,7 +199,7 @@ v="Saved Successfully";
                 }
 
                 try {
-                    showDialog("Add More Inputs",v+"\nWould You Like to Add More Inputs for other farmers");
+                    showDialog("Input Successfully Saved",v+"\nInput Saved View farmer Profile");
                 }catch(Exception e){
 
 
@@ -237,11 +265,11 @@ v="Saved Successfully";
 //                    Intent intent = new Intent(MeetingIndexActivity.this, MainActivity.class);
 //                    startActivity(intent);
 
-                Intent intent = new Intent(FarmerInputActivty.this, FarmerActivitySelectFarmer.class);
+                Intent intent = new Intent(FarmerInputActivty.this, FarmerDetailActivity.class);
 
 
 //                    if(title.equalsIgnoreCase(AgentVisitUtil.COLLECT_FARM_MEASUREMENT)){
-                    intent.putExtra("type","farm-input");
+                    intent.putExtra("farmer",farmer);
                     startActivity(intent);
 //                    }
 
@@ -253,14 +281,14 @@ v="Saved Successfully";
             }
         });
 
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener()
-        {
-            @Override
-            public void onClick(DialogInterface dialog, int which)
-            {
-                dialog.dismiss();
-            }
-        });
+//        builder.setNegativeButton("No", new DialogInterface.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which)
+//            {
+//                dialog.dismiss();
+//            }
+//        });
 
         builder.show();
     }

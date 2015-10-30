@@ -119,6 +119,7 @@ public class  AgentVisitUtil {
             if(index==1)
                 return 1;
             else if(index==2) return 3;
+            else if(index>4) return index;
             else return index+2;
 
         }else if(type.equalsIgnoreCase("Individual")){
@@ -139,12 +140,12 @@ public class  AgentVisitUtil {
     public static String  [] getMeetingTitles(){
         final String []   titles = {
                 "",
-                "Initial Group Meetings",
-                "1st Individual Meetings",
+                "Initial Group Meeting",
+                "1st Individual Meeting",
                 "2nd Group Meeting",
                 "2nd Individual Meeting",
                 "3rd Group Meeting",
-                "4rd Group Meeting"};
+                "4th Group Meeting"};
         return titles;
     }
 

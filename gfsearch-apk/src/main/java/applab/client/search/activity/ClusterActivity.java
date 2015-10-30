@@ -47,9 +47,9 @@ public class ClusterActivity extends BaseActivity {
         clusters.add("Cluster 2");
         clusters.add("Cluster 3");
         final Map<String, List<Farmer>> clustersDate = new HashMap<String, List<Farmer>>();
-        clustersDate.put(clusters.get(0), helper.getSearchedFarmers(DatabaseHelperConstants.CLUSTER, "0"));
-        clustersDate.put(clusters.get(1), helper.getSearchedFarmers(DatabaseHelperConstants.CLUSTER, "1"));
-        clustersDate.put(clusters.get(2), helper.getSearchedFarmers(DatabaseHelperConstants.CLUSTER, "2"));
+        clustersDate.put(clusters.get(0), helper.getSearchedFarmers(DatabaseHelperConstants.CLUSTER, "1"));
+        clustersDate.put(clusters.get(1), helper.getSearchedFarmers(DatabaseHelperConstants.CLUSTER, "2"));
+        clustersDate.put(clusters.get(2), helper.getSearchedFarmers(DatabaseHelperConstants.CLUSTER, "3"));
 
         System.out.println("Cluster I : " + clustersDate.get(clusters.get(0)).size());
         System.out.println("Cluster II : " + clustersDate.get(clusters.get(1)).size());

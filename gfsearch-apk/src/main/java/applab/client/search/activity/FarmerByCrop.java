@@ -56,6 +56,10 @@ public class FarmerByCrop   extends BaseActivityGroup {
         tabHost.setCurrentTab(0);
         DatabaseHelper dh = new DatabaseHelper(getBaseContext());
         super.setDetails(dh,"Client","Farmer By Crop");
+        mActionBar.setCustomView(mCustomView);
+
+//        myInputs =  dbHelper.getIndividualFarmerInputs(farmer.getFarmID());
         mActionBar.setDisplayShowCustomEnabled(true);
+
     }
 }

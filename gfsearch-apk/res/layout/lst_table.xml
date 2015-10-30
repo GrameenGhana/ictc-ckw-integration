@@ -11,12 +11,12 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txt_tab_key" android:layout_weight="4"  android:inputType="textMultiLine" android:padding="3dp" android:textSize="16dp"
+                android:id="@+id/txt_tab_key" android:layout_weight="4"  android:inputType="textMultiLine" android:padding="5dp" android:textSize="18dp"
                 android:textColor="#666666" android:text="Hello"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txt_tab_value" android:layout_weight="6"  android:inputType="textMultiLine"  android:padding="3dp" android:textSize="16dp"
+                android:id="@+id/txt_tab_value" android:layout_weight="6"  android:inputType="textMultiLine"  android:padding="5dp" android:textSize="18dp"
                 android:textColor="#333333" android:text="Hi" android:gravity="right" android:layout_marginRight="20dp"/>
     </LinearLayout>
 </LinearLayout>

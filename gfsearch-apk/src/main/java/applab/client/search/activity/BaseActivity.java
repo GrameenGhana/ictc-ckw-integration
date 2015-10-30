@@ -67,6 +67,13 @@ public class BaseActivity extends Activity {
     }
 
 
+//    @Override
+//    public void onBackPressed() {
+//        // your code.
+//        Intent  i = new Intent(this, DashboardActivity.class);
+//        startActivity(i);
+//    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

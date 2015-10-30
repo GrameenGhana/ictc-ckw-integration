@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import applab.client.search.interactivecontent.ContentUtils;
 import applab.client.search.model.*;
 import applab.client.search.storage.DatabaseHelperConstants;
 import applab.client.search.storage.StorageManager;
@@ -302,9 +303,66 @@ public class MenuItemService {
                 values.toArray(new ContentValues[]{}));
     }
 
+
+
+    public void updateSearchMenuItem(SearchMenuItem... searchMenuItems) {
+        List<ContentValues> values = getContentValues(searchMenuItems);
+
+        StorageManager.getInstance().update(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME, values.toArray(new ContentValues[]{}));
+    }
+
+    public void updateSearchMenuItem(List<SearchMenuItem> searchMenuItems) {
+        List<ContentValues> values = getContentValues(searchMenuItems);
+
+        StorageManager.getInstance().update(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME, values.toArray(new ContentValues[]{}));
+    }
+
+
+
+    public void processMultimediaContent(){
+        Search search = new Search();
+        search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
+        search.addFilterLike(DatabaseHelperConstants.MENU_ITEM_CONTENT_COLUMN, "%{video:%}%");
+        search.addFilterOr(Filter.like(DatabaseHelperConstants.MENU_ITEM_CONTENT_COLUMN, "%{audio:%}%"));
+
+
+        List<SearchMenuItem> toUpdate = new ArrayList<SearchMenuItem>();
+
+        Cursor cursor = StorageManager.getInstance().getRecords(search);
+        List<SearchMenuItem> smt =  buildSearchMenuItems(cursor);
+        for (SearchMenuItem item:smt){
+            String additions="";
+            if(ContentUtils.containsAudio(item.getDescription()))
+            {
+                additions+="{audio:audio}";
+            }
+            if(ContentUtils.containsVideo(item.getDescription()))
+            {
+                additions+="{video:video}";
+            }
+            String parent = item.getParentId();
+            while(parent.equalsIgnoreCase("") || parent.isEmpty()){
+                List<SearchMenuItem> mItems = getSearchMenuItems(parent,0,500);
+                for(SearchMenuItem mItem :mItems){
+                    mItem.setContent(mItem.getDescription().concat(additions));
+                    toUpdate.add(mItem);
+                }
+            }
+
+        }
+        updateSearchMenuItem(toUpdate);
+
+    }
     private List<ContentValues> getContentValues(SearchMenuItem[] searchMenuItems) {
         List<ContentValues> values = new ArrayList<ContentValues>();
         for (SearchMenuItem item : searchMenuItems) {
+            values.add(getContentValues(item));
+        }
+        return values;
+    }
+
+    private ContentValues getContentValues(SearchMenuItem item) {
+
             ContentValues contentValue = new ContentValues();
             contentValue.put(DatabaseHelperConstants.MENU_ITEM_ROWID_COLUMN, item.getId());
             contentValue.put(DatabaseHelperConstants.MENU_ITEM_LABEL_COLUMN, item.getLabel());
@@ -314,7 +372,15 @@ public class MenuItemService {
             contentValue.put(DatabaseHelperConstants.MENU_ITEM_PARENTID_COLUMN, item.getParentId());
             contentValue.put(DatabaseHelperConstants.MENU_ITEM_ATTACHMENTID_COLUMN, item.getAttachmentId());
 
-            values.add(contentValue);
+
+        return contentValue;
+    }
+
+
+    private List<ContentValues> getContentValues(List<SearchMenuItem> searchMenuItems) {
+        List<ContentValues> values = new ArrayList<ContentValues>();
+        for (SearchMenuItem item : searchMenuItems) {
+            values.add(getContentValues(item));
         }
         return values;
     }

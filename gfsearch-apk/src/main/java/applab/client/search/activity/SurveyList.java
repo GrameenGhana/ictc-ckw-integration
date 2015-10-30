@@ -40,17 +40,26 @@ public class SurveyList extends BaseActivity {
 
         //, , Financial Institutions
         final String []   titles = {
-                "Biodata",
-                "Farmer Registration",
-                "FMP Production New",
-                "Technical Needs",
-                "FMP Post Harvest New",
-                "FMP Production Update New",
-                "FMP PostHarvest Update New 2"};
+                "FARMER REGISTRATION",
+                "PROFILING",
+                "TECHNICAL NEEDS",
+                "BASELINE PRODUCTION",
+                "BASELINE PRODUCTION BUDGET",
+                "BASELINE POST HARVEST",
+                "BASELINE POST-HARVEST BUDGET",
+                "FMP PRODUCTION",
+                "FMP PRODUCTION BUDGET",
+                "FMP PRODUCTION UPDATE",
+                "FMP PRODUCTION BUDGET UPDATE",
+                "FIELD CROP ASSESSMENT",
+                "FMP POST-HARVEST",
+                "FMP POST-HARVEST BUDGET",
+                "FMP POST HARVEST UPDATE",
+                "FMP POST HARVEST BUDGET UPDATE"};
 
 
-        final String []   firstLetter = {"1","2","3","4","5","6","7"};
-        boolean [] enabled={true,true,true,true,true,true,true};
+        final String []   firstLetter = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P"};
+        boolean [] enabled={true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true};
 
         list =(ListView)findViewById(R.id.lst_supplier_listings);
 

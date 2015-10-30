@@ -192,18 +192,21 @@ public class MainListViewAdapter extends BaseAdapter {
 
 
             if (ContentUtils.containsAudio(desc)) {
-//                imageAudo.setImageResource(R.drawable.sound);
-                imageAudo.setVisibility(ImageView.VISIBLE);
+                imageAudo.setImageResource(R.drawable.sound);
+//                imageAudo.setVisibility(ImageView.VISIBLE);
                 System.out.println("Visible AudioI");
             }else{
-                imageAudo.setVisibility(ImageView.INVISIBLE);
+
+
+                imageAudo.setImageResource(R.drawable.ic_gray_sound);
             }
             if (ContentUtils.containsVideo(desc)) {
-//                imageVideo.setImageResource(R.drawable.video);
-                imageVideo.setVisibility(ImageView.VISIBLE);
+                imageVideo.setImageResource(R.drawable.video);
+//                imageVideo.setVisibility(ImageView.VISIBLE);
                 System.out.println("Desc VideoII");
             }else{
-                imageVideo.setVisibility(ImageView.INVISIBLE);
+
+                imageVideo.setImageResource(R.drawable.ic_grey_video);
             }
 
 
@@ -264,13 +267,13 @@ public class MainListViewAdapter extends BaseAdapter {
                         cacheImageFile);
                 if (drawable == null) {
                     drawable = ImageUtils.scaleAndCacheImage(ApplicationRegistry.getApplicationContext(),
-                            originalImagePath, cacheImageFile, 50, 50);
+                            originalImagePath, cacheImageFile, 70, 70);
                 } else {
                     listObject.setHasIcon(true);
                 }
             }
         } else {
-            int width = 50, height = 50;
+            int width = 70, height = 70;
             drawable = ImageUtils.drawRandomColorImageWithText(ApplicationRegistry.getApplicationContext(),
                     listObject.getLabel().substring(0, 1).toUpperCase(), width, height);
         }

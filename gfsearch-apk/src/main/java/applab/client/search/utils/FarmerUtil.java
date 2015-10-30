@@ -273,7 +273,78 @@ public class FarmerUtil {
         itmWrap.put("Baseline Post Harvest",wrBaseLinePH);
 
 
+        //Technical Needs
 
+        String  []  needs={   "integratedsoilfertilitymanagement",
+                "weedcontrol",
+                "cropvarietyandseedcassava",
+                "farmplanning",
+                "crovarietyandseedsyam",
+                "cropvarietyandseed",
+                "cropestablishment",
+        };
+        String  []  needsNM={" Integrated Soil Fertility Management",
+        " Weed Control",
+                " Crop Variety And Seed Cassava",
+                " Farm Planning",
+                " Crop Variety And Seeds Yam",
+                " Crop Variety And Seed",
+                " Crop Establishment"};
+
+         JSONObject techNeeds = f.getJSONObject(f.getTechnicalNeeds());//PostHarvestJSON();
+        Log.i(FarmerUtil.class.getName(),"TechNeeds : "+techNeeds);
+        List<ItemWrapper> wrNeeds = new ArrayList<ItemWrapper>();
+        i=0;
+        for(String str:needs){
+            try {
+                wrNeeds.add(new ItemWrapper(needsNM[i], techNeeds.getString(str)));
+            }catch(Exception e){
+//                wrBaseLinePH.add(new ItemWrapper(baseLinePostHvestHd[i],""));
+            }
+
+            i++;
+        }
+        itmWrap.put("Technical Needs",wrNeeds);
+        return itmWrap;
+    }
+
+    public static Map<String,List<ItemWrapper>> getFarmerSummaryDetails(Farmer f){
+
+        Map<String,List<ItemWrapper>> itmWrap = new HashMap<String, List<ItemWrapper>>();
+
+
+        List<ItemWrapper> wr = new ArrayList<ItemWrapper>();
+        wr.add(new ItemWrapper("Surname",f.getLastName()));
+        wr.add(new ItemWrapper("Othernames",f.getFirstName()));
+        wr.add(new ItemWrapper("Nickname",f.getNickname()));
+        wr.add(new ItemWrapper("Cluster",f.getCluster()));
+        wr.add(new ItemWrapper("District",f.getDistrict()));
+        wr.add(new ItemWrapper("Community",f.getCommunity()));
+        wr.add(new ItemWrapper("Age",f.getAge()));
+        wr.add(new ItemWrapper("Gender",f.getGender()));
+        wr.add(new ItemWrapper("Land Size",f.getTargetArea()));
+
+
+
+JSONObject obj = f.getBaselinePostHarvestJSON();
+        JSONObject ph= f.getPostHarvestJSON();
+
+        JSONObject bud= f.getBaselineProductionBudgetJSON();
+
+        JSONObject prod= f.getProductionJSON();
+
+
+
+        wr.add(new ItemWrapper("Last Season Yield Per Acre",""));
+
+        wr.add(new ItemWrapper("This Season Target Yield per Acre",f.getJSONValue(prod,"targetyieldperacre")));
+        wr.add(new ItemWrapper("This Season Expected Price Per Ton",f.getJSONValue(prod,"targetyieldperacre")));
+         wr.add(new ItemWrapper("Planting Date",f.getJSONValue(prod,"plantingdate")));
+        wr.add(new ItemWrapper("Weeding Date",f.getJSONValue(prod, "datefirstmanualweedcontrol")));
+         wr.add(new ItemWrapper("Main Sales Person",f.getJSONValue(ph,"mainpointofsaleorcontact")));
+        wr.add(new ItemWrapper("Proportion of Crops Sold",f.getJSONValue(ph, "proportionformarket")));
+
+        itmWrap.put("Farmer Summary",wr);
         return itmWrap;
     }
 }

@@ -143,7 +143,7 @@ public class FarmerDetailActivity extends BaseActivityGroup {
         tabHost.setup(mLocalActivityManager);
         FragmentTabHost.TabSpec spec = tabHost.newTabSpec("tag");
         spec.setIndicator("Farmer Profile");
-        spec.setContent(new Intent(FarmerDetailActivity.this, FarmerDetailedProfile.class)
+        spec.setContent(new Intent(FarmerDetailActivity.this, FarmerProfileActivity.class)
                 .putExtra("farmer", farmer));
         tabHost.addTab(spec);
 

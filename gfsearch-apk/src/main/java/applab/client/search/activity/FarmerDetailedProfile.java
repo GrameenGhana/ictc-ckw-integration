@@ -17,6 +17,7 @@ import applab.client.search.model.Farmer;
 import applab.client.search.model.wrapper.ItemWrapper;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.FarmerUtil;
+import applab.client.search.utils.IctcCKwUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,10 @@ public class FarmerDetailedProfile extends BaseActivity {
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_detailed_profile);
-
+        ActionBar mActionBar = getActionBar();
+        mActionBar.setDisplayShowHomeEnabled(false);
+        mActionBar.setDisplayShowTitleEnabled(false);
+        LayoutInflater mInflater = LayoutInflater.from(this);
         helper = new DatabaseHelper(getBaseContext());
 
         super.setDetails(helper,"Farmer","Farm Details");
@@ -50,6 +54,13 @@ public class FarmerDetailedProfile extends BaseActivity {
 
         }
 
+        final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
+        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
+        mTitleTextView.setText("Farmer Details");
+
+        mActionBar.setCustomView(mCustomView);
+//        myInputs =  dbHelper.getIndividualFarmerInputs(farmer.getFarmID());
+        mActionBar.setDisplayShowCustomEnabled(true);
 
         list = (ExpandableListView) findViewById(R.id.exp_detailed_profile);
         list.setGroupIndicator(null);
@@ -57,11 +68,10 @@ public class FarmerDetailedProfile extends BaseActivity {
         sections.add("Biodata");
         sections.add("Production");
         sections.add("Post Harvest");
-
-
         sections.add("Baseline Post Harvest");
+        sections.add("Technical Needs");
         Map<String,List<ItemWrapper>> wr = FarmerUtil.getFarmerDetails(farmer);
-
+        IctcCKwUtil.setFarmerDetails(getWindow().getDecorView().getRootView(), R.id.ccs_layout, farmer.getFullname(), farmer,true);
         ProfileViewAdapter adapter = new ProfileViewAdapter(FarmerDetailedProfile.this, sections, wr, list);
         list.setAdapter(adapter);
     }

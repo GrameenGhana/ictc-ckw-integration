@@ -162,7 +162,7 @@ public class ConnectionUtil {
                                                 "numberofchildren", "numberofdependants", "education", "cluster", "farmerid",
                                                 "sizeplot", "labour", "date_land_ident","loc_land", "target_area",
                                                 "exp_price_ton", "variety", "target_nxt_season", "techneed1", "techneed2",
-                                                "fbo", "landarea", "date_plant", "date_man_weed", "pos_contact",
+                                                "fbo", "farmarea", "date_plant", "date_man_weed", "pos_contact",
                                                 "mon_sell_start", "mon_fin_pro_sold","majorcrop"
                                         };
 
@@ -179,7 +179,7 @@ public class ConnectionUtil {
 //                                        Log.i(this.getClass().getName(),"Serrver Rsponse   biodata farmer : "+bioDatas.length());
                                         JSONObject bioData  =jObj;// bioDatas.getJSONObject(0);
 
-                                        int  [] bioDataIndex={6,9,4,2,10,32,7,3,8,0,1,11,12,13,14};
+                                        int  [] bioDataIndex={6,9,4,2,10,32,7,3,8,0,1,11,12,13,14,26};
 
 
                                         String[] vals = new String[keys.length];
@@ -220,8 +220,10 @@ public class ConnectionUtil {
                                         p =jObj.getJSONObject("baselinepostharvest");
                                         baselinePostHarvest = p.toString();
 
+                                        p =jObj.getJSONObject("technicalneeds");
+                                        String techNeeds = p.toString();
 
-
+                                        Log.i(this.getClass().getName(), "Saving techNees "+vals[0]+" / "+vals[1]+techNeeds);
 
 
 //                                        for (String key : keys) {
@@ -240,7 +242,7 @@ public class ConnectionUtil {
                                                 vals[15], vals[16], vals[17], vals[18],
 
                                                 vals[19], vals[20], vals[21], vals[22], vals[23], vals[24], vals[25], vals[26], vals[27], vals[28], vals[29], vals[30], vals[31], vals[32]
-                                                ,production,postHarvest,budget,baselineProduction,baselinePostHarvest);
+                                                ,production,postHarvest,budget,baselineProduction,baselinePostHarvest,techNeeds);
 
 
                                         Log.i(this.getClass().getName(),production);

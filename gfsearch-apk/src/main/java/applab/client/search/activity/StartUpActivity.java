@@ -329,7 +329,7 @@ public class StartUpActivity extends BaseActivity {
                                                 vals[4], vals[5], vals[6], vals[7], vals[8], vals[9], vals[10], vals[11], vals[12], vals[13], vals[14],
                                                 vals[15], vals[16], vals[17], vals[18],
                                                 vals[19], vals[20], vals[21], vals[22], vals[23], vals[24], vals[25], vals[26], vals[27], vals[28], vals[29], vals[30], vals[31], vals[32]
-                                                ,"{}","{}","{}","{}","{}");
+                                                ,"{}","{}","{}","{}","{}","{}");
 
 
                                         JSONArray meetings = farmer.getJSONArray("meeting");
