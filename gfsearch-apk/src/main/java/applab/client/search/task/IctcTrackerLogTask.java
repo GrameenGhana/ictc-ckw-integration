@@ -50,12 +50,12 @@ public class IctcTrackerLogTask extends AsyncTask<Payload, Object, Payload> {
         System.out.println("Payload Background I");
         HTTPConnectionUtil client = new HTTPConnectionUtil(ctx);
         System.out.println("Payload Background II");
-        String url = client.getFullURL(IctcCkwIntegration.TRACKER_SUBMIT_PATH);
+        String url = client.getTrackerFullURL(IctcCkwIntegration.TRACKER_SUBMIT_PATH);
         System.out.println("Payload Url : "+url);
         System.out.println("Payload Background III");
         //HttpPatch httpPatch = new HttpPatch(url);
         HttpPost httpPatch = new HttpPost(url);
-        System.out.println("Payload Background IIII");
+        System.out.println("Payload Background IIII : res "+result.size());
         for (Collection<TrackerLog> trackerBatch : result) {
             String dataToSend = createDataString(trackerBatch);
 
@@ -142,6 +142,7 @@ public class IctcTrackerLogTask extends AsyncTask<Payload, Object, Payload> {
     private static Collection<Collection<TrackerLog>> split(Collection<Object> bigCollection, int maxBatchSize) {
         Collection<Collection<TrackerLog>> result = new ArrayList<Collection<TrackerLog>>();
 
+        Log.i(IctcTrackerLogTask.class.getName(),"Tosend Cnt : "+bigCollection.size());
         ArrayList<TrackerLog> currentBatch = null;
         for (Object obj : bigCollection) {
             TrackerLog tl = (TrackerLog) obj;

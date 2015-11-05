@@ -512,17 +512,6 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
             objs.put("version",IctcCKwUtil.getAppVersion());
             objs.put("battery",IctcCKwUtil.getBatteryLevel(getBaseContext()));
             dbHelper.insertCCHLog("Farmer",objs.toString(),super.getStartTime(), System.currentTimeMillis());
-
-
-            /**
-             *
-             *    obj.put("page", page);
-             obj.put("section", section);
-             obj.put("battery", (battery));
-             obj.put("version", version);
-             obj.put("imei", imei);
-             */
-
         }catch(Exception e ){
 
         }

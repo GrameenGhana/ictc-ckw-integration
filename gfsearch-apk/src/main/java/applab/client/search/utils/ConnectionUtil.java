@@ -223,6 +223,20 @@ public class ConnectionUtil {
                                         p =jObj.getJSONObject("technicalneeds");
                                         String techNeeds = p.toString();
 
+                                        JSONArray gps= jObj.getJSONArray("farmgps");
+                                        if(gps.length()>0){
+                                            String fId=bioData.getString("farmerid");;
+                                            int gpsLength = gps.length();
+                                            databaseHelper.deleteFarmerGPS(fId);
+
+                                            for(int kr=0;kr<gpsLength;kr++){
+                                                JSONObject gItem  = gps.getJSONObject(kr);
+                                                String x= gItem.getString("x");
+                                                String y= gItem.getString("y");
+                                                databaseHelper.saveGPSLocation(Double.parseDouble(x),Double.parseDouble(y),fId);
+                                            }
+                                        }
+
                                         Log.i(this.getClass().getName(), "Saving techNees "+vals[0]+" / "+vals[1]+techNeeds);
 
 

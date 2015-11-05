@@ -28,7 +28,7 @@ public class IctcCkwIntegration  extends Application {
     public static final DateTimeFormatter DATETIME_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
     public static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd");
     public static final DateTimeFormatter TIME_FORMAT = DateTimeFormat.forPattern("HH:mm:ss");
-    public static final int MAX_TRACKER_SUBMIT = 50;
+    public static final int MAX_TRACKER_SUBMIT = 150;
     public IctcTrackerLogTask omUpdateCCHLogTask = null;
     public SubmitTrackerMultipleTask omSubmitTrackerMultipleTask = null;
 

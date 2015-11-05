@@ -27,7 +27,8 @@ public class HTTPConnectionUtil  extends DefaultHttpClient {
     private SharedPreferences prefs;
     private Context ctx;
 //104.236.220.225
-    private static final String CCH_SERVER = "http://104.236.220.225:8080/ICTC/";
+private static final String CCH_SERVER = "http://104.236.220.225:8080/ICTC/";
+    private static final String TRACKER_SERVER = "http://104.236.220.225:8080/tracker/";
 //private static final String CCH_SERVER = "http://192.168.10.240:8080/ictc-webapp/";
     private static final String CCH_API_USER= "tracker";
     private static final String CCH_API_KEY = "dog";
@@ -64,6 +65,9 @@ public class HTTPConnectionUtil  extends DefaultHttpClient {
 
     public String getFullURL(String apiPath){
         return CCH_SERVER + apiPath;
+    }
+    public String getTrackerFullURL(String apiPath){
+        return TRACKER_SERVER + apiPath;
     }
 
     public List<NameValuePair> postData(String data)

@@ -243,14 +243,14 @@ public class DashboardActivity extends BaseActivity {
 //                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 //                this.startActivity(intent);
                 //(final Context context,final DatabaseHelper databaseHelper,final Intent intent, final String queryString, final String type,String msg )
-                ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
 
+                Toast.makeText(getBaseContext(),"Synchronising Data Please wait",Toast.LENGTH_LONG).show();
                 System.out.println("Payload Refresh farmer Data");
 //                IctcCkwIntegration app = null;
 //                try {
 //                    app=(IctcCkwIntegration) this.getApplication();
 //
-//                }catch(Exception e){
+//                }catch(Exception e)h{
 //                    System.out.println("Exceptione e: "+e.getLocalizedMessage());
 //                }
                 System.out.println("Payload ppapp ");
@@ -262,6 +262,8 @@ public class DashboardActivity extends BaseActivity {
                 System.out.println("Payload stask ");
                 omUpdateCCHLogTask.execute(mqp);
                 System.out.println("Payload execute ");
+                ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
+
             }
 //            else if (item.getItemId() == android.R.id.home) {
 //                //resetDisplayMenus();
