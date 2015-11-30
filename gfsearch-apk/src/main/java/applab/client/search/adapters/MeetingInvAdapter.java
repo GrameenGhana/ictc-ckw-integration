@@ -63,6 +63,7 @@ public class MeetingInvAdapter extends BaseAdapter {
         System.out.println("Has Attended : "+ac.getAttended());
 
 
+        System.out.println("Meet Item : "+ac.getFarmer()+"  ::: "+ac.getId()+" ::: "+ac.getMeetingPosition()+":::"+ac.getMeetingIndex()+":::"+ac.getType());
 
 
         String [] months = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};

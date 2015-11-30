@@ -18,7 +18,7 @@ import applab.client.search.model.Farmer;
 public class CropSelectorActivity extends Activity {
 
     ListView list = null;
-    Farmer farmer;String detail=""; String type="";int meetingIndex;
+    Farmer farmer;String detail=""; String type="";int meetingIndex; String typeItem="Group";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,13 +43,29 @@ public class CropSelectorActivity extends Activity {
 
 
 
+
         Bundle extras = getIntent().getExtras();
         try {
             type = extras.getString("type");
 
 
             detail = extras.getString("detail");
+            try {
+                typeItem = extras.getString("typeItem");
+            }catch(Exception e ){
+                typeItem="Group";
+            }
 
+
+
+
+
+
+
+
+
+
+            System.out.println("Type Itemd : "+typeItem);
             farmer = (Farmer) extras.get("farmer");
             meetingIndex =(Integer) extras.get("index");
         } catch (Exception e) {
@@ -91,7 +107,7 @@ public class CropSelectorActivity extends Activity {
                 else if(type.equalsIgnoreCase("nma")){
                     Intent intent = new Intent(CropSelectorActivity.this, NextMeetingActivity.class);
                     intent.putExtra("mi", meetingIndex);
-                    intent.putExtra("mtype", "Group");
+                    intent.putExtra("mtype", typeItem);
                     intent.putExtra("crop", titles[i]);
                     startActivity(intent);
                 }

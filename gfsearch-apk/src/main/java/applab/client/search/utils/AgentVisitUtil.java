@@ -137,6 +137,23 @@ public class  AgentVisitUtil {
 
     }
 
+
+    public static MeetingActivity getMeetingDetails(int index)
+    {
+        if(index==1)
+            return new MeetingActivity(getMeetingTitle(index),"Group",1);
+       else if(index==2)
+            return new MeetingActivity(getMeetingTitle(index),"Individual",1);
+        else if(index==3)
+            return new MeetingActivity(getMeetingTitle(index),"Group",2);
+        else if(index==4)
+            return new MeetingActivity(getMeetingTitle(index),"Individual",2);
+        else if(index==5)
+            return new MeetingActivity(getMeetingTitle(index),"Group",3);
+        else
+            return new MeetingActivity(getMeetingTitle(index),"Group",4);
+
+    }
     public static String  [] getMeetingTitles(){
         final String []   titles = {
                 "",

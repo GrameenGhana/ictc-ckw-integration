@@ -179,14 +179,14 @@ public class SynchronizationManager {
                                     getResources().getString(R.string.uploading_search_logs), true);
                 }
             } else {
-                notifySynchronizationListeners("onSynchronizationError",
-                        new Throwable(applicationContext.getString(R.string.error_uploading_searchlogs),
-                                new Exception(responseJson)));
+//                notifySynchronizationListeners("onSynchronizationError",
+//                        new Throwable(applicationContext.getString(R.string.error_uploading_searchlogs),
+//                                new Exception(responseJson)));
             }
         } catch (Exception ex) {
             Log.e(SynchronizationManager.class.getName(), "Error uploading search logs", ex);
-            notifySynchronizationListeners("onSynchronizationError",
-                    new Throwable(applicationContext.getString(R.string.error_uploading_searchlogs)));
+//            notifySynchronizationListeners("onSynchronizationError",
+//                    new Throwable(applicationContext.getString(R.string.error_uploading_searchlogs)));
 
         }
     }

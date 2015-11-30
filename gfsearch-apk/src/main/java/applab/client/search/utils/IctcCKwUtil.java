@@ -15,6 +15,7 @@ import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.activity.FarmerDetailActivity;
 import applab.client.search.model.Farmer;
+import applab.client.search.model.Meeting;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -23,6 +24,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 /**
@@ -40,6 +42,13 @@ public class IctcCKwUtil {
         return formatDateTime(timeToFormat,"yyyyMMddHHmmss");
 
     }
+
+    public static String getReadableDate(String timeToFormat) {
+if(!timeToFormat.isEmpty()) {
+    Date dt = formatDateTime(timeToFormat, "YYYY-mm-dd");
+    return formatStringDateTime(dt, "dd MMM, YYYY");
+}return  "";
+    }
     public static Date formatSlashDates(String timeToFormat) {
         return formatDateTime(timeToFormat,"dd/MM/yyyy");
     }
@@ -48,11 +57,12 @@ public class IctcCKwUtil {
     public static Date formatDateTime(String timeToFormat,String format) {
 
         String finalDateTime = "";
-
-        SimpleDateFormat iso8601Format = new SimpleDateFormat(
-                format);
-
         Date date = null;
+        try {
+
+        SimpleDateFormat iso8601Format = new SimpleDateFormat( format);
+
+
         if (timeToFormat != null) {
             try {
                 date = iso8601Format.parse(timeToFormat);
@@ -61,25 +71,39 @@ public class IctcCKwUtil {
             }
 
         }
+
+        }catch(Exception e){
+
+        }
         return date;
     }
 
     public static String formatStringDateTime(Date timeToFormat) {
 
+        return formatStringDateTime(timeToFormat,"yyyyMMddHHmmss");
+    }
+
+    public static String formatStringDateTime(Date timeToFormat,String  dateFormat) {
+
         String finalDateTime = "";
-
-        SimpleDateFormat iso8601Format = new SimpleDateFormat(
-                "yyyyMMddHHmmss");
-
         String date = "";
-        if (timeToFormat != null) {
-            try {
-                date = iso8601Format.format(timeToFormat);
-            } catch (Exception e) {
-                date = "";
+        try {
+            SimpleDateFormat iso8601Format = new SimpleDateFormat(
+                    dateFormat);
+
+
+            if (timeToFormat != null) {
+                try {
+                    date = iso8601Format.format(timeToFormat);
+                } catch (Exception e) {
+                    date = "";
+                }
             }
+        }catch(Exception e){
 
         }
+
+
         return date;
     }
 
@@ -134,7 +158,15 @@ public class IctcCKwUtil {
         DecimalFormat df = new DecimalFormat("#.000");
 
         return df.format(amt);
-    } public static String formatDouble(String amt){
+    } public static String formatDoubleNoDecimal(double amt){
+
+        DecimalFormat df = new DecimalFormat("#");
+
+        return df.format(amt);
+    }
+
+
+    public static String formatDouble(String amt){
 
         DecimalFormat df = new DecimalFormat("#.000");
 
@@ -202,9 +234,9 @@ public class IctcCKwUtil {
                 mainCrops.setText("Cassava");
                 mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
                 //icon.setBackgroundDrawable(drawable);
-            } else if (crop.equalsIgnoreCase("Beans")) {
-                Drawable drawable = container.getContext().getResources().getDrawable(R.drawable.ic_beans);
-                mainCrops.setText("Beans");
+            } else if (crop.equalsIgnoreCase("Yam")) {
+                Drawable drawable = container.getContext().getResources().getDrawable(R.drawable.ic_yam);
+                mainCrops.setText("Yam");
                 mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
                 // icon.setBackgroundDrawable(drawable);
             } else if (crop.equalsIgnoreCase("Rice")) {
@@ -213,6 +245,7 @@ public class IctcCKwUtil {
                 mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
                 // icon.setBackgroundDrawable(drawable);
             }
+            TextView locView  = (TextView)container.findViewById(R.id.textView12);
 
 
             if(!farmer.getNickname().isEmpty()){
@@ -222,8 +255,10 @@ public class IctcCKwUtil {
 
             if(farmer.getLandArea().isEmpty()){
                 locations.setTextColor(container.getResources().getColor(R.color.amber));
+                locView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_location, 0, 0, 0);
             }else{
                 locations.setTextColor(container.getResources().getColor(R.color.accent_material_light));
+                locView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_location_green,0, 0, 0 );
             }
 //            names.setOnClickListener(new View.OnClickListener() {
 //                @Override
@@ -282,6 +317,42 @@ public class IctcCKwUtil {
 
 
     public void setTitleClickable(View view){
+
+    }
+
+    public static List<Meeting> sortMeeting(List<Meeting> arr) {
+
+        boolean swapped = true;
+
+        int j = 0;
+
+        Meeting tmp;
+
+        while (swapped) {
+
+            swapped = false;
+
+            j++;
+
+            for (int i = 0; i < arr.size() - j; i++) {
+
+                if (arr.get(i).getMonthMod() > arr.get(i + 1).getMonthMod()) {
+
+                    tmp = arr.get(i);
+
+                    arr.set(i,arr.get(i + 1));
+
+                    arr.set(i + 1,tmp);
+
+                    swapped = true;
+
+                }
+
+            }
+
+        }
+
+        return arr;
 
     }
 }

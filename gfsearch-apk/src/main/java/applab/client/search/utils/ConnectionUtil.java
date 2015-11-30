@@ -197,7 +197,7 @@ public class ConnectionUtil {
                                         }
 
 
-                                         String production="";
+                                        String production="";
                                         String postHarvest="";String budget="";String baselineProduction="";String baselinePostHarvest="";
 
                                         JSONObject p =jObj.getJSONObject("production");
@@ -206,7 +206,6 @@ public class ConnectionUtil {
 
                                         p =jObj.getJSONObject("postharvest");
                                         postHarvest = p.toString();
-
 
 
                                         p =jObj.getJSONObject("baselineproductionbudget");
@@ -222,6 +221,14 @@ public class ConnectionUtil {
 
                                         p =jObj.getJSONObject("technicalneeds");
                                         String techNeeds = p.toString();
+
+                                        p =jObj.getJSONObject("baselinepostharvestbudget");
+
+
+                                        System.out.println("P  baselinepostharvestbudget: "+p.toString());
+                                        String baselinepostharvestbudget = p.toString();
+
+
 
                                         JSONArray gps= jObj.getJSONArray("farmgps");
                                         if(gps.length()>0){
@@ -256,7 +263,7 @@ public class ConnectionUtil {
                                                 vals[15], vals[16], vals[17], vals[18],
 
                                                 vals[19], vals[20], vals[21], vals[22], vals[23], vals[24], vals[25], vals[26], vals[27], vals[28], vals[29], vals[30], vals[31], vals[32]
-                                                ,production,postHarvest,budget,baselineProduction,baselinePostHarvest,techNeeds);
+                                                ,production,postHarvest,budget,baselineProduction,baselinePostHarvest,techNeeds,baselinepostharvestbudget);
 
 
                                         Log.i(this.getClass().getName(),production);

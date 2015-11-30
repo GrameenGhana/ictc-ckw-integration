@@ -11,12 +11,22 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Html;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
+import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.model.FarmGPSLocation;
 import applab.client.search.model.Farmer;
+import applab.client.search.model.Payload;
+import applab.client.search.settings.SettingsActivity;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.synchronization.IctcCkwIntegrationSync;
+import applab.client.search.task.IctcTrackerLogTask;
+import applab.client.search.utils.AboutActivity;
 import applab.client.search.utils.ConnectionUtil;
 import applab.client.search.utils.GoogleMapUtils;
 import applab.client.search.utils.IctcCKwUtil;
@@ -61,6 +71,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
     DatabaseHelper dbHelper=null;
     static final double EARTH_RADIUS = 6371009;
     int gpsCnt=0;
+    int newGps=0;
     @Override
      public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,8 +157,14 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
      * stopped or paused), {@link #onCreate(Bundle)} may not be called again so we should call this
      * method in {@link #onResume()} to guarantee that it will be called.
      */
+
+
     private void setUpMapIfNeeded() {
-        List<FarmGPSLocation> gps = dbHelper.getFarmerCoordinates(farmer.getFarmID());
+        setUpMapIfNeeded(false);
+    }
+    private void setUpMapIfNeeded(boolean clear) {
+        System.out.println("Clear Coordinates : "+clear);
+      List<FarmGPSLocation> gps = dbHelper.getFarmerCoordinates(farmer.getFarmID());
 
 
         System.out.println("GOS  : " + gps.size());
@@ -156,12 +173,16 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
         gpsCnt = gps.size();
         for (FarmGPSLocation gpsLoc : gps) {
 
-
 //                    mMap.addMarker(new MarkerOptions()
 //                            .position(new LatLng(gpsLoc.getLatitude(), gpsLoc.getLongitude()))
 //                            .title("Farm Map Point " + farmer.getLandArea()));
             options.add(new LatLng(gpsLoc.getLatitude(), gpsLoc.getLongitude()));
 
+        }
+
+        if(clear){
+            options = new PolylineOptions();
+            resetMap();
         }
         System.out.println("Options : ");
         TextView fArea = (TextView) findViewById(R.id.txt_map_fm_area);
@@ -170,7 +191,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
         fArea = (TextView) findViewById(R.id.txt_coordinate_no);
         fArea.setText(String.valueOf(gps.size()));
         // Do a null check to confirm that we have not already instantiated the map.
-        if (mMap == null) {
+        if (mMap == null || clear) {
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
@@ -212,6 +233,14 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
             Toast.makeText(getApplicationContext(),
                     "" + mMap.getMyLocation().getLatitude() + mMap.getMyLocation().getLongitude(),
                     Toast.LENGTH_LONG).show();
+            if(newGps==0)
+            {
+                options = new PolylineOptions();
+                points = new ArrayList<Coordinate>();
+                listed = new ArrayList<LatLng>();
+            }
+            newGps++;
+
 
             points.add(new Coordinate(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()));
 
@@ -250,8 +279,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
 
     }
 
-    @Override
-    public void onMapLongClick(LatLng latLng) {
+    public  void saveItems(){
         if(points.size()>0)
             points.add(points.get(0));
         for(Coordinate point : points){
@@ -262,6 +290,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
         if(points.size()>3) {
             if(gpsCnt==0){
                 processSaveCoordinates();
+                newGps=0;
             }else{
                 try {
                     showConfirmCordinateSave();
@@ -276,6 +305,17 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
 
         }
         setUpMapIfNeeded();
+
+    }
+
+    public void resetMap(){
+        points  = new ArrayList<Coordinate>();
+
+    }
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {
+       saveItems();
 
     }
 
@@ -530,8 +570,41 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
             e.printStackTrace();
         }
 
+        newGps=0;
     }
 
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        MenuInflater inflator = getMenuInflater();
+        inflator.inflate(R.menu.farm_map_menu, menu);
+
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        try {
+
+
+
+            if (item.getItemId() == R.id.action_calculate_area) {
+                saveItems();
+            } else if (item.getItemId() == R.id.action_clear_coordinates) {
+                setUpMapIfNeeded(true);
+            }else if (item.getItemId() == R.id.action_show_mapping) {
+                setUpMapIfNeeded();
+            }
+
+       } catch (Exception ex) {
+            Log.e(MainActivity.class.getName(), "", ex);
+        }
+
+        return true;
+    }
 
 }
 

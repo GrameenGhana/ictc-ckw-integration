@@ -12,7 +12,9 @@ import android.widget.Toast;
 import applab.client.search.R;
 import applab.client.search.adapters.ListCheckboxAdapter;
 import applab.client.search.model.Farmer;
+import applab.client.search.model.MeetingActivity;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.utils.AgentVisitUtil;
 import applab.client.search.utils.IctcCKwUtil;
 import org.json.JSONObject;
 
@@ -65,6 +67,10 @@ public class IndividualMeetingAAttendance extends BaseActivity {
         v.setText(farm.getFullname());
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
+String title="";
+        if(null==farm)
+            title="";
+        IctcCKwUtil.setFarmerDetails(getWindow().getDecorView().getRootView(),R.id.ll_farmer_details,title,farm,true);
         super.setDetails(helper,"Farmer","Farm Individual Meeting");
     }
 
@@ -86,7 +92,10 @@ public class IndividualMeetingAAttendance extends BaseActivity {
 
         String attendended =" '"+farm.getFarmID()+"'";
 
-        helper.markAttendanceByMeetingIndex(String.valueOf(meetingIndex),attendended,"individual",1);
+        MeetingActivity  mt = AgentVisitUtil.getMeetingDetails(meetingIndex);
+
+        System.out.println("Attendance  : "+(mt.getMeetingIndex())+"  | "+attendended+" | Individual ");
+        helper.markAttendanceByMeetingIndex(String.valueOf(mt.getMeetingIndex()), attendended, "individual", 1);
 
 
         Toast.makeText(getBaseContext(),"Taken Attendance",Toast.LENGTH_LONG).show();

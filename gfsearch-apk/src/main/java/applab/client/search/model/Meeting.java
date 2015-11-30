@@ -1,8 +1,9 @@
 package applab.client.search.model;
 
 import applab.client.search.utils.AgentVisitUtil;
-import applab.client.search.utils.IctcCKwUtil;
 
+import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -21,6 +22,8 @@ public class Meeting {
     private String crop;
     private String season;
 
+    private int month;
+    int monthMod;
 
     private Farmer  farmerDetails;
 
@@ -37,6 +40,16 @@ public class Meeting {
         this.remark = remark;
         this.crop = crop;
         this.setSeason(season);
+        Calendar cal=  Calendar.getInstance();
+        int cmonth=  cal.get(Calendar.MONTH)+1;
+        cal.setTime(scheduledDate);
+        this.setMonth(cal.get(Calendar.MONTH)+1);
+        System.out.println("mMonth : "+this.month+" <-> "+cmonth);
+        if(this.month>=cmonth)
+            monthMod = getMonth() % cmonth;
+        else
+           this.setMonthMod(12-cmonth+month);
+        System.out.println("mMonth :"+this.getMonthMod());
     }
 
     public String getId() {
@@ -138,4 +151,21 @@ public class Meeting {
     public int getMeetingPosition(){
         return AgentVisitUtil.getMeetingPosition(meetingIndex,type);
     }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getMonthMod() {
+        return monthMod;
+    }
+
+    public void setMonthMod(int monthMod) {
+        this.monthMod = monthMod;
+    }
+
 }

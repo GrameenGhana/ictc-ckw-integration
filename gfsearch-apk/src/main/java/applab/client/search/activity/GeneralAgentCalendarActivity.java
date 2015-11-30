@@ -47,7 +47,7 @@ public class GeneralAgentCalendarActivity extends BaseActivity {
                 "4th Group Meeting"};
 
 
-        final String []   firstLetter = {"A","2","3","4","5","6"};
+        final String []   firstLetter = {"1","2","3","4","5","6"};
         boolean [] enabled={true,true,true,true,true,true};
 
 

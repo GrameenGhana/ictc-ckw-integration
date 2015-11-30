@@ -4,6 +4,12 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:id="@+id/ll_farmer_details">
+        <include layout="@layout/cluster_child_single" />
+    </LinearLayout>
     <LinearLayout android:orientation="vertical" android:layout_width="fill_parent"
                   android:layout_height="wrap_content">
         <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"

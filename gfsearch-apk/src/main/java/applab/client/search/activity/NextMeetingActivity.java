@@ -57,18 +57,26 @@ public class NextMeetingActivity extends BaseActivity {
             meetingType = (String) extras.get("mtype");
             crop = (String) extras.get("crop");
 
+
+            if(null == meetingType)
+                meetingType="Group";
             Farmer f= (Farmer) extras.get("farmer");
 
             TextView tv= (TextView)findViewById(R.id.txt_nxt_header);
             System.out.println("Meeting Index : "+meetingIndex+" - "+meetingType);
-            tv.setText(AgentVisitUtil.getMeetingTitle(AgentVisitUtil.getMeetingPosition(meetingIndex,meetingType))+" Next Activities");
+            MeetingActivity details = AgentVisitUtil.getMeetingDetails(meetingIndex);
+            tv.setText(details.getActivityName()+" Next Activities");
 
             if(null == f){
                 IctcCKwUtil.setFarmerDetails(this,R.id.ccs_layout,"",null,false);
             }else{
                 IctcCKwUtil.setFarmerDetails(this,R.id.ccs_layout,f.getFullname(),f,true);
             }
-            List<MeetingSettingWrapper> meetings = dh.getMeetingSettings(meetingType, String.valueOf(meetingIndex), crop);
+
+
+            System.out.println("meeting Index: "+details.getMeetingIndex());
+            System.out.println("meetingCrop: "+crop);
+            List<MeetingSettingWrapper> meetings = dh.getMeetingSettings(meetingType, String.valueOf(details.getMeetingIndex()), crop);
             if (!meetings.isEmpty()) {
                 List<NextMeetingItem> meetingItems = meetings.get(0).getMeetingActivities();
 

@@ -17,7 +17,16 @@ private String type;
         this.setType(type);
         this.setApplicationToHandle(applicationToHandle);
         this.setMeetingIndex(meetingIndex);
-    }public MeetingActivity(String activityName,String type,String applicationToHandle,int meetingIndex,String desc){
+    }
+    public MeetingActivity(String activityName,String type,int meetingIndex){
+
+        this.setActivityName(activityName);
+        this.setType(type);
+        this.meetingIndex = meetingIndex;
+
+    }
+
+    public MeetingActivity(String activityName,String type,String applicationToHandle,int meetingIndex,String desc){
 
         this.setActivityName(activityName);
         this.setType(type);

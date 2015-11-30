@@ -37,7 +37,7 @@
                     android:text="Map Farm"
                     android:id="@+id/button2"
                     android:drawableLeft="@drawable/ic_map_farm" android:onClick="mapFarm"/>
-            <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CKW"
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Technical Assistance"
                     android:id="@+id/ckw_profile_btn" android:drawableLeft="@drawable/app_logo" android:onClick="ckwClick"/>
         </LinearLayout>
         <LinearLayout

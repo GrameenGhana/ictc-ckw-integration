@@ -153,6 +153,13 @@ public class DashboardActivity extends BaseActivity {
         });
 
 
+        try{
+            System.out.println("After Farmer Alter");
+            helper.alterFarmerTable();
+            System.out.println("Before Farmer Alter");
+
+        }catch (Exception e){}
+
      //   helper.deleteTable(DatabaseHelperConstants.ICTC_TRACKER_LOG_TABLE,"");
 //        tableRow_communities.setOnClickListener(new View.OnClickListener() {
 //            public void onClick(View view) {
@@ -244,6 +251,7 @@ public class DashboardActivity extends BaseActivity {
 //                this.startActivity(intent);
                 //(final Context context,final DatabaseHelper databaseHelper,final Intent intent, final String queryString, final String type,String msg )
 
+
                 Toast.makeText(getBaseContext(),"Synchronising Data Please wait",Toast.LENGTH_LONG).show();
                 System.out.println("Payload Refresh farmer Data");
 //                IctcCkwIntegration app = null;
@@ -253,6 +261,7 @@ public class DashboardActivity extends BaseActivity {
 //                }catch(Exception e)h{
 //                    System.out.println("Exceptione e: "+e.getLocalizedMessage());
 //                }
+
                 System.out.println("Payload ppapp ");
                 DatabaseHelper dbh = new DatabaseHelper(getBaseContext());
                 System.out.println("Payload dbh ");

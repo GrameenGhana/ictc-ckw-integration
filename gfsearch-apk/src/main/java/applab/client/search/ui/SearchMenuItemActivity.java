@@ -40,7 +40,7 @@ public class SearchMenuItemActivity extends Activity {
     private ListObject searchMenuItem = null;
     private LayoutInflater layoutInflater = null;
     private MenuItemService menuItemService = new MenuItemService();
-    public static String TEMP_AUDIO_VIDEO_FILE = "{video:VID-20150128-WA0000.mp4}{audio:tester.mp3}";
+    public static String TEMP_AUDIO_VIDEO_FILE = "{video:maize_farmer.mp4}{audio:tester.mp3}";
     String content;
 
     @Override
@@ -58,8 +58,12 @@ public class SearchMenuItemActivity extends Activity {
         ImageView imageView = (ImageView) view.findViewById(R.id.item_img);
         ImageView thumbnailView = (ImageView) view.findViewById(R.id.item_vid_placeholder);
         ImageView audioView = (ImageView) view.findViewById(R.id.item_aud_placeholder);
-        content = searchMenuItem.getDescription() + TEMP_AUDIO_VIDEO_FILE;
 
+        content = searchMenuItem.getDescription();
+
+        if(searchMenuItem.getLabel().trim().equalsIgnoreCase("General Information")){
+            content+=TEMP_AUDIO_VIDEO_FILE;
+        }
         if (ContentUtils.containsVideo(content)) {
             String fileLoc = ContentUtils.getVideoLocation(content);
             ;

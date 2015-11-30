@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:orientation="vertical"
                   android:layout_width="match_parent"
-                  android:layout_height="fill_parent"  android:minHeight="700dp">
+                  android:layout_height="fill_parent"  android:minHeight="650dp">
 
     <LinearLayout
                 android:orientation="vertical"
@@ -13,11 +13,6 @@
                 android:layout_height="fill_parent"
                 android:id="@+id/exp_summary_profile"
                 android:focusableInTouchMode="false" android:minHeight="650dp"/>
-        <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View Full Profile..."
-                    android:id="@+id/txt_more_details" android:layout_gravity="right" android:clickable="true" android:onClick="viewFullProfile"
-                    android:textColor="#ff548eff"/>
+
     </LinearLayout>
 </LinearLayout>

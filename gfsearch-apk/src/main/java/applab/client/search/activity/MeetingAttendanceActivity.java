@@ -1,6 +1,7 @@
 package applab.client.search.activity;
 
 import android.app.Activity;
+import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -22,7 +23,9 @@ public class MeetingAttendanceActivity extends BaseActivityGroup {
 
 
         TabHost tabHost = (TabHost)findViewById(R.id.tabHost4);
-        tabHost.setup(this.getLocalActivityManager());
+        LocalActivityManager mLocalActivityManager = new LocalActivityManager(MeetingAttendanceActivity.this,false);
+        mLocalActivityManager.dispatchCreate(savedInstanceState); // state will be bundle your activity state which you get in onCreate
+        tabHost.setup(mLocalActivityManager);
         Bundle extras = getIntent().getExtras();
         int meetingIndex = 0;
 
@@ -36,7 +39,7 @@ public class MeetingAttendanceActivity extends BaseActivityGroup {
         gencal.putExtra("title",title);
         gencal.putExtra("index",index);
 
-        gencal.putExtra("type","Group");
+        gencal.putExtra("type","Individual");
         TabHost.TabSpec spec =tabHost.newTabSpec("Meetings").setIndicator("Meetings").setContent(gencal);
         tabHost.addTab(spec);
         gencal  = new Intent(MeetingAttendanceActivity.this, MeetingAttendeeActivity.class);

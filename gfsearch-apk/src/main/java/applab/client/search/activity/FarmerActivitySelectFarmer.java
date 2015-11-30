@@ -60,7 +60,11 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
                 startActivity(intent);
             }
         });
+        Button btnJustBrowse = (Button)findViewById(R.id.btn_just_browse);
+        btnJustBrowse.setVisibility(Button.GONE);
 
+
+        System.out.println("Just Browse");
 
         Bundle extras = getIntent().getExtras();
         try {
@@ -79,11 +83,10 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
                     extraData[2]=extras.getString("mid");
                     extraData[3]=extras.getString("mtype");
                     extraData[4]=String.valueOf(extras.getInt("atd"));
-
-                    System.out.println("MI Index : "+extraData[0]);
+                    System.out.println("MI Index : "+extraData[0]+" Dt : "+   extraData[1]+" mtype "+   extraData[3]);
+                    btnJustBrowse.setVisibility(Button.VISIBLE);
 
                 }catch(Exception e){
-
                     System.out.println("ExceptionMI Index e :"+e.getLocalizedMessage());
                     e.printStackTrace();
                 }
@@ -231,12 +234,30 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
             Intent intent = new Intent(FarmerActivitySelectFarmer.this, NextMeetingActivity.class);
             intent.putExtra("mi",meetingIndex);
             intent.putExtra("mtype","Individual");
+            System.out.println("mimimi :"+meetingIndex+" mtype : Individual");
             intent.putExtra("farmer",farmer);
             intent.putExtra("crop", farmer.getMainCrop());
             startActivity(intent);
         }
         }
 
+
+
+    public void processJustBrowse(View view){
+
+
+            System.out.println("Extra Data : "+extraData.length);
+            Intent intent = new Intent(FarmerActivitySelectFarmer.this, MeetingIndexActivity.class);
+            intent.putExtra("mi",Integer.parseInt(extraData[0]));
+            intent.putExtra("mt", extraData[1]);
+            intent.putExtra("mid",extraData[2]);
+            intent.putExtra("mtype",extraData[3]);
+            intent.putExtra("atd", Integer.parseInt(extraData[4]));
+            intent.putExtra("farmerId", "");
+        intent.putExtra("jb", "Y");
+            startActivity(intent);
+
+    }
 
     public void processOnClickRequest(List<Farmer> farmers,int i){
         processOnClickRequest(farmers.get(i));

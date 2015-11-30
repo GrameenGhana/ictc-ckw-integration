@@ -56,6 +56,7 @@ public class Farmer extends ListObject {
     private String baselineProductionBudget;
     private String baselineProduction;
     private String baselinepostharvest;
+    private String baselinepostharvestBudget;
     private String postharvest;
     private String technicalNeeds;
     private String fmpproductionbudget;
@@ -563,7 +564,7 @@ public class Farmer extends ListObject {
 
     public JSONObject getBaselineProductionBudgetJSON(){
         try {
-           return new JSONObject(getBaselinepostharvest());
+           return new JSONObject(this.baselineProductionBudget);
         }catch (Exception e ){
 
         }
@@ -602,13 +603,25 @@ public class Farmer extends ListObject {
 
     public JSONObject getPostHarvestJSON(){
         try {
-           return new JSONObject(getPostharvest());
+            return new JSONObject(getPostharvest());
+        }catch (Exception e ){
+
+        }
+        return null;
+    }
+    public JSONObject getBaselinePostHarvestBudgetJSON(){
+        try {
+            return new JSONObject(getBaselinepostharvestBudget());
         }catch (Exception e ){
 
         }
         return null;
     }
 
+
+    public String getBaselinePostHarvesBudgetItem(String name){
+        return  getJSONItem(getBaselinePostHarvestBudgetJSON(),name);
+    }
 
 
     public String getProductionItem(String name){
@@ -675,5 +688,13 @@ public class Farmer extends ListObject {
 
     public void setFmpproductionbudget(String fmpproductionbudget) {
         this.fmpproductionbudget = fmpproductionbudget;
+    }
+
+    public String getBaselinepostharvestBudget() {
+        return baselinepostharvestBudget;
+    }
+
+    public void setBaselinepostharvestBudget(String baselinepostharvestBudget) {
+        this.baselinepostharvestBudget = baselinepostharvestBudget;
     }
 }

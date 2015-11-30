@@ -195,9 +195,9 @@ public class MainActivity extends Activity implements ActionMode.Callback {
             } /*else if (item.getItemId() == R.id.action_nav_back) {
                 listViewBackNavigation();
             } */
-            //else if (item.getItemId() == R.id.action_synchronise) {
-              //  startSynchronization();
-        //    }
+//            else if (item.getItemId() == R.id.action_synchronise) {
+//                startSynchronization();
+//            }
         else if (item.getItemId() == R.id.action_about) {
 //                Intent intent = new Intent().setClass(this, AboutActivity.class);
 //                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
@@ -208,6 +208,7 @@ public class MainActivity extends Activity implements ActionMode.Callback {
             }
 
             else if (item.getItemId() == R.id.action_refresh_farmer) {
+                startSynchronization();
 //                Intent intent = new Intent().setClass(this, AboutActivity.class);
 //                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 //                this.startActivity(intent);
@@ -224,6 +225,8 @@ public class MainActivity extends Activity implements ActionMode.Callback {
                 System.out.println("Payload stask ");
                 app.omUpdateCCHLogTask.execute(mqp);
                 System.out.println("Payload execute ");
+
+
             }
 
 //            else if (item.getItemId() == android.R.id.home) {
@@ -502,7 +505,6 @@ Bundle bundle = new Bundle();
         } else {
             bundle.putString("SELECTED_FARMER", "");
             bundle.putString("SELECTED_FARMER_NAME","");
-
         }
         Fragment fragment = fragmentManager.findFragmentByTag(DefaultViewFragment.FRAGMENT_TAG);
 

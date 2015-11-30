@@ -229,6 +229,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         sqlCommand.append(DatabaseHelperConstants.ICTC_FARMER_BASELINEPOSTHARVEST).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.ICTC_FARMER_BASELINEPRODUCTION).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.ICTC_TECH_NEEDS).append(" TEXT DEFAULT '',");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_BASELINE_POST_HARVEST_BADGET).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.ICTC_BASELINE_PRODUCTION_BADGET).append(" TEXT DEFAULT ''");
 
 /**
@@ -264,7 +265,11 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
         try{
 
+
+            db.execSQL("ALTER TABLE "+DatabaseHelperConstants.ICTC_FARMER+" ADD COLUMN "+DatabaseHelperConstants.ICTC_BASELINE_POST_HARVEST_BADGET+" TEXT DEFAULT '{}'");
+
             db.execSQL("ALTER TABLE  " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_TECH_NEEDS+" TEXT DEFAULT '{}'");
+
             db.execSQL("ALTER TABLE " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_POSTHARVEST+" TEXT DEFAULT '{}'");
             db.execSQL("ALTER TABLE " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_PRODUCTION+" TEXT DEFAULT '{}'");
             db.execSQL("ALTER TABLE " + DatabaseHelperConstants.ICTC_FARMER + " ADD COLUMN " + DatabaseHelperConstants.ICTC_FARMER_BASELINEPOSTHARVEST+" TEXT DEFAULT '{}'");
@@ -520,7 +525,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                 region, age, gender, maritalStatus, numberOfChildren, numberOfDependants,
                 education, cluster, farmID, "", "", "", "", "", "", "",
                 "", "", "", "", "", "",
-                "", "", "", "", "","{}","{}","{}","{}","{}","{}");
+                "", "", "", "", "","{}","{}","{}","{}","{}","{}","{}");
     }
 
     public Farmer saveFarmer(String firstName, String lastName, String nickname, String community, String village, String district,
@@ -544,7 +549,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                              String MONTH_SELLING_STARTS,
                              String MONTH_FINAL_PRODUCT_SOLD,
                              String mainCrop, String production,String postHarvest,String budget,String baselineProduction,String baselinePostHarvest,
-                             String techNeeds) {
+                             String techNeeds,String baselinePostHarvestBudget) {
         SQLiteDatabase db = getWritableDatabase();
         if ("mainpointofsaleorcontact".equalsIgnoreCase(POS_CONTACT))
             POS_CONTACT = "";
@@ -610,6 +615,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         values.put(DatabaseHelperConstants.ICTC_FARMER_PRODUCTION, production);
         values.put(DatabaseHelperConstants.ICTC_FARMER_POSTHARVEST, postHarvest);
         values.put(DatabaseHelperConstants.ICTC_TECH_NEEDS, techNeeds);
+        values.put(DatabaseHelperConstants.ICTC_BASELINE_POST_HARVEST_BADGET, baselinePostHarvestBudget);
 
         System.out.println("Saving MainCrop : " + maritalStatus);
 
@@ -791,7 +797,7 @@ return 0l;
     public List<MeetingSettingWrapper> getMeetingSettings(String type,String index,String crop){
 
         System.out.println(index+" -  "+type+" - "+crop);
-        String q=findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING_SETTINGS+" where "+DatabaseHelperConstants.ICTC_MEEING_INDEX+"="+index+" and "+DatabaseHelperConstants.ICTC_CROP+"='"+crop+"'  and  "+DatabaseHelperConstants.ICTC_TYPE+"='"+type+"' ");
+        String q=findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING_SETTINGS)+"  where "+DatabaseHelperConstants.ICTC_MEEING_INDEX+"="+index+" and "+DatabaseHelperConstants.ICTC_CROP+"='"+crop+"'  and  "+DatabaseHelperConstants.ICTC_TYPE+"='"+type+"' ";
         Cursor localCursor = this.getWritableDatabase().rawQuery(q, null);
 
         return getCursorMeetingSettings(localCursor);
@@ -975,10 +981,14 @@ return mt;
     }
 
     public Meeting getFarmerMeetings(String farmer,int meetingIndex){
-        List<Meeting> mt = getMeetings(findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING) + " WHERE " + DatabaseHelperConstants.ICTC_FARMER_ID + " ='" + farmer + "'  and "+DatabaseHelperConstants.ICTC_MEEING_INDEX+"="+meetingIndex);
+        String q = findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING) + " WHERE " + DatabaseHelperConstants.ICTC_FARMER_ID + " ='" + farmer + "'  and "+DatabaseHelperConstants.ICTC_MEEING_INDEX+"="+meetingIndex+" and "+DatabaseHelperConstants.ICTC_TYPE+" ='individual' ";
+
+
+        List<Meeting> mt = getMeetings(q);
+
 
         if(mt.size()>0)
-            mt.get(0);
+        return     mt.get(0);
         return  null;
     }
 
@@ -1052,6 +1062,10 @@ return mt;
             f.setProduction(localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_FARMER_PRODUCTION)));
             f.setTechnicalNeeds(localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_TECH_NEEDS)));
 
+            f.setBaselinepostharvestBudget(localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_BASELINE_POST_HARVEST_BADGET)));
+
+if(!f.getBaselinepostharvestBudget().isEmpty())
+            System.out.println("F setBaselinepostharvestBudget : "+f.getBaselinepostharvestBudget());
             response.add(f);
         }
         return response;
@@ -1216,7 +1230,7 @@ public void markAttendance(String meetingIndex,String ids){
         ContentValues newValues = new ContentValues();
         newValues.put(DatabaseHelperConstants.ICTC_ATTENDED, String.valueOf(attended));
 
-        this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_FARMER_MEETING, newValues, DatabaseHelperConstants.ICTC_MEEING_INDEX+" = "+meetingIndex+" and  "+DatabaseHelperConstants.ICTC_FARMER_ID+" IN ("+ids+")  and  "+DatabaseHelperConstants.ICTC_TYPE+"='Group' ", null);
+        this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_FARMER_MEETING, newValues, DatabaseHelperConstants.ICTC_MEEING_INDEX+" = "+meetingIndex+" and  "+DatabaseHelperConstants.ICTC_FARMER_ID+" IN ("+ids+")  and  "+DatabaseHelperConstants.ICTC_TYPE+"='group' ", null);
     }
 
 
@@ -1225,7 +1239,11 @@ public void markAttendance(String meetingIndex,String ids){
         ContentValues newValues = new ContentValues();
         newValues.put(DatabaseHelperConstants.ICTC_ATTENDED, String.valueOf(attended));
 
-        this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_FARMER_MEETING, newValues, DatabaseHelperConstants.ICTC_MEEING_INDEX+" = "+meetingIndex+" and  "+DatabaseHelperConstants.ICTC_FARMER_ID+" IN ("+ids+") and  "+DatabaseHelperConstants.ICTC_TYPE+"='"+type+"'", null);
+       int cnt =  this.getWritableDatabase().update(DatabaseHelperConstants.ICTC_FARMER_MEETING, newValues, DatabaseHelperConstants.ICTC_MEEING_INDEX+" = "+meetingIndex+" and  "+DatabaseHelperConstants.ICTC_FARMER_ID+" IN ("+ids+") and  "+DatabaseHelperConstants.ICTC_TYPE+"='"+type+"'", null);
+
+
+        System.out.println("Cnt  : "+cnt);
+
     }
 
 

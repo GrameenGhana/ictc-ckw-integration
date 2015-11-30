@@ -42,24 +42,34 @@ public class SurveyList extends BaseActivity {
         final String []   titles = {
                 "FARMER REGISTRATION",
                 "PROFILING",
-                "TECHNICAL NEEDS",
                 "BASELINE PRODUCTION",
                 "BASELINE PRODUCTION BUDGET",
                 "BASELINE POST HARVEST",
                 "BASELINE POST-HARVEST BUDGET",
                 "FMP PRODUCTION",
                 "FMP PRODUCTION BUDGET",
-                "FMP PRODUCTION UPDATE",
-                "FMP PRODUCTION BUDGET UPDATE",
-                "FIELD CROP ASSESSMENT",
                 "FMP POST-HARVEST",
                 "FMP POST-HARVEST BUDGET",
-                "FMP POST HARVEST UPDATE",
-                "FMP POST HARVEST BUDGET UPDATE"};
+                "FMP POST HARVEST BUDGET "
+
+                ,
+                "FIELD CROP ASSESSMENT",
+                "FMP PRODUCTION UPDATE",
+                "FMP PRODUCTION BUDGET UPDATE ",
+                "FMP POST HARVEST BUDGET UPDATE "
+        };
+
+        String [] fLetters  = new String[titles.length];
+        boolean [] enabled=new boolean[titles.length];
+        String abcd="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        for(int i=0;i< titles.length;i++){
+            fLetters[i] = String.valueOf(abcd.charAt(i));
+            enabled[i]=true;
+        }
 
 
-        final String []   firstLetter = {"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P"};
-        boolean [] enabled={true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true};
+        final String []   firstLetter = fLetters;
+//       {true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true};
 
         list =(ListView)findViewById(R.id.lst_supplier_listings);
 

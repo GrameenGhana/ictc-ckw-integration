@@ -21,9 +21,14 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Activity Title"
                     android:id="@+id/fsf_act_title"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:background="@drawable/bg_green_rounded">
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
+    <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content">
@@ -41,6 +46,12 @@
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent" >
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Just Browse"
+                    android:paddingLeft="20dp"
+                    android:id="@+id/btn_just_browse" android:onClick="processJustBrowse"/>
             <ListView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"

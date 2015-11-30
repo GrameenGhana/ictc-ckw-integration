@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="applab.client.search"
-          android:versionCode="3"
-          android:versionName="1.0.1" >
+          android:versionCode="9"
+          android:versionName="1.0.7" >
 
     <uses-sdk
             android:minSdkVersion="11"
@@ -143,14 +143,12 @@
         <activity
                 android:name=".activity.FarmerDetailedProfile"
                 android:label="activity_farmer_detailed_profile" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activity.MeetingAttendeeActivity" android:label="meeting_attendee_activity"/>
         <activity android:name=".activity.MeetingAttendanceActivity" android:label="meeting_attendance_activity"/>
+        <activity android:name=".activity.FarmBudgetActivity" android:label="farm_subject_activity"/>
+        <activity android:name=".activity.FarmerProfileSecionActivity"/>
 
         <service android:name=".synchronization.BackgroundSynchronizationService" />
 
