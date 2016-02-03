@@ -54,6 +54,7 @@ public class MeetingIndexActivity extends BaseActivity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Meeting Activity");
 
+        IctcCKwUtil.setActionbarUserDetails(this,mCustomView);
         LinearLayout ll = (LinearLayout)findViewById(R.id.default_view_profile_item);
 
 isFarmerSelected= true;

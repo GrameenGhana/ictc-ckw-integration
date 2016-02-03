@@ -82,9 +82,19 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
         super.setDetails(dbHelper,"Farmer","Farm Mapping");
 
         try {
+            boolean shdClear=false;
+            Integer clear = 0;
             Bundle extras = getIntent().getExtras();
             if (extras != null) {
                 farmer = (Farmer) extras.get("farmer");
+                clear =(Integer)extras.get("c");
+                if(null == clear){
+                    clear=0;
+
+                }
+
+                if(clear==1)
+                    shdClear= true;
                 farmer = dbHelper.findFarmer(farmer.getFarmID());
 //                TextView fm = (TextView) findViewById(R.id.txt_map_fm_farmer);
 //                fm.setText(farmer.getFullname());
@@ -110,6 +120,8 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
                 }
 
 
+                if(!shdClear) {
+
 //                if(!sh.equalsIgnoreCase("0")) {
                     showDialog("Note of Farm Measurement", "Follow these steps to measure the " +
                             farmer.getFullname()
@@ -120,9 +132,9 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
                             "3. Once you have gone around the farm, tap and hold the screen until you see a number. That is the area of your farm in square metres. ");
 
 
+                }
 
-
-                    setUpMapIfNeeded();
+                    setUpMapIfNeeded(shdClear);
 //                }
 //                "1. Walk around the area to be cultivated. \n" +
 //                        "\n" +
@@ -179,34 +191,44 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
             options.add(new LatLng(gpsLoc.getLatitude(), gpsLoc.getLongitude()));
 
         }
+        TextView fArea = (TextView) findViewById(R.id.txt_map_fm_area);
+        fArea.setText(Html.fromHtml(": " + IctcCKwUtil.formatDouble(farmer.getLandArea()) + " m<sup>2</sup> Perimeter : " + IctcCKwUtil.formatDouble(farmer.getSizePlot()) + " m "));
 
         if(clear){
             options = new PolylineOptions();
             resetMap();
+            gpsCnt =0;
+            System.out.println("Clearing Coordinates ");
         }
         System.out.println("Options : ");
-        TextView fArea = (TextView) findViewById(R.id.txt_map_fm_area);
 //            fArea.setText((farmer.getLandArea())+" m2  ");
-        fArea.setText(Html.fromHtml(": " + IctcCKwUtil.formatDouble(farmer.getLandArea()) + " m<sup>2</sup> Perimeter : " + IctcCKwUtil.formatDouble(farmer.getSizePlot()) + " m "));
         fArea = (TextView) findViewById(R.id.txt_coordinate_no);
         fArea.setText(String.valueOf(gps.size()));
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null || clear) {
+            System.out.println("Clear Item Needed");
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
                     .getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
+
+                System.out.println("Clear 2 Item Needed");
                 mMap.setMyLocationEnabled(true);
                 locateMe();
                 setUpMap();
-                if(options.getPoints().size()>1)
-                {
-                    options.color( Color.parseColor("#CC0000FF") );
-                    options.width( 5 );
-                    options.visible( true );
-                    mMap.addPolyline(options);
+                if(!clear) {
+                    System.out.println("Ok  item  clearing");
+                    if (options.getPoints().size() > 1) {
+                        options.color(Color.parseColor("#CC0000FF"));
+                        options.width(5);
+                        options.visible(true);
+                        mMap.addPolyline(options);
+                    }
                 }
+            }else{
+                System.out.println("Clear Successfullt obtained map");
+
             }
         }
     }
@@ -594,6 +616,11 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
             if (item.getItemId() == R.id.action_calculate_area) {
                 saveItems();
             } else if (item.getItemId() == R.id.action_clear_coordinates) {
+                Intent n  = new Intent(this,FarmMapping.class);
+                n.putExtra("farmer",farmer);
+                n.putExtra("c",1);
+                startActivity(n);
+
                 setUpMapIfNeeded(true);
             }else if (item.getItemId() == R.id.action_show_mapping) {
                 setUpMapIfNeeded();

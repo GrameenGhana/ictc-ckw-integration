@@ -13,6 +13,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import applab.client.search.R;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.utils.IctcCKwUtil;
 
 /**
  * Created by skwakwa on 9/29/15.
@@ -58,6 +59,7 @@ public class FarmerByCrop   extends BaseActivityGroup {
         super.setDetails(dh,"Client","Farmer By Crop");
         mActionBar.setCustomView(mCustomView);
 
+        IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
 //        myInputs =  dbHelper.getIndividualFarmerInputs(farmer.getFarmID());
         mActionBar.setDisplayShowCustomEnabled(true);
 

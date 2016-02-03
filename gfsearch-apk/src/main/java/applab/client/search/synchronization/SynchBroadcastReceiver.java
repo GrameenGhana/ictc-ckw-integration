@@ -30,6 +30,7 @@ public class SynchBroadcastReceiver extends BroadcastReceiver {
                 context.getResources().getString(R.string.app_name) + "/" + R.string.app_version);
 
         Intent backgroundServiceIntent = new Intent(context, BackgroundSynchronizationService.class);
+        System.out.println("Sync Service it ");
         context.startService(backgroundServiceIntent);
     }
 }

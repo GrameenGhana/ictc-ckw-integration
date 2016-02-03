@@ -39,6 +39,7 @@ public class TVScheduleActivity extends BaseActivity {
         mTitleTextView.setText("TV Schedule");
 ;        mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
+        IctcCKwUtil.setActionbarUserDetails(this,mCustomView);
 
         list = (ExpandableListView) findViewById(R.id.exp_comm_sch);
         list.setGroupIndicator(null);

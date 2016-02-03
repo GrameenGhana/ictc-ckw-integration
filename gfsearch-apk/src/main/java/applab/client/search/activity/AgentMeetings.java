@@ -14,8 +14,10 @@ import applab.client.search.adapters.MeetingInvAdapter;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.model.Farmer;
 import applab.client.search.model.Meeting;
+import applab.client.search.model.MeetingActivity;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.storage.DatabaseHelperConstants;
+import applab.client.search.utils.AgentVisitUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +31,7 @@ public class AgentMeetings extends BaseActivity {
     private ExpandableListView list;
     DatabaseHelper helper=null;
     List<Meeting> meetings = new ArrayList<Meeting>();
+    String type;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +42,7 @@ public class AgentMeetings extends BaseActivity {
 
         setContentView(R.layout.list_agent_ind_meeting);
         helper = new DatabaseHelper(getBaseContext());
-        String type;
+
         String crop;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -48,6 +51,7 @@ public class AgentMeetings extends BaseActivity {
 
             if(type.equalsIgnoreCase("individual")) {
              for(int i=0;i<=6;i++) {
+                 System.out.println("Indivudial meeting : "+crop+"  weeker "+i);
                  meetings = helper.getIndividualMeetings(crop,String.valueOf(i));
                  if(meetings.size()>0){
                      String title= meetings.get(0).getMeetingIndex()+" Individual Meeting";
@@ -64,7 +68,9 @@ public class AgentMeetings extends BaseActivity {
                         clusters.add(title);
                         clustersDate.put(title, meetings);
                     }
-                }}}
+                }
+            }
+        }
 
 //        helper = new DatabaseHelper(getBaseContext());
 //        mActionBar.setCustomView(mCustomView);
@@ -107,14 +113,23 @@ public class AgentMeetings extends BaseActivity {
                 Meeting  m =  clustersDate.get(clusters.get(i)).get(i1);
 
                 Intent intent = new Intent(AgentMeetings.this, MeetingIndexActivity.class);
-                intent.putExtra("mi", m.getMeetingIndex());
-                intent.putExtra("mt", m.getTitle());
+                int act = AgentVisitUtil.getMeetingPosition(m.getMeetingIndex(),type);
+
+//                System.out.println("Meeting Type  "+act);
+
+                MeetingActivity  met = AgentVisitUtil.getMeetingDetails(act);
+//                System.out.println("Meeting Idx : "+met.getMeetingIndex());
+//                System.out.println("Meeting Nm  : "+met.getActivityName());
+
+
+                intent.putExtra("mi",act);
+                intent.putExtra("mt", met.getActivityName());
                 intent.putExtra("farmerId", m.getFarmer());
                 intent.putExtra("mid", m.getId());
                 intent.putExtra("mtype", m.getType());
                 intent.putExtra("atd", m.getAttended());
                 System.out.println("Sendt ID : " + m.getId());
-                intent.putExtra("mt", m.getTitle());
+//                intent.putExtra("mt", m.getTitle());
                 intent.putExtra("farmerId", m.getFarmer());
                 startActivity(intent);
                 return false;

@@ -579,6 +579,7 @@ public class Farmer extends ListObject {
 
     public JSONObject getBaselineProductionJSON(){
         try {
+            System.out.println("Baseline Production: "+getBaselineProduction());
          return   new JSONObject(getBaselineProduction());
         }catch (Exception e ){
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="applab.client.search"
-          android:versionCode="9"
-          android:versionName="1.0.7" >
+          android:versionCode="17"
+          android:versionName="1.1.4" >
 
     <uses-sdk
             android:minSdkVersion="11"
@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
     <application
             android:allowBackup="true"
             android:icon="@drawable/app_icon_new"
@@ -95,7 +96,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.DashboardActivity" />
+        <activity android:name=".activity.DashboardActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity android:name=".activity.PricesActivity" />
         <activity android:name=".activity.ClusterActivity" />
         <activity android:name=".activity.FarmerDetailActivity" />
@@ -149,6 +150,7 @@
         <activity android:name=".activity.MeetingAttendanceActivity" android:label="meeting_attendance_activity"/>
         <activity android:name=".activity.FarmBudgetActivity" android:label="farm_subject_activity"/>
         <activity android:name=".activity.FarmerProfileSecionActivity"/>
+        <activity android:name=".activity.FarmerBaselineSummaryActivity"/>
 
         <service android:name=".synchronization.BackgroundSynchronizationService" />
 

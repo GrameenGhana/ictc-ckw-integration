@@ -204,8 +204,7 @@ public class MenuItemService {
     }
 
     public List<SearchMenuItem>  getSearchMenuItemByLabel(String label){
-
-//        System.out.println("LabelSM  : "+label);
+        System.out.println("CKW LabelSM  : "+label);
         Search search = new Search();
         search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
         search.addFilterEqual(DatabaseHelperConstants.MENU_ITEM_LABEL_COLUMN, label);
@@ -216,7 +215,6 @@ public class MenuItemService {
 
 
     public List<SearchMenuItem>  getSearchMenuItemByLabelAndParent(String parentId,String label){
-
 //        System.out.println("LabelSM  : "+label);
         Search search = new Search();
         search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
@@ -341,13 +339,19 @@ public class MenuItemService {
                 additions+="{video:video}";
             }
             String parent = item.getParentId();
-            while(parent.equalsIgnoreCase("") || parent.isEmpty()){
-                List<SearchMenuItem> mItems = getSearchMenuItems(parent,0,500);
-                for(SearchMenuItem mItem :mItems){
-                    mItem.setContent(mItem.getDescription().concat(additions));
-                    toUpdate.add(mItem);
+            try{
+
+                while(parent.equalsIgnoreCase("") || parent.isEmpty()){
+                    List<SearchMenuItem> mItems = getSearchMenuItems(parent,0,500);
+                    for(SearchMenuItem mItem :mItems){
+                        mItem.setContent(mItem.getDescription().concat(additions));
+                        toUpdate.add(mItem);
+                    }
                 }
+            }catch(Exception e ){
+
             }
+
 
         }
         updateSearchMenuItem(toUpdate);

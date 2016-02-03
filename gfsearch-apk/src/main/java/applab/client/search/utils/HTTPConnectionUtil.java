@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 import android.util.Base64;
 import applab.client.search.R;
+import applab.client.search.settings.SettingsConstants;
+import applab.client.search.settings.SettingsManager;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -27,10 +29,11 @@ public class HTTPConnectionUtil  extends DefaultHttpClient {
     private SharedPreferences prefs;
     private Context ctx;
 //104.236.220.225
-private static final String CCH_SERVER = "http://104.236.220.225:8080/ICTC/";
-    private static final String TRACKER_SERVER = "http://104.236.220.225:8080/tracker/";
+private static final String CCH_SERVER = "http://104.236.220.225:8080/ICTC/";//SettingsManager.getInstance().getValue(SettingsConstants.ICTC_KEY_SERVER);;
+    private static final String TRACKER_SERVER = CCH_SERVER+"";
 //private static final String CCH_SERVER = "http://192.168.10.240:8080/ictc-webapp/";
     private static final String CCH_API_USER= "tracker";
+    private static final String WEATHER_URL = CCH_SERVER+"api/v1/weather";
     private static final String CCH_API_KEY = "dog";
 
     public HTTPConnectionUtil(Context ctx){

@@ -128,7 +128,7 @@ public class ListCheckBoxActivity extends BaseFragmentActivity {
 
             objs.put("meeting_index",meetingIndex);
             objs.put("title",title);
-            objs.put("page","Mark Group Attendance");
+            objs.put("page","Group Attendance Marked");
             objs.put("type","Group");
             objs.put("section",title);
             objs.put("attendees",attenden);

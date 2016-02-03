@@ -9,6 +9,8 @@ import android.util.Log;
 import android.widget.Toast;
 import applab.client.search.activity.DashboardActivity;
 import applab.client.search.model.Farmer;
+import applab.client.search.model.UserDetails;
+import applab.client.search.model.Weather;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import org.apache.http.HttpResponse;
@@ -44,9 +46,10 @@ public class ConnectionUtil {
             @Override
             public void run() {
 
-                try {      /* TODO output your page here. You may use following sample code. */
+                try {
+                    UserDetails u = databaseHelper.getUserItem();
                     String serverResponse = "";
-                    String url = IctcCkwIntegrationSync.ICTC_SERVER_URL + "action="+type;
+                    String url = IctcCkwIntegrationSync.ICTC_SERVER_URL + "action="+type+"&a="+u.getSalesForceId()+"&lm="+u.getLastModifiedDate();
                     if(queryString.length()>0)
                         url+="&"+queryString;
 
@@ -145,7 +148,7 @@ public class ConnectionUtil {
                                     JSONArray farmers = new JSONArray(aResponse);
 
                                     Log.i(this.getClass().getName(),"Serrver Rsponse   FEM : "+farmers.length());
-                                    databaseHelper.resetFarmer();
+
                                     int farmersCnt = 0;
                                     for (int i = 0; i < farmers.length(); i++) {
                                         JSONObject farmer = farmers.getJSONObject(i);
@@ -159,7 +162,7 @@ public class ConnectionUtil {
 
                                                 "firstname", "lastname", "nickname", "community", "village",
                                                 "district", "region", "age", "gender", "maritalstatus",
-                                                "numberofchildren", "numberofdependants", "education", "cluster", "farmerid",
+                                                "numberofchildren", "numberofdependants", "education", "cluster", "Id",
                                                 "sizeplot", "labour", "date_land_ident","loc_land", "target_area",
                                                 "exp_price_ton", "variety", "target_nxt_season", "techneed1", "techneed2",
                                                 "fbo", "farmarea", "date_plant", "date_man_weed", "pos_contact",
@@ -182,6 +185,7 @@ public class ConnectionUtil {
                                         int  [] bioDataIndex={6,9,4,2,10,32,7,3,8,0,1,11,12,13,14,26};
 
 
+
                                         String[] vals = new String[keys.length];
 
                                         Arrays.fill(vals,"");
@@ -194,6 +198,13 @@ public class ConnectionUtil {
                                                 vals[b] = "";
                                             }
 
+                                        }
+                                        long lm= 0l;
+
+                                        try {
+                                            lm= bioData.getLong("lm");
+                                        }catch(Exception e){
+                                            lm=0l;
                                         }
 
 
@@ -229,7 +240,6 @@ public class ConnectionUtil {
                                         String baselinepostharvestbudget = p.toString();
 
 
-
                                         JSONArray gps= jObj.getJSONArray("farmgps");
                                         if(gps.length()>0){
                                             String fId=bioData.getString("farmerid");;
@@ -258,6 +268,11 @@ public class ConnectionUtil {
 
                                         Log.i(this.getClass().getName(), "Saving farmer "+i);
 
+                                        databaseHelper.deleteFarmer(bioData.getString("Id"));
+                                        databaseHelper.updateUser(bioData.getString("Id"),lm);
+
+
+                                        System.out.println("Production Baseline  : "+bioData.getString("Id")+"---"+baselineProduction);
                                         Farmer f = databaseHelper.saveFarmer(vals[0], vals[1], vals[2], vals[3],
                                                 vals[4], vals[5], vals[6], vals[7], vals[8], vals[9], vals[10], vals[11], vals[12], vals[13], vals[14],
                                                 vals[15], vals[16], vals[17], vals[18],
@@ -268,49 +283,55 @@ public class ConnectionUtil {
 
                                         Log.i(this.getClass().getName(),production);
 
-                                        JSONArray meetings = jObj.getJSONArray("meeting");
+                                        try{
+                                            JSONArray meetings = jObj.getJSONArray("meeting");
 
 
-                                        if (meetings != null) {
+                                            if (meetings != null) {
 
-                                            int grpCnt = 1;
-                                            int individaulCnt = 1;
-                                            for (int k = 0; k < meetings.length(); k++) {
-                                                JSONObject meet = meetings.getJSONObject(k);
+                                                int grpCnt = 1;
+                                                int individaulCnt = 1;
+                                                for (int k = 0; k < meetings.length(); k++) {
+                                                    JSONObject meet = meetings.getJSONObject(k);
 
-                                                //    public Meeting saveMeeting(String id, St
-                                                // ring type, String title, Date scheduledDate, Date meetingDate, int attended, int meetingIndex, String farmer,
-                                                String typeMeet = meet.getString("ty");
-                                                String title = "";
-                                                // String remark,String crop,String season){
+                                                    //    public Meeting saveMeeting(String id, St
+                                                    // ring type, String title, Date scheduledDate, Date meetingDate, int attended, int meetingIndex, String farmer,
+                                                    String typeMeet = meet.getString("ty");
+                                                    String title = "";
+                                                    // String remark,String crop,String season){
 
-                                                //{"ty":"individual","midx":"1","sd":"01/03/2105","sea":"1","ed":"30/03/2015"},{"ty":"group","midx":"4","sd":"01/08/2015","sea":"1","ed":"31/08/2015"},
-                                                // {"ty":"group","midx":"1","sd":"01/02/2015","sea":"1","ed":"28/02/2015"}
-                                                if (typeMeet.contains("ind")) {
-                                                    title = individaulCnt + " " + typeMeet.toUpperCase() + " Meeting";
-                                                    individaulCnt++;
-                                                } else {
+                                                    //{"ty":"individual","midx":"1","sd":"01/03/2105","sea":"1","ed":"30/03/2015"},{"ty":"group","midx":"4","sd":"01/08/2015","sea":"1","ed":"31/08/2015"},
+                                                    // {"ty":"group","midx":"1","sd":"01/02/2015","sea":"1","ed":"28/02/2015"}
+                                                    if (typeMeet.contains("ind")) {
+                                                        title = individaulCnt + " " + typeMeet.toUpperCase() + " Meeting";
+                                                        individaulCnt++;
+                                                    } else {
 
-                                                    title = grpCnt + " " + typeMeet.toUpperCase() + " Meeting";
-                                                    grpCnt++;
+                                                        title = grpCnt + " " + typeMeet.toUpperCase() + " Meeting";
+                                                        grpCnt++;
+                                                    }
+                                                    title = AgentVisitUtil.getMeetingTitle(AgentVisitUtil.getMeetingPosition(meet.getInt("midx"),typeMeet));
+                                                    databaseHelper.saveMeeting("",
+
+                                                            meet.getString("ty"),
+                                                            title,
+                                                            IctcCKwUtil.formatSlashDates(meet.getString("sd")),
+                                                            null,
+                                                            0,// meet.getInt("at"),
+                                                            meet.getInt("midx"),
+                                                            f.getFarmID(),
+                                                            "",
+                                                            f.getMainCrop(), meet.getString("sea")
+                                                    );
+
+
                                                 }
-                                                title = AgentVisitUtil.getMeetingTitle(AgentVisitUtil.getMeetingPosition(meet.getInt("midx"),typeMeet));
-                                                databaseHelper.saveMeeting("",
-
-                                                        meet.getString("ty"),
-                                                        title,
-                                                        IctcCKwUtil.formatSlashDates(meet.getString("sd")),
-                                                        null,
-                                                        0,// meet.getInt("at"),
-                                                        meet.getInt("midx"),
-                                                        f.getFarmID(),
-                                                        "",
-                                                        f.getMainCrop(), meet.getString("sea")
-                                                );
-
-
                                             }
+                                        }catch (Exception e){
+
                                         }
+
+                                        System.out.println("Farmer After Meeting");
                                     farmersCnt++;
                                     }
 
@@ -353,4 +374,139 @@ public class ConnectionUtil {
         // return  serverResponse;
     }
 
+
+    public static void refreshWeather(final Context context, final String type,String msg ) {
+
+        // String url="http://sandbox-ictchallenge.cs80.force.com/getTest";
+        final  DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        Toast.makeText(context, msg,
+                Toast.LENGTH_SHORT).show();
+
+
+        Thread background = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                try {      /* TODO output your page here. You may use following sample code. */
+                    String serverResponse = "";
+                    String url = IctcCkwIntegrationSync.WEATHER_URL;
+
+
+                    JSONObject j = new JSONObject();
+                    Log.i(this.getClass().getName(),"URL : " + url);
+
+                    HttpClient client = new DefaultHttpClient();
+                    HttpPost post = new HttpPost(url);
+
+
+                    HttpResponse resp = client.execute(post);
+                    Log.i(this.getClass().getName(),"After icctc send");
+                    BufferedReader rd = new BufferedReader(new InputStreamReader(resp.getEntity().getContent()));
+                    //String server="";
+                    Log.i(this.getClass().getName(),"Done");
+                    String line = "";
+                    while ((line = rd.readLine()) != null) {
+                        Log.i(this.getClass().getName(),line);
+                        serverResponse += line;
+                    }
+
+                    Log.i(this.getClass().getName(),"Serrver Weather Rsponse  : "+serverResponse);
+
+                    threadMsg(serverResponse,type);
+                    Log.i(this.getClass().getName(),"Serrver Rsponse  : 1");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            private void threadMsg(String msg,String type) {
+                Log.i(this.getClass().getName(), "Serrver Weather Rsponse  : 2");
+                if (!msg.equals(null) && !msg.equals("")) {
+                    Log.i(this.getClass().getName(),"Serrver Rsponse  Dey: 1");
+                    Message msgObj = handler.obtainMessage();
+                    Bundle b = new Bundle();
+
+                    b.putString("message", msg);
+
+                    msgObj.setData(b);
+                    handler.sendMessage(msgObj);
+                }else{
+                    Log.i(this.getClass().getName(),"Serrver Weather Rsponse  No Response : -");
+
+                }
+            }
+
+
+            private final Handler handler;
+
+            {
+                handler = new Handler() {
+
+                    public void handleMessage(Message msg) {
+
+
+
+                        String aResponse = msg.getData().getString("message");
+
+
+                            Log.i(this.getClass().getName(),"Serrver Rsponse  weather Details  :  Weather");
+                            if ((null != aResponse)) {
+
+                                ///  TextView test = (TextView) findViewById(R.id.txtcluster);
+
+                                // test.setText(aResponse);
+                                Log.i(this.getClass().getName(),"Serrver Rsponse  weather Details  :  fnot NUll");
+                                try {
+//                                    JSONObject resp = new JSONArray(aResponse);
+
+                                    JSONArray weathers = new JSONArray(aResponse);
+
+                                    Log.i(this.getClass().getName(),"Serrver Rsponse   FEM : "+weathers.length());
+                                    databaseHelper.resetWeather();
+                                    int farmersCnt = 0;
+                                    for (int i = 0; i < weathers.length(); i++) {
+                                        JSONObject weather = weathers.getJSONObject(i);
+                                        Weather w = new Weather();
+                                        w.setTime(weather.getLong("time"));
+                                        w.setLocation(weather.getString("city"));
+                                        w.setDetail(weather.getString("detail"));
+                                        w.setTemprature(weather.getDouble("temp"));
+                                        w.setMaxTemprature(weather.getDouble("max_temp"));
+                                        w.setMinTemprature(weather.getDouble("min_temp"));
+                                        Log.i(this.getClass().getName(),"Serrver Rsponse   Selected : "+weather.toString());
+//
+
+                                        long wId =   databaseHelper.saveWeather(w);
+
+                                        System.out.println("Weather ID");
+
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                // ALERT MESSAGE
+                                Toast.makeText(
+                                        context,
+                                        "Data Recieved  For weather ",
+
+                                        Toast.LENGTH_SHORT).show();
+//
+                            }
+
+                        }
+
+
+
+                };
+            }
+
+        });
+
+        background.start();
+        // return  serverResponse;
+    }
 }

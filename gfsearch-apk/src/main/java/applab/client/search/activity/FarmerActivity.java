@@ -12,6 +12,7 @@ import applab.client.search.adapters.FarmersAdapter;
 import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.storage.DatabaseHelperConstants;
+import applab.client.search.utils.IctcCKwUtil;
 
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class FarmerActivity extends BaseActivity {
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
 
+        IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
         String type = "farmer";
         Bundle extras = getIntent().getExtras();
         try {

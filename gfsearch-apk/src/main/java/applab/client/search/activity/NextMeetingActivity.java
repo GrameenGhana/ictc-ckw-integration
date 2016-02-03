@@ -41,7 +41,7 @@ public class NextMeetingActivity extends BaseActivity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Next Meeting Activity");
 
-
+        IctcCKwUtil.setActionbarUserDetails(this,mCustomView);
         DatabaseHelper dh = new DatabaseHelper(getBaseContext());
         super.setDetails(dh, "Client", "Next Activity Item", "", "");
         mActionBar.setCustomView(mCustomView);

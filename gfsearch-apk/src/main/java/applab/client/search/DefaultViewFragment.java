@@ -15,6 +15,7 @@ import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.ui.*;
 import applab.client.search.utils.IctcCKwUtil;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 
@@ -60,7 +61,7 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
         mBundle = getArguments();
         Farmer f = null;
         try {
-                  crop = mBundle.getString("SELECTED_CROP");
+            crop = mBundle.getString("SELECTED_CROP");
             detail = mBundle.getString("SELECTED_LABEL");
             farmerId= mBundle.getString("SELECTED_FARMER");
             farmerName= mBundle.getString("SELECTED_FARMER_NAME");
@@ -105,16 +106,19 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
         final MainListViewAdapter listViewAdapter = new MainListViewAdapter(getActivity());
         getMainListView().setAdapter(listViewAdapter);
         IctcCKwUtil.setFarmerDetails(container,R.id.default_view_profile,farmerName,farmer,true);
+        System.out.println("CKW By Crop : "+selectedCrop);
         if(!selectedCrop.isEmpty()) {
             List<SearchMenuItem> itemSelected = new MenuItemService().getSearchMenuItemByLabel(selectedCrop);
+            System.out.println("CKW By SearchMenuItem : "+itemSelected.size());
 
             if(!label.isEmpty() && label.toLowerCase().contains("harvest")){
+                System.out.println("CKW harvest");
                 if(!itemSelected.isEmpty()){
                     itemSelected = new MenuItemService().getSearchMenuItemByLabelAndParent(itemSelected.get(0).getId(),"Harvest");
                 }
-
             }
             if(!itemSelected.isEmpty()){
+                System.out.println("CKW lst");
                 selectListElement(itemSelected.get(0),listViewAdapter);
             }
         }
@@ -155,8 +159,13 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
     private void selectListElement(final ListObject itemToSelect, MainListViewAdapter listViewAdapter) {
         if (listViewAdapter.hasChildren(itemToSelect)) {
             listViewAdapter.setSelectedObject(itemToSelect);
+            System.out.println("CKW List Selected "+itemToSelect.getLabel());
             getListObjectNavigationStack().push(listViewAdapter.getSelectedObject());
 
+            String breadCrumb = createBreadCrumb(itemToSelect);
+            String category = breadCrumb.contains("|") ? breadCrumb.substring(0, breadCrumb.indexOf("|")) : "";
+
+            new DatabaseHelper(getActivity().getBaseContext()).insertCCHLog("CKW",itemToSelect.getLabel(),category,new Date().getTime(),new Date().getTime(),getActivity().getBaseContext());
             if (backNavigationMenuItem != null) {
                 //backNavigationMenuItem.setVisible(true);
                 getActivity().startActionMode(this);

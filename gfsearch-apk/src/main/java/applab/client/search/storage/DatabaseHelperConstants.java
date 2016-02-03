@@ -152,6 +152,20 @@ public final class DatabaseHelperConstants {
     public static final String ICTC_TRACKER_INPROGRESS = "inprogress";
 
 
+
+
+
+    public static final String ICTC_WEATHER_TABLE= "ictc_weather";
+
+    public static final String ICTC_LOCATION= "location";
+    public static final String ICTC_DETAIL= "detail";
+    public static final String ICTC_ICON = "icon";
+    public static final String ICTC_TEMPERATURE = "temperature";
+    public static final String ICTC_MIN_TEMPERATURE = "min_temp";
+    public static final String ICTC_MAX_TEMPERATURE = "max_temp";
+    public static final String ICTC_TIME = "weather_time";
+
+
     public static final String SIZE_PLOT = "size_plot";
     public static final String MAIN_CROP = "main_crop";
     public static final String LABOUR = "labour";
@@ -174,6 +188,18 @@ public final class DatabaseHelperConstants {
     public static final String MONTH_FINAL_PRODUCT_SOLD = "mon_fin_pro_sold";
 
     public static final String ICTC_ID = BaseColumns._ID;
+
+
+    //User
+
+    public static final String ICTC_USER_DETAIL_TABLE = "ictc_user_detail_table";
+    public static final String ICTC_LOGIN_TIME= "login_time";
+    public static final String ICTC_USER_NAME= "username";
+    public static final String ICTC_USER_FULL_NAME = "fullname";
+    public static final String ICTC_ORGANISATION ="organisation";
+    public static final String ICTC_USER_SF_ID ="sfId";
+    public static final String ICTC_LAST_MODIFIED_DATE ="lasrModifiedDate";
+
 
 
     //Crop calendar

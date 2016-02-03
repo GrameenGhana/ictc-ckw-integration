@@ -16,6 +16,11 @@
     <string name="upload_search_logs_download_msg">Uploading Search Logs please wait...</string>
     <string name="keyword_download_msg">Downloading keywords please wait...</string>
     <string name="farmer_download_msg">Downloading farmers please wait...</string>
+    <string name="weather_download_msg">Downloading Weather please wait...</string>
+    <string name="ictc_farmer_download_msg">Downloading Farmers Registered please wait...</string>
+
+    <string name="ictc_upload_logs">Uploading Logs please wait...</string>
+
     <string name="synchronization_complete_msg">Synchronization Complete.</string>
     <string name="processing_keywords_msg">Processing Keywords</string>
     <string name="processing_farmers_msg">Processing Farmers</string>
@@ -34,6 +39,10 @@
 
     <!-- Connection strings-->
     <!--<string name="server_url">https://grameenfoundation.secure.force.com/ckwsearch/SearchGetRequest</string>-->
+    <string name="ictc_server_url">http://104.236.220.225:8080/ICTC/</string>
+    <string name="ictc_title_server_url">ICTC Server Url</string>
+    <string name="ictc_summary_server_url">The url of the server to synchronize ICTC with.</string>
+
 
     <string name="server_url">http://sandbox-ictchallenge.cs80.force.com/getSearchRequest</string>
     <string name="title_server_url">Server Url</string>
@@ -134,6 +143,10 @@
     <string name="prefs_badges">prefBadges</string>
     <string name="prefs_background_data_connect">true</string>
     <string name="prefs_scoring_enabled">prefScoringEnabled</string>
+
+
+    <string name="username">username</string>
+    <string name="fullname">fullname</string>
 
     <string name="login_complete">Logged in</string>
     <string name="error_login">Invalid username/password\nPlease try again</string>

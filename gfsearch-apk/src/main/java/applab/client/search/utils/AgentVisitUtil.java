@@ -53,7 +53,7 @@ public class  AgentVisitUtil {
             activities.add(new applab.client.search.model.MeetingActivity("Farmer Registration", "I", "T",2,LAUNCH_TAROWORKS+"2. FARMER REGISTRATION"));
 //            activities.add(new applab.client.search.model.MeetingActivity("Collect Farmer Data","I","T",3,LAUNCH_TAROWORKS+"2. FARMER REGISTRATION"));
             activities.add(new applab.client.search.model.MeetingActivity(SHARE_INPUT_PACKAGE,"-","A",4,SELECT_FARMER+"\nShare Inputs"));
-            activities.add(new applab.client.search.model.MeetingActivity("Share TV Schedule","A","A",5, replaceRadioTVSchedule()));
+            activities.add(new applab.client.search.model.MeetingActivity("Share Media Schedule","A","A",5, replaceRadioTVSchedule()));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Request for Assistance","G","T",6,LAUNCH_TAROWORKS+"\nTechnical Needs Survey",false)) ;
             activities.add(new applab.client.search.model.MeetingActivity("Collect Meeting Question","G","A",7,MEETING_QUESITONS,false));
             activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE,"G","A",8,ATTENDANCE));
@@ -66,13 +66,13 @@ public class  AgentVisitUtil {
             activities.add(new applab.client.search.model.MeetingActivity("Provide technical Assistance","G","C",6,LAUNCH_CKW));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Request for Assistance","T","A",7,LAUNCH_TAROWORKS+"\nTechnical Needs Survey",false));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Meeting Question","G","A",8,MEETING_QUESITONS,false));
-            activities.add(new applab.client.search.model.MeetingActivity("Share TV Schedule","G","A",9,replaceRadioTVSchedule()));
+            activities.add(new applab.client.search.model.MeetingActivity("Share Media Schedule","G","A",9,replaceRadioTVSchedule()));
         }else if(3==meetingIndex){
             activities.add(new applab.client.search.model.MeetingActivity("Confirm Delivery of Inputs/Receipt","A","A",1,""));
             activities.add(new applab.client.search.model.MeetingActivity("Confirm Activities Agreed on Previous visit", "I", "A",2,"to decided",false));
             activities.add(new applab.client.search.model.MeetingActivity("Provide technical Assistance","G","C",3,LAUNCH_CKW));
             activities.add(new applab.client.search.model.MeetingActivity("Play A Game","-","A",4,"Game Coming Soon",false));
-            activities.add(new applab.client.search.model.MeetingActivity("Share TV Schedule","G","A",5, replaceRadioTVSchedule()));
+            activities.add(new applab.client.search.model.MeetingActivity("Share Media Schedule","G","A",5, replaceRadioTVSchedule()));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Request for ASSISTANCE","G","T",6,LAUNCH_TAROWORKS+"\nTechnical Needs Survey",false));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Meeting Question","G","A",7,MEETING_QUESITONS,false));
             activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE,"G","A",8,ATTENDANCE));
@@ -84,7 +84,7 @@ public class  AgentVisitUtil {
             activities.add(new applab.client.search.model.MeetingActivity("Post harvest management Planning","-","T",5,LAUNCH_TAROWORKS));
             activities.add(new applab.client.search.model.MeetingActivity("Provide technical Assistance on Post harvest Management","G","C",6,LAUNCH_CKW));
             activities.add(new applab.client.search.model.MeetingActivity("Agree Activities to be completed by Next Level","G","A",7,"to",false));
-            activities.add(new applab.client.search.model.MeetingActivity("Share TV Schedule","G","A",8, replaceRadioTVSchedule()));
+            activities.add(new applab.client.search.model.MeetingActivity("Share Media Schedule","G","A",8, replaceRadioTVSchedule()));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Meeting Question","G","A",9,MEETING_QUESITONS,false));
             activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE,"G","A",10,ATTENDANCE));
         }else if(5==meetingIndex){
@@ -94,7 +94,7 @@ public class  AgentVisitUtil {
             activities.add(new applab.client.search.model.MeetingActivity("Play Game","I","A",3,"Coming Soon",false));
             activities.add(new applab.client.search.model.MeetingActivity("Farm Plan Update","-","T",4,LAUNCH_TAROWORKS));
             activities.add(new applab.client.search.model.MeetingActivity("Agree Activities to be completed on next visit","A","A",5,"Things agreed on",false));
-            activities.add(new applab.client.search.model.MeetingActivity("Share TV Schedule","G","A",9, replaceRadioTVSchedule()));
+            activities.add(new applab.client.search.model.MeetingActivity("Share Media Schedule","G","A",9, replaceRadioTVSchedule()));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Request for Assistance","G","C",7,LAUNCH_CKW,false));
             activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE,"G","A",8,ATTENDANCE));
             activities.add(new applab.client.search.model.MeetingActivity("Collect Meeting Questions","G","A",8,MEETING_QUESITONS,false));

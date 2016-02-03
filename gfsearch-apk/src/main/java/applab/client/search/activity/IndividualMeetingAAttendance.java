@@ -49,7 +49,7 @@ public class IndividualMeetingAAttendance extends BaseActivity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Mark Attendance");
 
-
+        IctcCKwUtil.setActionbarUserDetails(this,mCustomView);
         helper = new DatabaseHelper(getBaseContext());
 
 

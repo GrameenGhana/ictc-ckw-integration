@@ -12,6 +12,7 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import applab.client.search.R;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.utils.IctcCKwUtil;
 
 /**
  * Created by skwakwa on 8/30/15.
@@ -32,7 +33,7 @@ public class ScheduledMeetingsActivity extends BaseActivityGroup {
         mTitleTextView.setText("Meeting Schedule");
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
-
+        IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
         TabHost tabHost = (TabHost)findViewById(R.id.tabHost);
         tabHost.setup(this.getLocalActivityManager());
 
@@ -52,7 +53,7 @@ public class ScheduledMeetingsActivity extends BaseActivityGroup {
 
         tabHost.addTab(spec);*/
         tabHost.setCurrentTab(0);
-        super.setDetails(new DatabaseHelper(getBaseContext()),"Meeting","Scheduled Meeting Activity");
+        super.setDetails(new DatabaseHelper(getBaseContext()),"Meeting","List of Meetings");
 //        TabHost.TabSpec spec =
     }
 

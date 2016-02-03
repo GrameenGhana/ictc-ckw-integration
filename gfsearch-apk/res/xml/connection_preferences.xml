@@ -8,5 +8,12 @@
                 android:summary="@string/summary_server_url"
                 android:dialogTitle="@string/title_server_url"
                 android:defaultValue="@string/server_url"/>
+
+        <EditTextPreference
+                android:key="ictc_server_url"
+                android:title="@string/ictc_title_server_url"
+                android:summary="@string/ictc_summary_server_url"
+                android:dialogTitle="@string/ictc_title_server_url"
+                android:defaultValue="@string/ictc_server_url"/>
     </PreferenceCategory>
 </PreferenceScreen>

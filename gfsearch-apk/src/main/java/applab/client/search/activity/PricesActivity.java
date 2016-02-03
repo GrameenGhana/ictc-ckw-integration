@@ -10,6 +10,7 @@ import android.widget.TextView;
 import applab.client.search.R;
 import applab.client.search.adapters.PriceListAdapter;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.utils.IctcCKwUtil;
 
 /**
  * Created by Software Developer on 30/07/2015.
@@ -30,6 +31,7 @@ public class PricesActivity extends BaseActivity {
         View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Prices");
+        IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
 
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);

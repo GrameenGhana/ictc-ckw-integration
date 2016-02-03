@@ -8,11 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import applab.client.search.MainActivity;
 import applab.client.search.R;
+import applab.client.search.adapters.ParentListAdapter;
+import applab.client.search.model.FarmManagementPlan;
 import applab.client.search.model.Farmer;
+import applab.client.search.model.wrapper.ItemWrapper;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.utils.FarmerUtil;
+
+import java.util.List;
 
 /**
  * Created by skwakwa on 8/25/15.
@@ -27,7 +34,7 @@ public class FarmManagementPlanActivity extends BaseActivity {
     private String location;
     private TextView textViewLocation;
     Farmer farmer;
-
+ListView list;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,18 +79,7 @@ public class FarmManagementPlanActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-        //mActionBar.setCustomView(mCustomView);
-       // mActionBar.setDisplayShowCustomEnabled(true);
-//        textViewName=(TextView) findViewById(R.id.textView_name);
-//        textViewName.setText(name);
-//        textViewMainCrop=(TextView) findViewById(R.id.textView_fmp_mainCrop);
-//        textViewMainCrop.setText(mainCrop);
-//        textViewProportion=(TextView) findViewById(R.id.textView_proportion);
-//        textViewLocation=(TextView) findViewById(R.id.textView_location);
-//
-//        textViewLocation.setText(location);
-//        textViewPercentageSold=(TextView) findViewById(R.id.textView_percentageSold);
-//
+
 
 
         textViewName = (TextView) findViewById(R.id.textView_fmp_name);
@@ -94,74 +90,17 @@ public class FarmManagementPlanActivity extends BaseActivity {
             System.out.println("Excception e: " + e.getLocalizedMessage());
         }
         textViewName.setText(farmer.getLastName() + ", " + farmer.getFirstName());
-        textViewName = (TextView) findViewById(R.id.textView_fmp_community);
-//        textViewName.setText(farmer.getCommunity());
 
 
-        textViewName = (TextView) findViewById(R.id.textView_fmp_fbo);
-        textViewName.setText(farmer.getFarmerBasedOrg());
+        list = (ListView) findViewById(R.id.lst_fmp_item);
 
-        textViewName = (TextView) findViewById(R.id.textView_fmp_mainCrop);
-        textViewName.setText(farmer.getMainCrop());
-
-
-        textViewName = (TextView) findViewById(R.id.textView_fmp_labour);
-        textViewName.setText(farmer.getLabour());
-
-
-        textViewName = (TextView) findViewById(R.id.textView_fmp_land_identification);
-        textViewName.setText(farmer.getDateOfLandIdentification());
-        textViewMainCrop = (TextView) findViewById(R.id.textView_fmp_land_loc);
-        textViewMainCrop.setText(farmer.getLocationOfLand());
-
-        textViewName = (TextView) findViewById(R.id.textView_fmp_main_contact_sales);
-        textViewName.setText(farmer.getPosContact());
-
-        textViewName = (TextView) findViewById(R.id.textView_fmp_mainCrop);
-        textViewName.setText(farmer.getMainCrop());
-
-
-        textViewName = (TextView) findViewById(R.id.textView_fmp_manual_weed_control);
-        textViewName.setText(farmer.getDateManualWeeding());
-
-
-        textViewName = (TextView) findViewById(R.id.textView_fmp_month_final_product_sold);
-        textViewName.setText(farmer.getMonthFinalProductSold());
-        textViewMainCrop = (TextView) findViewById(R.id.textView_fmp_month_sale_begin);
-        textViewMainCrop.setText(farmer.getMonthSellingStarts());
-
-        textViewName = (TextView) findViewById(R.id.textView_fmp_plant_date);
-        textViewName.setText(farmer.getPlantingDate());
-
-        textViewName = (TextView) findViewById(R.id.textView_fmp_plot_size);
-        textViewName.setText(farmer.getLandArea());
-
-
-
-        textViewName = (TextView) findViewById(R.id.textView_fmp_price_final_batch_sold);
-        textViewName.setText(farmer.getExpectedPriceInTon());
-
-
-        textViewName = (TextView) findViewById(R.id.textView_fmp_perimeter);
-        textViewName.setText(farmer.getSizePlot());
-        textViewMainCrop = (TextView) findViewById(R.id.textView_fmp_target_next_season);
-        textViewMainCrop.setText(farmer.getTargetNextSeason());
-
-        textViewName = (TextView) findViewById(R.id.textView_fmp_target_per_acre);
-//        textViewName.setText(farmer.getTargetArea());
-
-        textViewName = (TextView) findViewById(R.id.textView_fmp_tech_needs);
-        textViewName.setText(farmer.getTechNeeds1());
-
-
-        textViewName = (TextView) findViewById(R.id.textView_fmp_variety);
-        textViewName.setText(farmer.getVariety());
-
-
-        textViewName = (TextView) findViewById(R.id.textView_fmp_labour);
-        textViewName.setText(farmer.getLabour());
-        super.setDetails(new DatabaseHelper(getBaseContext()), "Farmer", "Farmer Management");
-
+DatabaseHelper dbHelper=new DatabaseHelper(getBaseContext());
+        //dbHelper.getIndividualFarmerInputs(farmer.getFarmID())
+        List<ItemWrapper> wr = FarmerUtil.getFarmManagementPlan(farmer,dbHelper.getIndividualFarmerInputs(farmer.getFarmID()));
+        ParentListAdapter adapter = new ParentListAdapter(FarmManagementPlanActivity.this,wr);
+        list.setAdapter(adapter);
+        super.setDetails(dbHelper, "Farmer", "Farmer Management Plan");
+        super.section=farmer.getFullname();
 
     }
 

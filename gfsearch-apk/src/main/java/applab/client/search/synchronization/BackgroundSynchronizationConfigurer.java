@@ -32,9 +32,11 @@ public class BackgroundSynchronizationConfigurer extends BroadcastReceiver {
         if (intent.getAction().equals(SettingsManager.ACTION_SETTINGS_CHANGED)) {
             String setting = intent.getStringExtra(SettingsManager.INTENT_DATA_CHANGED_SETTING_KEY);
             if (setting != null) {
+                System.out.println("Sync Service Not null");
                 if (setting.equals(SettingsConstants.KEY_BACKGROUND_SYNC_ENABLED)
                         || setting.equals(SettingsConstants.KEY_BACKGROUND_SYNC_INTERVAL)
                         || setting.equals(SettingsConstants.KEY_BACKGROUND_SYNC_INTERVAL_UNITS)) {
+                    System.out.println("Sync Service apply background ");
                     applyBackgroundSynchronizationSettings(context);
                 }
             }
@@ -50,6 +52,7 @@ public class BackgroundSynchronizationConfigurer extends BroadcastReceiver {
         boolean syncEnabled = SettingsManager
                 .getInstance().getBooleanValue(SettingsConstants.KEY_BACKGROUND_SYNC_ENABLED, true);
 
+        System.out.println("Sync Service Appy BG ");
         int interval = Integer.parseInt(SettingsManager
                 .getInstance().getValue(SettingsConstants.KEY_BACKGROUND_SYNC_INTERVAL,
                         String.valueOf(DEFAULT_SYNCHRONIZATION_INTERVAL_MINUTES)));
@@ -59,8 +62,10 @@ public class BackgroundSynchronizationConfigurer extends BroadcastReceiver {
                         String.valueOf(SettingsConstants.INTERVAL_UNITS_MINUTES)));
 
         if (syncEnabled) {
+            System.out.println("Sync Service Sync enabled ");
             setRepeatingAlarm(context, interval, units);
         } else {
+            System.out.println("Sync ServiceSync Remove");
             removeAlarm(context);
         }
     }
@@ -90,7 +95,7 @@ public class BackgroundSynchronizationConfigurer extends BroadcastReceiver {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-
+        System.out.println("Sync Service Reapeating alarm ");
 
         Intent intent = new Intent(ACTION_BACKGROUND_SYNC);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);

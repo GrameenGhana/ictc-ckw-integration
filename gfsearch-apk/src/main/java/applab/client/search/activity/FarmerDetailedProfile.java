@@ -62,6 +62,8 @@ public class FarmerDetailedProfile extends BaseActivity {
 //        myInputs =  dbHelper.getIndividualFarmerInputs(farmer.getFarmID());
         mActionBar.setDisplayShowCustomEnabled(true);
 
+
+        IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
         list = (ExpandableListView) findViewById(R.id.exp_detailed_profile);
         list.setGroupIndicator(null);
         final List<String> sections = new ArrayList<String>();

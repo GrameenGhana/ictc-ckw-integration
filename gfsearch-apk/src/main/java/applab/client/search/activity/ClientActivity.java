@@ -13,6 +13,7 @@ import applab.client.search.R;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.model.MeetingActivity;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.utils.IctcCKwUtil;
 
 /**
  * Created by skwakwa on 9/29/15.
@@ -36,11 +37,12 @@ public class ClientActivity extends BaseActivity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Clients");
 
-
         DatabaseHelper dh = new DatabaseHelper(getBaseContext());
         super.setDetails(dh,"Client","Client Home");
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
+
+        IctcCKwUtil.setActionbarUserDetails(this,mCustomView);
         //,, ,
         final String[] titles = {
                 "Data Collection",
@@ -67,13 +69,13 @@ public class ClientActivity extends BaseActivity {
                     case 0:
                         intent = new Intent(ClientActivity.this, SurveyList.class);
 
-                        break;
+                    break;
                     case 1:
                         intent = new Intent(ClientActivity.this, ClusterActivity.class);
 
                         break;
                     case 2:
-                         intent = new Intent(ClientActivity.this, ScheduledMeetingsActivity.class);
+                        intent = new Intent(ClientActivity.this, ScheduledMeetingsActivity.class);
 
                         break;
                     case 3:

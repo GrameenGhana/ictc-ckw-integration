@@ -13,6 +13,7 @@ import android.widget.Toast;
 import applab.client.search.R;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.utils.IctcCKwUtil;
 
 /**
  * Created by skwakwa on 9/29/15.
@@ -37,38 +38,34 @@ public class SurveyList extends BaseActivity {
 
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
-
+        IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
         //, , Financial Institutions
         final String []   titles = {
                 "FARMER REGISTRATION",
                 "PROFILING",
                 "BASELINE PRODUCTION",
-                "BASELINE PRODUCTION BUDGET",
                 "BASELINE POST HARVEST",
-                "BASELINE POST-HARVEST BUDGET",
                 "FMP PRODUCTION",
-                "FMP PRODUCTION BUDGET",
                 "FMP POST-HARVEST",
-                "FMP POST-HARVEST BUDGET",
-                "FMP POST HARVEST BUDGET "
 
-                ,
                 "FIELD CROP ASSESSMENT",
-                "FMP PRODUCTION UPDATE",
-                "FMP PRODUCTION BUDGET UPDATE ",
-                "FMP POST HARVEST BUDGET UPDATE "
+                "FMP PRODUCTION UPDATE 1",
+                "FMP PRODUCTION UPDATE 2",
+                "FMP POST HARVEST UPDATE 1",
+                "FMP POST HARVEST UPDATE 2"
         };
+        String [] captions={"A","B","C","D","E","F","G","H1","H2","I1","I2"};
 
         String [] fLetters  = new String[titles.length];
         boolean [] enabled=new boolean[titles.length];
         String abcd="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         for(int i=0;i< titles.length;i++){
-            fLetters[i] = String.valueOf(abcd.charAt(i));
+//            fLetters[i] = String.valueOf(abcd.charAt(i));
             enabled[i]=true;
         }
 
 
-        final String []   firstLetter = fLetters;
+        final String []   firstLetter = captions;
 //       {true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true};
 
         list =(ListView)findViewById(R.id.lst_supplier_listings);
@@ -88,7 +85,7 @@ public class SurveyList extends BaseActivity {
 
             }
         });
-        super.setDetails(new DatabaseHelper(getBaseContext()),"Supplier","Supplier");
+        super.setDetails(new DatabaseHelper(getBaseContext()),"Data Collection","Data Collection    ");
 
 
     }

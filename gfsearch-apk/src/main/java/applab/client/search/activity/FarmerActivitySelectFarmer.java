@@ -172,7 +172,7 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         Intent intent;
 
-                        processOnClickRequest(myFarmers,i);
+                        processOnClickRequest(farmSearchedList,i);
 
                     }
 

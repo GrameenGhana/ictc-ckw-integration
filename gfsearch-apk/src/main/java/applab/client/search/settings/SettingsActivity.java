@@ -60,4 +60,9 @@ public class SettingsActivity extends PreferenceActivity {
         }
         return true;
     }
+
+
+    protected boolean isValidFragment (String fragmentName) {
+        return true;
+    }
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.*;
 import applab.client.search.R;
 import applab.client.search.model.Farmer;
+import applab.client.search.model.UserDetails;
 import applab.client.search.services.LoginTask;
 import applab.client.search.services.TrackerService;
 import applab.client.search.storage.DatabaseHelper;
@@ -54,6 +55,7 @@ public class StartUpActivity extends BaseActivity {
 //        mTitleTextView.setText("Login");
 
         databaseHelper = new DatabaseHelper(getBaseContext());
+        databaseHelper.createUser();
         super.setDetails(databaseHelper,"Dashboard","Startup");
 
 
@@ -63,6 +65,7 @@ public class StartUpActivity extends BaseActivity {
         service.putExtras(tb);
         this.startService(service);
         databaseHelper.alterFarmerTable();
+        databaseHelper.alterUserTable();
         if(databaseHelper.farmerCount()>0)
         {
             if(databaseHelper.getMeetingSettingCount()==0){
@@ -103,11 +106,9 @@ public class StartUpActivity extends BaseActivity {
                     Intent intent = new Intent(StartUpActivity.this, DashboardActivity.class);
                     databaseHelper = new DatabaseHelper(getBaseContext());
 
-                    ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
 
-                    startActivity(intent);
 //                    ConnectionUtil.refreshFarmerInfo(getBaseContext(),intent,"us=" + userEdit.getText() + "&pwd=" + passEdit.getText(),"login","Login Please wait");
-//                    getData(intent, "us=" + userEdit.getText() + "&pwd=" + passEdit.getText(), "login","Login Please wait",userEdit.getText().toString());
+                    getData(intent, "us=" + userEdit.getText().toString().trim() + "&pwd=" + passEdit.getText(), "login","Login Please wait",userEdit.getText().toString().trim());
 //
                 }
             }
@@ -143,7 +144,7 @@ public class StartUpActivity extends BaseActivity {
 
                 try {      /* TODO output your page here. You may use following sample code. */
                     String serverResponse = "";
-                    String url = IctcCkwIntegrationSync.ICTC_SERVER_URL + "action="+type;
+                    String url = IctcCkwIntegrationSync.ICTC_SERVER_URL_ROOT_2 + "action="+type;
                     if(queryString.length()>0)
                         url+="&"+queryString;
 
@@ -174,8 +175,9 @@ public class StartUpActivity extends BaseActivity {
                         i.putExtra("err","Invalid Username or Password");
                         i.putExtra("us",us);
                         startActivity(i);
-                    }else
-                    {threadMsg(serverResponse,type);}
+                    }else{
+                        System.out.println("Thread");
+                    {threadMsg(serverResponse,type);}}
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
@@ -214,12 +216,42 @@ public class StartUpActivity extends BaseActivity {
 //
                                 if ((null != aResponse)) {
                                     JSONObject resp = new JSONObject(aResponse);
-                                    if(resp.getString("rc").equalsIgnoreCase("00")){
+                                    if(resp.getString("rc").equalsIgnoreCase("000") || resp.getString("rc").equalsIgnoreCase("00")){
+                                        UserDetails  u = new UserDetails();
+                                        u.setUserName(us);
+                                        u.setFullName(resp.getString("fname") + " " + resp.getString("lname"));
+                                        try {
+                                            u.setSalesForceId(resp.getString("sfId"));
+                                        }catch(Exception e){
+                                            u.setSalesForceId("00524000001xFMiAAM");
+                                        }
+//                                        u.setSalesForceId("00524000001xFMiAAM");
+
+                                        try {
+                                            u.setOrganisation(resp.getString("org"));
+
+                                        }catch(Exception e){
+
+                                        }
+
+                                        System.out.println("User Found  Server Response : : "+u.getFullName());
+
+                                        databaseHelper.resetUser();
+                                        databaseHelper.saveUserDetail(u);
+                                        IctcCKwUtil.setUserDetails(StartUpActivity.this,u);
+                                        System.out.println("Kidsd");
                                         Intent intent1 = new Intent(getBaseContext(),DashboardActivity.class);
-                                        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);      intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        System.out.println("Kidsd 1");
+                                        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                         Toast.makeText(getBaseContext(),"Login Successful",Toast.LENGTH_LONG).show();
+                                        System.out.println("Kidsd 2");
                                         //getData(intent, "", "details", "Login Successful, Loading Agent Data");
-                                        ConnectionUtil.refreshFarmerInfo(getBaseContext(), intent1, "", "fdetails", "Loading Farmer Data");
+                                        ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
+                                        System.out.println("Kidsd 3");
+
+                                        ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
+
                                         startActivity(intent);
                                     }else{
                                         Toast.makeText(getBaseContext(),"Wrong Username or password",Toast.LENGTH_LONG).show();

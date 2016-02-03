@@ -12,6 +12,7 @@ import android.widget.TextView;
 import applab.client.search.R;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.utils.IctcCKwUtil;
 
 /**
  * Created by skwakwa on 9/29/15.
@@ -35,7 +36,7 @@ public class MarketActivity extends BaseActivity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Suppliers");
 
-
+        IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
         //, , Financial Institutions

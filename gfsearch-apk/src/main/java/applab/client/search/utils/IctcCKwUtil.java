@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.BatteryManager;
 import android.telephony.TelephonyManager;
@@ -11,11 +12,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import applab.client.search.ApplicationRegistry;
+import applab.client.search.GlobalConstants;
 import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.activity.FarmerDetailActivity;
 import applab.client.search.model.Farmer;
 import applab.client.search.model.Meeting;
+import applab.client.search.model.UserDetails;
+import applab.client.search.storage.DatabaseHelper;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -36,6 +41,11 @@ public class IctcCKwUtil {
     public static final DateTimeFormatter DATE_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd");
     public static final DateTimeFormatter TIME_FORMAT = DateTimeFormat.forPattern("HH:mm:ss");
 
+    public  static  final String KEY_USER_NAME="key_app_cache_username";
+    public  static  final String KEY_FULNAME="key_app_cache_fullname";
+    public  static  final String KEY_VERSION="key_app_cache_version";
+
+    public static final String APP_VERSION="1.1.4";
 
     public static Date formatDateTime(String timeToFormat) {
 
@@ -204,6 +214,24 @@ if(!timeToFormat.isEmpty()) {
         return "0.1";
     }
 
+    public static String getAppVersion(Context context){
+
+        try {
+
+            String versionName =(String) ApplicationRegistry.retrieve(KEY_VERSION);
+            if(versionName==null)
+                versionName=APP_VERSION;
+//            System.out.println("Version Name: "+versionName);
+            return versionName;
+        }catch (Exception e){
+
+
+        }
+                //getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+
+        return APP_VERSION;
+    }
+
 
     public static void setFarmerDetails(Activity container,int parentID,String farmerName, final Farmer farmer, boolean clickable){
         setFarmerDetails(container.getWindow().getDecorView().getRootView(),parentID,farmerName,farmer,clickable);
@@ -355,4 +383,79 @@ if(!timeToFormat.isEmpty()) {
         return arr;
 
     }
+
+    public static UserDetails getUser(Context c){
+
+
+        Activity activity = (Activity) c;
+
+
+        SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
+        String username = sharedPref.getString(c.getResources().getString(R.string.username), "guest");
+        String fullname = sharedPref.getString(c.getResources().getString(R.string.fullname),"guest");
+
+
+        UserDetails user = new UserDetails();
+        user.setFullName(fullname);
+        user.setUserName(username);
+
+        return  user;
+
+    }
+
+    public static void setUserDetails(Context c , UserDetails u){
+        Activity activity = (Activity) c;
+        try {
+            ApplicationRegistry.setApplicationContext(c);
+//        ApplicationRegistry.setMainActivity(this);
+
+
+            //caching the device imie in the application registry
+            ApplicationRegistry.register(GlobalConstants.KEY_CACHED_DEVICE_IMEI,
+                    DeviceMetadata.getDeviceImei(c));
+
+            //register application version in registry
+            ApplicationRegistry.register(GlobalConstants.KEY_CACHED_APPLICATION_VERSION,
+                    c.getResources().getString(R.string.app_name) + "/"
+                            + c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionName);
+            ApplicationRegistry.register(IctcCKwUtil.KEY_FULNAME,u.getFullName()
+            );
+
+            ApplicationRegistry.register(IctcCKwUtil.KEY_VERSION,c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionName
+            );
+            ApplicationRegistry.register(IctcCKwUtil.KEY_USER_NAME, u.getUserName());
+        }catch(Exception e){
+
+        }
+    }
+
+
+    public static  void setActionbarUserDetails(Context c, View mCustomView){
+
+        boolean showDetails = true;
+        String username = (String)ApplicationRegistry.retrieve(IctcCKwUtil.KEY_USER_NAME);
+        if(null==username){
+            UserDetails u = new DatabaseHelper(c).getUserItem();
+            if(u!=null)
+            setUserDetails(c,u);
+            else
+                showDetails=false;
+
+        }
+    if(showDetails) {
+
+        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.user_fullname);
+        UserDetails us = getUser(c);
+        mTitleTextView.setText(((String) ApplicationRegistry.retrieve(IctcCKwUtil.KEY_FULNAME)).replace(" lastname", ""));
+
+        mTitleTextView = (TextView) mCustomView.findViewById(R.id.user_username);
+    mTitleTextView.setText("[" + username + "]");
+    }
+    }
+
+    public  static String getUsername(){
+        return (String)ApplicationRegistry.retrieve(IctcCKwUtil.KEY_USER_NAME);
+
+    }
+
 }

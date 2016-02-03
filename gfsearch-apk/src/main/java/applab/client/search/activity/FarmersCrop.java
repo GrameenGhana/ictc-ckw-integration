@@ -63,8 +63,9 @@ String crop="";
             cnt++;
 
         }
+//        super.section = page;
 
-        super.setDetails(helper,"Farmer","Farmer Crop");
+        super.setDetails(helper,"Farmer","Farmer Crop",crop,"");
 
 
 
@@ -151,7 +152,12 @@ String crop="";
     public void processOnClickRequest(List<Farmer> fms,int i){
 
         Intent intent= new Intent(FarmersCrop.this, FarmerDetailActivity.class);
-        intent.putExtra("farmer",fms.get(i));
+        Farmer f = fms.get(i);
+
+        System.out.println("List Po Fullnamed : "+f.getFullname()+"{"+f.getFarmID()+"}");
+        System.out.println("List Po Fullnamed : "+f.getFullname()+"{"+f.getId()+"}");
+        intent.putExtra("farmer",f);
+        intent.putExtra("farmerId",f.getFarmID());
         startActivity(intent);
     }
 }

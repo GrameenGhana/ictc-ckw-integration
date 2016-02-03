@@ -60,15 +60,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Kofi Nti"
+                    android:text="Guest"
 
-                    android:id="@+id/textView49" android:textColor="#ffffffff" android:textSize="14dp"/>
+                    android:id="@+id/user_fullname" android:textColor="#ffffffff" android:textSize="14dp"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="ID: MKAC 9865"
-                    android:id="@+id/textView50" android:textColor="#ffffffff" android:textSize="14dp"/>
+                    android:text="Guest ID"
+                    android:id="@+id/user_username" android:textColor="#ffffffff" android:textSize="14dp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

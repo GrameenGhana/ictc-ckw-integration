@@ -67,10 +67,19 @@ public class FarmerDetailActivity extends BaseActivityGroup {
             if (extras != null) {
                 String farmerId = (String) extras.get("farmerId");
 
+                farmer = (Farmer) extras.get("farmer");
+
                 if(null == farmerId ||farmerId.isEmpty()) {
                     farmer = (Farmer) extras.get("farmer");
+                    System.out.println("Farmer F : "+farmer.getFarmID());
+                    System.out.println("Farmer F1 : "+farmer.getId());
                     farmerId = farmer.getFarmID();
+                    System.out.println("Farmer Id : "+farmerId);
+
                 }
+
+                System.out.println("Farming Id : "+farmerId);
+
                 farmer = dbHelper.findFarmer(farmerId);
                 location = farmer.getCommunity();
                 name = farmer.getLastName() + " , " + farmer.getFirstName();
@@ -98,6 +107,7 @@ public class FarmerDetailActivity extends BaseActivityGroup {
         myInputs =  dbHelper.getIndividualFarmerInputs(farmer.getFarmID());
         mActionBar.setDisplayShowCustomEnabled(true);
 
+        IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
         TextView names = (TextView) findViewById(R.id.textView_name);
         TextView locations = (TextView) findViewById(R.id.textView_location);
         TextView mainCrops = (TextView)findViewById(R.id.textView_mainCrop);
@@ -241,7 +251,7 @@ public class FarmerDetailActivity extends BaseActivityGroup {
         textViewName.setText(farmer.getMainCrop());
 
 
-        textViewName = (TextView) findViewById(R.id.textView_fp_manual_weed_control);
+        textViewName = (TextView) findViewById(R.id.textView_fp_mnanual_weed_control);
         textViewName.setText(farmer.getDateManualWeeding());
 
 

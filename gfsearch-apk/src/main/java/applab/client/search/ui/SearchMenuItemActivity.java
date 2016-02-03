@@ -13,6 +13,7 @@ import android.view.*;
 import android.widget.ImageView;
 import android.widget.TextView;
 import applab.client.search.R;
+import applab.client.search.activity.BaseActivity;
 import applab.client.search.interactivecontent.ContentUtils;
 import applab.client.search.location.GpsManager;
 import applab.client.search.model.FavouriteRecord;
@@ -22,9 +23,12 @@ import applab.client.search.model.SearchMenuItem;
 import applab.client.search.services.MenuItemService;
 import applab.client.search.settings.SettingsConstants;
 import applab.client.search.settings.SettingsManager;
+import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.ImageUtils;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -32,7 +36,7 @@ import java.util.Calendar;
 /**
  * Activity to display a single menu item
  */
-public class SearchMenuItemActivity extends Activity {
+public class SearchMenuItemActivity extends BaseActivity {
     public static final String EXTRA_LIST_OBJECT_IDENTIFIER = "menu_extraz";
     public static final String CLIENT_IDENTIFIER = "CLIENT_ID";
     public static final String BREAD_CRUMB = "BREAD_CRUMB";
@@ -44,7 +48,7 @@ public class SearchMenuItemActivity extends Activity {
     String content;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         searchMenuItem = (ListObject) getIntent().getSerializableExtra(EXTRA_LIST_OBJECT_IDENTIFIER);
         String clientId = (String) getIntent().getSerializableExtra(CLIENT_IDENTIFIER);
@@ -122,8 +126,15 @@ public class SearchMenuItemActivity extends Activity {
 
     private void generateSearchLog(ListObject searchMenuItem, String clientId, String breadCrumb) {
         if (searchMenuItem instanceof SearchMenuItem) {
+            //    public void setDetails(DatabaseHelper dh, String module, String data,String section){
+
+            //etDetails(DatabaseHelper dh, String module, String page,String section,String data){
+            System.out.println("CKW set details : "+searchMenuItem.getLabel());
+            setDetails(new DatabaseHelper(getBaseContext()),"CKW",searchMenuItem.getLabel(),((SearchMenuItem) searchMenuItem).getParentId(),"");
             SearchLog searchLog = new SearchLog();
             searchLog.setCategory(breadCrumb.contains("|") ? breadCrumb.substring(0, breadCrumb.indexOf("|")) : "");
+            setDetails(new DatabaseHelper(getBaseContext()),"CKW",searchMenuItem.getLabel(),searchLog.getCategory(),"");
+
             searchLog.setContent(breadCrumb.replace("|", " "));
             searchLog.setClientId(clientId);
             searchLog.setDateCreated(Calendar.getInstance().getTime());
@@ -135,8 +146,14 @@ public class SearchMenuItemActivity extends Activity {
             if (SettingsManager.getInstance().getBooleanValue(SettingsConstants.KEY_TEST_SEARCHING_ENABLED, false)) {
                 searchLog.setTestLog(true);
             }
-
+            System.out.println("CKW Output : "+searchLog.getCategory());
             menuItemService.save(searchLog);
+//            save();
+        }else{
+            System.out.println("CKW set detailser : "+searchMenuItem.getLabel());
+            setDetails(new DatabaseHelper(getBaseContext()),"CKW",searchMenuItem.getLabel(),((SearchMenuItem) searchMenuItem).getParentId(),"");
+
+
         }
     }
 

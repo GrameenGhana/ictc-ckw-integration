@@ -12,6 +12,7 @@ import applab.client.search.adapters.ClusterAdapter;
 import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.storage.DatabaseHelperConstants;
+import applab.client.search.utils.IctcCKwUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,20 +37,25 @@ public class ClusterActivity extends BaseActivity {
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Clusters");
+         IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
 
-        DatabaseHelper helper = new DatabaseHelper(getBaseContext());
+
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
-        list = (ExpandableListView) findViewById(R.id.expandableListView);
+        DatabaseHelper helper = new DatabaseHelper(getBaseContext());list = (ExpandableListView) findViewById(R.id.expandableListView);
         list.setGroupIndicator(null);
         final List<String> clusters = new ArrayList<String>();
         clusters.add("Cluster 1");
         clusters.add("Cluster 2");
         clusters.add("Cluster 3");
+        clusters.add("Cluster 4");
+        clusters.add("No Cluster");
         final Map<String, List<Farmer>> clustersDate = new HashMap<String, List<Farmer>>();
         clustersDate.put(clusters.get(0), helper.getSearchedFarmers(DatabaseHelperConstants.CLUSTER, "1"));
         clustersDate.put(clusters.get(1), helper.getSearchedFarmers(DatabaseHelperConstants.CLUSTER, "2"));
         clustersDate.put(clusters.get(2), helper.getSearchedFarmers(DatabaseHelperConstants.CLUSTER, "3"));
+        clustersDate.put(clusters.get(3), helper.getSearchedFarmers(DatabaseHelperConstants.CLUSTER, "4"));
+        clustersDate.put(clusters.get(4), helper.getSearchedFarmers(DatabaseHelperConstants.CLUSTER, ""));
 
         System.out.println("Cluster I : " + clustersDate.get(clusters.get(0)).size());
         System.out.println("Cluster II : " + clustersDate.get(clusters.get(1)).size());
@@ -58,8 +64,8 @@ public class ClusterActivity extends BaseActivity {
         String[] locations = {"Kejebi", "Ejisu", "Kintampo", "Makroase", "Mampong", "Hohoe", "Juapong"};
         String[] mainCrops = {"Maize", "Cassava", "Rice", "Beans", "Maize", "Maize", "Cassava"};
         String[] groups = {"Hohoe", "Lead Farmers", "Early Adopter, Lead Farmers", "Hohoe, Lead Farmers", "Early Adopters, Hohoe, Lead Farmers", "Early Adopters, Hohoe, Lead Farmers", "Early Adopters, Hohoe, Lead Farmers"};
-        int[] icons = {R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster};
-        String[] groupTitles = {"Cluster 1", "Cluster 2", "Cluster 3"};
+        int[] icons = {R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster};
+        String[] groupTitles = {"Cluster 1", "Cluster 2", "Cluster 3", "Cluster 4"};
 
 
         ClusterAdapter adapter = new ClusterAdapter(ClusterActivity.this, clusters, clustersDate, icons, list);

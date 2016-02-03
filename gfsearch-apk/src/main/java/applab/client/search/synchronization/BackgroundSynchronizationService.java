@@ -21,6 +21,7 @@ public class BackgroundSynchronizationService extends Service implements Synchro
     @Override
     public void onCreate() {
         super.onCreate();
+        System.out.println("Sync Service oncreate");
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     }
 
@@ -28,6 +29,7 @@ public class BackgroundSynchronizationService extends Service implements Synchro
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
+        System.out.println("Sync Service onStartCommand");
         SynchronizationManager.getInstance().registerListener(this);
         SynchronizationManager.getInstance().start();
 
@@ -50,6 +52,7 @@ public class BackgroundSynchronizationService extends Service implements Synchro
 
     @Override
     public void synchronizationStart() {
+        System.out.println("Sync Service synchronizationStart");
         Log.i(BackgroundSynchronizationService.class.getName(), "Background Synchronization Started.");
     }
 

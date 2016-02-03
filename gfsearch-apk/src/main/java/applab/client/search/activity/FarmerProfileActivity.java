@@ -63,18 +63,22 @@ public class FarmerProfileActivity extends BaseActivityGroup {
 
         final List<String> sections = new ArrayList<String>();
         sections.add("Farmer Summary");
-        sections.add("Production");
-        sections.add("Post Harvest");
-        sections.add("Baseline Post Harvest");
+        sections.add("Previous Performance");
         sections.add("Technical Needs");
 
         int cnt=0;
         for(String section:sections) {
             FragmentTabHost.TabSpec spec = tabHost.newTabSpec(section.trim());
             spec.setIndicator(section);
-            spec.setContent(new Intent(FarmerProfileActivity.this, FarmerProfileSecionActivity.class)
-                    .putExtra("farmer", farmer)
-                    .putExtra("section", section));
+            if(section.equalsIgnoreCase("Previous Performance")){
+                spec.setContent(new Intent(FarmerProfileActivity.this, FarmerBaselineSummaryActivity.class)
+                        .putExtra("farmer", farmer)
+                        .putExtra("section", section));
+            }else {
+                spec.setContent(new Intent(FarmerProfileActivity.this, FarmerProfileSecionActivity.class)
+                        .putExtra("farmer", farmer)
+                        .putExtra("section", section));
+            }
             tabHost.addTab(spec);
             TextView tv =(TextView) tabHost.getTabWidget().getChildAt(cnt).findViewById(android.R.id.title);
 

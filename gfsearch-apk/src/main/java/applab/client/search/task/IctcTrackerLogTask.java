@@ -92,7 +92,10 @@ public class IctcTrackerLogTask extends AsyncTask<Payload, Object, Payload> {
                         try {
                             JSONObject obj = new JSONObject(responseStr);
                             String ids = obj.getString("ids");
+                            if(ids.endsWith(","))
+                                ids+="0";
 
+                            System.out.println("Ids to update  : "+ids);
 //                            for(TrackerLog tl: trackerBatch){
                                 dbh.markCCHLogsAsSubmitted(ids);
 //                            }

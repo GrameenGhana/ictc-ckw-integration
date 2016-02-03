@@ -27,13 +27,17 @@
                                                              android:padding="3dip"  android:lineSpacingExtra="10dp"  android:layout_gravity="center_vertical|right"
                                                              android:textColor="#666666"/>
 
-            <ImageView android:id="@+id/item_img"
-                       android:layout_centerInParent="true"
-                       android:layout_height="wrap_content"
-                       android:layout_width="wrap_content"
-                       android:scaleType="matrix"
-                       android:layout_centerVertical="true"
-                       android:layout_marginTop="10dip"/>
+            <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/horizontalScrollView">
+                <applab.client.search.utils.PinchZoom android:id="@+id/item_img"
+                                                      android:layout_height="match_parent"
+                           android:layout_width="wrap_content"
+                           android:scaleType="matrix"
+                                                      android:layout_marginTop="10dip"  />
+            </HorizontalScrollView>
+
 
             <ImageView android:id="@+id/item_vid_placeholder"
                        android:layout_centerInParent="true"

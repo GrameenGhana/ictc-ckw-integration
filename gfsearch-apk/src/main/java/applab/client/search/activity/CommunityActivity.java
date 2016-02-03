@@ -11,6 +11,7 @@ import applab.client.search.R;
 import applab.client.search.adapters.CommunitiesAdapter;
 import applab.client.search.model.CommunityCounterWrapper;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.utils.IctcCKwUtil;
 
 import java.util.List;
 
@@ -34,6 +35,7 @@ public class CommunityActivity extends BaseActivity {
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Communities");
+       IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
 
         helper = new DatabaseHelper(getBaseContext());
         mActionBar.setCustomView(mCustomView);

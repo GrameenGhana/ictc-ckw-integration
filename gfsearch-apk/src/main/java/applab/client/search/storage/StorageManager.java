@@ -29,6 +29,13 @@ public class StorageManager {
         this.sqLiteSearchProcessor = new SQLiteSearchProcessor(this.database);
     }
 
+    private StorageManager(DatabaseHelper databaseHelper) {
+        this.context = ApplicationRegistry.getApplicationContext();
+
+        this.database = databaseHelper.getWritableDatabase();
+
+        this.sqLiteSearchProcessor = new SQLiteSearchProcessor(this.database);
+    }
     public SQLiteDatabase getDatabase() {
         return database;
     }

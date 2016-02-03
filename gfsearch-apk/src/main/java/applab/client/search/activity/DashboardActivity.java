@@ -1,28 +1,39 @@
 package applab.client.search.activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
+import android.app.*;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import applab.client.search.MainActivity;
-import applab.client.search.R;
+import applab.client.search.*;
 import applab.client.search.adapters.DashboardMenuAdapter;
+import applab.client.search.adapters.WeatherPagerAdapter;
 import applab.client.search.application.IctcCkwIntegration;
 import applab.client.search.model.Farmer;
 import applab.client.search.model.Payload;
+import applab.client.search.model.UserDetails;
+import applab.client.search.model.Weather;
+import applab.client.search.services.MenuItemService;
 import applab.client.search.services.TrackerService;
 import applab.client.search.settings.SettingsActivity;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.storage.DatabaseHelperConstants;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
+import applab.client.search.synchronization.SynchronizationListener;
+import applab.client.search.synchronization.SynchronizationManager;
 import applab.client.search.task.IctcTrackerLogTask;
 import applab.client.search.utils.AboutActivity;
 import applab.client.search.utils.ConnectionUtil;
+import applab.client.search.utils.DeviceMetadata;
+import applab.client.search.utils.IctcCKwUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -35,17 +46,22 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Software Developer on 30/07/2015.
  */
-public class DashboardActivity extends BaseActivity {
+public class DashboardActivity extends BaseFragmentActivity{
     private GridView grid_menu;
     private TableRow tableRow_communities;
     private TableRow tableRow_farmers;
     private TableRow tableRow_taroWorks;
     private LinearLayout tableRow_ckw;
+
+
+    private ProgressDialog progressDialog = null;
+    private Handler handler = null;
 
     DatabaseHelper helper;
     private LinearLayout clients;
@@ -53,6 +69,11 @@ public class DashboardActivity extends BaseActivity {
     private LinearLayout suppliers;
     private LinearLayout markets;
     private LinearLayout technical;
+
+
+    SectionsPagerAdapter mSectionsPagerAdapter=null;
+    ViewPager mViewPager;
+
 
 
     @Override
@@ -70,6 +91,40 @@ public class DashboardActivity extends BaseActivity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Dashboard");
 
+        UserDetails u = helper.getUserItem();
+        if(u!=null){
+            System.out.println("User details : "+u.getFullName());
+            IctcCKwUtil.setUserDetails(this,u);
+
+        }else{
+            System.out.println("User Null : "+u);
+        }
+
+
+    try {
+        ApplicationRegistry.setApplicationContext(this.getApplicationContext());
+//        ApplicationRegistry.setMainActivity(this);
+
+
+        //caching the device imie in the application registry
+        ApplicationRegistry.register(GlobalConstants.KEY_CACHED_DEVICE_IMEI,
+                DeviceMetadata.getDeviceImei(this.getApplicationContext()));
+
+        //register application version in registry
+        ApplicationRegistry.register(GlobalConstants.KEY_CACHED_APPLICATION_VERSION,
+                getResources().getString(R.string.app_name) + "/"
+                        + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+        ApplicationRegistry.register(IctcCKwUtil.KEY_FULNAME,u.getFullName()
+        );
+
+        ApplicationRegistry.register(IctcCKwUtil.KEY_VERSION,getPackageManager().getPackageInfo(getPackageName(), 0).versionName
+        );
+        ApplicationRegistry.register(IctcCKwUtil.KEY_USER_NAME, u.getUserName());
+    }catch(Exception e){
+
+    }
+        IctcCKwUtil.setActionbarUserDetails(this,mCustomView);
+
         System.out.println("Initial Setup");
         Intent service = new Intent(this, TrackerService.class);
         Bundle tb = new Bundle();
@@ -79,6 +134,13 @@ public class DashboardActivity extends BaseActivity {
         this.startService(service);
         System.out.println("My Product");
 
+        List<Weather> weathers = helper.getWeatherByCommunity();
+
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(),weathers,isNetworkConnected());
+// Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.weather_pager);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setOffscreenPageLimit(weathers.size());
 
 //        TextView st = (TextView) findViewById(R.id.farmer_cnt);
 //        if (null == st) {
@@ -159,6 +221,7 @@ public class DashboardActivity extends BaseActivity {
             System.out.println("Before Farmer Alter");
 
         }catch (Exception e){}
+
 
      //   helper.deleteTable(DatabaseHelperConstants.ICTC_TRACKER_LOG_TABLE,"");
 //        tableRow_communities.setOnClickListener(new View.OnClickListener() {
@@ -271,8 +334,12 @@ public class DashboardActivity extends BaseActivity {
                 System.out.println("Payload stask ");
                 omUpdateCCHLogTask.execute(mqp);
                 System.out.println("Payload execute ");
-                ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
+                ConnectionUtil.refreshWeather(getBaseContext(),"weather","Get latest weather report");
 
+
+                ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
+                startSynchronization();
+//
             }
 //            else if (item.getItemId() == android.R.id.home) {
 //                //resetDisplayMenus();
@@ -302,6 +369,92 @@ public class DashboardActivity extends BaseActivity {
         return true;
     }
 
+
+    private void startSynchronization() {
+        SynchronizationManager.getInstance().registerListener(new SynchronizationListener() {
+            @Override
+            public void synchronizationStart() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.show();
+                    }
+                });
+            }
+
+            @Override
+            public void synchronizationUpdate(final Integer step, final Integer max, final String message, Boolean reset) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.setMessage(message);
+                        progressDialog.setMax(max);
+                        progressDialog.setProgress(step);
+                        progressDialog.setIndeterminate(false);
+                        if (!progressDialog.isShowing()) {
+                            progressDialog.show();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void synchronizationUpdate(final String message, Boolean indeterminate) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.setMessage(message);
+                        progressDialog.setIndeterminate(true);
+                        if (!progressDialog.isShowing()) {
+                            progressDialog.show();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void synchronizationComplete() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+
+
+                        new MenuItemService().processMultimediaContent();
+                        //we refresh the UI
+                    }
+
+                });
+
+                SynchronizationManager.getInstance().unRegisterListener(this);
+            }
+
+            @Override
+            public void onSynchronizationError(final Throwable throwable) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (progressDialog != null) {
+                            progressDialog.dismiss();
+                        }
+
+                        AlertDialog alertDialog =
+                                new AlertDialog.Builder(DashboardActivity.this).create();
+                        alertDialog.setMessage(throwable.getMessage());
+                        alertDialog.setIcon(android.R.drawable.stat_sys_warning);
+
+                        alertDialog.setTitle(R.string.error_title);
+                        alertDialog.setCancelable(true);
+                        alertDialog.show();
+                    }
+                });
+
+                SynchronizationManager.getInstance().unRegisterListener(this);
+            }
+        });
+
+        SynchronizationManager.getInstance().start();
+    }
 
     public void getSData() {
 
@@ -445,6 +598,111 @@ public class DashboardActivity extends BaseActivity {
 
         background.start();
         // return  serverResponse;
+    }
+
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+        List<Weather> weathers;
+        boolean internet=false;
+        public SectionsPagerAdapter(android.support.v4.app.FragmentManager fm,List<Weather> weathers , boolean netwk) {
+            super(fm);
+
+            internet = netwk;
+
+            this.weathers = weathers;
+            if(weathers.isEmpty()){
+
+                if(internet){
+                    ConnectionUtil.refreshWeather(getBaseContext(),"weather","Get latest weather report");
+                }
+                Weather w = new Weather();
+                w.setLocation("No Weather Data Found");
+                w.setDetail("no update");
+                w.setIcon("50n");
+                w.setTemprature(0);
+                w.setMinTemprature(0);
+                w.setMaxTemprature(0);
+
+                weathers.add(w);
+                 w = new Weather();
+                w.setLocation("No Weather Data Found -");
+                w.setDetail("no update");
+                w.setIcon("01d");
+                w.setTemprature(0);
+                w.setMinTemprature(0);
+                w.setMaxTemprature(0);
+
+                weathers.add(w);
+            }
+        }
+        @Override
+        public Fragment getItem(int position) {
+            Fragment fragment = null;
+
+                fragment= new WeatherSummary(weathers.get(position));
+
+            return fragment;
+        }
+        @Override
+        public int getCount() {
+            return weathers.size();
+        }
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "OBJECT " + (position + 1);
+        }
+    }
+
+    public class WeatherSummary extends Fragment {
+        View rootView;
+//        private SharedPreferences loginPref;
+
+        Weather weather ;
+        String month_text;
+        public WeatherSummary(){
+        }
+
+        public WeatherSummary(Weather w){
+            this.weather = w;
+        }
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            rootView=inflater.inflate(R.layout.activity_weather_item ,null,false);
+
+
+            TextView v =(TextView) rootView.findViewById(R.id.txt_weather_city);
+            v.setText(weather.getLocation());
+
+            v =(TextView) rootView.findViewById(R.id.txt_weather_temp);
+            v.setText(String.valueOf(weather.getTemprature())+" C ");
+            Date i = new Date(weather.getTime()*1000);
+            System.out.println("Date r : "+i);
+            System.out.println("Date o : "+weather.getTime());
+
+
+            v =(TextView) rootView.findViewById(R.id.txt_weather_description);
+            v.setText(String.valueOf(weather.getDetail())+"");
+
+            ImageView iv =(ImageView) rootView.findViewById(R.id.img_weather_icon);
+            String mDrawableName = "w_"+weather.getIcon();
+            int resID = getResources().getIdentifier(mDrawableName , "drawable", getPackageName());
+            iv.setImageResource(resID);
+
+            v =(TextView) rootView.findViewById(R.id.txt_weather_time);
+
+            if(weather.getTime()==0l)
+                v.setText("-");
+            else
+                v.setText("Up to "+IctcCKwUtil.formatStringDateTime(i,"d MMM hh:mm"));
+
+
+            return rootView;
+        }
+    }
+
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null;
     }
 
 
