@@ -10,18 +10,26 @@ public class ItemWrapper {
     private String secValue;
     private String terValue;
     private boolean showIfEmpty = true;
+private boolean header=false;
 
-
-    public ItemWrapper(String key,String value){
+    public ItemWrapper(String key,String value,boolean header){
         this.setKey(key);
         this.setValue(value);
         this.secValue="-";
+        this.header = header;
+    }public ItemWrapper(String key,String value){
+        this.setKey(key);
+        this.setValue(value);
+        this.secValue="-";
+        this.header=false;
     }
 
     public ItemWrapper(String key,String value,String sec){
         this.setKey(key);
         this.setValue(value);
         this.setSecValue(sec);
+
+        this.header=false;
     }
 
     public ItemWrapper(String key,String value,String sec,boolean showIfEmpty){
@@ -29,6 +37,8 @@ public class ItemWrapper {
         this.setValue(value);
         this.setSecValue(sec);
         this.setShowIfEmpty(showIfEmpty);
+
+        this.header=false;
     }
 
     public ItemWrapper(String key,String value,String sec,String tertiary){
@@ -36,6 +46,8 @@ public class ItemWrapper {
         this.setValue(value);
         this.setSecValue(sec);
         this.setTerValue(tertiary);
+
+        this.header=false;
     }
 
 
@@ -45,6 +57,8 @@ public class ItemWrapper {
         this.setSecValue(sec);
         this.setTerValue(tertiary);
         this.setShowIfEmpty(showIfEmpty);
+
+        this.header=false;
     }
 
     public String getKey() {
@@ -85,5 +99,13 @@ public class ItemWrapper {
 
     public void setShowIfEmpty(boolean showIfEmpty) {
         this.showIfEmpty = showIfEmpty;
+    }
+
+    public boolean isHeader() {
+        return header;
+    }
+
+    public void setHeader(boolean header) {
+        this.header = header;
     }
 }

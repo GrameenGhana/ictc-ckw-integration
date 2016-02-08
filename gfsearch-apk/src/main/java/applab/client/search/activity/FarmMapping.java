@@ -192,7 +192,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
 
         }
         TextView fArea = (TextView) findViewById(R.id.txt_map_fm_area);
-        fArea.setText(Html.fromHtml(": " + IctcCKwUtil.formatDouble(farmer.getLandArea()) + " m<sup>2</sup> Perimeter : " + IctcCKwUtil.formatDouble(farmer.getSizePlot()) + " m "));
+        fArea.setText(Html.fromHtml(": " + IctcCKwUtil.formatDouble(farmer.getLandArea()) + " acre ; Perimeter : " + IctcCKwUtil.formatDouble(farmer.getSizePlot()) + " m "));
 
         if(clear){
             options = new PolylineOptions();
@@ -529,13 +529,16 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
         //double area = (polygon.getArea() * (Math.PI / 180) * 6378137) * 100000;
         double area = computeSignedArea(listed,EARTH_RADIUS);
         double perimeter = computeLength(listed);
+
+        area = IctcCKwUtil.meterSqdToAcre(area);
         Toast.makeText(getApplicationContext(),
                 "" + polygon.getArea(),
                 Toast.LENGTH_LONG).show();
+
         DecimalFormat df = new DecimalFormat("#.000000");
 
         TextView fm = (TextView) findViewById(R.id.txt_map_fm_area);
-        fm.setText(Html.fromHtml(IctcCKwUtil.formatDouble(area) + " m<sup>2</sup> Perimeter : "+IctcCKwUtil.formatDouble(perimeter)+" m"));
+        fm.setText(Html.fromHtml(IctcCKwUtil.formatDouble(area) + " acre; Perimeter : "+IctcCKwUtil.formatDouble(perimeter)+" m"));
 
         fm = (TextView) findViewById(R.id.txt_coordinate_no);
 
@@ -573,24 +576,25 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
             objs.put("imei",IctcCKwUtil.getImei(getBaseContext()));
             objs.put("version",IctcCKwUtil.getAppVersion());
             objs.put("battery",IctcCKwUtil.getBatteryLevel(getBaseContext()));
-            dbHelper.insertCCHLog("Farmer",objs.toString(),super.getStartTime(), System.currentTimeMillis());
+            dbHelper.insertCCHLog("Farmer",objs.toString(),super.baseAppActivity.getStartTime(), System.currentTimeMillis());
         }catch(Exception e ){
 
         }
+
 
         dbHelper.updateFarmer(farmer.getFarmID(), area,perimeter);
 
 
 
-        JSONObject l = new JSONObject();
-        try {
-            l.put("points",mapPoints);
-            l.put("area",area);
-//                l.put("perimeter",perimeter);
-//                ConnectionUtil.refreshFarmerInfo(getBaseContext(),null, "fid="+farmer+"&l="+URLEncoder.encode(l.toString()),"fmap","Syncing Farm Mapping");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        JSONObject l = new JSONObject();
+//        try {
+//            l.put("points",mapPoints);
+//            l.put("area",area);
+//            l.put("perimeter",perimeter);
+////                ConnectionUtil.refreshFarmerInfo(getBaseContext(),null, "fid="+farmer+"&l="+URLEncoder.encode(l.toString()),"fmap","Syncing Farm Mapping");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
         newGps=0;
     }

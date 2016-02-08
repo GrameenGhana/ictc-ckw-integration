@@ -5,13 +5,16 @@ import applab.client.search.application.IctcCkwIntegration;
 import applab.client.search.model.Payload;
 import applab.client.search.model.TrackerLog;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import applab.client.search.utils.HTTPConnectionUtil;
+import applab.client.search.utils.ImageUtils;
 import org.apache.http.HttpResponse;
         import org.apache.http.NameValuePair;
         import org.apache.http.client.ClientProtocolException;
         import org.apache.http.client.entity.UrlEncodedFormEntity;
 
-        import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
         import org.apache.http.entity.StringEntity;
         import org.apache.http.message.BasicHeader;
         import org.apache.http.protocol.HTTP;
@@ -34,16 +37,74 @@ public class IctcTrackerLogTask extends AsyncTask<Payload, Object, Payload> {
     public final static String TAG = IctcTrackerLogTask.class.getSimpleName();
 
     private Context ctx;
+    String type;
 
     public IctcTrackerLogTask(Context ctx) {
         System.out.println("Payload IctcTrackerLogTask");
         this.ctx = ctx;
+        this.type="logs";
+    }
+    public IctcTrackerLogTask(Context ctx,String type) {
+        System.out.println("Payload IctcTrackerLogTask");
+        this.ctx = ctx;
+        this.type=type;
     }
 
-    @Override
-    protected Payload doInBackground(Payload... params) {
+    public Payload doImageDownload(Payload payload)
+    {
+
+
+        System.out.println("Imags : ");
+        List<String>  imageURls = (List<String>) payload.getData();
+        HTTPConnectionUtil client = new HTTPConnectionUtil(ctx);
+        String url = ImageUtils.FULL_URL_PROFILE_PIX;
+        HttpGet httpGet= null;
+        for(String image:imageURls) {
+            File f = new File(ImageUtils.FULL_URL_PROFILE_PIX + "/" + image);
+            if (!f.exists()) {
+
+
+            url = IctcCkwIntegrationSync.IMAGE_URL + image;
+            System.out.println("Img url : " + url);
+            try {
+                httpGet = new HttpGet(url);
+                HttpResponse response = client.execute(httpGet);
+                InputStream content = response.getEntity().getContent();
+                System.out.println(image + " Img url  " + response.getStatusLine().getStatusCode());
+                switch (response.getStatusLine().getStatusCode()) {
+                    case 200: // submitted
+
+                        System.out.println(image + " Img url 400 ");
+                        ImageUtils.writeFile(image, "pp", content);
+                        payload.setResult(true);
+                        break;
+
+                    case 400: // submitted but invalid request - returned 400 Bad Request - so record as submitted so doesn't keep trying
+
+                        payload.setResult(true);
+                        break;
+                    default:
+                        payload.setResult(false);
+                }
+
+            } catch (UnsupportedEncodingException e) {
+                payload.setResult(false);
+            } catch (ClientProtocolException e) {
+                payload.setResult(false);
+            } catch (IOException e) {
+                payload.setResult(false);
+            }
+
+        }
+
+        }
+        return payload;
+
+
+    }
+
+    public  Payload  uploadLogs(Payload payload){
         System.out.println("Payload Background");
-        Payload payload = params[0];
 
         @SuppressWarnings("unchecked")
         Collection<Collection<TrackerLog>> result = (Collection<Collection<TrackerLog>>) split((Collection<Object>) payload.getData(), IctcCkwIntegration.MAX_TRACKER_SUBMIT);
@@ -97,7 +158,7 @@ public class IctcTrackerLogTask extends AsyncTask<Payload, Object, Payload> {
 
                             System.out.println("Ids to update  : "+ids);
 //                            for(TrackerLog tl: trackerBatch){
-                                dbh.markCCHLogsAsSubmitted(ids);
+                            dbh.markCCHLogsAsSubmitted(ids);
 //                            }
                             dbh.close();
                         }catch(Exception e){
@@ -129,6 +190,15 @@ public class IctcTrackerLogTask extends AsyncTask<Payload, Object, Payload> {
         }
 
         return payload;
+
+    }
+    @Override
+    protected Payload doInBackground(Payload... params) {
+        Payload payload = params[0];
+        if(type.equalsIgnoreCase("pp"))
+            return doImageDownload(payload);
+        else
+        return uploadLogs(payload);
     }
 
     protected void onProgressUpdate(String... obj) {

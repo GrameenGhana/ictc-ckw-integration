@@ -42,7 +42,8 @@ public class ClusterActivity extends BaseActivity {
 
         mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
-        DatabaseHelper helper = new DatabaseHelper(getBaseContext());list = (ExpandableListView) findViewById(R.id.expandableListView);
+        DatabaseHelper helper = new DatabaseHelper(getBaseContext());
+        list = (ExpandableListView) findViewById(R.id.expandableListView);
         list.setGroupIndicator(null);
         final List<String> clusters = new ArrayList<String>();
         clusters.add("Cluster 1");
@@ -70,8 +71,8 @@ public class ClusterActivity extends BaseActivity {
 
         ClusterAdapter adapter = new ClusterAdapter(ClusterActivity.this, clusters, clustersDate, icons, list);
         list.setAdapter(adapter);
+   super.setDetails(helper,"Client","Clustering");
 
-        super.setDetails(helper,"Client","Clustering");
         Button mButton = (Button) mCustomView.findViewById(R.id.search_btn);
         mButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {

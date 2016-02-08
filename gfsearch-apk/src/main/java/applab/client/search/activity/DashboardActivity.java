@@ -30,10 +30,7 @@ import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import applab.client.search.synchronization.SynchronizationListener;
 import applab.client.search.synchronization.SynchronizationManager;
 import applab.client.search.task.IctcTrackerLogTask;
-import applab.client.search.utils.AboutActivity;
-import applab.client.search.utils.ConnectionUtil;
-import applab.client.search.utils.DeviceMetadata;
-import applab.client.search.utils.IctcCKwUtil;
+import applab.client.search.utils.*;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -124,6 +121,7 @@ public class DashboardActivity extends BaseFragmentActivity{
 
     }
         IctcCKwUtil.setActionbarUserDetails(this,mCustomView);
+        ImageUtils.verifyDirectory();
 
         System.out.println("Initial Setup");
         Intent service = new Intent(this, TrackerService.class);

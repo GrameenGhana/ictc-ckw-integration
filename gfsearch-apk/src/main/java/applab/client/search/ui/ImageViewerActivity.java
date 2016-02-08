@@ -14,13 +14,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import applab.client.search.R;
+import applab.client.search.activity.BaseActivity;
 import applab.client.search.model.ListObject;
+import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.ImageUtils;
 
 /**
  * An Activity to show the about information of the application
  */
-public class ImageViewerActivity extends Activity implements View.OnTouchListener {
+public class ImageViewerActivity extends BaseActivity implements View.OnTouchListener {
     public static final String EXTRA_LIST_OBJECT_IDENTIFIER = "menu_extraz";
     private ListObject searchMenuItem = null;
     private LayoutInflater layoutInflater = null;
@@ -40,21 +42,47 @@ public class ImageViewerActivity extends Activity implements View.OnTouchListene
     PointF mid = new PointF();
     float oldDist = 1f;
     String savedItemClicked;
+    public static final String IMAGE_TYPE = "ictcImg";
+    public static final String IMAGE_LOC = "img_loc";
+    public static final String IMAGE_DETAILS = "img_detail";
+    String ictcImg = null;
+    String imgUrl = null;
+
+
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         searchMenuItem = (ListObject) getIntent().getSerializableExtra(EXTRA_LIST_OBJECT_IDENTIFIER);
         layoutInflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        String imageDetail = "";
+        String module="CKW";
         View view = layoutInflater.inflate(R.layout.imageviewer, null, false);
         ImageView imageView = (ImageView) view.findViewById(R.id.item_img);
 
-        if (ImageUtils.imageExists(searchMenuItem.getId(), true)) {
-            imageView.setImageDrawable(ImageUtils.getImageAsDrawable(this, searchMenuItem.getId(), true));
-            imageView.setOnTouchListener(this);
+        String ictcImg =(String) getIntent().getSerializableExtra(IMAGE_TYPE);
+        if(null != ictcImg){
+            if(ictcImg.equalsIgnoreCase("ictc")){
+            String imgLoc =(String) getIntent().getSerializableExtra(IMAGE_LOC);
+                imageDetail = (String) getIntent().getSerializableExtra(IMAGE_DETAILS);
+                module="Farmer";
+
+            imageView.setImageDrawable(ImageUtils.getICTCImageAsDrawable(this,imgLoc ));
+            imageView.setOnTouchListener(this);}
+        }else {
+
+            if (ImageUtils.imageExists(searchMenuItem.getId(), true)) {
+
+                imageDetail = searchMenuItem.getLabel();
+                imageView.setImageDrawable(ImageUtils.getImageAsDrawable(this, searchMenuItem.getId(), true));
+                imageView.setOnTouchListener(this);
+            }
         }
 
+        setTitle(module+" >> "+imageDetail);
+        super.setDetails(new DatabaseHelper(getBaseContext()),module,"ImageView",imageDetail,"");
         super.setContentView(view);
     }
 

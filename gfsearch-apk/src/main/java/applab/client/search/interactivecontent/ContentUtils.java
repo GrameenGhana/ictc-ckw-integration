@@ -13,6 +13,7 @@ public class ContentUtils {
     private static final String CONTENT_ROOT = Environment.getExternalStorageDirectory() + "/gfinteractive";
     private static final String VIDEO_LOCATION = CONTENT_ROOT + "/video/";
     private static final String AUDIO_LOCATION = CONTENT_ROOT + "/audio/";
+    public static final String IMAGE_LOCATION = CONTENT_ROOT + "/images/";
     public static final String VIDEO_PLACEHOLDER = "\\{video:(.*?)\\}";
     public static final String AUDIO_PLACEHOLDER = "\\{audio:(.*?)\\}";
 

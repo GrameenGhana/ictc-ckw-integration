@@ -69,7 +69,7 @@ public class FarmerInputActivty extends BaseActivity {
         final String f = farmer_id;
 
         super.setDetails(helper,"Farmer","Farmer Input");
-        stime = super.getStartTime();
+        stime = super.baseAppActivity.getStartTime();
 
 
         Button save = (Button) findViewById(R.id.btnInputSave);

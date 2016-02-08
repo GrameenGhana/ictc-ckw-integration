@@ -1592,6 +1592,13 @@ type+=" ";
     }
 
 
+    public  Payload getImagePayload(ArrayList<Object> images){
+        List<Object> sl=  images;
+        Payload p =new Payload(images);
+
+        return p;
+    }
+
     private  Weather getWeather(Cursor localCursor){
         Weather met = new Weather();
         met.setDetail( localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.ICTC_DETAIL)));

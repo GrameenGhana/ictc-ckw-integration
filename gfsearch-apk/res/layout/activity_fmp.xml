@@ -39,6 +39,10 @@
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent" android:paddingTop="30dp" >
+            <ExpandableListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/exp_fmp" android:layout_gravity="center_horizontal"/>
             <ListView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"

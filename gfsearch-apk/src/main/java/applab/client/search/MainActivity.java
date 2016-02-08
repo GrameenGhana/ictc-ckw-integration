@@ -215,16 +215,28 @@ public class MainActivity extends Activity implements ActionMode.Callback {
                 //(final Context context,final DatabaseHelper databaseHelper,final Intent intent, final String queryString, final String type,String msg )
 //                ConnectionUtil.refreshFarmerInfo(getBaseContext(),null,"", IctcCkwIntegrationSync.GET_FARMER_DETAILS,"Refreshing farmer Data");
                 System.out.println("Payload Refresh farmer Data");
-                IctcCkwIntegration app = (IctcCkwIntegration) this.getApplication();
+//                IctcCkwIntegration app = (IctcCkwIntegration) this.getApplication();
+//                System.out.println("Payload ppapp ");
+////                DatabaseHelper dbh = new DatabaseHelper(getBaseContext());
+//                System.out.println("Payload dbh ");
+//                Payload mqp = dbh.getCCHUnsentLog();
+//                System.out.println("Payload unset ");
+//                app.omUpdateCCHLogTask = new IctcTrackerLogTask(this);
+//                System.out.println("Payload stask ");
+//                app.omUpdateCCHLogTask.execute(mqp);
+//                System.out.println("Payload execute ");
+
+
                 System.out.println("Payload ppapp ");
                 DatabaseHelper dbh = new DatabaseHelper(getBaseContext());
                 System.out.println("Payload dbh ");
                 Payload mqp = dbh.getCCHUnsentLog();
                 System.out.println("Payload unset ");
-                app.omUpdateCCHLogTask = new IctcTrackerLogTask(this);
+                IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(this);
                 System.out.println("Payload stask ");
-                app.omUpdateCCHLogTask.execute(mqp);
+                omUpdateCCHLogTask.execute(mqp);
                 System.out.println("Payload execute ");
+
 
 
             }

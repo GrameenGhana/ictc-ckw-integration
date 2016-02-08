@@ -22,8 +22,6 @@ import java.util.Map;
  * Created by Software Developer on 30/07/2015.
  */
 public class ClusterAdapter extends BaseExpandableListAdapter {
-
-
     //    private final String[] groupItem;
     private Context mContext;
     public LayoutInflater minflater;
@@ -33,10 +31,6 @@ public class ClusterAdapter extends BaseExpandableListAdapter {
 
     Map<String, List<Farmer>> clusterData = null;
 
-    //    private final String[] name;
-//    private final String[] location;
-//    private final String[] mainCrop;
-//    private final String[] groups;
     public int lastExpandedGroupPosition;
 
     public ClusterAdapter(Context mContext,
@@ -171,4 +165,6 @@ public class ClusterAdapter extends BaseExpandableListAdapter {
         lastExpandedGroupPosition = groupPosition;
 
     }
+
+
 }

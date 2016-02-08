@@ -407,7 +407,7 @@ JSONObject obj = f.getBaselinePostHarvestJSON();
         List<ItemWrapper> itemAgric  = new ArrayList<ItemWrapper>();
 
         itemAgric.add(new ItemWrapper("","Production"));
-        itemAgric.add(new ItemWrapper(""," Key Dates"));
+        itemAgric.add(new ItemWrapper(" Key Dates","",true));
         itemAgric.add(new ItemWrapper("  Field preparation",String.valueOf(getStringFromJSON(productionJSOn, "ploughingdate"))));
         itemAgric.add(new ItemWrapper("  Planting",String.valueOf(getStringFromJSON(productionJSOn, "plantingdate"))));
         itemAgric.add(new ItemWrapper("  First Fertilizer application",String.valueOf(getStringFromJSON(productionJSOn, "applicationofbasalfertilizerdate"))));
@@ -418,7 +418,7 @@ JSONObject obj = f.getBaselinePostHarvestJSON();
 
 
 
-        itemAgric.add(new ItemWrapper(""," Key Inputs"));
+        itemAgric.add(new ItemWrapper(" Key Inputs","",true));
 
         itemAgric.add(new ItemWrapper("  Crop variety",String.valueOf(getStringFromJSON(productionJSOn, "nameofcropvariety"))));
         itemAgric.add(new ItemWrapper("  Quantity of pre-plant herbicide",String.valueOf(getStringFromJSON(productionJSOn, "quantity_of_preplant_herbicide_base"))));
@@ -426,7 +426,7 @@ JSONObject obj = f.getBaselinePostHarvestJSON();
         itemAgric.add(new ItemWrapper("  Quantity of fertilizer: first application",String.valueOf(getStringFromJSON(productionJSOn, "basal_fertilizer_appl_lab_base"))));
         itemAgric.add(new ItemWrapper("  Quantity of fertilizer: second application",String.valueOf(getStringFromJSON(productionJSOn, "quantityoftopdresserfertilizerpurchased"))));
 
-        itemAgric.add(new ItemWrapper(""," Key Practices"));
+        itemAgric.add(new ItemWrapper(" Key Practices","",true));
         itemAgric.add(new ItemWrapper("  Method of Land clearing",String.valueOf(getStringFromJSON(productionJSOn, "methodoflandclearing"))));
         itemAgric.add(new ItemWrapper("  Distance between rows",String.valueOf(getStringFromJSON(productionJSOn, "plantingdistancebetweenrow"+f.getMainCrop().toLowerCase()))));
         itemAgric.add(new ItemWrapper("  Method of first fertilizer application",String.valueOf(getStringFromJSON(productionJSOn, "methodofbasalfertilizerapplication"))));
@@ -437,14 +437,14 @@ JSONObject obj = f.getBaselinePostHarvestJSON();
 
 
         itemAgric.add(new ItemWrapper("","Post Harvest"));
-        itemAgric.add(new ItemWrapper(""," Key Dates"));
+        itemAgric.add(new ItemWrapper(" Key Dates","",true));
         itemAgric.add(new ItemWrapper("  Complete threshing",String.valueOf(getStringFromJSON(postHarvest, "completionofthreshing"))));
         itemAgric.add(new ItemWrapper("  Complete drying of grain",String.valueOf(getStringFromJSON(postHarvest, "datetocompletedrying"))));
         itemAgric.add(new ItemWrapper("  First sale date",String.valueOf(getStringFromJSON(postHarvest, "firstsaledate"))));
         itemAgric.add(new ItemWrapper("  Most sale date",String.valueOf(getStringFromJSON(postHarvest, "mostproducesaledate"))));
 
 
-        itemAgric.add(new ItemWrapper(""," Key Inputs"));
+        itemAgric.add(new ItemWrapper(" Key Inputs","",true));
 
 
 
@@ -452,7 +452,7 @@ JSONObject obj = f.getBaselinePostHarvestJSON();
         itemAgric.add(new ItemWrapper("  Ownership of storage structure",String.valueOf(getStringFromJSON(postHarvest, "typeofstoragestructure"))));
         itemAgric.add(new ItemWrapper("  Type of storage chemical",String.valueOf(getStringFromJSON(postHarvest, "typeofstoragechemical"))));
 
-        itemAgric.add(new ItemWrapper(""," Key Practices"));
+        itemAgric.add(new ItemWrapper(" Key Practices","",true));
         itemAgric.add(new ItemWrapper("  Method winnowing",String.valueOf(getStringFromJSON(postHarvest, "methodofwinnowing"))));
         itemAgric.add(new ItemWrapper("  Method of threshing",String.valueOf(getStringFromJSON(postHarvest, "methodofthreshing"))));
         itemAgric.add(new ItemWrapper("  Method of drying",String.valueOf(getStringFromJSON(postHarvest, "methodofdryinggrain"))));
@@ -485,7 +485,7 @@ JSONObject obj = f.getBaselinePostHarvestJSON();
 
 
         itemAgric.add(new ItemWrapper("","Crop budget summary"));
-        itemAgric.add(new ItemWrapper(""," Overall"));
+        itemAgric.add(new ItemWrapper(" Overall","",true));
 
         FarmerBudget budget = getFarmerBudget(f);
         itemAgric.add(new ItemWrapper("  Area",String.valueOf(budget.getArea())));
@@ -523,7 +523,7 @@ JSONObject obj = f.getBaselinePostHarvestJSON();
         List<ItemWrapper> itemAgric  = new ArrayList<ItemWrapper>();
 
         itemAgric.add(new ItemWrapper("","Production"));
-        itemAgric.add(new ItemWrapper(""," Key Dates"));
+        itemAgric.add(new ItemWrapper(" Key Dates","",true));
         itemAgric.add(new ItemWrapper("  Field preparation",String.valueOf(getStringFromJSON(productionJSOn, "ploughing_date_base"))));
         itemAgric.add(new ItemWrapper("  Planting",String.valueOf(getStringFromJSON(productionJSOn, "planting_date_base"))));
         itemAgric.add(new ItemWrapper("  First Fertilizer application",String.valueOf(getStringFromJSON(productionJSOn, "time_basal_fert_appl_base"))));//
@@ -534,7 +534,7 @@ JSONObject obj = f.getBaselinePostHarvestJSON();
 
 
 
-        itemAgric.add(new ItemWrapper(""," Key Inputs"));
+        itemAgric.add(new ItemWrapper(" Key Inputs","",true));
 
         itemAgric.add(new ItemWrapper("  Crop variety",String.valueOf(getStringFromJSON(productionJSOn, "name_of_other_variety_base"))));
         itemAgric.add(new ItemWrapper("  Quantity of pre-plant herbicide",String.valueOf(getStringFromJSON(productionJSOn, "quantity_of_preplant_herbicide_base"))));
@@ -542,7 +542,7 @@ JSONObject obj = f.getBaselinePostHarvestJSON();
         itemAgric.add(new ItemWrapper("  Quantity of fertilizer: first application",String.valueOf(getStringFromJSON(productionJSOn, "basal_fertilizer_appl_lab_base"))));
         itemAgric.add(new ItemWrapper("  Quantity of fertilizer: second application",String.valueOf(getStringFromJSON(productionJSOn, "quantityoftopdresserfertilizerpurchased"))));
 
-        itemAgric.add(new ItemWrapper(""," Key Practices"));
+        itemAgric.add(new ItemWrapper(" Key Practices","",true));
         itemAgric.add(new ItemWrapper("  Method of Land clearing",String.valueOf(getStringFromJSON(productionJSOn, "method_of_land_clearing_base"))));
         itemAgric.add(new ItemWrapper("  Distance between rows",String.valueOf(getStringFromJSON(productionJSOn, "distance_between_plants_base"))));
         itemAgric.add(new ItemWrapper("  Method of first fertilizer application",String.valueOf(getStringFromJSON(productionJSOn, "method_bfert_applic_base"))));
@@ -553,14 +553,14 @@ JSONObject obj = f.getBaselinePostHarvestJSON();
 
 
         itemAgric.add(new ItemWrapper("","Post Harvest"));
-        itemAgric.add(new ItemWrapper(""," Key Dates"));
+        itemAgric.add(new ItemWrapper(" Key Dates","",true));
         itemAgric.add(new ItemWrapper("  Complete threshing",String.valueOf(getStringFromJSON(postHarvest, "completionofthreshing"))));
         itemAgric.add(new ItemWrapper("  Complete drying of grain",String.valueOf(getStringFromJSON(postHarvest, "datetocompletedrying"))));
         itemAgric.add(new ItemWrapper("  First sale date",String.valueOf(getStringFromJSON(postHarvest, "firstsaledate"))));
         itemAgric.add(new ItemWrapper("  Most sale date",String.valueOf(getStringFromJSON(postHarvest, "mostproducesaledate"))));
 
 
-        itemAgric.add(new ItemWrapper(""," Key Inputs"));
+        itemAgric.add(new ItemWrapper(" Key Inputs","",true));
 
 
 
@@ -568,14 +568,14 @@ JSONObject obj = f.getBaselinePostHarvestJSON();
         itemAgric.add(new ItemWrapper("  Ownership of storage structure",String.valueOf(getStringFromJSON(postHarvest, "typeofstoragestructure"))));
         itemAgric.add(new ItemWrapper("  Type of storage chemical",String.valueOf(getStringFromJSON(postHarvest, "typeofstoragechemical"))));
 
-        itemAgric.add(new ItemWrapper(""," Key Practices"));
+        itemAgric.add(new ItemWrapper(" Key Practices","",true));
         itemAgric.add(new ItemWrapper("  Method winnowing",String.valueOf(getStringFromJSON(postHarvest, "methodofwinnowing"))));
         itemAgric.add(new ItemWrapper("  Method of threshing",String.valueOf(getStringFromJSON(postHarvest, "methodofthreshing"))));
         itemAgric.add(new ItemWrapper("  Method of drying",String.valueOf(getStringFromJSON(postHarvest, "methodofdryinggrain"))));
         itemAgric.add(new ItemWrapper("  Proportion sold",String.valueOf(getStringFromJSON(postHarvest, "proportionformarket"))));
 
 
-        itemAgric.add(new ItemWrapper("","Farm inputs credit received"));
+        itemAgric.add(new ItemWrapper(" Farm inputs credit received","",true));
 
         int cnt=0;
         for(FarmerInputs fi : myInputs){
@@ -601,7 +601,7 @@ JSONObject obj = f.getBaselinePostHarvestJSON();
 
 
         itemAgric.add(new ItemWrapper("","Crop budget summary"));
-        itemAgric.add(new ItemWrapper(""," Overall"));
+        itemAgric.add(new ItemWrapper(" Overall","",true));
 
         FarmerBudget budget = getFarmerBudget(f);
         itemAgric.add(new ItemWrapper("  Area",String.valueOf(budget.getArea())));

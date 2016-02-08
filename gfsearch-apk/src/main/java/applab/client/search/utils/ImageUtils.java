@@ -36,6 +36,11 @@ public class ImageUtils {
     private static final String LOG_TAG = "ImageFilesUtility";
     private static String[] SUPPORTED_FORMATS = {".jpg", ".jpeg"};
 
+    public static String ProfilePix="FarmerPix";
+    public static String SMART_EXT_FOLDER_NAME="smartext";
+    public static String SMART_EXT_FOLDER = Environment.getExternalStorageDirectory()+"/"+SMART_EXT_FOLDER_NAME;
+    public  static String  FULL_URL_PROFILE_PIX=SMART_EXT_FOLDER+"/"+ProfilePix;
+
     public static boolean storageReady() {
         String cardstatus = Environment.getExternalStorageState();
         if (cardstatus.equals(Environment.MEDIA_REMOVED)
@@ -69,12 +74,23 @@ public class ImageUtils {
     }
 
     public static void writeFile(String fileName, InputStream inputStream) throws IOException {
-        if (storageReady() && createRootFolder()) {
+       writeFile(fileName,"ckw",inputStream);
+    }
+
+
+    public static void writeFile(String fileName, String type, InputStream inputStream) throws IOException {
+        if (storageReady() && createRootFolder() && verifyDirectory()) {
             // replace spaces with underscores
             fileName = fileName.replace(" ", "_");
             // change to lowercase
             fileName = fileName.toLowerCase();
-            FileOutputStream fileOutputStream = new FileOutputStream(new File(IMAGE_ROOT, fileName));
+            FileOutputStream fileOutputStream = null;
+            //pp for profile pix
+            if(!type.equalsIgnoreCase("pp")){
+                fileOutputStream= new FileOutputStream(new File(IMAGE_ROOT, fileName));
+            }else{
+                fileOutputStream= new FileOutputStream(new File(FULL_URL_PROFILE_PIX, fileName));
+            }
             byte[] buffer = new byte[1024];
             int length = 0;
             while ((length = inputStream.read(buffer)) > 0) {
@@ -83,7 +99,6 @@ public class ImageUtils {
             fileOutputStream.close();
         }
     }
-
     public static Drawable getImageAsDrawable(Context context, String fileName) {
         if (!storageReady()) {
             return null;
@@ -102,6 +117,12 @@ public class ImageUtils {
         return new BitmapDrawable(context.getResources(), bitmap);
     }
 
+    public static Drawable getICTCImageAsDrawable(Context context, String fileName) {
+
+//        fileName = getFullPath(fileName, true);
+        Bitmap bitmap = BitmapFactory.decodeFile(fileName);
+        return new BitmapDrawable(context.getResources(), bitmap);
+    }
     public static ArrayList<String> getFilesAsArrayList() {
         ArrayList<String> fileList = new ArrayList<String>();
         File rootDirectory = new File(IMAGE_ROOT);
@@ -363,5 +384,35 @@ public class ImageUtils {
         } else {
             return null;
         }
+    }
+
+
+
+
+    public static boolean verifyDirectory(){
+        System.out.println("Imagev Verifying Directory");
+        boolean result=false;
+        File direct = new File(SMART_EXT_FOLDER);
+        if(!direct.exists()) {
+            System.out.println("Not  Existing Creating");
+            result = (direct.mkdir()); //directory is created;
+
+        }else{
+            result=true;
+        }
+        System.out.println("Search Imagev Foilder");
+        direct = new File(FULL_URL_PROFILE_PIX);
+        if(!direct.exists()) {
+
+            System.out.println("Imagev Creating");
+            result=(direct.mkdir()) ;
+        }else{
+            result =true;
+        }
+        return result;
+    }
+
+    public static boolean profilePixExist(String img){
+        return (new File(FULL_URL_PROFILE_PIX+"/"+img+"jpg").exists());
     }
 }

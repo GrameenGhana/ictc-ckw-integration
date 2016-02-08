@@ -19,6 +19,7 @@ import applab.client.search.synchronization.BackgroundSynchronizationConfigurer;
 import applab.client.search.synchronization.SynchronizationListener;
 import applab.client.search.synchronization.SynchronizationManager;
 import applab.client.search.utils.AboutActivity;
+import applab.client.search.utils.BaseAppActivity;
 import applab.client.search.utils.IctcCKwUtil;
 import org.json.JSONObject;
 
@@ -26,16 +27,8 @@ import org.json.JSONObject;
  * Created by skwakwa on 10/12/15.
  */
 public class BaseFragmentActivity extends FragmentActivity{
-    private long startTime;
-    private String module;
-    private String data;
-    String imei;
-    String battery;
-    String version;
-    String section;
 
-    String page="None";
-    DatabaseHelper hp;
+    BaseAppActivity baseAppActivity;
 
     private ProgressDialog progressDialog = null;
     private Handler handler = null;
@@ -43,100 +36,32 @@ public class BaseFragmentActivity extends FragmentActivity{
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        startTime = System.currentTimeMillis();
-//        createProgressBar();
-//        initiateBackgroundSyncConfiguration();
-    }
-//    @Override
-//    public void onBackPressed() {
-//        // your code.
-//        Intent  i = new Intent(this, DashboardActivity.class);
-//        startActivity(i);
-//    }
-
-
-    public void setDetails(DatabaseHelper dh, String module, String page){
-        this.hp =dh;
-        this.module= module;
-        this.page=page;
-        this.section="";
-        this.data="";
-        this.setOtherValues();
-    }
-
-    public void setDetails(DatabaseHelper dh, String module, String data,String section){
-        this.hp =dh;
-        this.module= module;
-        this.page=page;
-        this.setOtherValues();
-        this.section=section;
-        this.data="";
-    }
-    public void setDetails(DatabaseHelper dh, String module, String page,String section,String data){
-        this.hp =dh;
-        this.module= module;
-        this.data=data;
-        this.setOtherValues();
-        this.section=section;
-        this.page=page;
+        baseAppActivity= new BaseAppActivity(getBaseContext());
     }
 
 
-    public void setOtherValues(){
-
-        battery = String.valueOf(IctcCKwUtil.getBatteryLevel(getBaseContext()));
-        version= IctcCKwUtil.getAppVersion(this.getBaseContext());
-        imei= IctcCKwUtil.getImei(getBaseContext());
-
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        System.out.println("Abt data4-5");
-        JSONObject obj=null;
+        baseAppActivity.save();
+//        }
 
-        try {
-            if(data.isEmpty())
-                obj = new JSONObject();
-            else
-                obj = new JSONObject(data);
-
-            obj.put("page", page);
-            obj.put("section", section);
-            obj.put("battery", (battery));
-            obj.put("version", version);
-            obj.put("imei", imei);
-        }catch (Exception e){
-
-        }
-
-        System.out.println("About to save data4-3P "+page);
-        hp.insertCCHLog(module, obj.toString(), startTime, System.currentTimeMillis());
     }
+
+    public void setDetails(DatabaseHelper dh, String module, String page){
+        baseAppActivity.setItemValues(dh,module,page,"","");
+    }
+    public void setDetails(DatabaseHelper dh, String module, String page,String section,String data){
+        baseAppActivity.setItemValues(dh,module,page,section,data);
+    }
+
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         JSONObject obj=null;
-
-        try {
-            if(data.isEmpty())
-                obj = new JSONObject();
-            else
-                obj = new JSONObject(data);
-
-            obj.put("page", page);
-            obj.put("section", section);
-            obj.put("battery", (battery));
-            obj.put("version", version);
-            obj.put("imei", imei);
-        }catch (Exception e){
-
-        }
-
-        System.out.println("About to save data45P ");
-        hp.insertCCHLog(module, obj.toString(), startTime, System.currentTimeMillis());
     }
 
     @Override
@@ -155,29 +80,7 @@ public class BaseFragmentActivity extends FragmentActivity{
     }
 
 
-    public long getStartTime() {
-        return startTime;
-    }
 
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getModule() {
-        return module;
-    }
-
-    public void setModule(String module) {
-        this.module = module;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
 
 
     public void showHome(View view){

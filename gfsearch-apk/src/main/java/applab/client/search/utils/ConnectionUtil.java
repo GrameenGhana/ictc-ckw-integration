@@ -2,6 +2,8 @@ package applab.client.search.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -9,10 +11,13 @@ import android.util.Log;
 import android.widget.Toast;
 import applab.client.search.activity.DashboardActivity;
 import applab.client.search.model.Farmer;
+import applab.client.search.model.Payload;
 import applab.client.search.model.UserDetails;
 import applab.client.search.model.Weather;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
+import applab.client.search.task.IctcTrackerLogTask;
+import com.google.android.gms.ads.formats.NativeAd;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -24,6 +29,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -135,6 +141,9 @@ public class ConnectionUtil {
 
                         }else if(type.equalsIgnoreCase(IctcCkwIntegrationSync.GET_FARMER_DETAILS)){
 
+                            ArrayList<Object> farmerImages = new ArrayList<Object>();
+
+                            ImageDownloader imageDownloader = new ImageDownloader();
                             Log.i(this.getClass().getName(),"Serrver Rsponse  farmer Details  :  fd"+type);
                             if ((null != aResponse)) {
 
@@ -268,6 +277,7 @@ public class ConnectionUtil {
 
                                         Log.i(this.getClass().getName(), "Saving farmer "+i);
 
+                                        String farmerId = bioData.getString("Id");
                                         databaseHelper.deleteFarmer(bioData.getString("Id"));
                                         databaseHelper.updateUser(bioData.getString("Id"),lm);
 
@@ -280,6 +290,7 @@ public class ConnectionUtil {
                                                 vals[19], vals[20], vals[21], vals[22], vals[23], vals[24], vals[25], vals[26], vals[27], vals[28], vals[29], vals[30], vals[31], vals[32]
                                                 ,production,postHarvest,budget,baselineProduction,baselinePostHarvest,techNeeds,baselinepostharvestbudget);
 
+                                        farmerImages.add(farmerId + ".jpg");
 
                                         Log.i(this.getClass().getName(),production);
 
@@ -341,6 +352,16 @@ public class ConnectionUtil {
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
+
+
+
+                                System.out.println("Downloading Images ");
+                                Payload mqp = databaseHelper.getImagePayload(farmerImages);
+                                System.out.println("Downloading Images ");
+                                IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(context,"pp");
+                                System.out.println("Payload stask ");
+                                omUpdateCCHLogTask.execute(mqp);
+                                System.out.println("Payload execute ");
 
                                 // ALERT MESSAGE
                                 Toast.makeText(
@@ -508,5 +529,18 @@ public class ConnectionUtil {
 
         background.start();
         // return  serverResponse;
+    }
+
+
+
+    private boolean isInternetConnectionActive(Context context) {
+        NetworkInfo networkInfo = ((ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE))
+                .getActiveNetworkInfo();
+
+        if(networkInfo == null || !networkInfo.isConnected()) {
+            return false;
+        }
+        return true;
     }
 }

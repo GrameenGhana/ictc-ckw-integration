@@ -55,7 +55,7 @@ public class StartUpActivity extends BaseActivity {
 //        mTitleTextView.setText("Login");
 
         databaseHelper = new DatabaseHelper(getBaseContext());
-        databaseHelper.createUser();
+
         super.setDetails(databaseHelper,"Dashboard","Startup");
 
 
@@ -64,8 +64,7 @@ public class StartUpActivity extends BaseActivity {
         tb.putBoolean("backgroundData", true);
         service.putExtras(tb);
         this.startService(service);
-        databaseHelper.alterFarmerTable();
-        databaseHelper.alterUserTable();
+
         if(databaseHelper.farmerCount()>0)
         {
             if(databaseHelper.getMeetingSettingCount()==0){

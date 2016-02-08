@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.BatteryManager;
 import android.telephony.TelephonyManager;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,12 +20,15 @@ import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.activity.FarmerDetailActivity;
 import applab.client.search.model.Farmer;
+import applab.client.search.model.ListObject;
 import applab.client.search.model.Meeting;
 import applab.client.search.model.UserDetails;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.ui.ImageViewerActivity;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -237,7 +242,7 @@ if(!timeToFormat.isEmpty()) {
         setFarmerDetails(container.getWindow().getDecorView().getRootView(),parentID,farmerName,farmer,clickable);
     }
 
-    public static void setFarmerDetails(View container,int parentID,String farmerName, final Farmer farmer, boolean clickable){
+    public static void setFarmerDetails(final View container,int parentID,String farmerName, final Farmer farmer, boolean clickable){
 
         LinearLayout ll =  (LinearLayout)container.findViewById(parentID);
 
@@ -246,11 +251,45 @@ if(!timeToFormat.isEmpty()) {
 //            tv.setText(farmerName);
 
             String farmerId = farmer.getFarmID();
+            ImageView img = (ImageView) container.findViewById(R.id.farmerImg);
+
+            final String fileLoc = ImageUtils.FULL_URL_PROFILE_PIX+"/"+farmer.getFarmID()+".jpg";
+            File f =  new File(fileLoc);
+            if(f.exists()){
+                System.out.println("File Loc"+fileLoc);
+                img.setImageDrawable(ImageUtils.getICTCImageAsDrawable(container.getContext(),fileLoc));
+                img.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                            System.out.println("on touch : "+fileLoc);
+
+                                    Intent intent = new Intent(container.getContext(),ImageViewerActivity.class);
+                                    intent.putExtra(ImageViewerActivity.IMAGE_TYPE, "ictc");
+                            intent.putExtra(ImageViewerActivity.IMAGE_LOC, fileLoc);
+                            intent.putExtra(ImageViewerActivity.IMAGE_DETAILS, farmer.getFullname());
+                                    container.getContext().startActivity(intent);
+
+                                    return true;
+
+
+                        }
+                        return false;
+                    }
+                });
+                }else{
+                img.setImageResource(R.drawable.ic_person);
+
+            }
+
+
             TextView names = (TextView) container.findViewById(R.id.textView_name);
             TextView locations = (TextView) container.findViewById(R.id.textView_location);
             TextView mainCrops = (TextView)container.findViewById(R.id.textView_mainCrop);
             TextView group = (TextView) container.findViewById(R.id.textView_groups);
             ImageView icon = (ImageView) container.findViewById(R.id.imageView_icon);
+
+
             String crop = farmer.getMainCrop();
             if (crop.equalsIgnoreCase("Maize")) {
                 Drawable drawable = container.getContext().getResources().getDrawable(R.drawable.ic_maize);
@@ -455,6 +494,14 @@ if(!timeToFormat.isEmpty()) {
 
     public  static String getUsername(){
         return (String)ApplicationRegistry.retrieve(IctcCKwUtil.KEY_USER_NAME);
+
+    }
+
+    public static double meterSqdToAcre(double m2){
+        double m2toARation=0.000247105;
+
+        return m2toARation*m2;
+
 
     }
 

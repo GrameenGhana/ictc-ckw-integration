@@ -6,12 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.*;
 import applab.client.search.MainActivity;
 import applab.client.search.R;
+import applab.client.search.adapters.ParentExpandableListAdapter;
 import applab.client.search.adapters.ParentListAdapter;
 import applab.client.search.model.FarmManagementPlan;
 import applab.client.search.model.Farmer;
@@ -35,6 +33,9 @@ public class FarmManagementPlanActivity extends BaseActivity {
     private TextView textViewLocation;
     Farmer farmer;
 ListView list;
+
+    ExpandableListView expList;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,14 +94,15 @@ ListView list;
 
 
         list = (ListView) findViewById(R.id.lst_fmp_item);
+        expList = (ExpandableListView) findViewById(R.id.exp_fmp);
 
 DatabaseHelper dbHelper=new DatabaseHelper(getBaseContext());
         //dbHelper.getIndividualFarmerInputs(farmer.getFarmID())
         List<ItemWrapper> wr = FarmerUtil.getFarmManagementPlan(farmer,dbHelper.getIndividualFarmerInputs(farmer.getFarmID()));
-        ParentListAdapter adapter = new ParentListAdapter(FarmManagementPlanActivity.this,wr);
-        list.setAdapter(adapter);
+        ParentExpandableListAdapter adapter = new ParentExpandableListAdapter(FarmManagementPlanActivity.this,wr,expList);
+        expList.setAdapter(adapter);
         super.setDetails(dbHelper, "Farmer", "Farmer Management Plan");
-        super.section=farmer.getFullname();
+        super.baseAppActivity.setSection(farmer.getFullname());
 
     }
 

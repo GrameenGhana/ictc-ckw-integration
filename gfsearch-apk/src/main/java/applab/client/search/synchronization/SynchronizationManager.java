@@ -138,12 +138,12 @@ public class SynchronizationManager {
                     notifySynchronizationListeners("synchronizationUpdate",6, maxSynchronizationSteps,
                             ApplicationRegistry.getApplicationContext().
                                     getResources().getString(R.string.weather_download_msg), false);
-//                    downloadWeatherData(databaseHelper);
+                    downloadWeatherData(databaseHelper);
 
                     notifySynchronizationListeners("synchronizationUpdate",7, maxSynchronizationSteps,
                             ApplicationRegistry.getApplicationContext().
                                     getResources().getString(R.string.ictc_farmer_download_msg), false);
-//                    downloadFarmerData(databaseHelper);
+                    downloadFarmerData(databaseHelper);
 
                     notifySynchronizationListeners("synchronizationUpdate", maxSynchronizationSteps,
                             maxSynchronizationSteps,
@@ -171,7 +171,12 @@ public class SynchronizationManager {
         if (searchLogs.size() == 0) {
             return;
         }
-        GpsManager.getInstance().update();
+        try {
+            GpsManager.getInstance().update();
+        }catch (Exception e){
+
+        }
+
         for (SearchLog log : searchLogs) {
             log.setSubmissionLocation(GpsManager.getInstance().getLocationAsString());
         }
@@ -508,7 +513,7 @@ public class SynchronizationManager {
             deleteOldMenus(oldSearchMenus, searchMenus);
             menuItemService.setGlobalTransactionSuccessful();
             SettingsManager.getInstance().setValue(SettingsConstants.KEY_KEYWORDS_VERSION, keywordVersion[0]);
-
+            System.out.println("Download Images CKW");
             downloadImages(imageIdz, imagesVersion[0]);
             deleteUnusedImages(deleteImageIz);
         } catch (ParseException ex) {
@@ -538,6 +543,7 @@ public class SynchronizationManager {
     }
 
     private void downloadImages(List<String> imageIds, String imagesVersion) throws IOException, ParseException {
+        System.out.println("Download Images cnt : "+imageIds.size());
         if (imageIds != null) {
             int count = imageIds.size(), counter = 0;
             boolean complete = true;
@@ -985,6 +991,7 @@ public class SynchronizationManager {
         UserDetails u = databaseHelper.getUserItem();
         String weatherUrl = "api/v1?action=fdetails&a="+u.getSalesForceId();
 
+        ArrayList<String> farmerImages = new ArrayList<String>();
         String url = SettingsManager.getInstance().getValue(SettingsConstants.ICTC_KEY_SERVER);
         url+=weatherUrl;
 
@@ -1011,8 +1018,15 @@ public class SynchronizationManager {
 
 
 
-            processICTCFarmerData(serverResponse, databaseHelper);
+            ArrayList<Object> arl =   processICTCFarmerData(serverResponse, databaseHelper);
 
+
+            Payload mqp = databaseHelper.getImagePayload(arl);
+            System.out.println("Downloading Images ");
+            IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(applicationContext,"pp");
+            System.out.println("Payload stask ");
+            omUpdateCCHLogTask.execute(mqp);
+            System.out.println("Payload execute ");
 
         } catch (Exception ex) {
             Log.e(SynchronizationManager.class.getName(), "Error downloading country code", ex);
@@ -1445,8 +1459,9 @@ public class SynchronizationManager {
 
 
     }
-    public void processICTCFarmerData(String farmerStr,DatabaseHelper databaseHelper){
+    public ArrayList<Object> processICTCFarmerData(String farmerStr,DatabaseHelper databaseHelper){
 
+        ArrayList<Object> farmerImages = new ArrayList<Object>();
         if(!farmerStr.isEmpty()){
             ///  TextView test = (TextView) findViewById(R.id.txtcluster);
 
@@ -1458,7 +1473,8 @@ public class SynchronizationManager {
                 JSONArray farmers = new JSONArray(farmerStr);
 
                 Log.i(this.getClass().getName(),"Serrver Rsponse   FEM : "+farmers.length());
-                databaseHelper.resetFarmer();
+//                databaseHelper.resetFarmer();
+                ImageDownloader imageDownloader = new ImageDownloader();
                 int farmersCnt = 0;
                 for (int i = 0; i < farmers.length(); i++) {
                     JSONObject farmer = farmers.getJSONObject(i);
@@ -1509,6 +1525,16 @@ public class SynchronizationManager {
 
                     }
 
+                    long lm= 0l;
+
+                    try {
+                        lm= bioData.getLong("lm");
+                    }catch(Exception e){
+                        lm=0l;
+                    }
+                    String farmerId = bioData.getString("Id");
+                    databaseHelper.deleteFarmer(bioData.getString("Id"));
+                    databaseHelper.updateUser(bioData.getString("Id"),lm);
 
                     String production="";
                     String postHarvest="";String budget="";String baselineProduction="";String baselinePostHarvest="";
@@ -1579,7 +1605,9 @@ public class SynchronizationManager {
 
                             vals[19], vals[20], vals[21], vals[22], vals[23], vals[24], vals[25], vals[26], vals[27], vals[28], vals[29], vals[30], vals[31], vals[32]
                             ,production,postHarvest,budget,baselineProduction,baselinePostHarvest,techNeeds,baselinepostharvestbudget);
+//                    imageDownloader.downloadimage();
 
+                    farmerImages.add(farmerId+".jpg");
 
                     Log.i(this.getClass().getName(),production);
 
@@ -1641,8 +1669,11 @@ public class SynchronizationManager {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+
         }
 
+        return farmerImages;
 
     }
 }

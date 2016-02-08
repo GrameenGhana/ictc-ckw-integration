@@ -197,7 +197,7 @@ public class FarmerDetailActivity extends BaseActivityGroup {
 
 
         super.setDetails(dbHelper,"Farmer","Farmer Details");
-        super.setSection(name);
+        super.baseAppActivity.setSection(name);
         IctcCKwUtil.setFarmerDetails(getWindow().getDecorView().getRootView(),R.id.profile_container,farmer.getFullname(),farmer);
 //        textViewLocation=(TextView) findViewById(R.id.textView_location);
 //
