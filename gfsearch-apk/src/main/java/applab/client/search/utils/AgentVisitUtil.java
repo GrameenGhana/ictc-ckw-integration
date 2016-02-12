@@ -4,6 +4,7 @@ import applab.client.search.model.MeetingActivity;
 import applab.client.search.storage.DatabaseHelper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -38,13 +39,16 @@ public class  AgentVisitUtil {
             "\nAdd Meetings and take Attendance " ;
 
     public static  String TAKE_ATTENDANCE ="Take Attendance";
-    public static  String COLLECT_FARM_MEASUREMENT ="Collect farm Measurement Data";
+    public static  String FARMER_PROFILE ="Farmer Profile";
+    public static  String COLLECT_FARM_MEIASUREMENT ="Measure ploughed and planted farm area";
     public static  String SHARE_INPUT_PACKAGE ="Input Package";
 
     public static  String DELIVER_INPUTS ="Deliver Inputs";
     public static  String SELECT_FARMER ="Select Farmer";
     public static  String AGREED_ACTIVITIES_FOR_NEXT_MEETING ="Activities for Next Meeting";
+//    public static String COLLECT_FARM_MEASUREMENT="";
 
+    /**
     public static List<MeetingActivity> getMeetingActivity(int meetingIndex){
         List<MeetingActivity> activities = new ArrayList<MeetingActivity>();
         MeetingActivity activity=  new MeetingActivity(AGREED_ACTIVITIES_FOR_NEXT_MEETING,"A","A",1,"Agreed Activities for Next Meeting");
@@ -107,8 +111,129 @@ public class  AgentVisitUtil {
         activities.add(activity);
         return  activities;
     }
+**/
 
 
+    public static List<MeetingActivity> getMeetingActivity(int meetingIndex){
+        List<MeetingActivity> activities = new ArrayList<MeetingActivity>();
+        MeetingActivity activity=  new MeetingActivity(AGREED_ACTIVITIES_FOR_NEXT_MEETING,"A","A",1,"Agreed Activities for Next Meeting");
+        if(1==meetingIndex){
+
+
+            activities.add(new applab.client.search.model.MeetingActivity("Sensitize farmers","I","A",1,""));
+            activities.add(new applab.client.search.model.MeetingActivity("Explain", "I", "A",2,LAUNCH_TAROWORKS+"2. FARMER REGISTRATION"));
+
+            activities.add(new applab.client.search.model.MeetingActivity("Explain processes and commitment","I","A",4,SELECT_FARMER+"\nShare Inputs"));
+            activities.add(new applab.client.search.model.MeetingActivity("Explain value proposition","I","A",5, replaceRadioTVSchedule()));
+        }else if(2==meetingIndex){
+            activities.add(new applab.client.search.model.MeetingActivity("Enroll and profile farmers","I","A",1,LAUNCH_TAROWORKS));
+            activities.add(new applab.client.search.model.MeetingActivity("Baseline Data Collection", "I", "T",2,LAUNCH_TAROWORKS));
+            activities.add(new applab.client.search.model.MeetingActivity("Document your farmers’ previous performance (BASELINE)","I","A",1,LAUNCH_TAROWORKS));
+            activities.add(new applab.client.search.model.MeetingActivity("Baseline Data Collection", "I", "T",2,LAUNCH_TAROWORKS+" Farmer Baseline Data"));
+        }else if(3==meetingIndex){
+
+            activities.add(new applab.client.search.model.MeetingActivity("Support farmer to develop a farm plan","T","A",1,LAUNCH_TAROWORKS));
+
+            activities.add(new applab.client.search.model.MeetingActivity("Provide farmer with upcoming activities on farm plan","I","C",3,FARMER_PROFILE));
+            activities.add(new applab.client.search.model.MeetingActivity("Provide technical advice on upcoming farm plan operations","I","C",3,LAUNCH_CKW));
+            activities.add(new applab.client.search.model.MeetingActivity("Land preparation tractor services","T","A",4,"LAND PLOUGH"));
+            activities.add(new applab.client.search.model.MeetingActivity("Share  Radio and TV schedules with farmer","I","A",5, replaceRadioTVSchedule()));
+            activities.add(new applab.client.search.model.MeetingActivity("Requests from farmers","I","T",6,LAUNCH_TAROWORKS+"\n"));
+
+        }else if(4==meetingIndex){
+
+            activities.add(new applab.client.search.model.MeetingActivity(COLLECT_FARM_MEIASUREMENT,"I","A",1,"Measurement of Farm"));
+            activities.add(new applab.client.search.model.MeetingActivity(DELIVER_INPUTS, "I", "A",2,DELIVER_INPUTS));
+            activities.add(new applab.client.search.model.MeetingActivity("Confirm delivery of inputs","I","A",3,""));
+            activities.add(new applab.client.search.model.MeetingActivity("Discuss operations undertaken and update farmer records","I","T",4,LAUNCH_TAROWORKS));
+            activities.add(new applab.client.search.model.MeetingActivity("Provide farmer with upcoming activities on farm plan","I","A",5,FARMER_PROFILE));
+            activities.add(new applab.client.search.model.MeetingActivity("Provide technical advice on upcoming farm plan operations","I","C",6,LAUNCH_CKW));
+            activities.add(new applab.client.search.model.MeetingActivity("Collect request for assistance","I","A",7,"to"));
+            activities.add(new applab.client.search.model.MeetingActivity("Share Radio and TV schedules","I","A",8, replaceRadioTVSchedule()));
+
+        }else if(5==meetingIndex){
+
+
+            activities.add(new applab.client.search.model.MeetingActivity("Crop inspection and update of crop status","T","A",1,LAUNCH_TAROWORKS));
+            activities.add(new applab.client.search.model.MeetingActivity("Provide farmer with upcoming activities on farm plan","I","C",6,FARMER_PROFILE));
+            activities.add(new applab.client.search.model.MeetingActivity("Provide technical advice on upcoming farm plan operations", "I", "C",2,LAUNCH_CKW));
+            activities.add(new applab.client.search.model.MeetingActivity("Share Radio and TV schedules","I","A",3,replaceRadioTVSchedule()));
+        }else if(6==meetingIndex){
+
+            activities.add(new applab.client.search.model.MeetingActivity("Discuss operations undertaken and update farmer records","I","A",1,FARMER_PROFILE));
+            activities.add(new applab.client.search.model.MeetingActivity("Discuss food security", "I", "A",2,"DISCCUSSION"));
+            activities.add(new applab.client.search.model.MeetingActivity("Provide farmer with upcoming activities on farm plan","I","A",3,FARMER_PROFILE));
+            activities.add(new applab.client.search.model.MeetingActivity("Provide technical advice on upcoming farm operations","I","A",4,LAUNCH_CKW));
+            activities.add(new applab.client.search.model.MeetingActivity("Share TV schedule","I","A",3,"Collect Farmer Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity("Collect request for assistance","I","A",4,"Collect Agent Feedback"));
+        }
+
+
+        else if(7==meetingIndex){
+
+
+
+            activities.add(new applab.client.search.model.MeetingActivity("Discuss operations undertaken and update farmer records","G","A",1,""));
+            activities.add(new applab.client.search.model.MeetingActivity("Reconcile credit and repayments","G","C",6,LAUNCH_CKW));
+            activities.add(new applab.client.search.model.MeetingActivity("Provide farmers with overall results", "G", "C",2,FARMER_PROFILE));
+            activities.add(new applab.client.search.model.MeetingActivity("Collect farmer feedback","G","T",3,LAUNCH_TAROWORKS));
+            activities.add(new applab.client.search.model.MeetingActivity("Collect agent feedback", "G", "T",2,LAUNCH_TAROWORKS));
+
+        }else if(8==meetingIndex){
+
+
+            activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE+" Initial","G","A",1,ATTENDANCE));
+            activities.add(new applab.client.search.model.MeetingActivity("Provide input package", "G", "A",2,SHARE_INPUT_PACKAGE));
+            activities.add(new applab.client.search.model.MeetingActivity("Radio program on seed","G","A",3,"Collect Farmer Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity("Video on selecting varieties, use of good quality seed, land preparation, planting","G","C",4,LAUNCH_CKW));
+            activities.add(new applab.client.search.model.MeetingActivity("Provide input package","G","A",3,SHARE_INPUT_PACKAGE));
+            activities.add(new applab.client.search.model.MeetingActivity("Confirm delivery of input credit package","G","A",4,"Confirm Delivery"));
+            activities.add(new applab.client.search.model.MeetingActivity("PLAY THE GAME","G","A",3,"Play a Game",false));
+            activities.add(new applab.client.search.model.MeetingActivity("Collect feedback on session","G","A",4,"Collect Agent Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE+" Final","G","A",4,ATTENDANCE));
+        }
+
+
+        else if(9==meetingIndex){
+
+            activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE+" Initial","G","A",1,ATTENDANCE));
+            activities.add(new applab.client.search.model.MeetingActivity("Provide input package", "I", "A",2,"Collect Payments"));
+            activities.add(new applab.client.search.model.MeetingActivity("Radio program on fertilizer","I","A",3,"Collect Farmer Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity("Video on fertilizer application","-","A",4,"Collect Agent Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity("Provide input package","I","A",3,"Collect Farmer Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity("Confirm delivery of input credit package","-","A",4,"Collect Agent Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity("PLAY THE GAME","I","A",3,"Collect Farmer Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity("Collect feedback on session","-","A",4,"Collect Agent Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE+" Final","-","A",4,ATTENDANCE));
+
+
+        }else if(10==meetingIndex){
+
+            activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE+" Initial","G","A",1,ATTENDANCE));
+            activities.add(new applab.client.search.model.MeetingActivity("Radio program on fertilizer","I","A",3,"Collect Farmer Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity("Video on fertilizer application and soil fertility maintenance","-","A",4,"Collect Agent Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity("Confirm delivery of input credit package","-","A",4,"Collect Agent Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity("PLAY THE GAME","I","A",3,"Collect Farmer Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity("Collect feedback on session","-","A",4,"Collect Agent Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE+" Final","-","A",4,ATTENDANCE));
+
+
+
+        }
+        else if(11==meetingIndex){
+
+            activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE+" Initial","G","A",1,ATTENDANCE));
+            activities.add(new applab.client.search.model.MeetingActivity("Video on harvest and post harvest","I","A",3,"Collect Farmer Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity("Confirm delivery of input credit package","-","A",4,"Collect Agent Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity("PLAY THE GAME","I","A",3,"Collect Farmer Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity("Collect feedback on session","-","A",4,"Collect Agent Feedback"));
+            activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE+" Final","-","A",4,ATTENDANCE));
+
+
+        }
+        activities.add(activity);
+        return  activities;
+    }
     public static String replaceRadioTVSchedule(){
          return TV_PROGRAM.replaceAll("GTV_DATE",IctcCKwUtil.getNextDate(Calendar.SUNDAY)).replaceAll("VOLTA_RADIO_DATE",IctcCKwUtil.getNextDate(Calendar.SATURDAY));
     }
@@ -154,15 +279,43 @@ public class  AgentVisitUtil {
             return new MeetingActivity(getMeetingTitle(index),"Group",4);
 
     }
-    public static String  [] getMeetingTitles(){
-        final String []   titles = {
+
+    public static String  [] getMeetingTitles() {
+    return getMeetingTitles(false);
+    }
+
+    public static String  [] getMeetingTitles(boolean withFirst){
+
+        //PRE-VISIT	VISIT 1	VISIT 2	VISIT 3	VISIT 4	VIS
+        // IT 5		VISIT 6
+
+        String []   titles = {
                 "",
-                "Initial Group Meeting",
-                "1st Individual Meeting",
-                "2nd Group Meeting",
-                "2nd Individual Meeting",
-                "3rd Group Meeting",
-                "4th Group Meeting"};
+                "PRE-VISIT",
+                "VISIT 1",
+                "VISIT 2",
+                "VISIT 3",
+                "VISIT 4",
+                "VISIT 5",
+                "VISIT 6",
+                "MULTIMEDIA MEETING  1",
+                "MULTIMEDIA MEETING  2",
+                "MULTIMEDIA MEETING  3",
+                "MULTIMEDIA MEETING  4",};
+        //MULTIMEDIA MEETING 1
+        if(withFirst){
+            titles = Arrays.copyOfRange(titles,1,titles.length);
+        }
+
+
+//        final String []   titles = {
+//                "",
+//                "Initial Group Meeting",
+//                "1st Individual Meeting",
+//                "2nd Group Meeting",
+//                "2nd Individual Meeting",
+//                "3rd Group Meeting",
+//                "4th Group Meeting"};
         return titles;
     }
 

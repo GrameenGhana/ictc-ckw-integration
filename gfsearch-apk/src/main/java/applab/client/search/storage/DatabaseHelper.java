@@ -328,6 +328,21 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
         }
     }
+    public void alterSearchMenuItem(){
+
+
+        SQLiteDatabase db = getWritableDatabase();
+        StringBuilder sqlCommand = new StringBuilder();
+//        db.execSQL("ALTER TABLE ").append(DatabaseHelperConstants.ICTC_FARMER);
+
+        try{
+            db.execSQL("ALTER TABLE " +DatabaseHelperConstants.MENU_ITEM_TABLE_NAME+" ADD COLUMN "+DatabaseHelperConstants.MENU_ITEM_HAS_IMAGE+" INTEGER DEFAULT 0 ");
+            db.execSQL("ALTER TABLE " + DatabaseHelperConstants.MENU_ITEM_TABLE_NAME + " ADD COLUMN " + DatabaseHelperConstants.MENU_ITEM_HAS_AUDIO+" INTEGER DEFAULT 0 ");
+            db.execSQL("ALTER TABLE " + DatabaseHelperConstants.MENU_ITEM_TABLE_NAME + " ADD COLUMN " + DatabaseHelperConstants.MENU_ITEM_HAS_VIDEO+" INTEGER DEFAULT  0 ");
+        }catch(Exception e){
+
+        }
+    }
 
 
     public void alterUserTable(){
@@ -469,6 +484,12 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
                 + DatabaseHelperConstants.MENU_ITEM_PARENTID_COLUMN + " CHAR(16), "
                 + DatabaseHelperConstants.MENU_ITEM_POSITION_COLUMN + " INTEGER, "
                 + DatabaseHelperConstants.MENU_ITEM_CONTENT_COLUMN + " TEXT, "
+
+                + DatabaseHelperConstants.MENU_ITEM_HAS_AUDIO + " INTEGER, "
+
+                + DatabaseHelperConstants.MENU_ITEM_HAS_IMAGE + " INTEGER, "
+
+                + DatabaseHelperConstants.MENU_ITEM_HAS_VIDEO + " INTEGER, "
                 + DatabaseHelperConstants.MENU_ITEM_ATTACHMENTID_COLUMN + " CHAR(16), ");
         sqlCommand.append(" FOREIGN KEY(menu_id) REFERENCES "
                 + DatabaseHelperConstants.MENU_TABLE_NAME
@@ -1464,13 +1485,11 @@ type+=" ";
         String userid = IctcCKwUtil.getUsername();
         JSONObject obj = new JSONObject();
         try {
-
             obj.put("page", page);
             obj.put("section", section);
             obj.put("battery", IctcCKwUtil.getBatteryLevel(context));
             obj.put("version", IctcCKwUtil.getAppVersion(context));
             obj.put("imei", IctcCKwUtil.getImei(context));
-
         }catch (Exception e ){
 
 

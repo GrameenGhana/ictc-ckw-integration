@@ -505,4 +505,22 @@ if(!timeToFormat.isEmpty()) {
 
     }
 
+    public static String cropToCKWLabel(String crop){
+
+
+        String ckwCrop = crop;
+        if(crop.equalsIgnoreCase("maize"))
+            ckwCrop = "b. "+crop+" (ADVANCE)";
+        else if(crop.equalsIgnoreCase("rice"))
+            ckwCrop = "C. "+crop;
+        else if(crop.equalsIgnoreCase("yam"))
+            return "D. "+crop;
+        else if(crop.equalsIgnoreCase("cassava"))
+            return "E. "+crop;
+
+
+        return ckwCrop;
+
+    }
+
 }

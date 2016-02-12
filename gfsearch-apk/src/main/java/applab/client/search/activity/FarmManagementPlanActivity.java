@@ -1,7 +1,5 @@
 package applab.client.search.activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,8 +8,6 @@ import android.widget.*;
 import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.adapters.ParentExpandableListAdapter;
-import applab.client.search.adapters.ParentListAdapter;
-import applab.client.search.model.FarmManagementPlan;
 import applab.client.search.model.Farmer;
 import applab.client.search.model.wrapper.ItemWrapper;
 import applab.client.search.storage.DatabaseHelper;
@@ -102,7 +98,7 @@ DatabaseHelper dbHelper=new DatabaseHelper(getBaseContext());
         ParentExpandableListAdapter adapter = new ParentExpandableListAdapter(FarmManagementPlanActivity.this,wr,expList);
         expList.setAdapter(adapter);
         super.setDetails(dbHelper, "Farmer", "Farmer Management Plan");
-        super.baseAppActivity.setSection(farmer.getFullname());
+        super.baseLogActivity.setSection(farmer.getFullname());
 
     }
 

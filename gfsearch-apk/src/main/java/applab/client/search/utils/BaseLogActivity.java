@@ -7,7 +7,7 @@ import org.json.JSONObject;
 /**
  * Created by skwakwa on 2/8/16.
  */
-public class BaseAppActivity {
+public class BaseLogActivity {
     private Context context;
     private long startTime;
     private String module;
@@ -22,7 +22,7 @@ public class BaseAppActivity {
     boolean saved = false;
 
 
-   public BaseAppActivity(Context context){
+   public BaseLogActivity(Context context){
         this.context = context;
        this.startTime = System.currentTimeMillis();
     }

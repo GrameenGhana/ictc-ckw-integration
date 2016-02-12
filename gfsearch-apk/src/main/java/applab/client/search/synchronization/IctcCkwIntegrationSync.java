@@ -20,10 +20,16 @@ import java.util.List;
  * Created by skwakwa on 8/4/15.
  */
 public class IctcCkwIntegrationSync {
-public static String ICTC_SERVER_URL_ROOT_2= "http://104.236.220.225:8080/ICTC/MobileController?";
-    static String ICTC_SERVER_URL_ROOT = "http://104.236.220.225:8080/ICTC/api/v1/";
-    public static String ICTC_SERVER_URL = "http://104.236.220.225:8080/ICTC/api/v1?";
-    public static String IMAGE_URL="http://104.236.220.225:8080/images/";
+
+
+    //104.236.220.225:45805
+    ///http://104.236.220.225:8080
+    public static   String ICTC_SERVER_MAIN_URL="http://104.236.220.225:45805/";
+    public static   String ICTC_SERVER_CONTEXT_PATH="ICTC/";
+public static String ICTC_SERVER_URL_ROOT_2= ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"MobileController?";//http://104.236.220.225:8080
+    static String ICTC_SERVER_URL_ROOT = ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"api/v1/";
+    public static String ICTC_SERVER_URL = ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"api/v1?";
+    public static String IMAGE_URL=ICTC_SERVER_MAIN_URL+"images/";
     public static String GET_FARMER_DETAILS ="fdetails";
     public static final String WEATHER_URL = ICTC_SERVER_URL_ROOT+"weather";
     public static String LOGIN ="login";

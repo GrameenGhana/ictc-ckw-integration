@@ -312,7 +312,11 @@ public class MainActivity extends Activity implements ActionMode.Callback {
                         }
 
 
+                        System.out.println("Process Multimedia");
+
                         new MenuItemService().processMultimediaContent();
+
+                        System.out.println("Process Multimedia End");
                         //we refresh the UI
                         ListView mainListView = defaultFragment.getMainListView();
                         if (mainListView != null) {

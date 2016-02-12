@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import applab.client.search.interactivecontent.ContentUtils;
 import applab.client.search.model.*;
+import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.storage.DatabaseHelperConstants;
 import applab.client.search.storage.StorageManager;
 import applab.client.search.storage.search.Filter;
@@ -157,9 +158,23 @@ public class MenuItemService {
             searchMenuItem.setMenuId(cursor.getString(cursor.
                     getColumnIndex(DatabaseHelperConstants.MENU_ITEM_MENUID_COLUMN)));
 
+
+
+            searchMenuItem.setVideo(cursor.getInt(cursor.
+                    getColumnIndex(DatabaseHelperConstants.MENU_ITEM_HAS_VIDEO)));
+
+            searchMenuItem.setAudio(cursor.getInt(cursor.
+                    getColumnIndex(DatabaseHelperConstants.MENU_ITEM_HAS_AUDIO)));
+
+            searchMenuItem.setImage(cursor.getInt(cursor.
+                    getColumnIndex(DatabaseHelperConstants.MENU_ITEM_HAS_IMAGE)));
+
+
+
             searchMenuItem.setAttachmentId(cursor.getString(cursor.
                     getColumnIndex(DatabaseHelperConstants.MENU_ITEM_ATTACHMENTID_COLUMN)));
 
+            System.out.println("Search Menu  with lab "+searchMenuItem.getId()+") "+searchMenuItem.getLabel()+": "+searchMenuItem.getVideo());
             searchMenuItems.add(searchMenuItem);
         }
         return searchMenuItems;
@@ -317,46 +332,92 @@ public class MenuItemService {
 
 
 
+
     public void processMultimediaContent(){
+        String [] vids = {"video","audio"};
+        List<SearchMenuItem> toUpdate = new ArrayList<SearchMenuItem>();
+        String q="UPDATE "+ DatabaseHelperConstants.MENU_ITEM_TABLE_NAME+" SET "+ DatabaseHelperConstants.MENU_ITEM_HAS_IMAGE+"=0 , " + DatabaseHelperConstants.MENU_ITEM_HAS_AUDIO+"=0 , "+ DatabaseHelperConstants.MENU_ITEM_HAS_VIDEO+"=0";
+        StorageManager.getInstance().execSql(q);
+        for(String vidb :vids){
+
         Search search = new Search();
         search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
-        search.addFilterLike(DatabaseHelperConstants.MENU_ITEM_CONTENT_COLUMN, "%{video:%}%");
-        search.addFilterOr(Filter.like(DatabaseHelperConstants.MENU_ITEM_CONTENT_COLUMN, "%{audio:%}%"));
-
-
-        List<SearchMenuItem> toUpdate = new ArrayList<SearchMenuItem>();
+        search.addFilterLike(DatabaseHelperConstants.MENU_ITEM_CONTENT_COLUMN, "%{"+vidb+":%}%");
 
         Cursor cursor = StorageManager.getInstance().getRecords(search);
-        List<SearchMenuItem> smt =  buildSearchMenuItems(cursor);
+        assignImageVideoAudio(cursor,vidb);
+
+        }
+
+        //update all images with parent
+        q="select * from "+ DatabaseHelperConstants.MENU_ITEM_TABLE_NAME+" where "+DatabaseHelperConstants.MENU_ITEM_ATTACHMENTID_COLUMN+" != null ";
+        Cursor  sr = StorageManager.getInstance().sqlSearch(q);
+
+        assignImageVideoAudio(sr,"img");
+
+//        updateSearchMenuItem(toUpdate);
+
+    }
+
+    public void assignImageVideoAudio(Cursor cr,String field){
+
+        String q="";
+        List<SearchMenuItem> smt =  buildSearchMenuItems(cr);
+
+
         for (SearchMenuItem item:smt){
+
+            System.out.println("Page has imagese : "+item.getLabel());
             String additions="";
+            int img=item.getImage(),vid=item.getVideo(),aud=item.getAudio();
             if(ContentUtils.containsAudio(item.getDescription()))
             {
+                aud=1;
                 additions+="{audio:audio}";
             }
             if(ContentUtils.containsVideo(item.getDescription()))
             {
+                vid=1;
                 additions+="{video:video}";
+
             }
+
+            if(null != item.getAttachmentId())
+                img=1;
             String parent = item.getParentId();
+            String ids="'"+item.getId()+"'";
+
+            System.out.println("Values set  "+img+" vid "+vid+" aud "+aud);
             try{
 
-                while(parent.equalsIgnoreCase("") || parent.isEmpty()){
-                    List<SearchMenuItem> mItems = getSearchMenuItems(parent,0,500);
-                    for(SearchMenuItem mItem :mItems){
-                        mItem.setContent(mItem.getDescription().concat(additions));
-                        toUpdate.add(mItem);
-                    }
+                System.out.println(item.getLabel()+" - "+item.getParentId());
+
+                while(!parent.equalsIgnoreCase("")  && !parent.isEmpty()){
+                    System.out.println("Inner looper : "+parent);
+                    SearchMenuItem mItem = getSearchMenuItem(parent);
+//                    for(SearchMenuItem mItem :mItems){
+
+                    System.out.println(mItem.getLabel()+" - "+mItem.getParentId());
+
+                    ids+=",'"+parent+"'";
+                    mItem.setImage(img);
+                    mItem.setAudio(aud);
+                    mItem.setVideo(vid);
+//                    }
+                    parent = mItem.getParentId();
                 }
             }catch(Exception e ){
 
             }
-
+            q="UPDATE "+ DatabaseHelperConstants.MENU_ITEM_TABLE_NAME+" SET "+ DatabaseHelperConstants.MENU_ITEM_HAS_IMAGE+"="+img+" , " + DatabaseHelperConstants.MENU_ITEM_HAS_AUDIO+"="+aud+", "+ DatabaseHelperConstants.MENU_ITEM_HAS_VIDEO+"="+vid+" where "+DatabaseHelperConstants.MENU_ITEM_ROWID_COLUMN+
+                    " in ("+ids+")";
+            System.out.println("Update Query : "+ q);
+            StorageManager.getInstance().execSql(q);
 
         }
-        updateSearchMenuItem(toUpdate);
 
     }
+
     private List<ContentValues> getContentValues(SearchMenuItem[] searchMenuItems) {
         List<ContentValues> values = new ArrayList<ContentValues>();
         for (SearchMenuItem item : searchMenuItems) {

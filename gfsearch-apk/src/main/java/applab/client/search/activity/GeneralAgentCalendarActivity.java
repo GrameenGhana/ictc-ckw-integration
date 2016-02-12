@@ -14,6 +14,7 @@ import applab.client.search.adapters.ListCheckboxAdapter;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.utils.AgentVisitUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,16 +40,11 @@ public class GeneralAgentCalendarActivity extends BaseActivity {
 //        mActionBar.setDisplayShowCustomEnabled(true);
         list = (ListView) findViewById(R.id.lst_agent_lst_view);
 
-        final String []   titles = {"Initial Group Meeting",
-                "1st Individual Meeting",
-                "2nd Group Meeting",
-                "2nd Individual Meeting",
-                "3rd Group Meeting",
-                "4th Group Meeting"};
+        final String []   titles = AgentVisitUtil.getMeetingTitles(true);
 
 
-        final String []   firstLetter = {"1","2","3","4","5","6"};
-        boolean [] enabled={true,true,true,true,true,true};
+        final String []   firstLetter = {"1","2","3","4","5","6","7","8","9","10","11"};
+        boolean [] enabled={true,true,true,true,true,true,true,true,true,true,true};
 
 
 
@@ -57,7 +53,7 @@ public class GeneralAgentCalendarActivity extends BaseActivity {
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (titles[i].toLowerCase().contains("individual") ){
+                if (titles[i].toLowerCase().contains("visit") ){
                     System.out.println("Individual item");
                     Intent intent = new Intent(GeneralAgentCalendarActivity.this, FarmerActivitySelectFarmer.class);
                     intent.putExtra("mi", (i + 1));

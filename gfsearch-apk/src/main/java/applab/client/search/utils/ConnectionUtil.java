@@ -7,6 +7,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 import android.widget.Toast;
 import applab.client.search.activity.DashboardActivity;
@@ -395,8 +396,11 @@ public class ConnectionUtil {
         // return  serverResponse;
     }
 
+    public static void refreshWeather(final Context context, final String type,String msg) {
 
-    public static void refreshWeather(final Context context, final String type,String msg ) {
+        refreshWeather(context, type, msg, null);
+    }
+    public static void refreshWeather(final Context context, final String type,String msg, final FragmentStatePagerAdapter pager) {
 
         // String url="http://sandbox-ictchallenge.cs80.force.com/getTest";
         final  DatabaseHelper databaseHelper = new DatabaseHelper(context);
@@ -515,6 +519,17 @@ public class ConnectionUtil {
                                         "Data Recieved  For weather ",
 
                                         Toast.LENGTH_SHORT).show();
+
+                                try{
+
+                                    if(null!=pager) {
+
+                                        System.out.println("Notifying Pager");
+                                        pager.notifyDataSetChanged();
+                                    }
+                                }catch(Exception e){
+
+                                }
 //
                             }
 

@@ -1,47 +1,24 @@
 package applab.client.search.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.FragmentManager;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.BatteryManager;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.BaseAdapter;
-import android.widget.ListView;
-import applab.client.search.DefaultViewFragment;
-import applab.client.search.MainActivity;
-import applab.client.search.R;
-import applab.client.search.services.MenuItemService;
-import applab.client.search.settings.SettingsActivity;
 import applab.client.search.storage.DatabaseHelper;
-import applab.client.search.synchronization.BackgroundSynchronizationConfigurer;
-import applab.client.search.synchronization.SynchronizationListener;
-import applab.client.search.synchronization.SynchronizationManager;
-import applab.client.search.utils.AboutActivity;
-import applab.client.search.utils.BaseAppActivity;
-import applab.client.search.utils.IctcCKwUtil;
-import org.json.JSONObject;
+import applab.client.search.utils.BaseLogActivity;
 
 /**
  * Created by Software Developer on 30/07/2015.
  */
 public class BaseActivity extends Activity {
 
-    BaseAppActivity baseAppActivity;
+    BaseLogActivity baseLogActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        baseAppActivity= new BaseAppActivity(getBaseContext());
+        baseLogActivity = new BaseLogActivity(getBaseContext());
     }
 
     @Override
@@ -52,16 +29,16 @@ public class BaseActivity extends Activity {
 
         //onsaveinstance does not always get called for the ckw list pages uses the destroy for those pages
 //        if(!this.getLocalClassName().contains("SearchMenuItemActivity")){
-            baseAppActivity.save();
+            baseLogActivity.save();
 //         }
 
     }
 
     public void setDetails(DatabaseHelper dh, String module, String page){
-        baseAppActivity.setItemValues(dh,module,page,"","");
+        baseLogActivity.setItemValues(dh,module,page,"","");
     }
     public void setDetails(DatabaseHelper dh, String module, String page,String section,String data){
-        baseAppActivity.setItemValues(dh,module,page,section,data);
+        baseLogActivity.setItemValues(dh,module,page,section,data);
     }
 
     @Override
@@ -70,7 +47,7 @@ public class BaseActivity extends Activity {
         System.out.println("Destroyed for "+this.getLocalClassName());
 //        if(this.getLocalClassName().contains("SearchMenuItemActivity") || this.getLocalClassName().contains("ImageViewerActivity") ){
             System.out.println("CKW save on destroy");
-            baseAppActivity.save();
+            baseLogActivity.save();
 //        }
     }
 

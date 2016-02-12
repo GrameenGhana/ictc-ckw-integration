@@ -1,11 +1,8 @@
 package applab.client.search.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.ActivityGroup;
 import android.app.LocalActivityManager;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
@@ -13,9 +10,7 @@ import android.view.View;
 import android.widget.*;
 import applab.client.search.R;
 import applab.client.search.adapters.MeetingInvAdapter;
-import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.adapters.UnitsListAdapter;
-import applab.client.search.model.FarmManagementPlan;
 import applab.client.search.model.Farmer;
 import applab.client.search.model.FarmerInputs;
 import applab.client.search.model.Meeting;
@@ -197,7 +192,7 @@ public class FarmerDetailActivity extends BaseActivityGroup {
 
 
         super.setDetails(dbHelper,"Farmer","Farmer Details");
-        super.baseAppActivity.setSection(name);
+        super.baseLogActivity.setSection(name);
         IctcCKwUtil.setFarmerDetails(getWindow().getDecorView().getRootView(),R.id.profile_container,farmer.getFullname(),farmer);
 //        textViewLocation=(TextView) findViewById(R.id.textView_location);
 //

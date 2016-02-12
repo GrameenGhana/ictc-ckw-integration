@@ -22,17 +22,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Meeting Date"
-                    android:onClick="showDatePickerDialog" />
+                    android:onClick="showDatePickerDialog" android:id="@+id/md"/>
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Start time"
-                    android:onClick="showTimePickerDialog" />
+                    android:text="Meeting Time"
+                    android:onClick="showTimePickerDialog" android:id="@+id/sit"/>
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="End time"
-                    android:onClick="showTimePickerDialog" />
+                    android:onClick="showTimePickerDialog" android:id="@+id/eit"/>
             <!-- <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
                        android:text="Meeting Date" android:textSize="20sp" />
              <DatePicker

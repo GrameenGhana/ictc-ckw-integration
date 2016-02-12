@@ -16,6 +16,7 @@ import applab.client.search.storage.DatabaseHelper;
 import android.text.TextWatcher;
 
 import applab.client.search.storage.DatabaseHelperConstants;
+import applab.client.search.utils.IctcCKwUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -216,7 +217,8 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
 
             Intent intent= new Intent(FarmerActivitySelectFarmer.this, MainActivity.class);
             intent.putExtra("farmer",farmer);
-            intent.putExtra("SEARCH_CROP",farmer.getMainCrop());
+
+            intent.putExtra("SEARCH_CROP", IctcCKwUtil.cropToCKWLabel(farmer.getMainCrop()));
             intent.putExtra("SEARCH_TITLE",detail);
             startActivity(intent);
         }else if(type.equalsIgnoreCase("MI")){

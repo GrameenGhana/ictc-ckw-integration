@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.*;
@@ -98,6 +99,8 @@ public class DashboardActivity extends BaseFragmentActivity{
         }
 
 
+        //temp try multimedia processing
+        new MenuItemService().processMultimediaContent();
     try {
         ApplicationRegistry.setApplicationContext(this.getApplicationContext());
 //        ApplicationRegistry.setMainActivity(this);
@@ -215,7 +218,9 @@ public class DashboardActivity extends BaseFragmentActivity{
 
         try{
             System.out.println("After Farmer Alter");
-            helper.alterFarmerTable();
+//            helper.alterFarmerTable();
+            helper.alterSearchMenuItem();
+
             System.out.println("Before Farmer Alter");
 
         }catch (Exception e){}
@@ -598,7 +603,7 @@ public class DashboardActivity extends BaseFragmentActivity{
         // return  serverResponse;
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
         List<Weather> weathers;
         boolean internet=false;
         public SectionsPagerAdapter(android.support.v4.app.FragmentManager fm,List<Weather> weathers , boolean netwk) {
@@ -610,7 +615,7 @@ public class DashboardActivity extends BaseFragmentActivity{
             if(weathers.isEmpty()){
 
                 if(internet){
-                    ConnectionUtil.refreshWeather(getBaseContext(),"weather","Get latest weather report");
+                    ConnectionUtil.refreshWeather(getBaseContext(),"weather","Get latest weather report",this);
                 }
                 Weather w = new Weather();
                 w.setLocation("No Weather Data Found");

@@ -39,6 +39,9 @@
                 <ImageView android:id="@+id/image_aud" android:layout_width="wrap_content" android:layout_height="wrap_content"
                            android:layout_marginRight="6dip" android:contentDescription="Audio" android:layout_weight="1"
                            android:src="@drawable/ic_gray_sound"/>
+                <ImageView android:id="@+id/image_img" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                                                             android:layout_marginRight="6dip" android:contentDescription="Audio" android:layout_weight="1"
+                                                                             android:src="@drawable/ic_gray_img"/>
             </TableRow>
         </TableLayout>
         <TextView android:id="@+id/description"

@@ -1,12 +1,9 @@
 package applab.client.search.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.*;
 import applab.client.search.MainActivity;
 import applab.client.search.R;
-import applab.client.search.adapters.MeetingActivityAdapter;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.model.Farmer;
 import applab.client.search.model.Meeting;
@@ -79,7 +75,7 @@ isFarmerSelected= true;
             String meetId = (String) extras.get("mid");
              mtype = (String) extras.get("mtype");
             int atd = (Integer) extras.get("atd");
-            if(null != farmerId && farmerId.length()>0 && titler.toLowerCase().contains("individual")) {
+            if(null != farmerId && farmerId.length()>0 && titler.toLowerCase().contains("visit")) {
 
                 farmer = helper.findFarmer(farmerId);
                 isFarmerSelected=true;
@@ -181,7 +177,7 @@ if(meetings.get(i).isCurrentlyAvailable()) {
 //                    Intent intent = new Intent(MeetingIndexActivity.this, MainActivity.class);
 //                    startActivity(intent);
 
-                    if(meetingType.toLowerCase().contains("group")){
+                    if(meetingType.toLowerCase().contains("multi")){
                         Intent intent = new Intent(MeetingIndexActivity.this, CropSelectorActivity.class);
 
                         intent.putExtra("index",idx);
@@ -201,7 +197,8 @@ if(meetings.get(i).isCurrentlyAvailable()) {
                             intent.putExtra("SEARCH_TITLE","");
                             startActivity(intent);
 
-                        }else{    Intent intent = new Intent(MeetingIndexActivity.this, FarmerActivitySelectFarmer.class);
+                        }else{
+                            Intent intent = new Intent(MeetingIndexActivity.this, FarmerActivitySelectFarmer.class);
                             intent.putExtra("index", idx);
                             intent.putExtra("title", meetTitle);
                             intent.putExtra("detail", title);
@@ -217,13 +214,19 @@ if(meetings.get(i).isCurrentlyAvailable()) {
                 }else if(type.equalsIgnoreCase("T")){
                     Intent launchIntent = getPackageManager().getLaunchIntentForPackage("org.grameen.taro");
                     startActivity(launchIntent);
-                }else if(title.equalsIgnoreCase(AgentVisitUtil.TAKE_ATTENDANCE)){
+                }else if(title.contains(AgentVisitUtil.TAKE_ATTENDANCE)){
 
-                    Intent intent = new Intent(MeetingIndexActivity.this, ListCheckBoxActivity.class);
+                    String attendanceType="Initial";
+                    if(title.contains("Final")){
+                        attendanceType="Final";
+                    }
+                    Intent intent = new Intent(MeetingIndexActivity.this, AttendanceMarkerActivity.class);
                     System.out.println("Meeting : "+meetTitle);
                     System.out.println("Index : "+idx);
-                    intent.putExtra("index",idx);
+                    intent.putExtra("index", idx);
                     intent.putExtra("title",meetTitle);
+                    intent.putExtra("attTitle",title);//attendance title
+                    intent.putExtra("attendanceType",attendanceType);
                     startActivity(intent);
 
                 }else if(title.contains("TV")){
@@ -269,7 +272,7 @@ if(meetings.get(i).isCurrentlyAvailable()) {
                     intent.putExtra("title",meetTitle);
                     intent.putExtra("detail",title);
                     intent.putExtra("farmer",farmer);
-                    if(title.equalsIgnoreCase(AgentVisitUtil.COLLECT_FARM_MEASUREMENT)){
+                    if(title.equalsIgnoreCase(AgentVisitUtil.COLLECT_FARM_MEIASUREMENT)){
                         intent.putExtra("type","farm-map");
                         startActivity(intent);
                     }

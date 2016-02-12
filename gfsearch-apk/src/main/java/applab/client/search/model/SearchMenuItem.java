@@ -13,6 +13,10 @@ public class SearchMenuItem extends ListObject {
     private String menuId;
     private String attachmentId;
 
+    private int image;
+    private int video;
+    private int audio;
+
     /**
      * gets the position of the menu item
      *
@@ -106,5 +110,29 @@ public class SearchMenuItem extends ListObject {
     @Override
     public String getDescription() {
         return this.getContent();
+    }
+
+    public int getImage() {
+        return image;
+    }
+
+    public void setImage(int image) {
+        this.image = image;
+    }
+
+    public int getVideo() {
+        return video;
+    }
+
+    public void setVideo(int video) {
+        this.video = video;
+    }
+
+    public int getAudio() {
+        return audio;
+    }
+
+    public void setAudio(int audio) {
+        this.audio = audio;
     }
 }

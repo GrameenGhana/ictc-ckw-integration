@@ -1,6 +1,5 @@
 package applab.client.search.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,13 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 import applab.client.search.R;
 import applab.client.search.model.Farmer;
 import applab.client.search.model.FarmerInputs;
 import applab.client.search.storage.DatabaseHelper;
-import applab.client.search.utils.AgentVisitUtil;
-import applab.client.search.utils.ConnectionUtil;
 import applab.client.search.utils.IctcCKwUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -69,7 +65,7 @@ public class FarmerInputActivty extends BaseActivity {
         final String f = farmer_id;
 
         super.setDetails(helper,"Farmer","Farmer Input");
-        stime = super.baseAppActivity.getStartTime();
+        stime = super.baseLogActivity.getStartTime();
 
 
         Button save = (Button) findViewById(R.id.btnInputSave);

@@ -9,7 +9,6 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -21,14 +20,7 @@ import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.model.FarmGPSLocation;
 import applab.client.search.model.Farmer;
-import applab.client.search.model.Payload;
-import applab.client.search.settings.SettingsActivity;
 import applab.client.search.storage.DatabaseHelper;
-import applab.client.search.synchronization.IctcCkwIntegrationSync;
-import applab.client.search.task.IctcTrackerLogTask;
-import applab.client.search.utils.AboutActivity;
-import applab.client.search.utils.ConnectionUtil;
-import applab.client.search.utils.GoogleMapUtils;
 import applab.client.search.utils.IctcCKwUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -46,7 +38,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -576,7 +567,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
             objs.put("imei",IctcCKwUtil.getImei(getBaseContext()));
             objs.put("version",IctcCKwUtil.getAppVersion());
             objs.put("battery",IctcCKwUtil.getBatteryLevel(getBaseContext()));
-            dbHelper.insertCCHLog("Farmer",objs.toString(),super.baseAppActivity.getStartTime(), System.currentTimeMillis());
+            dbHelper.insertCCHLog("Farmer",objs.toString(),super.baseLogActivity.getStartTime(), System.currentTimeMillis());
         }catch(Exception e ){
 
         }

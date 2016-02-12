@@ -1,26 +1,13 @@
 package applab.client.search.activity;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import applab.client.search.MainActivity;
-import applab.client.search.R;
-import applab.client.search.settings.SettingsActivity;
 import applab.client.search.storage.DatabaseHelper;
-import applab.client.search.synchronization.BackgroundSynchronizationConfigurer;
-import applab.client.search.synchronization.SynchronizationListener;
-import applab.client.search.synchronization.SynchronizationManager;
-import applab.client.search.utils.AboutActivity;
-import applab.client.search.utils.BaseAppActivity;
-import applab.client.search.utils.IctcCKwUtil;
+import applab.client.search.utils.BaseLogActivity;
 import org.json.JSONObject;
 
 /**
@@ -28,7 +15,7 @@ import org.json.JSONObject;
  */
 public class BaseFragmentActivity extends FragmentActivity{
 
-    BaseAppActivity baseAppActivity;
+    BaseLogActivity baseLogActivity;
 
     private ProgressDialog progressDialog = null;
     private Handler handler = null;
@@ -36,7 +23,7 @@ public class BaseFragmentActivity extends FragmentActivity{
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        baseAppActivity= new BaseAppActivity(getBaseContext());
+        baseLogActivity = new BaseLogActivity(getBaseContext());
     }
 
 
@@ -44,16 +31,16 @@ public class BaseFragmentActivity extends FragmentActivity{
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        baseAppActivity.save();
+        baseLogActivity.save();
 //        }
 
     }
 
     public void setDetails(DatabaseHelper dh, String module, String page){
-        baseAppActivity.setItemValues(dh,module,page,"","");
+        baseLogActivity.setItemValues(dh,module,page,"","");
     }
     public void setDetails(DatabaseHelper dh, String module, String page,String section,String data){
-        baseAppActivity.setItemValues(dh,module,page,section,data);
+        baseLogActivity.setItemValues(dh,module,page,section,data);
     }
 
 

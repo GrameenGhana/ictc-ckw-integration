@@ -169,10 +169,16 @@ public class MainListViewAdapter extends BaseAdapter {
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.img);
         ImageView imageAudo = (ImageView) rowView.findViewById(R.id.image_aud);
+        ImageView imageImg = (ImageView) rowView.findViewById(R.id.image_img);
         ImageView imageVideo = (ImageView) rowView.findViewById(R.id.image_vid);
         TextView titleView = (TextView) rowView.findViewById(R.id.title);
         TextView descriptionView = (TextView) rowView.findViewById(R.id.description);
 
+        Object j = getItem(position);
+        boolean isSearch=false;
+        if(j instanceof  SearchMenuItem )
+            isSearch=true;
+        System.out.println("Instance of SearchMenuItem: "+isSearch);
         ListObject listObject = (ListObject) getItem(position);
 
         if (listObject != null) {
@@ -190,25 +196,35 @@ public class MainListViewAdapter extends BaseAdapter {
 
             }
 
+            imageAudo.setImageResource(R.drawable.ic_gray_sound);
+            imageVideo.setImageResource(R.drawable.ic_grey_video);
+            imageVideo.setImageResource(R.drawable.ic_gray_img);
 
-            if (ContentUtils.containsAudio(desc)) {
-                imageAudo.setImageResource(R.drawable.sound);
+            if(isSearch) {
+             SearchMenuItem lo = (SearchMenuItem) j;
+                System.out.println(lo.getImage()+" - "+lo.getAudio()+" - "+lo.getVideo());
+                if (lo.getAudio() == 1) {
+                    imageAudo.setImageResource(R.drawable.sound);
 //                imageAudo.setVisibility(ImageView.VISIBLE);
-                System.out.println("Visible AudioI");
-            }else{
+                    System.out.println("Visible AudioI");
+                } else {
 
 
-                imageAudo.setImageResource(R.drawable.ic_gray_sound);
-            }
-            if (ContentUtils.containsVideo(desc)) {
-                imageVideo.setImageResource(R.drawable.video);
+                }
+                if (lo.getVideo() == 1) {
+                    imageVideo.setImageResource(R.drawable.video);
 //                imageVideo.setVisibility(ImageView.VISIBLE);
-                System.out.println("Desc VideoII");
-            }else{
+                    System.out.println("Desc VideoII");
+                }
 
-                imageVideo.setImageResource(R.drawable.ic_grey_video);
+
+                if(lo.getImage()==1){
+                    imageVideo.setImageResource(R.drawable.ic_img);
+
+                }
+
+
             }
-
 
 //            System.out.println("Desc  : "+desc);
             descriptionView.setText(ContentUtils.replaceMultimediaPlaceholder(desc));

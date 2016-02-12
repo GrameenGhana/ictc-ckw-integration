@@ -31,6 +31,9 @@ public final class DatabaseHelperConstants {
     public static final String MENU_ITEM_MENUID_COLUMN = "menu_id";
     public static final String MENU_ITEM_PARENTID_COLUMN = "parent_id";
     public static final String MENU_ITEM_ATTACHMENTID_COLUMN = "attachment_id";
+    public static final String MENU_ITEM_HAS_IMAGE= "image";
+    public static final String MENU_ITEM_HAS_AUDIO = "audio";
+    public static final String MENU_ITEM_HAS_VIDEO = "video";
 
     /* Available Farmer Ids Table Columns */
     public static final String AVAILABLE_FARMER_ID_ROWID_COLUMN = "id";

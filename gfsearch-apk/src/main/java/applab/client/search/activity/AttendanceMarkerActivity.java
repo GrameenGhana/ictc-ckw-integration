@@ -1,11 +1,8 @@
 package applab.client.search.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.DialogFragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
@@ -16,13 +13,12 @@ import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.IctcCKwUtil;
 import org.json.JSONObject;
 
-import java.awt.*;
 import java.util.List;
 
 /**
  * Created by skwakwa on 8/30/15.
  */
-public class ListCheckBoxActivity extends BaseFragmentActivity {
+public class AttendanceMarkerActivity extends BaseFragmentActivity {
     private ListView list;
 
     String title;
@@ -32,7 +28,11 @@ public class ListCheckBoxActivity extends BaseFragmentActivity {
      List<Farmer> farmerList = null;
     private CheckBox cb;
 
+    String attendanceType="";
+    String attendanceTitle="";
     long stime;
+    DatePickerFragment datePicker = null;
+    TimePickerFragment timePicker = null;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +53,7 @@ public class ListCheckBoxActivity extends BaseFragmentActivity {
 
 
         stime = System.currentTimeMillis();
+
         super.setDetails(helper,"Meeting","Mark Group Attendance");
 
         TextView v =(TextView) findViewById(R.id.txt_meeting_attendance_header);
@@ -63,13 +64,28 @@ public class ListCheckBoxActivity extends BaseFragmentActivity {
             title = (String) extras.get("title");
             meetingIndex = (Integer) extras.get("index");
 
+            attendanceType = (String) extras.get("attendanceType");
+
+            attendanceTitle = (String) extras.get("attTitle");
 
         }
-        v.setText(title);
+
+        JSONObject json = new JSONObject();
+        try {
+
+            json.put("meetingidx",meetingIndex);
+            json.put("title",attendanceTitle);
+            json.put("attendanceType",attendanceType);
+
+        }catch (Exception  e){
+
+        }
+        super.setDetails(helper,"Meeting",title,"Mark Group Attendance ",json.toString());
+        v.setText(title+" >> "+attendanceTitle);
         final List<Farmer> farmers = helper.getFarmers();
 
         farmerList = farmers;
-      adapter = new ListCheckboxAdapter(ListCheckBoxActivity.this, farmers,getResources().getStringArray(R.array.text_colors));
+      adapter = new ListCheckboxAdapter(AttendanceMarkerActivity.this, farmers,getResources().getStringArray(R.array.text_colors));
         list.setAdapter(adapter);
 
 
@@ -88,17 +104,19 @@ public class ListCheckBoxActivity extends BaseFragmentActivity {
 
 
     }
-    public void showDatePickerDialog(View v) {
-        DatePickerFragment newFragment = new DatePickerFragment();
-        newFragment.show(getFragmentManager(),"DatePicker");
 
-        Toast.makeText(getBaseContext(),newFragment.getDateSet(),Toast.LENGTH_LONG).show();
+    public void showDatePickerDialog(View v) {
+        datePicker =  new DatePickerFragment();
+        datePicker.show(getFragmentManager(),"DatePicker");
+
+        Toast.makeText(getBaseContext(),datePicker.getDateSet(),Toast.LENGTH_LONG).show();
     }
 
 
+
     public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getFragmentManager(), "timePicker");
+        timePicker = new TimePickerFragment();
+        timePicker.show(getFragmentManager(), "timePicker");
     }
 
     public void markAttendanceSelect(View view){
@@ -131,6 +149,13 @@ public class ListCheckBoxActivity extends BaseFragmentActivity {
             objs.put("page","Group Attendance Marked");
             objs.put("type","Group");
             objs.put("section",title);
+
+            objs.put("date",datePicker.getDateSet());
+            objs.put("time",datePicker.getDateSet());
+
+
+            objs.put("attendanceType",attendanceType);
+            objs.put("attendanceTitle",attendanceTitle);
             objs.put("attendees",attenden);
             objs.put("absentees",notInAttendance);
             objs.put("imei", IctcCKwUtil.getImei(getBaseContext()));
