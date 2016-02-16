@@ -382,8 +382,11 @@ public class MenuItemService {
 
             }
 
-            if(null != item.getAttachmentId())
-                img=1;
+            System.out.println("Img : "+item.getAttachmentId());
+            if(null != item.getAttachmentId()) {
+                img = 1;
+                System.out.println("Ended : "+img);
+            }
             String parent = item.getParentId();
             String ids="'"+item.getId()+"'";
 
