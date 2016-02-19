@@ -41,20 +41,24 @@ public class SurveyList extends BaseActivity {
         IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
         //, , Financial Institutions
         final String []   titles = {
-                "FARMER REGISTRATION",
-                "PROFILING",
-                "BASELINE PRODUCTION",
-                "BASELINE POST HARVEST",
-                "FMP PRODUCTION",
-                "FMP POST-HARVEST",
+                "A1: REGISTER FARMER",
+                "A2: PROFILE FARMER",
+                "B1: PREVIOUS PERFORMANCE (PRODUCTION)",
+                "B2: PREVIOUS PERFORMANCE (POST HARVEST",
+                "B3: FARM CREDIT (PREVIOUS)",
+                "C1: FARM PLAN (UPCOMING PRODUCTION)",
 
-                "FIELD CROP ASSESSMENT",
-                "FMP PRODUCTION UPDATE 1",
-                "FMP PRODUCTION UPDATE 2",
-                "FMP POST HARVEST UPDATE 1",
-                "FMP POST HARVEST UPDATE 2"
+                "C2: FARM PLAN (UPCOMING POST-HARVEST)",
+                "C3: FARM CREDIT (PLAN)",
+                "D1: CONDUCT CROP ASSESSMENT",
+                "E1: UPDATE CURRENT PLAN (AFTER PLANTING)",
+                "E2: UPDATE CURRENT PLAN (AFTER HARVEST)",
+                "E3: UPDATE CURRENT PLAN (AFTER PROCESSING)",
+                "E4: UPDATE CURRENT PLAN (AFTER SELLING)",
+                "E5: FARM CREDIT (UPDATE)"
+
         };
-        String [] captions={"A","B","C","D","E","F","G","H1","H2","I1","I2"};
+        String [] captions={"A1","A2","B1","B2","B3","C1","C2","C3","D1","E1","E2","E3","E4","E5"};
 
         String [] fLetters  = new String[titles.length];
         boolean [] enabled=new boolean[titles.length];

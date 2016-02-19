@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="applab.client.search"
-          android:versionCode="19"
-          android:versionName="1.1.5" >
+          android:versionCode="20"
+          android:versionName="1.1.6" >
 
     <uses-sdk
             android:minSdkVersion="11"
@@ -36,9 +36,12 @@
             -->
         </activity>
 
+        <!--<meta-data
+                android:name="com.google.android.gms.version"
+                android:value="8115000" />-->
         <meta-data
                 android:name="com.google.android.gms.version"
-                android:value="8115000" />
+                android:value="7895000" />
         <meta-data
                 android:name="com.google.android.maps.v2.API_KEY"
                 android:value="AIzaSyDRv4VkNNAdydQ5M21ov0aVB_q0vOpvTd4" />
