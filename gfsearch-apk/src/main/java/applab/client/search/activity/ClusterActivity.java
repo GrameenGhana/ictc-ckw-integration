@@ -46,10 +46,10 @@ public class ClusterActivity extends BaseActivity {
         list = (ExpandableListView) findViewById(R.id.expandableListView);
         list.setGroupIndicator(null);
         final List<String> clusters = new ArrayList<String>();
-        clusters.add("Cluster 1");
-        clusters.add("Cluster 2");
-        clusters.add("Cluster 3");
-        clusters.add("Cluster 4");
+        clusters.add("Experienced farmers");
+        clusters.add("Moderately experienced farmers");
+        clusters.add("Farmers on the rise");
+        clusters.add("Moving from subsistence");
         clusters.add("No Cluster");
         final Map<String, List<Farmer>> clustersDate = new HashMap<String, List<Farmer>>();
         clustersDate.put(clusters.get(0), helper.getSearchedFarmers(DatabaseHelperConstants.CLUSTER, "1"));

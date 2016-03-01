@@ -57,7 +57,7 @@ public class FarmerUtil {
 
         itmWrap.put("Farmer Summary",wr);
 
-         wr = new ArrayList<ItemWrapper>();
+        wr = new ArrayList<ItemWrapper>();
         wr.add(new ItemWrapper("Surname",f.getLastName()));
         wr.add(new ItemWrapper("Othernames",f.getFirstName()));
         wr.add(new ItemWrapper("Nickname",f.getNickname()));

@@ -292,16 +292,16 @@ public class  AgentVisitUtil {
         String []   titles = {
                 "",
                 "PRE-VISIT",
-                "VISIT 1",
-                "VISIT 2",
-                "VISIT 3",
-                "VISIT 4",
-                "VISIT 5",
-                "VISIT 6",
-                "MULTIMEDIA MEETING  1",
-                "MULTIMEDIA MEETING  2",
-                "MULTIMEDIA MEETING  3",
-                "MULTIMEDIA MEETING  4",};
+                "VISIT 1 (Registration, Profiling,etc)",
+                "VISIT 2 (Farm Planning)",
+                "VISIT 3 (Field Measurement, Plan Update 1)",
+                "VISIT 4 (Field Assessment)",
+                "VISIT 5 (Fertilizer Application)",
+                "VISIT 6 (Farm Plan Update 3, 4 5) ",
+                "MULTIMEDIA MEETING  1 (Preparing To Plant)",
+                "MULTIMEDIA MEETING  2 (Fertilizer Application)",
+                "MULTIMEDIA MEETING  3 (Fertilizer Application)",
+                "MULTIMEDIA MEETING  4 (Harvest And Post Harvest)",};
         //MULTIMEDIA MEETING 1
         if(withFirst){
             titles = Arrays.copyOfRange(titles,1,titles.length);

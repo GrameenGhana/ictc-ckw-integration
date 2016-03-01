@@ -59,6 +59,7 @@ public class Farmer extends ListObject {
     private String baselinepostharvestBudget;
     private String postharvest;
     private String technicalNeeds;
+    private String profiling;
     private String fmpproductionbudget;
 
     /*public String getFarmerId() {

@@ -48,7 +48,7 @@ public class ClientActivity extends BaseActivity {
                 "Data Collection",
                 "Clusters",
                 "Meetings",
-                "Farmer By Crop","Communities"};
+                "Farmer Records","Communities"};
 
 
         final String[] firstLetter = {"D", "C", "M","F","C"};

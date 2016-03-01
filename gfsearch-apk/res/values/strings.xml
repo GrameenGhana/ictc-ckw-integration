@@ -39,7 +39,7 @@
 
     <!-- Connection strings-->
     <!--<string name="server_url">https://grameenfoundation.secure.force.com/ckwsearch/SearchGetRequest</string>-->
-    <string name="ictc_server_url">http://104.236.220.225:8080/ICTC/</string>
+    <string name="ictc_server_url">http://104.236.220.225:45805/ICTC/</string>
     <string name="ictc_title_server_url">ICTC Server Url</string>
     <string name="ictc_summary_server_url">The url of the server to synchronize ICTC with.</string>
 
