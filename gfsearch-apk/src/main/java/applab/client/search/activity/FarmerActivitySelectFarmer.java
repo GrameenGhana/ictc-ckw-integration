@@ -2,6 +2,8 @@ package applab.client.search.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -26,6 +28,7 @@ import java.util.List;
  */
 public class FarmerActivitySelectFarmer extends BaseActivity {
     private ListView list;
+    private Button instructions_button;
     List<Farmer> myFarmers = null;
 
     DatabaseHelper helper;
@@ -36,6 +39,8 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
     String [] extraData;
 
     int meetingIndex;
+    private Bundle extras;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,9 +53,93 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
         LayoutInflater mInflater = LayoutInflater.from(this);
 
         helper = new DatabaseHelper(getBaseContext());
-
+        extras = getIntent().getExtras();
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
+        instructions_button=(Button) findViewById(R.id.instructions);
+        instructions_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                detail = extras.getString("detail");
+                AlertDialog.Builder builder = new AlertDialog.Builder(FarmerActivitySelectFarmer.this);
+                builder.setTitle("Meeting Instructions");
+
+                ListView modeList = new ListView(FarmerActivitySelectFarmer.this);
+                String[] stringArray = new String[0];
+                if(detail.equalsIgnoreCase("Pre-Visit")){
+                    stringArray= new String[] { "1.\tSensitize farmers about the Agrotech project and your intended activities",
+                                                "2.\tExplain the objectives of the project",
+                                                "3.\tInform farmers that they need to be registered & profiled before the planting season, \n" +
+                                                        "to receive specialized services throughout the season\n",
+                                                "4.\tInform farmers how they will benefit by participating on the project (check out the farmer value proposition)",
+                            "5.\tInform farmers that you will be embarking on the registration & profiling exercise, as well as discussing farm planning & procurement."};
+                }else if(detail.contains("VISIT 1")){
+                    stringArray= new String[] { "1.\tRegister and profile all your 100 farmers before the planting season ",
+                            "2.\tExplain to the farmer that you are going to ask questions to understand their \n" +
+                                    "previous production performance\n",
+                            "3.\tExplain to the farmer that you are going to ask questions to understand their \n" +
+                                    "previous post-harvest experience\n",
+                            "4.\tProvide input package if available.",
+                            "5.\tProvide information on next steps ",
+                            "6.\tInform farmer that you will be discussing farm planning & planting activities the next \n" +
+                            "time you visit them\n"};
+                }else if(detail.contains("VISIT 2")){
+                    stringArray= new String[] { "1.\tGo over the farm planning questions with the farmer and explain what it involves ",
+                            "2.\tElaborate on the upcoming farm plan activities which include planning & \n" +
+                                    "procurement, as well as land preparation and planting\n",
+                            "3.\tProvide technical advice on the importance of farm planning, proper land \n" +
+                                    "preparation, planting and seed selection\n",
+                            "4.\tDiscuss land preparation, tractor services and other input needs e.g seed/fertilizers",
+                            "5.\tShare Radio & TV schedules with farmer & invite them to the multimedia meeting,\n" +
+                                    "to view videos on land preparation, planting, as well as listen discuss the radio prog.\n",
+                            "6.\tRequest farmers to mention their specific technical needs",
+                    "7.\tInform farmer that you will be discussing weed control and fertilizer application during your next visit."};
+                }else if(detail.contains("VISIT 3")){
+                    stringArray= new String[] { "1.\tFollow the instructions provided on field mapping.",
+                            "2.\tPlease indicate the number of kgs of each input that has been provided to the farmer\n" +
+                                    "Confirm delivery of inputs\n",
+                            "3.\tDiscuss farm operations using FMP PRODUCTION UPDATE 1",
+                            "4.\tUpcoming activities on farm plan include weeding and fertilizer application",
+                            "5.\tProvide technical advice on weeding and fertilizer application, by following the link to content",
+                            "6.\tCollect request for assistance",
+                    "7.\tShare Radio & TV schedules with farmer & invite them to the multimedia meeting,\n" +
+                            "to view videos on weeding, fertilizer application, and to discuss the radio program\n",
+                    "8.\tInform farmer that you will be discussing more on weed control, fertilizer \n" +
+                            "application and conducting a crop assessment. \n"};
+                }else if(detail.contains("VISIT 4")){
+                    stringArray= new String[] { "1.\tCrop inspection will require you to visit the farmer’s field and follow instructions given",
+                            "2.\tUpcoming activities on farm plan will be managing weeds in your farm & planning to \n" +
+                                    "do your final fertilizer application\n",
+                            "3.\tProvide technical advice on weeding, fertilizer application as well as harvesting and post-harvest processing. ",
+                            "4.\tShare Radio & TV schedules with farmer & invite them to the multimedia meeting,\n" +
+                                    "to view videos on harvesting & post-harvest handling as well as radio program\n",
+                            "5.\tInform farmer that you will be discussing more on the final fertilizer application & post-harvest processing"};
+                }else if(detail.contains("VISIT 5")) {
+                    stringArray = new String[]{"1.\tDiscuss farm operations using FMP PRODUCTION UPDATE 2",
+                            "2.\tDiscuss food security",
+                            "3.\tUpcoming activities on farm plan include final fertilizer application in case of maize.",
+                            "4.\tProvide technical advice on final fertilizer application, harvesting, & \n" +
+                                    "post-harvest processing by following the link to content\n",
+                            "5.\tShare Radio & TV schedules with farmer but do not invite them for another \n" +
+                                    "multi-media meeting\n",
+                            "6.\tCollect request for assistance ",
+                            "7.\tInform farmer that you will be discussing field operations undertaken and credit repayments during your next visit."};
+                }else if(detail.contains("VISIT 6")){
+                    stringArray= new String[] { "1.\tDiscuss farm operations using FMP PRODUCTION UPDATE 3,4,5",
+                            "2.\tReconcile credit and repayments",
+                            "3.\tProvide farmers with records on their progress so far by going back to farm \n" +
+                                    "records under which is under the farmer tab \n",
+                            "4.\tCollect farmer feedback"};
+                }
+
+                ArrayAdapter<String> modeAdapter = new ArrayAdapter<String>(FarmerActivitySelectFarmer.this, android.R.layout.simple_list_item_1, android.R.id.text1, stringArray);
+                modeList.setAdapter(modeAdapter);
+
+                builder.setView(modeList);
+                final Dialog dialog = builder.create();
+
+                dialog.show();
+            }
+        });
         Button mButton = (Button) mCustomView.findViewById(R.id.search_btn);
         mButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -67,7 +156,7 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
 
         System.out.println("Just Browse");
 
-        Bundle extras = getIntent().getExtras();
+
         try {
             type = extras.getString("type");
 
