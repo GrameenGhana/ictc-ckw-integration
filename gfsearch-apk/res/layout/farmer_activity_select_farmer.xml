@@ -45,7 +45,7 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
+                android:layout_height="385dp" >
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,7 +54,17 @@
                     android:id="@+id/btn_just_browse" android:onClick="processJustBrowse"/>
             <ListView
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
+                    android:layout_height="match_parent"
                     android:id="@+id/lst_farmer_fsf"/>
         </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:gravity="center_horizontal">
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View Instructions"
+                android:id="@+id/instructions"/>
     </LinearLayout>
+</LinearLayout>
