@@ -12,34 +12,24 @@
 package applab.client.search.utils;
 
 import android.content.Context;
-import android.graphics.*;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
 import android.os.Environment;
 import android.util.Log;
-import applab.client.search.R;
 
 import java.io.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
- * Contains methods for managing image files on the file system.
+ * Contains methods for managing media files on the file system.
  */
 public class MediaUtils {
-    public static final String IMAGE_ROOT = Environment.getExternalStorageDirectory() + "/gfsearch/";
-    private static final String LOG_TAG = "ImageFilesUtility";
-    private static String[] SUPPORTED_FORMATS = {".jpg", ".jpeg"};
 
-    public static String ProfilePix="FarmerPix";
-    public static String SMART_EXT_FOLDER_NAME="smartext";
-    public static String SMART_EXT_FOLDER = Environment.getExternalStorageDirectory()+"/"+SMART_EXT_FOLDER_NAME;
-    public  static String  FULL_URL_PROFILE_PIX=SMART_EXT_FOLDER+"/"+ProfilePix;
+    public static final String TAG = MediaUtils.class.getSimpleName();
+    public static final String MEDIA_ROOT = Environment.getExternalStorageDirectory() + "/gfsearch/";
+    public static final String SMART_EXT_FOLDER = Environment.getExternalStorageDirectory()+"/smartext";
+    private static String[] SUPPORTED_FORMATS = {".jpg", ".jpeg", ".mp4"};
 
     public static boolean storageReady() {
         String cardStatus = Environment.getExternalStorageState();
@@ -53,9 +43,9 @@ public class MediaUtils {
         }
     }
 
-    public static boolean createRootFolder() {
+    public static boolean createRootFolder(String dirName) {
         if (storageReady()) {
-            File dir = new File(IMAGE_ROOT);
+            File dir = new File(dirName);
             if (!dir.exists()) {
                 return dir.mkdirs();
             }
@@ -63,6 +53,10 @@ public class MediaUtils {
         } else {
             return false;
         }
+    }
+
+    public static boolean createRootFolder() {
+        return createRootFolder(MEDIA_ROOT);
     }
 
     public static boolean deleteFile(File file) {
@@ -77,55 +71,33 @@ public class MediaUtils {
        writeFile(fileName,"ckw",inputStream);
     }
 
-
     public static void writeFile(String fileName, String type, InputStream inputStream) throws IOException {
-        if (storageReady() && createRootFolder() && verifyDirectory()) {
-            // replace spaces with underscores
-            fileName = fileName.replace(" ", "_");
-            // change to lowercase
-            fileName = fileName.toLowerCase();
-            FileOutputStream fileOutputStream = null;
-            //pp for profile pix
-            if(!type.equalsIgnoreCase("pp")){
-                fileOutputStream= new FileOutputStream(new File(IMAGE_ROOT, fileName));
-            }else{
-                fileOutputStream= new FileOutputStream(new File(FULL_URL_PROFILE_PIX, fileName));
+        if (storageReady() && createRootFolder()) {
+            try {
+                // replace spaces with underscores
+                fileName = fileName.replace(" ", "_");
+
+                // change to lowercase
+                fileName = fileName.toLowerCase();
+                FileOutputStream fileOutputStream = new FileOutputStream(new File(MEDIA_ROOT, fileName));
+
+                byte[] buffer = new byte[1024];
+
+                int length;
+                while ((length = inputStream.read(buffer)) > 0) {
+                    fileOutputStream.write(buffer, 0, length);
+                }
+
+                fileOutputStream.close();
+            } catch (Exception ex) {
+                Log.d(TAG, "Writing file of type " + type);
             }
-            byte[] buffer = new byte[1024];
-            int length = 0;
-            while ((length = inputStream.read(buffer)) > 0) {
-                fileOutputStream.write(buffer, 0, length);
-            }
-            fileOutputStream.close();
         }
     }
-    public static Drawable getImageAsDrawable(Context context, String fileName) {
-        if (!storageReady()) {
-            return null;
-        }
-        fileName = getFullPath(fileName);
-        Bitmap bitmap = BitmapFactory.decodeFile(fileName);
-        return new BitmapDrawable(context.getResources(), bitmap);
-    }
 
-    public static Drawable getImageAsDrawable(Context context, String fileName, boolean isPartialName) {
-        if (!storageReady()) {
-            return null;
-        }
-        fileName = getFullPath(fileName, true);
-        Bitmap bitmap = BitmapFactory.decodeFile(fileName);
-        return new BitmapDrawable(context.getResources(), bitmap);
-    }
-
-    public static Drawable getICTCImageAsDrawable(Context context, String fileName) {
-
-//        fileName = getFullPath(fileName, true);
-        Bitmap bitmap = BitmapFactory.decodeFile(fileName);
-        return new BitmapDrawable(context.getResources(), bitmap);
-    }
     public static ArrayList<String> getFilesAsArrayList() {
         ArrayList<String> fileList = new ArrayList<String>();
-        File rootDirectory = new File(IMAGE_ROOT);
+        File rootDirectory = new File(MEDIA_ROOT);
         if (!storageReady()) {
             return null;
         }
@@ -143,7 +115,7 @@ public class MediaUtils {
         return fileList;
     }
 
-    public static boolean imageExists(String fileName) {
+    public static boolean fileExists(String fileName) {
         if (!storageReady()) {
             return false;
         }
@@ -151,19 +123,23 @@ public class MediaUtils {
         return getFullPath(fileName) == null ? false : true;
     }
 
-    public static boolean imageExists(String fileName, boolean isPartialName) {
+    public static boolean fileExists(String fileName, boolean isPartialName) {
         if (!storageReady()) {
             return false;
         } else if (isPartialName) {
             return getFullPath(fileName, true) == null ? false : true;
         } else {
-            return imageExists(fileName);
+            return fileExists(fileName);
         }
     }
 
-    public static String getFullPath(String fileName) {
-        for (String format : SUPPORTED_FORMATS) {
-            String path = IMAGE_ROOT + fileName + format;
+    public static String getFullPath(String fileName){
+            return getFullPath(fileName, SUPPORTED_FORMATS);
+    }
+
+    public static String getFullPath(String fileName, String[] formats) {
+        for (String format : formats) {
+            String path = MEDIA_ROOT + fileName + format;
             File file = new File(path);
 
             if (file.exists()) {
@@ -174,15 +150,19 @@ public class MediaUtils {
     }
 
     public static String getFullPath(String fileName, boolean isPartialName) {
+            return getFullPath(fileName, SUPPORTED_FORMATS, isPartialName);
+    }
+
+    public static String getFullPath(String fileName, String[] formats, boolean isPartialName) {
         if (!isPartialName) {
-            return getFullPath(fileName);
+            return getFullPath(fileName, formats);
         }
-        File dir = new File(IMAGE_ROOT);
+
+        File dir = new File(MEDIA_ROOT);
         File[] files = dir.listFiles();
 
         if (files != null) {
             for (File file : files) {
-                Log.d("FILES", file.getName());
                 if (fileName != null && file.getName().toLowerCase().contains(fileName.toLowerCase())) {
                     return file.getAbsolutePath();
                 }
@@ -190,7 +170,6 @@ public class MediaUtils {
         }
 
         return null;
-
     }
 
     public static String getSHA1Hash(File file) {
@@ -231,18 +210,18 @@ public class MediaUtils {
                     offset += read;
                 }
             } catch (IOException e) {
-                Log.e(LOG_TAG, "Cannot read " + file.getName());
+                Log.e(TAG, "Cannot read " + file.getName());
                 e.printStackTrace();
                 return null;
             }
             // Ensure all the bytes have been read in
             if (offset < bytes.length) {
-                Log.e(LOG_TAG, "Could not completely read file " + file.getName());
+                Log.e(TAG, "Could not completely read file " + file.getName());
                 return null;
             }
             return bytes;
         } catch (FileNotFoundException e) {
-            Log.e(LOG_TAG, "Cannot find " + file.getName());
+            Log.e(TAG, "Cannot find " + file.getName());
             e.printStackTrace();
             return null;
         } finally {
@@ -250,162 +229,19 @@ public class MediaUtils {
             try {
                 is.close();
             } catch (IOException e) {
-                Log.e(LOG_TAG, "Cannot close input stream for " + file.getName());
+                Log.e(TAG, "Cannot close input stream for " + file.getName());
                 e.printStackTrace();
                 return null;
             }
         }
     }
 
-    public static Drawable drawSelectedImage(Context context, int width, int height) {
-        Bitmap canvasBitmap = Bitmap.createBitmap(width, height,
-                Bitmap.Config.ARGB_8888);
-
-        ShapeDrawable drawable = new ShapeDrawable(new RectShape());
-        drawable.setBounds(0, 0, width, height);
-        drawable.getPaint().setColor(0xff5E5C5C);
-
-        Canvas canvas = new Canvas(canvasBitmap);
-        drawable.draw(canvas);
-
-        Drawable resourceDrawable = context.getResources().getDrawable(R.drawable.ic_action_accept);
-        resourceDrawable.draw(canvas);
-
-
-        return new BitmapDrawable(context.getResources(), canvasBitmap);
-    }
-
-    public static Drawable drawRandomColorImageWithText(Context context, String substring, int width, int height) {
-        int[] colors = new int[]{0xff67BF74, 0xffE4C62E, 0xff2093CD, 0xff59A2BE, 0xffF9A43A};
-
-        int randomIndex = new Random().nextInt(colors.length);
-        Bitmap canvasBitmap = Bitmap.createBitmap(width, height,
-                Bitmap.Config.ARGB_8888);
-
-        ShapeDrawable drawable = new ShapeDrawable(new RectShape());
-        drawable.setBounds(0, 0, width, height);
-        drawable.getPaint().setColor(colors[randomIndex]);
-
-        Canvas canvas = new Canvas(canvasBitmap);
-        drawable.draw(canvas);
-
-        // Set up the paint for use with our Canvas
-        Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        textPaint.setTextAlign(Paint.Align.CENTER);
-        textPaint.setTextSize(35f);
-        textPaint.setAntiAlias(true);
-        //textPaint.setStyle(Paint.Style.FILL);
-        Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/roboto/Roboto-Light.ttf");
-        textPaint.setTypeface(myTypeface);
-        //textPaint.setStrokeWidth(0.01f);
-        textPaint.setColor(0xffFFFFFF);
-
-        canvas.drawText(substring, width / 2, (height / 1.4f), textPaint);
-        return new BitmapDrawable(context.getResources(), canvasBitmap);
-    }
-
-    public static File createImageCacheFolderIfNotExists(Context context) {
-        String imageCachePath = context.getCacheDir() + "/gfimages/";
-        File folder = new File(imageCachePath);
+    public static File createCacheFolderIfNotExists(Context context, String folderName) {
+        String cachePath = context.getCacheDir() + "/"+folderName+"/";
+        File folder = new File(cachePath);
         if (!folder.exists()) {
             folder.mkdirs();
         }
         return folder;
-    }
-
-    public static Drawable scaleAndCacheImage(Context context, String sourceImageFile, String destinationImageFile,
-                                              int scaleWidth, int scaleHeight) {
-        try {
-            int inWidth = 0;
-            int inHeight = 0;
-
-            InputStream in = new FileInputStream(sourceImageFile);
-
-            // decode image size (decode metadata only, not the whole image)
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(in, null, options);
-            in.close();
-            in = null;
-
-            // save width and height
-            inWidth = options.outWidth;
-            inHeight = options.outHeight;
-
-            // decode full image pre-resized
-            in = new FileInputStream(sourceImageFile);
-            options = new BitmapFactory.Options();
-            // calc rought re-size (this is no exact resize)
-            options.inSampleSize = Math.max(inWidth / scaleWidth, inHeight / scaleHeight);
-            // decode full image
-            Bitmap roughBitmap = BitmapFactory.decodeStream(in, null, options);
-
-            // calc exact destination size
-            Matrix m = new Matrix();
-            RectF inRect = new RectF(0, 0, roughBitmap.getWidth(), roughBitmap.getHeight());
-            RectF outRect = new RectF(0, 0, scaleWidth, scaleHeight);
-            m.setRectToRect(inRect, outRect, Matrix.ScaleToFit.CENTER);
-            float[] values = new float[9];
-            m.getValues(values);
-
-            // resize bitmap
-            Bitmap resizedBitmap =
-                    Bitmap.createScaledBitmap(roughBitmap,
-                            (int) (roughBitmap.getWidth() * values[0]),
-                            (int) (roughBitmap.getHeight() * values[4]), true);
-
-            // save image
-            try {
-                FileOutputStream out = new FileOutputStream(destinationImageFile);
-                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, out);
-
-                return new BitmapDrawable(context.getResources(), resizedBitmap);
-            } catch (Exception e) {
-                Log.e("Image", e.getMessage(), e);
-            }
-        } catch (IOException e) {
-            Log.e("Image", e.getMessage(), e);
-        }
-
-        return null;  //To change body of created methods use File | Settings | File Templates.
-    }
-
-    public static Drawable loadBitmapDrawableIfExists(Context context, String cacheImageFile) {
-        if (new File(cacheImageFile).exists()) {
-            Bitmap bitmap = BitmapFactory.decodeFile(cacheImageFile);
-            return new BitmapDrawable(context.getResources(), bitmap);
-        } else {
-            return null;
-        }
-    }
-
-
-
-
-    public static boolean verifyDirectory(){
-        System.out.println("Imagev Verifying Directory");
-        boolean result=false;
-        File direct = new File(SMART_EXT_FOLDER);
-        if(!direct.exists()) {
-            System.out.println("Not  Existing Creating");
-            result = (direct.mkdir()); //directory is created;
-
-        }else{
-            result=true;
-        }
-        System.out.println("Search Imagev Foilder");
-        direct = new File(FULL_URL_PROFILE_PIX);
-        if(!direct.exists()) {
-
-            System.out.println("Imagev Creating");
-            result=(direct.mkdir()) ;
-        }else{
-            result =true;
-        }
-        return result;
-    }
-
-    public static boolean profilePixExist(String img){
-        return (new File(FULL_URL_PROFILE_PIX+"/"+img+"jpg").exists());
     }
 }

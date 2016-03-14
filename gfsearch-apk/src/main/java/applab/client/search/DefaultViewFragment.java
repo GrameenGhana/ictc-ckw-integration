@@ -297,10 +297,6 @@ public class DefaultViewFragment extends Fragment implements ActionMode.Callback
     }
 
     public void viewFarmer(View view){
-
         System.out.println("Farmer View"+ farmerId);
-
-
-
     }
 }

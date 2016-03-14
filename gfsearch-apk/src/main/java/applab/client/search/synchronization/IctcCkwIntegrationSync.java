@@ -26,7 +26,7 @@ public class IctcCkwIntegrationSync {
     ///http://104.236.220.225:8080
     public static   String ICTC_SERVER_MAIN_URL="http://104.236.220.225:45805/";
     public static   String ICTC_SERVER_CONTEXT_PATH="ICTC/";
-public static String ICTC_SERVER_URL_ROOT_2= ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"MobileController?";//http://104.236.220.225:8080
+    public static String ICTC_SERVER_URL_ROOT_2= ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"MobileController?";//http://104.236.220.225:8080
     static String ICTC_SERVER_URL_ROOT = ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"api/v1/";
     public static String ICTC_SERVER_URL = ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"api/v1?";
     public static String IMAGE_URL=ICTC_SERVER_MAIN_URL+"images/";

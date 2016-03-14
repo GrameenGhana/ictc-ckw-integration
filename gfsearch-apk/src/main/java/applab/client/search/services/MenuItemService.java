@@ -338,25 +338,20 @@ public class MenuItemService {
         List<SearchMenuItem> toUpdate = new ArrayList<SearchMenuItem>();
         String q="UPDATE "+ DatabaseHelperConstants.MENU_ITEM_TABLE_NAME+" SET "+ DatabaseHelperConstants.MENU_ITEM_HAS_IMAGE+"=0 , " + DatabaseHelperConstants.MENU_ITEM_HAS_AUDIO+"=0 , "+ DatabaseHelperConstants.MENU_ITEM_HAS_VIDEO+"=0";
         StorageManager.getInstance().execSql(q);
-        for(String vidb :vids){
 
-        Search search = new Search();
-        search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
-        search.addFilterLike(DatabaseHelperConstants.MENU_ITEM_CONTENT_COLUMN, "%{"+vidb+":%}%");
-
-        Cursor cursor = StorageManager.getInstance().getRecords(search);
-        assignImageVideoAudio(cursor,vidb);
-
+        for(String vidb : vids) {
+            Search search = new Search();
+            search.setTableName(DatabaseHelperConstants.MENU_ITEM_TABLE_NAME);
+            search.addFilterLike(DatabaseHelperConstants.MENU_ITEM_CONTENT_COLUMN, "%{"+vidb+":%}%");
+            Cursor cursor = StorageManager.getInstance().getRecords(search);
+            assignImageVideoAudio(cursor,vidb);
         }
 
-        //update all images with parent
+        // update all images with parent
         q="select * from "+ DatabaseHelperConstants.MENU_ITEM_TABLE_NAME+" where "+DatabaseHelperConstants.MENU_ITEM_ATTACHMENTID_COLUMN+" != null ";
-        Cursor  sr = StorageManager.getInstance().sqlSearch(q);
+        Cursor sr = StorageManager.getInstance().sqlSearch(q);
 
         assignImageVideoAudio(sr,"img");
-
-//        updateSearchMenuItem(toUpdate);
-
     }
 
     public void assignImageVideoAudio(Cursor cr,String field){
@@ -364,25 +359,27 @@ public class MenuItemService {
         String q="";
         List<SearchMenuItem> smt =  buildSearchMenuItems(cr);
 
-
         for (SearchMenuItem item:smt){
 
             System.out.println("Page has imagese : "+item.getLabel());
             String additions="";
+
             int img=item.getImage(),vid=item.getVideo(),aud=item.getAudio();
+
             if(ContentUtils.containsAudio(item.getDescription()))
             {
                 aud=1;
                 additions+="{audio:audio}";
             }
+
             if(ContentUtils.containsVideo(item.getDescription()))
             {
                 vid=1;
                 additions+="{video:video}";
-
             }
 
             System.out.println("Img : "+item.getAttachmentId());
+
             if(null != item.getAttachmentId()) {
                 img = 1;
                 System.out.println("Ended : "+img);
@@ -416,9 +413,7 @@ public class MenuItemService {
                     " in ("+ids+")";
             System.out.println("Update Query : "+ q);
             StorageManager.getInstance().execSql(q);
-
         }
-
     }
 
     private List<ContentValues> getContentValues(SearchMenuItem[] searchMenuItems) {

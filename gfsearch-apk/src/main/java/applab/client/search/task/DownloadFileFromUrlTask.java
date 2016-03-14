@@ -2,12 +2,10 @@ package applab.client.search.task;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
-import android.net.Uri;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-import applab.client.search.MainActivity;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
@@ -17,20 +15,22 @@ import java.net.URL;
 import java.net.URLConnection;
 
 
-class DownloadFileFromURL extends AsyncTask<String, String, String> {
+public class DownloadFileFromUrlTask extends AsyncTask<String, String, String> {
 
     private String fileName = "";
 
     // Progress Dialog
+    private Context context;
     private ProgressDialog pDialog;
-    public static final int progress_bar_type = 0;
+    private DownloadFileRequestListener requestListener;
 
-    public DownloadFileFromUrlTask(MainActivity activity)
+    public DownloadFileFromUrlTask(Context ctx)
+    {
+       context = ctx;
+    }
 
-    protected Dialog showDialog(int id) {
-        switch (id) {
-            case progress_bar_type: // we set this to 0
-                pDialog = new ProgressDialog();
+    protected Dialog showDialog() {
+                pDialog = new ProgressDialog(context);
                 pDialog.setMessage("Downloading file. Please wait...");
                 pDialog.setIndeterminate(false);
                 pDialog.setMax(100);
@@ -38,11 +38,13 @@ class DownloadFileFromURL extends AsyncTask<String, String, String> {
                 pDialog.setCancelable(true);
                 pDialog.show();
                 return pDialog;
-            default:
-                return null;
-        }
     }
 
+    protected void closeDialog() {
+            if(pDialog.isShowing()) {
+               pDialog.dismiss();
+            }
+    }
 
     /**
      * Before starting background thread Show Progress Bar Dialog
@@ -50,7 +52,7 @@ class DownloadFileFromURL extends AsyncTask<String, String, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        showDialog(progress_bar_type);
+        showDialog();
     }
 
     /**
@@ -109,14 +111,17 @@ class DownloadFileFromURL extends AsyncTask<String, String, String> {
     @Override
     protected void onPostExecute(String file_url) {
         // dismiss the dialog after the file was downloaded
-        dismissDialog(progress_bar_type);
-        try {
-            Uri data = Uri.parse("file://"+fileName);
-            Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
-            intent.setDataAndType(data, "video/mp4");
-            startActivity(intent);
-        } catch(Exception ex) {
-            Log.e("TMEDIA ERROR", ex.getMessage());
+        closeDialog();
+        synchronized (this) {
+            if (requestListener != null) {
+                requestListener.downloadRequestComplete(fileName);
+            }
+        }
+    }
+
+    public void setRequestListener(DownloadFileRequestListener listener) {
+        synchronized (this) {
+            requestListener = listener;
         }
     }
 }
