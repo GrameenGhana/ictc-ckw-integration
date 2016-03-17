@@ -121,7 +121,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="prefServerDefault">http://104.236.220.225:8080/ICTC/</string>
+    <string name="prefServerDefault">http://104.236.220.225:45805/ICTC/</string>
     <string name="prefServerYabr3">http://188.226.189.149/cch/yabr3/</string>
     <string name="prefServerTimeoutConnectionDefault">10000</string>
     <string name="prefServerTimeoutResponseDefault">20000</string>

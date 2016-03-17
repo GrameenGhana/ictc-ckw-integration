@@ -10,7 +10,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Kojo Antwi"
+                android:text=""
                 android:id="@+id/textView_fmp_name"
                 android:layout_gravity="center_horizontal"/>
         <ViewStub
@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:text="Map Farm"
                     android:id="@+id/button2"
-                    android:drawableLeft="@drawable/ic_map_farm" android:onClick="mapFarm"/>
+                    android:drawableLeft="@drawable/ic_location" android:onClick="mapFarm"/>
             <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Technical Assistance"
                     android:id="@+id/ckw_profile_btn" android:drawableLeft="@drawable/app_logo" android:onClick="ckwClick"/>
         </LinearLayout>

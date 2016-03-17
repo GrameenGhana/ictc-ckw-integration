@@ -45,7 +45,7 @@ public class FarmerUtil {
         JSONObject prod= f.getProductionJSON();
 
 
-        wr.add(new ItemWrapper("Land Size",f.getJSONValue(prod,"acresofland")));
+      /**  wr.add(new ItemWrapper("Land Size",f.getJSONValue(prod,"acresofland")));
         wr.add(new ItemWrapper("Last Season Yield Per Acre",""));
 
         wr.add(new ItemWrapper("This Season Target Yield per Acre",f.getJSONValue(prod,"targetyieldperacre")));
@@ -54,7 +54,7 @@ public class FarmerUtil {
         wr.add(new ItemWrapper("Weeding Date",(f.getJSONValue(prod, "datefirstmanualweedcontrol"))));
         wr.add(new ItemWrapper("Main Sales Person",f.getJSONValue(ph,"mainpointofsaleorcontact")));
         wr.add(new ItemWrapper("Proportion of Crops Sold",f.getJSONValue(ph, "proportionformarket")));
-
+         **/
         itmWrap.put("Farmer Summary",wr);
 
         wr = new ArrayList<ItemWrapper>();
@@ -329,14 +329,48 @@ public class FarmerUtil {
                 " Crop Variety And Seeds Yam",
                 " Crop Variety And Seed",
                 " Crop Establishment"};
+        String [] profilingsf = {
+                "Second_constraint_after_farm_planning",
+                "Second_constraint_after_marketing",
+                "Second_constraint_after_post_harvest",
+                "Second_constraint_after_field_production",
+                "main_constraint_farmplanning",
+                "main_constraint_field_production",
+                "main_constraint_general",
+                "main_constraint_marketing",
+                "main_constraint_post_harvest",
+                "other_constraint_farm_planning",
+                "other_constraint_field_production",
+                "other_constraint_marketing",
+                "other_constraint_post_harvest"
+
+        };
+
+
+        String[] profiling ={
+                    "second constraint farm planning",
+                    "second constraint after marketing",
+                    "second constraint post harvest",
+                    "second constraint field production",
+                    "main constraint general",
+                    "main constraint field production",
+                    "main constraint marketing",
+                    "main constraint post market",
+                    "other constraint farm planning",
+                    "other constraint field production",
+                    "other constraint marketing",
+                    "other constraint post harvest"
+        };
+
 
          JSONObject techNeeds = f.getJSONObject(f.getTechnicalNeeds());//PostHarvestJSON();
-        Log.i(FarmerUtil.class.getName(),"TechNeeds : "+techNeeds);
+        Log.i(FarmerUtil.class.getName(),"TechNeeds in code : "+techNeeds);
         List<ItemWrapper> wrNeeds = new ArrayList<ItemWrapper>();
         i=0;
-        for(String str:needs){
+        for(String str:profilingsf){
             try {
-                wrNeeds.add(new ItemWrapper(needsNM[i], techNeeds.getString(str)));
+               // wrNeeds.add(new ItemWrapper(needsNM[i], techNeeds.getString(str)));
+                wrNeeds.add(new ItemWrapper(profiling[i],techNeeds.getString(str)));
             }catch(Exception e){
 //                wrBaseLinePH.add(new ItemWrapper(baseLinePostHvestHd[i],""));
             }
@@ -365,7 +399,7 @@ public class FarmerUtil {
 
 
 
-JSONObject obj = f.getBaselinePostHarvestJSON();
+        JSONObject obj = f.getBaselinePostHarvestJSON();
         JSONObject ph= f.getPostHarvestJSON();
 
         JSONObject bud= f.getBaselineProductionBudgetJSON();
@@ -459,7 +493,7 @@ JSONObject obj = f.getBaselinePostHarvestJSON();
         itemAgric.add(new ItemWrapper("  Proportion sold",String.valueOf(getStringFromJSON(postHarvest, "proportionformarket"))));
 
 
-        itemAgric.add(new ItemWrapper("","Farm inputs credit received"));
+        itemAgric.add(new ItemWrapper("","Farm inputs credit needs"));
 
         int cnt=0;
         for(FarmerInputs fi : myInputs){
@@ -476,7 +510,7 @@ JSONObject obj = f.getBaselinePostHarvestJSON();
         }
 
 
-        itemAgric.add(new ItemWrapper("  Farm inputs credit received",String.valueOf(getStringFromJSON(jOb, ""))));
+        itemAgric.add(new ItemWrapper("  Farm inputs credit received(Seeds)",String.valueOf(getStringFromJSON(jOb, ""))));
         itemAgric.add(new ItemWrapper("  Bags of fertilizer",String.valueOf(getStringFromJSON(jOb, ""))));
         itemAgric.add(new ItemWrapper("  Liters of Herbicide 1",String.valueOf(getStringFromJSON(jOb, ""))));
         itemAgric.add(new ItemWrapper("  Liters of Herbicide 2",String.valueOf(getStringFromJSON(jOb, ""))));

@@ -86,7 +86,7 @@ ListView list;
         } catch (Exception e) {
             System.out.println("Excception e: " + e.getLocalizedMessage());
         }
-        textViewName.setText(farmer.getLastName() + ", " + farmer.getFirstName());
+        //textViewName.setText(farmer.getLastName() + ", " + farmer.getFirstName());
 
 
         list = (ListView) findViewById(R.id.lst_fmp_item);

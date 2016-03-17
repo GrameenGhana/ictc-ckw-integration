@@ -1558,9 +1558,10 @@ public class SynchronizationManager {
                     p =jObj.getJSONObject("baselinepostharvest");
                     baselinePostHarvest = p.toString();
 
-                    p =jObj.getJSONObject("technicalneeds");
+                    p =jObj.getJSONObject("profiling");
                     String techNeeds = p.toString();
 
+                    System.out.println("Profiling Stuff " + techNeeds);
                     p =jObj.getJSONObject("baselinepostharvestbudget");
 
 
@@ -1583,7 +1584,7 @@ public class SynchronizationManager {
                         }
                     }
 
-                    Log.i(this.getClass().getName(), "Saving techNees "+vals[0]+" / "+vals[1]+techNeeds);
+                    Log.i(this.getClass().getName(), "Saving techNeeds "+vals[0]+" / "+vals[1]+techNeeds);
 
 
 //                                        for (String key : keys) {
