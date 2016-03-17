@@ -18,7 +18,7 @@ import applab.client.search.model.Weather;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import applab.client.search.task.IctcTrackerLogTask;
-import com.google.android.gms.ads.formats.NativeAd;
+//import com.google.android.gms.ads.formats.NativeAd;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;

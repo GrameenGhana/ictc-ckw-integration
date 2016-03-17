@@ -192,6 +192,8 @@ public class IctcTrackerLogTask extends AsyncTask<Payload, Object, Payload> {
         return payload;
 
     }
+
+
     @Override
     protected Payload doInBackground(Payload... params) {
         Payload payload = params[0];

@@ -13,12 +13,14 @@ public final class SettingsConstants {
     public static final String KEY_KEYWORDS_VERSION = "keywordsVersion";
     public static final String KEY_FARMERS_VERSION = "farmersVersion";
     public static final String KEY_IMAGES_VERSION = "imagesVersion";
+    public static final String KEY_VIDEOS_VERSION = "videosVersion";
 
     public static final String REQUEST_SUBMIT_SEARCHLOGS_PAGE = "SearchSubmitLogs";
     public static final String REQUEST_DOWNLOAD_FARMERS = "farmers";
     public static final String REQUEST_UPLOAD_SEARCHLOGS = "searchLogs";
     public static final String REQUEST_GET_COUNTRY_CODE = "countryCode";
     public static final String REQUEST_DOWNLOAD_IMAGES = "images";
+    public static final String REQUEST_DOWNLOAD_VIDEOS = "videos";
     public static final String REQUEST_DOWNLOAD_KEYWORDS = "keywords";
     public static final String REQUEST_METHODNAME = "method";
     public static final String REQUEST_DATA = "data";

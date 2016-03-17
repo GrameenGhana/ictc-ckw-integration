@@ -14,6 +14,7 @@ import applab.client.search.ApplicationRegistry;
 import applab.client.search.R;
 import applab.client.search.location.GpsManager;
 import applab.client.search.model.*;
+import applab.client.search.model.wrapper.VideoRequestData;
 import applab.client.search.services.MenuItemService;
 import applab.client.search.settings.SettingsConstants;
 import applab.client.search.settings.SettingsManager;
@@ -21,6 +22,7 @@ import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.storage.DatabaseHelperConstants;
 import applab.client.search.storage.StorageManager;
 import applab.client.search.task.IctcTrackerLogTask;
+import applab.client.search.task.VideoDownloadRequestTask;
 import applab.client.search.utils.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -52,17 +54,18 @@ public class SynchronizationManager {
     private final static String REQUEST_ELEMENT_NAME = "GetKeywordsRequest";
     private final static String VERSION_ELEMENT_NAME = "localKeywordsVersion";
     private final static String IMAGES_VERSION_ELEMENT_NAME = "localImagesVersion";
+    private final static String VIDEOS_VERSION_ELEMENT_NAME = "localVideosVersion";
     private final static String CURRENT_MENU_IDS = "menuIds";
     private final static String DEFAULT_KEYWORDS_VERSION = "2010-04-04 00:00:00";
     private final static String DEFAULT_IMAGES_VERSION = "2010-04-04 00:00:00";
+    private final static String DEFAULT_VIDEOS_VERSION = "2010-04-04 00:00:00";
     private final static String DEFAULT_FARMERS_VERSION = "2014-11-03 00:00:00";
     private MenuItemService menuItemService = new MenuItemService(StorageManager.getInstance().getDatabase());
 
     private boolean synchronizing = false;
     private static final SynchronizationManager INSTANCE = new SynchronizationManager();
     private Context applicationContext;
-    private Map<String, SynchronizationListener> synchronizationListenerList =
-            new HashMap<String, SynchronizationListener>();
+    private Map<String, SynchronizationListener> synchronizationListenerList = new HashMap<String, SynchronizationListener>();
 
     private static final int DEFAULT_NETWORK_TIMEOUT = 3 * 60 * 1000;
 
@@ -266,12 +269,16 @@ public class SynchronizationManager {
             String imagesVersion =
                     SettingsManager.getInstance().getValue(SettingsConstants.KEY_IMAGES_VERSION,
                             DEFAULT_IMAGES_VERSION);
+            String videosVersion =
+                    SettingsManager.getInstance().getValue(SettingsConstants.KEY_VIDEOS_VERSION,
+                            DEFAULT_VIDEOS_VERSION);
 
             KeywordsRequestWrapper request = new KeywordsRequestWrapper();
             request.setRequest(SettingsConstants.REQUEST_DOWNLOAD_KEYWORDS);
             request.setImei(DeviceMetadata.getDeviceImei(ApplicationRegistry.getApplicationContext()));
             request.setKeywordsVersion(keywordVersion);
             request.setImagesLastUpdatedDate(imagesVersion);
+            request.setVideosLastUpdatedDate(videosVersion);
 
             List<SearchMenu> menus = menuItemService.getAllSearchMenus();
             ArrayList<String> menuArr = new ArrayList();
@@ -402,8 +409,11 @@ public class SynchronizationManager {
         List<SearchMenu> oldSearchMenus = menuItemService.getAllSearchMenus();
         final List<String> imageIdz = new ArrayList<String>();
         final List<String> deleteImageIz = new ArrayList<String>();
+        final List<String> videoIdz = new ArrayList<String>();
+        final List<String> deleteVideoIz = new ArrayList<String>();
         final String[] keywordVersion = new String[1];
         final String[] imagesVersion = new String[1];
+        final String[] videosVersion = new String[1];
         final int[] keywordCount = new int[1];
 
         try {
@@ -431,6 +441,7 @@ public class SynchronizationManager {
                         } else if (key.equals("version")) {
                             keywordVersion[0] = value.toString();
                             imagesVersion[0] = value.toString();
+                            videosVersion[0] = value.toString();
                         } else {
                             if (keywordObject instanceof SearchMenu) {
                                 populateSearchMenu((SearchMenu) keywordObject, key, value.toString());
@@ -440,7 +451,13 @@ public class SynchronizationManager {
                                     && keywordType.equalsIgnoreCase("images")) {
                                 keywordObject = value;
                             } else if ("id".equalsIgnoreCase(key) && keywordObject instanceof String
+                                    && keywordType.equalsIgnoreCase("videos")) {
+                                keywordObject = value;
+                            } else if ("id".equalsIgnoreCase(key) && keywordObject instanceof String
                                     && keywordType.equalsIgnoreCase("deletedImages")) {
+                                keywordObject = value;
+                            } else if ("id".equalsIgnoreCase(key) && keywordObject instanceof String
+                                    && keywordType.equalsIgnoreCase("deletedVideos")) {
                                 keywordObject = value;
                             } else {
                                 Log.i(SynchronizationManager.class.getName(), "no implementation to process " + key);
@@ -467,7 +484,11 @@ public class SynchronizationManager {
                         keywordObject = new SearchMenuItem();
                     } else if ("images".equalsIgnoreCase(keywordType)) {
                         keywordObject = new String();
+                    } else if ("videos".equalsIgnoreCase(keywordType)) {
+                        keywordObject = new String();
                     } else if ("deletedImages".equalsIgnoreCase(keywordType)) {
+                        keywordObject = new String();
+                    } else if ("deletedVideos".equalsIgnoreCase(keywordType)) {
                         keywordObject = new String();
                     }
 
@@ -496,12 +517,14 @@ public class SynchronizationManager {
                                             getResources().getString(R.string.removing_keywords_msg), true);
 
                             menuItemService.deleteSearchMenuItems((SearchMenuItem) keywordObject);
-                        } else if (keywordObject instanceof String &&
-                                keywordType.equalsIgnoreCase("images")) {
+                        } else if (keywordObject instanceof String && keywordType.equalsIgnoreCase("images")) {
                             imageIdz.add((String) keywordObject);
-                        } else if (keywordObject instanceof String &&
-                                keywordType.equalsIgnoreCase("deletedImages")) {
+                        } else if (keywordObject instanceof String && keywordType.equalsIgnoreCase("videos")) {
+                            videoIdz.add((String) keywordObject);
+                        } else if (keywordObject instanceof String && keywordType.equalsIgnoreCase("deletedImages")) {
                             deleteImageIz.add((String) keywordObject);
+                        } else if (keywordObject instanceof String && keywordType.equalsIgnoreCase("deletedVideos")) {
+                            deleteVideoIz.add((String) keywordObject);
                         }
                     }
 
@@ -516,6 +539,10 @@ public class SynchronizationManager {
             System.out.println("Download Images CKW");
             downloadImages(imageIdz, imagesVersion[0]);
             deleteUnusedImages(deleteImageIz);
+
+            System.out.println("Download Videos CKW");
+            downloadVideos(videoIdz, videosVersion[0]);
+            deleteUnusedVideos(deleteVideoIz);
         } catch (ParseException ex) {
             Log.e(SynchronizationManager.class.getName(), "Parsing Error", ex);
             notifySynchronizationListeners("onSynchronizationError",
@@ -539,6 +566,34 @@ public class SynchronizationManager {
                     ImageUtils.deleteFile(file);
                 }
             }
+        }
+    }
+
+    private void deleteUnusedVideos(List<String> deleteVideoIz) {
+        if (deleteVideoIz != null) {
+            for (String videoId : deleteVideoIz) {
+                if (videoId != null && videoId.trim().length() > 0) {
+                    File file = new File(MediaUtils.MEDIA_ROOT, videoId + ".mp4");
+                    MediaUtils.deleteFile(file);
+                }
+            }
+        }
+    }
+
+    private void downloadVideos(List<String> videoIds, String videosVersion)  {
+        if (videoIds != null) {
+            List<String> ids = new ArrayList<String>();
+
+            for (final String videoId : videoIds) {
+                ids.add(videoId.split("-")[1]);
+            }
+
+            VideoRequestData vrd = new VideoRequestData(ids, videosVersion);
+            VideoDownloadRequestTask task = new VideoDownloadRequestTask(applicationContext, INSTANCE);
+            ArrayList<Object> data = new ArrayList<Object>();
+            data.add(vrd);
+            Payload p = new Payload(data);
+            task.execute(p);
         }
     }
 
@@ -593,8 +648,7 @@ public class SynchronizationManager {
                             } catch (Exception ex) {
                                 complete = false;
                                 Log.e(SynchronizationManager.class.getName(), "Image parsing Error", ex);
-                                notifySynchronizationListeners("onSynchronizationError",
-                                        new Throwable(applicationContext.getString(R.string.error_downloading_images)));
+                                notifySynchronizationListeners("onSynchronizationError", new Throwable(applicationContext.getString(R.string.error_downloading_images)));
                             } finally {
                                 out.close();
                                 inputStream.close();
@@ -869,6 +923,9 @@ public class SynchronizationManager {
         String imagesVersion = SettingsManager.getInstance().getValue(SettingsConstants.KEY_IMAGES_VERSION,
                 DEFAULT_IMAGES_VERSION);
 
+        String videosVersion = SettingsManager.getInstance().getValue(SettingsConstants.KEY_VIDEOS_VERSION,
+                DEFAULT_VIDEOS_VERSION);
+
         XmlEntityBuilder xmlRequest = new XmlEntityBuilder();
         xmlRequest.writeStartElement(REQUEST_ELEMENT_NAME, XML_NAME_SPACE);
         xmlRequest.writeStartElement(VERSION_ELEMENT_NAME);
@@ -876,6 +933,9 @@ public class SynchronizationManager {
         xmlRequest.writeEndElement();
         xmlRequest.writeStartElement(IMAGES_VERSION_ELEMENT_NAME);
         xmlRequest.writeText(imagesVersion);
+        xmlRequest.writeEndElement();
+        xmlRequest.writeStartElement(VIDEOS_VERSION_ELEMENT_NAME);
+        xmlRequest.writeText(videosVersion);
         xmlRequest.writeEndElement();
         xmlRequest.writeStartElement(CURRENT_MENU_IDS);
         xmlRequest.writeText(getMenuIds());
@@ -975,8 +1035,6 @@ public class SynchronizationManager {
 
     }
 
-
-
     protected  void uploadICTCLogs(DatabaseHelper databaseHelper){
 
         Payload mqp = databaseHelper.getCCHUnsentLog();
@@ -1002,7 +1060,6 @@ public class SynchronizationManager {
             HttpClient client = new DefaultHttpClient();
             HttpPost post = new HttpPost(url);
 
-
             String serverResponse="";
             HttpResponse resp = client.execute(post);
             Log.i(this.getClass().getName(),"After icctc send");
@@ -1015,11 +1072,7 @@ public class SynchronizationManager {
                 serverResponse += line;
             }
 
-
-
-
             ArrayList<Object> arl =   processICTCFarmerData(serverResponse, databaseHelper);
-
 
             Payload mqp = databaseHelper.getImagePayload(arl);
             System.out.println("Downloading Images ");
@@ -1032,9 +1085,7 @@ public class SynchronizationManager {
             Log.e(SynchronizationManager.class.getName(), "Error downloading country code", ex);
             notifySynchronizationListeners("onSynchronizationError", new Throwable(ex));
         }
-
     }
-
 
 
     /**
@@ -1075,7 +1126,7 @@ public class SynchronizationManager {
         return xmlRequest.getEntity();
     }
 
-    protected void notifySynchronizationListeners(String methodName, Object... args) {
+    public void notifySynchronizationListeners(String methodName, Object... args) {
         //synchronized (synchronizationListenerList) {
         for (SynchronizationListener listener : synchronizationListenerList.values()) {
             try {
@@ -1087,8 +1138,7 @@ public class SynchronizationManager {
                     }
                 }
 
-                SynchronizationListener.class.
-                        getMethod(methodName, argTypes).invoke(listener, args);
+                SynchronizationListener.class.getMethod(methodName, argTypes).invoke(listener, args);
             } catch (Exception ex) {
                 Log.e(SynchronizationManager.class.getName(),
                         "Error executing listener method", ex);
@@ -1139,6 +1189,7 @@ public class SynchronizationManager {
         private String keywordsVersion;
         private List<String> menuIds;
         private String ImagesLastUpdatedDate;
+        private String VideosLastUpdatedDate;
         private String request;
         private String imei;
 
@@ -1161,6 +1212,9 @@ public class SynchronizationManager {
         public void setImagesLastUpdatedDate(String imagesLastUpdatedDate) {
             ImagesLastUpdatedDate = imagesLastUpdatedDate;
         }
+        public void setVideosLastUpdatedDate(String videosLastUpdatedDate) {
+            VideosLastUpdatedDate = videosLastUpdatedDate;
+        }
 
         public String getKeywordsVersion() {
             return keywordsVersion;
@@ -1174,6 +1228,9 @@ public class SynchronizationManager {
             return ImagesLastUpdatedDate;
         }
 
+        public String getVideosLastUpdatedDate() {
+            return VideosLastUpdatedDate;
+        }
         public String getRequest() {
             return request;
         }
