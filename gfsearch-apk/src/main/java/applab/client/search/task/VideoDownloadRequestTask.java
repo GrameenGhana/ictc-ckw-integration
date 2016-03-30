@@ -147,7 +147,7 @@ public class VideoDownloadRequestTask extends AsyncTask<Payload, Object, Payload
                                     InputStream inputStream = HttpHelpers.postJsonRequestAndGetStream(url, networkTimeout, params);
 
                                     String jsonResponse = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
-                                    Log.d("TMEDIA: Video Download", "Response " + jsonResponse);
+                                    //Log.d("TMEDIA: Video Download", "Response " + jsonResponse);
 
                                     if (jsonResponse.length() > 4972) {
                                         //VideosResponseWrapper res = gson.fromJson(jsonResponse, VideosResponseWrapper.class);
