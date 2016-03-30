@@ -84,6 +84,7 @@ public class SearchMenuItemActivity extends BaseActivity implements VideoDownloa
 
             } else if(s.contains("video:")) {
                 String[] params = s.split(":");
+                Log.e("TMEDIA"," Working on "+params[1]);
                 ImageButton videoView = getVideoView(params[1]);
                 widgets.add(videoView);
 
