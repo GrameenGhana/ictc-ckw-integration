@@ -54,6 +54,7 @@ public class FarmBudgetActivity extends Activity {
 
         List<ItemWrapper> wr = FarmerUtil.getFarmerSummaryBudget(farmer);
 
+
 //        ParentListAdapter adapter = new ParentListAdapter(FarmBudgetActivity.this,wr);
 //        list.setAdapter(adapter);
         processTableData(stk,wr);
@@ -87,8 +88,8 @@ public class FarmBudgetActivity extends Activity {
                 val.setTypeface(null, Typeface.BOLD);
                 secVal.setText("BL");
                 secVal.setTypeface(null, Typeface.BOLD);
-                secVal.setText("UP");
-                secVal.setTypeface(null, Typeface.BOLD);
+                terVal.setText("UP");
+                terVal.setTypeface(null, Typeface.BOLD);
             }else{
                 key.setText(item.getKey());
                 val.setText(String.valueOf(item.getValue()));

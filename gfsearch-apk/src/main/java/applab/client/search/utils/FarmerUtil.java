@@ -5,6 +5,7 @@ import applab.client.search.model.Farmer;
 import applab.client.search.model.FarmerBudget;
 import applab.client.search.model.FarmerInputs;
 import applab.client.search.model.wrapper.ItemWrapper;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -221,7 +222,7 @@ public class FarmerUtil {
         };
 
         prod = f.getProductionJSON();
-        Log.i(FarmerUtil.class.getName(),"Pdddd : "+prod);
+      //  Log.i(FarmerUtil.class.getName(),"Pdddd : "+prod);
 
         i=0;
         for(String str: production){
@@ -330,19 +331,19 @@ public class FarmerUtil {
                 " Crop Variety And Seed",
                 " Crop Establishment"};
         String [] profilingsf = {
-                "Second_constraint_after_farm_planning",
-                "Second_constraint_after_marketing",
-                "Second_constraint_after_post_harvest",
-                "Second_constraint_after_field_production",
+                "main_constraint_general",
                 "main_constraint_farmplanning",
                 "main_constraint_field_production",
-                "main_constraint_general",
                 "main_constraint_marketing",
                 "main_constraint_post_harvest",
                 "other_constraint_farm_planning",
                 "other_constraint_field_production",
                 "other_constraint_marketing",
-                "other_constraint_post_harvest"
+                "other_constraint_post_harvest",
+                "Second_constraint_after_farm_planning",
+                "Second_constraint_after_marketing",
+                "Second_constraint_after_post_harvest",
+                "Second_constraint_after_field_production",
 
         };
 
@@ -352,9 +353,9 @@ public class FarmerUtil {
                     "second constraint after marketing",
                     "second constraint post harvest",
                     "second constraint field production",
-                    "main constraint general",
                     "main constraint field production",
                     "main constraint marketing",
+                    "main constraint general",
                     "main constraint post market",
                     "other constraint farm planning",
                     "other constraint field production",
@@ -362,6 +363,22 @@ public class FarmerUtil {
                     "other constraint post harvest"
         };
 
+        String[] prof = {
+                "primary learning area",
+                "key learning topic 1",
+                "key learning topic 1",
+                "key learning topic 1",
+                "key learning topic 1",
+                "key learning topic 2",
+                "key learning topic 2",
+                "key learning topic 2",
+                "key learning topic 2",
+                "secondary learning area",
+                "secondary learning area",
+                "secondary learning area",
+                "secondary learning area",
+
+        };
 
          JSONObject techNeeds = f.getJSONObject(f.getTechnicalNeeds());//PostHarvestJSON();
         Log.i(FarmerUtil.class.getName(),"TechNeeds in code : "+techNeeds);
@@ -370,7 +387,7 @@ public class FarmerUtil {
         for(String str:profilingsf){
             try {
                // wrNeeds.add(new ItemWrapper(needsNM[i], techNeeds.getString(str)));
-                wrNeeds.add(new ItemWrapper(profiling[i],techNeeds.getString(str)));
+                wrNeeds.add(new ItemWrapper(prof[i],techNeeds.getString(str)));
             }catch(Exception e){
 //                wrBaseLinePH.add(new ItemWrapper(baseLinePostHvestHd[i],""));
             }
@@ -437,6 +454,9 @@ public class FarmerUtil {
 
         JSONObject jOb =  f.getBaselinePostHarvestBudgetJSON();
         JSONObject j = f.getBaselinePostHarvestBudgetJSON();
+
+
+
 
         List<ItemWrapper> itemAgric  = new ArrayList<ItemWrapper>();
 
@@ -682,10 +702,229 @@ public class FarmerUtil {
                 " Expected Gross margin ",
                };
 
+        JSONObject postharvest = f.getBaselinePostHarvestBudgetJSON();
         double price=120;
-
+        double acreOflandbase = 0.0;
         JSONObject productionJSOn  = f.getProductionJSON();
-       String areaOfLand = f.getJSONValue(productionJSOn,"acresofland");
+        JSONObject productionBudgetJSON = f.getProductionBudgetJSON();
+
+        JSONObject jOb = f.getBaselineProductionBudgetJSON();
+        System.out.println("budget " + productionBudgetJSON );
+        String bb = null;
+
+        //baseline calculations
+        String totalAreaBase =  f.getBaselineProductionItem("area_cultivated_base");
+        String totalYieldBase =  f.getBaselinePostHarvestItem("bagspostprocessing");
+        String totalRevenueBase = String.valueOf(Double.valueOf(totalYieldBase)*getDoubleFromJSON(jOb,"priceatmostsaledate"));
+        String rentBase = f.getgetBaselineProductionBudgetItem("land_rent_base");
+        String seedBase =String.valueOf(getDoubleFromJSON(jOb,"seedplanting_material_cost_base") * Double.valueOf(totalAreaBase));
+        String prePlantHerbicideBase = String.valueOf(getDoubleFromJSON(jOb,"quantity_of_preplant_herbicide_base") * Double.valueOf(totalAreaBase)*getDoubleFromJSON(jOb,"price_of_herbicide_base"));
+        String prePlantingHerbicideApplicationBase = String.valueOf(getDoubleFromJSON(jOb,"herbicide_application_cost_base")*Double.valueOf(totalAreaBase));
+        String hoeBase = String.valueOf(getDoubleFromJSON(jOb,"unit_cost_hoe_ploughing_base")*Double.valueOf(totalAreaBase));
+        String tractorPloughBase =String.valueOf(getDoubleFromJSON(jOb,"ploughing_cost_per_acre_base")*Double.valueOf(totalAreaBase));
+        String tractorHarrowBase = String.valueOf(getDoubleFromJSON(jOb,"harrowing_cost_per_acre_base")*Double.valueOf(totalAreaBase));
+        String seedPreparationBase = String.valueOf(getDoubleFromJSON(jOb,"seedbed_labor_cost_base")*Double.valueOf(totalAreaBase));
+        String plantingRefillingBase =String.valueOf(getDoubleFromJSON(jOb,"planting_labor_cost_base")*Double.valueOf(totalAreaBase)+getDoubleFromJSON(jOb, "refilling_labour_cost_base")) ;
+        String postPlantHerbicideBase = String.valueOf((getDoubleFromJSON(jOb, "qty_postplant_herb_1") * getDoubleFromJSON(jOb, "price_of_herbicide_base") * Double.valueOf(totalAreaBase)) +
+                                        (getDoubleFromJSON(jOb, "qty_postplant_herb_2") * getDoubleFromJSON(jOb, "price_postplant_herb_2") * Double.valueOf(totalAreaBase)));
+        String postPlantHerbicideApplicationBase = String.valueOf(
+                getDoubleFromJSON(jOb,"postplantherbicide1apply")+ (getDoubleFromJSON(jOb,"postplantherbicide2apply"))*Double.valueOf(totalAreaBase));
+        String organicFertilizerUsedBase = f.getgetBaselineProductionBudgetItem("organicfertilizerqty");
+        String organicFertilizerUsedCostBase = f.getgetBaselineProductionBudgetItem("orgfertilizerprice");
+        String organicFertilizerAppCostBase = f.getgetBaselineProductionBudgetItem("organicfertilizerappcost");
+        String inorganicFertilizerUsed = String.valueOf(getDoubleFromJSON(jOb,"qty_of_bfert_base") * Double.valueOf(totalAreaBase));
+        String inorganicFertilizerUsedCost = String.valueOf(getDoubleFromJSON(jOb, "price_of_basal_fertilizer_base") * Double.valueOf(totalAreaBase)*Double.valueOf(inorganicFertilizerUsed));
+        String inorganicFertilizerAppCostBase =  String.valueOf(getDoubleFromJSON(jOb,"fertilizer_app_labour_cost_base") * Double.valueOf(totalAreaBase));
+        String topdressFertilizerUsed = String.valueOf(getDoubleFromJSON(jOb,"qty_tfer") * Double.valueOf(totalAreaBase));
+        String topdressFertilizerUsedCost =  String.valueOf(getDoubleFromJSON(jOb,"price_of_topdress_fertilizer_base") * Double.valueOf(totalAreaBase)*Double.valueOf(topdressFertilizerUsed));
+        String topdressFertilizerAppCostBase = String.valueOf(getDoubleFromJSON(jOb,"cost_of_applicationtopdress_base") * Double.valueOf(totalAreaBase));
+        String harvestingBase = String.valueOf(getDoubleFromJSON(jOb,"harvest_labor_costs_per_acre_base") * Double.valueOf(totalAreaBase));
+
+        double productionCostBase = Double.parseDouble(totalAreaBase)+
+                Double.parseDouble(totalYieldBase)+
+                Double.parseDouble(totalRevenueBase)+
+                Double.parseDouble(rentBase)+
+                Double.parseDouble(seedBase)+
+                Double.parseDouble(prePlantHerbicideBase)+
+                Double.parseDouble(prePlantingHerbicideApplicationBase)+
+                Double.parseDouble(hoeBase)+
+                Double.parseDouble(hoeBase)+
+                Double.parseDouble(tractorPloughBase)+
+                Double.parseDouble(tractorHarrowBase)+
+                Double.parseDouble(seedPreparationBase)+
+                Double.parseDouble(seedPreparationBase)+
+                Double.parseDouble(plantingRefillingBase)+
+                Double.parseDouble(postPlantHerbicideBase)+
+                Double.parseDouble(postPlantHerbicideApplicationBase)+
+                Double.parseDouble(organicFertilizerUsedBase)+
+                Double.parseDouble(organicFertilizerUsedCostBase)+
+                Double.parseDouble(inorganicFertilizerUsed)+
+                Double.parseDouble(inorganicFertilizerUsedCost) +
+                Double.parseDouble(inorganicFertilizerAppCostBase)+
+                Double.parseDouble(topdressFertilizerUsed)+
+                Double.parseDouble(topdressFertilizerUsedCost)+
+                Double.parseDouble(topdressFertilizerAppCostBase)+
+                Double.parseDouble(harvestingBase);
+
+        //Post Harvest  calculations
+
+        String processingCostBase = getStringFromJSON(postharvest,"processingcosts");
+        String transportationBase =  getStringFromJSON(postharvest,"transportcosthome");
+        String dehuskingBase = getStringFromJSON(postharvest,"labor_cost_dehuskingpeeling_base");
+        String dryingOfCobsBase = getStringFromJSON(postharvest,"labor_cost_drying_of_cobs_base");
+        String threshingBase = getStringFromJSON(postharvest,"labor_cost_drying_of_cobs_base");
+        String dryinggrainBase = getStringFromJSON(postharvest,"grain_drying_cost_base");
+        String winnowingBase = getStringFromJSON(postharvest,"grain_drying_cost_base");
+        String storageBase = String.valueOf(getDoubleFromJSON(postharvest, "unit_cost_of_storage_bags_base") * getDoubleFromJSON(postharvest,"bags_for_storage_base"));
+        String storageChemical = getStringFromJSON(postharvest,"cost_of_storage_chemical_base");
+        String bagging = getStringFromJSON(postharvest,"unit_labor_cost_bagging_base");
+        String commercialStorage = getStringFromJSON(postharvest,"unit_cost_of_warehouse_base");
+        String transportToMarket = getStringFromJSON(postharvest,"transportcostmarket");
+
+        double postHarvestCostBase= Double.valueOf(processingCostBase)+Double.valueOf(transportationBase)+
+                Double.valueOf(dehuskingBase)+Double.valueOf(dryingOfCobsBase)+
+                Double.valueOf(threshingBase)+Double.valueOf(dryinggrainBase)+
+                Double.valueOf(winnowingBase)+Double.valueOf(storageBase)+Double.valueOf(storageChemical)
+                + Double.valueOf(bagging)+ Double.valueOf(commercialStorage)+Double.valueOf(transportToMarket);
+
+      //  String manualweedControl =
+
+
+        try{
+            if(transportToMarket.equalsIgnoreCase(""))
+                transportToMarket ="0.0";
+        }catch(Exception e){
+            transportToMarket="0.0";
+            e.printStackTrace();
+        }
+
+        try{
+            if(bagging .equalsIgnoreCase(""))
+                bagging ="0.0";
+        }catch(Exception e){
+            bagging ="0.0";
+            e.printStackTrace();
+        }
+
+        try{
+            if(commercialStorage.equalsIgnoreCase(""))
+                commercialStorage ="0.0";
+        }catch(Exception e){
+            commercialStorage="0.0";
+            e.printStackTrace();
+        }
+        try{
+            if(storageChemical.equalsIgnoreCase(""))
+                storageChemical="0.0";
+        }catch(Exception e){
+            storageChemical="0.0";
+            e.printStackTrace();
+        }
+
+
+
+        try{
+            if(dryinggrainBase.equalsIgnoreCase(""))
+                dryinggrainBase="0.0";
+        }catch(Exception e){
+            dryinggrainBase="0.0";
+            e.printStackTrace();
+        }
+        try{
+            if(winnowingBase.equalsIgnoreCase(""))
+                winnowingBase="0.0";
+        }catch(Exception e){
+            winnowingBase="0.0";
+            e.printStackTrace();
+        }
+
+
+        try{
+            if(threshingBase.equalsIgnoreCase(""))
+                threshingBase="0.0";
+        }catch(Exception e){
+            threshingBase="0.0";
+            e.printStackTrace();
+        }
+
+        try{
+            if(processingCostBase.equalsIgnoreCase(""))
+                processingCostBase="0.0";
+        }catch(Exception e){
+            processingCostBase="0.0";
+            e.printStackTrace();
+        }
+
+        try{
+            if(transportationBase.equalsIgnoreCase(""))
+                transportationBase="0.0";
+        }catch(Exception e){
+            transportationBase="0.0";
+            e.printStackTrace();
+        }
+
+        try{
+            if( dryingOfCobsBase.equalsIgnoreCase(""))
+                dryingOfCobsBase="0.0";
+        }catch(Exception e){
+            dryingOfCobsBase="0.0";
+            e.printStackTrace();
+        }
+
+        try{
+            if(dehuskingBase.equalsIgnoreCase(""))
+                dehuskingBase="0.0";
+        }catch(Exception e){
+            dehuskingBase="0.0";
+            e.printStackTrace();
+        }
+
+        try{
+            if(totalAreaBase.equalsIgnoreCase(""))
+                totalAreaBase="0.0";
+        }catch(Exception e){
+            totalAreaBase="0.0";
+            e.printStackTrace();
+        }
+
+
+        try{
+            if(rentBase.equalsIgnoreCase(""))
+                rentBase="0.0";
+        }catch(Exception e){
+            rentBase="0.0";
+            e.printStackTrace();
+        }
+
+
+        try{
+            if(organicFertilizerUsedBase.equalsIgnoreCase(""))
+                organicFertilizerUsedBase="0";
+        }catch(Exception e){
+            organicFertilizerUsedBase="0";
+            e.printStackTrace();
+        }
+
+        try{
+            if(organicFertilizerUsedBase.equalsIgnoreCase(""))
+                organicFertilizerUsedCostBase ="0.0";
+        }catch(Exception e){
+            organicFertilizerUsedCostBase ="0.0";
+            e.printStackTrace();
+        }
+
+
+        try{
+            if(organicFertilizerAppCostBase.equalsIgnoreCase(""))
+                organicFertilizerAppCostBase ="0.0";
+        }catch(Exception e){
+            organicFertilizerAppCostBase ="0.0";
+            e.printStackTrace();
+        }
+
+
+        String areaOfLand = f.getJSONValue(productionJSOn,"acresofland");
+
         double acreOfland=0.0;
         try{
             if(areaOfLand.equalsIgnoreCase(""))
@@ -698,10 +937,18 @@ public class FarmerUtil {
         }
 
 
-//        acreOfland =1.3;
-        String yieldPerAcre  = f.getJSONValue(productionJSOn,"targetyieldperacre");
+
+
+
 
         double yield=0.0;
+        String yieldPerAcre  = f.getJSONValue(productionJSOn,"targetyieldperacre");
+
+
+
+        System.out.println(f.getBaselinePostHarvestJSON());
+
+
 
         try{
             if(yieldPerAcre.equalsIgnoreCase(""))
@@ -712,15 +959,20 @@ public class FarmerUtil {
             yield=0.0;
 
         }
-        //test data
-//        yield=15;
+
+
+
+        //calculations
         double revenue = price*yield;
 
+
+
+
         List<ItemWrapper> itemSum = new ArrayList<ItemWrapper>();
-        itemSum.add(new ItemWrapper(production[0],String.valueOf(acreOfland)));
-        itemSum.add(new ItemWrapper(production[1],String.valueOf(yield)));
-        itemSum.add(new ItemWrapper(production[2],"2015/1"));
-        itemSum.add(new ItemWrapper(production[3], String.valueOf(revenue)));
+        itemSum.add(new ItemWrapper(production[0],String.valueOf(acreOfland),totalAreaBase));
+        itemSum.add(new ItemWrapper(production[1],String.valueOf(yield),totalYieldBase));
+        itemSum.add(new ItemWrapper(production[2],"2016","2015"));
+        itemSum.add(new ItemWrapper(production[3], String.valueOf(revenue),totalRevenueBase));
 
 
 
@@ -762,20 +1014,27 @@ public class FarmerUtil {
                 "price_of_basal_fertilizer_base",
         };
 
-        JSONObject jOb = f.getBaselineProductionBudgetJSON();
+
+
 
         List<ItemWrapper> itemAgric  = new ArrayList<ItemWrapper>();
 
-        itemAgric.add(new ItemWrapper(" Rent",String.valueOf(getDoubleFromJSON(jOb,agricInputsItem[0])*acreOfland)));
-        itemAgric.add(new ItemWrapper(" Seed",String.valueOf(getDoubleFromJSON(jOb,agricInputsItem[1])*acreOfland)));
+        itemAgric.add(new ItemWrapper(" Rent",String.valueOf(getDoubleFromJSON(productionBudgetJSON,agricInputsItem[0])*acreOfland),rentBase));
+        System.out.println("Rent " + String.valueOf(getDoubleFromJSON(productionBudgetJSON,agricInputsItem[0])*acreOfland));
+
+
+         //seed calculation
+
+        itemAgric.add(new ItemWrapper(" Seed",String.valueOf(getDoubleFromJSON(productionBudgetJSON,agricInputsItem[1])*acreOfland),seedBase));
         itemAgric.add(new ItemWrapper("","Land Clearing"));
 
 
-        double cst = getDoubleFromJSON(jOb,"quantity_of_preplant_herbicide_liters") * (getDoubleFromJSON(jOb,"cost_of_herbicide_ghc")* acreOfland);
-        itemAgric.add(new ItemWrapper(" Pre-Plant Herbicide",String.valueOf(cst)));
+        double cst = getDoubleFromJSON(jOb,"quantity_of_preplant_herbicide_liters") * (getDoubleFromJSON(productionBudgetJSON,"cost_of_herbicide_ghc")* acreOfland);
+        itemAgric.add(new ItemWrapper(" Pre-Plant Herbicide",String.valueOf(cst),prePlantHerbicideBase));
 
-        cst = getDoubleFromJSON(jOb,"herbicide_application") * acreOfland;
-        itemAgric.add(new ItemWrapper(" Pre-plant herbicide application",String.valueOf(cst)));
+
+        cst = getDoubleFromJSON(productionBudgetJSON,"herbicide_application") * acreOfland;
+        itemAgric.add(new ItemWrapper(" Pre-plant herbicide application",String.valueOf(cst),prePlantingHerbicideApplicationBase));
 
 
 //        itemAgric.add(new ItemWrapper(" Land preparation",
@@ -787,76 +1046,82 @@ public class FarmerUtil {
 
         itemAgric.add(new ItemWrapper("","Ploughing"));
 
+        //Hoe Ploughing calculation
+        double hoePloughingCost ;
+        itemAgric.add(new ItemWrapper(" Hoe",String.valueOf(getDoubleFromJSON(productionBudgetJSON,"total_cost_hoe_ploughing")),hoeBase));
 
-        itemAgric.add(new ItemWrapper(" Hoe",String.valueOf(getDoubleFromJSON(jOb,"total_cost_hoe_ploughing"))));
+        itemAgric.add(new ItemWrapper(" Tractor plough",String.valueOf(getDoubleFromJSON(productionBudgetJSON,"ploughing_cost_total")*acreOfland),tractorPloughBase));
 
-        itemAgric.add(new ItemWrapper(" Tractor plough",String.valueOf(getDoubleFromJSON(jOb,"ploughing_cost_total")*acreOfland)));
-
-        itemAgric.add(new ItemWrapper(" Tractor harrow",String.valueOf(getDoubleFromJSON(jOb,"harrowing_cost_total"))));
+        itemAgric.add(new ItemWrapper(" Tractor harrow",String.valueOf(getDoubleFromJSON(productionBudgetJSON,"harrowing_cost_total")),tractorHarrowBase));
         itemAgric.add(new ItemWrapper("",""));
-        itemAgric.add(new ItemWrapper(" Seedbed preparation",String.valueOf(getDoubleFromJSON(jOb,"seedbed_labor_cost")*acreOfland)));
+        itemAgric.add(new ItemWrapper(" Seedbed preparation",String.valueOf(getDoubleFromJSON(productionBudgetJSON,"seedbed_labor_cost")*acreOfland),seedPreparationBase));
 
         itemAgric.add(new ItemWrapper("  Planting and refilling",
                 String.valueOf((
-                        getDoubleFromJSON(jOb,"planting_labor_cost")*acreOfland)
-                        +getDoubleFromJSON(jOb,"refilling_labour_cost"))));
+                        getDoubleFromJSON(productionBudgetJSON,"planting_labor_cost")*acreOfland)
+                        +getDoubleFromJSON(productionBudgetJSON,"refilling_labour_cost")),
+                plantingRefillingBase
+                ));
 
 
 
         itemAgric.add(new ItemWrapper(" Post-plant herbicide",
                 String.valueOf(
-                          (getDoubleFromJSON(jOb,"postplantherbide2price")*getDoubleFromJSON(jOb,"postplantherbicide2qty") * acreOfland)+
-                                (getDoubleFromJSON(jOb,"postplantherbicide1qty")*getDoubleFromJSON(jOb,"postplantherbicide1price") * acreOfland)
-                )));
+                          (getDoubleFromJSON(productionBudgetJSON,"postplantherbide2price")*getDoubleFromJSON(productionBudgetJSON,"postplantherbicide2qty") * acreOfland)+
+                                (getDoubleFromJSON(productionBudgetJSON,"postplantherbicide1qty")*getDoubleFromJSON(productionBudgetJSON,"postplantherbicide1price") * acreOfland)
+                ),postPlantHerbicideBase
+            ));
 
         /**
          * (+)
          */
         itemAgric.add(new ItemWrapper(" Post-plant herbicide application",
                 String.valueOf(
-                        getDoubleFromJSON(jOb,"postplantherbicide1apply")+ (getDoubleFromJSON(jOb,"postplantherbicide2apply"))* acreOfland
+                        getDoubleFromJSON(productionBudgetJSON,"postplantherbicide1apply")+ (getDoubleFromJSON(productionBudgetJSON,"postplantherbicide2apply"))* acreOfland
 
-                )));
+                ),postPlantHerbicideApplicationBase));
 
-        itemAgric.add(new ItemWrapper(" Organic fertilizer quantity used",String.valueOf(getDoubleFromJSON(jOb,"organicfertilizerqtycurrent"))));
+        itemAgric.add(new ItemWrapper(" Organic fertilizer quantity used",String.valueOf(getDoubleFromJSON(productionBudgetJSON,"organicfertilizerqtycurrent")),organicFertilizerUsedBase));
 
-        itemAgric.add(new ItemWrapper(" Organic fertilizer cost",String.valueOf(getDoubleFromJSON(jOb,"organicfertilizercostcurrent"))));
+        itemAgric.add(new ItemWrapper(" Organic fertilizer cost",String.valueOf(getDoubleFromJSON(productionBudgetJSON,"organicfertilizercostcurrent")),organicFertilizerUsedCostBase));
 
-        itemAgric.add(new ItemWrapper(" Organic fertilizer application cost",String.valueOf(getDoubleFromJSON(jOb,"organicfertilizerappcostcurrent"))));
+        itemAgric.add(new ItemWrapper(" Organic fertilizer application cost",String.valueOf(getDoubleFromJSON(productionBudgetJSON,"organicfertilizerappcostcurrent")),organicFertilizerAppCostBase));
 
-        itemAgric.add(new ItemWrapper(" Quantity of Inorganic fertilizer used (First/basal)",String.valueOf(getDoubleFromJSON(jOb,"fertilizerbasalnobags")*acreOfland)));
-        itemAgric.add(new ItemWrapper(" Inorganic fertilizer used (First/basal)",String.valueOf(getDoubleFromJSON(jOb,"fertilizerbasalnobags")*acreOfland*getDoubleFromJSON(jOb,"cost_of_basal_fertilizer"))));
+        itemAgric.add(new ItemWrapper(" Quantity of Inorganic fertilizer used (First/basal)",String.valueOf(getDoubleFromJSON(productionBudgetJSON,"fertilizerbasalnobags")*acreOfland),inorganicFertilizerUsed));
+        itemAgric.add(new ItemWrapper(" Inorganic fertilizer used (First/basal)",String.valueOf(getDoubleFromJSON(productionBudgetJSON,"fertilizerbasalnobags")*acreOfland*getDoubleFromJSON(productionBudgetJSON,"cost_of_basal_fertilizer")),
+                inorganicFertilizerUsedCost));
 
 
 
-        itemAgric.add(new ItemWrapper(" Inorganic fertilizer application(first/basal)",String.valueOf(getDoubleFromJSON(jOb,"basal_fertilizer_labour_appl_cost"))));
+        itemAgric.add(new ItemWrapper(" Inorganic fertilizer application(first/basal)",String.valueOf(getDoubleFromJSON(productionBudgetJSON,"basal_fertilizer_labour_appl_cost")),inorganicFertilizerAppCostBase));
 
-        itemAgric.add(new ItemWrapper(" Quantity of Inorganic fertilizer used (second/topdress)",String.valueOf(getDoubleFromJSON(jOb,"fetilizertopdressnobags")*acreOfland)));
+        itemAgric.add(new ItemWrapper(" Quantity of Inorganic fertilizer used (second/topdress)",String.valueOf(getDoubleFromJSON(productionBudgetJSON,"fetilizertopdressnobags")*acreOfland),topdressFertilizerUsed));
 
 
 
         itemAgric.add(new ItemWrapper(" Cost of Inorganic fertilizer used (second/topdress) ",
                 String.valueOf(
-                        getDoubleFromJSON(jOb,"fertilizertopdressnobaggs")*(getDoubleFromJSON(jOb,"cost_of_topdress_fertilizer"))* acreOfland
+                        getDoubleFromJSON(jOb,"fertilizertopdressnobaggs")*(getDoubleFromJSON(productionBudgetJSON,"cost_of_topdress_fertilizer"))* acreOfland
 
-                )));
+                ),
+                topdressFertilizerUsedCost));
 
 
         itemAgric.add(new ItemWrapper(" Inorganic fertilizer application(second/topdress)",  String.valueOf(
-                getDoubleFromJSON(jOb,"cost_of_applicationtopdress")
+                getDoubleFromJSON(productionBudgetJSON,"cost_of_applicationtopdress")
 
-        )));
+        ),topdressFertilizerAppCostBase));
 
         itemAgric.add(new ItemWrapper(" Manual weed control",  String.valueOf(
-                getDoubleFromJSON(jOb,"total_cost_of_labor_first_manual_weed")+
-                        getDoubleFromJSON(jOb,"total_cost_of_labor_second_manual_weed")+
-                        getDoubleFromJSON(jOb,"total_cost_of_labor_third_manual_weed")
+                getDoubleFromJSON(productionBudgetJSON,"total_cost_of_labor_first_manual_weed")+
+                        getDoubleFromJSON(productionBudgetJSON,"total_cost_of_labor_second_manual_weed")+
+                        getDoubleFromJSON(productionBudgetJSON,"total_cost_of_labor_third_manual_weed")
         )));
 
         itemAgric.add(new ItemWrapper(" Harvesting",  String.valueOf(
-                getDoubleFromJSON(jOb,"harvest_labor_costs")*acreOfland
+                getDoubleFromJSON(productionBudgetJSON,"harvest_labor_costs")*acreOfland
 
-        )));
+        ),harvestingBase));
 
 
 
@@ -874,7 +1139,7 @@ public class FarmerUtil {
         }
 
 
-        itemAgric.add(new ItemWrapper("Production Cost ",String.valueOf(productionCost)));
+        itemAgric.add(new ItemWrapper("Production Cost ",String.valueOf(productionCost),String.valueOf(productionCostBase)));
         double cost=0.0;
 
         int k=0;
@@ -954,7 +1219,7 @@ public class FarmerUtil {
             }
         }
 
-        JSONObject postharvest = f.getBaselinePostHarvestBudgetJSON();
+
 
         System.out.println("Post harvest budget json : "+postharvest);
 
@@ -977,31 +1242,31 @@ public class FarmerUtil {
          */
 
         itemLabour = new ArrayList<ItemWrapper>();
-        itemLabour.add(new ItemWrapper(" Processing costs (machine  , shelling and winnowing)",
+        itemLabour.add(new ItemWrapper(" Processing costs (all)",
                 String.valueOf(
                         getDoubleFromJSON(postharvest,"processingcosts1")
 
-                )));
+                ),processingCostBase));
 
         itemLabour.add(new ItemWrapper(" Transportation from farm to homestead",
                 String.valueOf(
                         getDoubleFromJSON(postharvest,"transportcostshome1")
 
-                )));
+                ),transportationBase));
 
 
         itemLabour.add(new ItemWrapper(" Dehusking",
                 String.valueOf(
                         getDoubleFromJSON(postharvest,"labor_cost_dehuskingpeeling")
 
-                )));
+                ),dehuskingBase));
 
 
         itemLabour.add(new ItemWrapper(" Drying of cobs",
                 String.valueOf(
                         getDoubleFromJSON(postharvest,"unit_cost_drying_of_cobs")
 
-                )));
+                ),dryingOfCobsBase));
 
 
 
@@ -1009,7 +1274,7 @@ public class FarmerUtil {
                 String.valueOf(
                         getDoubleFromJSON(postharvest,"unit_cost_manual_threshing")
 
-                )));
+                ),threshingBase));
 
 
         itemLabour.add(new ItemWrapper(" Drying grain",
@@ -1017,19 +1282,19 @@ public class FarmerUtil {
                         getDoubleFromJSON(postharvest,"grain_drying_cost")
 //                                *getDoubleFromJSON(postharvest,"unit_cost_of_storage_bags_base")
 
-                )));
+                ),dryinggrainBase));
 
         itemLabour.add(new ItemWrapper(" Winnowing",
                 String.valueOf(
                         getDoubleFromJSON(postharvest,"unit_labour_cost_winnowing")
 
-                )));
+                ),winnowingBase));
 
         itemLabour.add(new ItemWrapper("Storage bags",
                 String.valueOf(
                         getDoubleFromJSON(postharvest,"bags_for_storage")
 
-                )));
+                ),storageBase));
 
 
 
@@ -1037,13 +1302,13 @@ public class FarmerUtil {
                 String.valueOf(
                         getDoubleFromJSON(postharvest,"cost_of_storage_chemical")
 
-                )));
+                ),storageChemical));
 
         itemLabour.add(new ItemWrapper(" Bagging",
                 String.valueOf(
                         getDoubleFromJSON(postharvest,"unit_labor_cost_bagging")
 
-                )));
+                ),bagging));
 
 
 
@@ -1051,29 +1316,32 @@ public class FarmerUtil {
                 String.valueOf(
                         getDoubleFromJSON(postharvest,"cost_of_warehouse")
 
-                )));
+                ),commercialStorage));
 
         itemLabour.add(new ItemWrapper(" Cost of transportation to market",
                 String.valueOf(
                         getDoubleFromJSON(postharvest,"transportcostsmarket")
 
-                )));
+                ),transportToMarket));
 
         double postHarvesCost=0.0;
+
         for(ItemWrapper w : itemLabour){
 
             postHarvesCost+=(Double.parseDouble(w.getValue()));
         }
-        itemLabour.add((new ItemWrapper("Sub-total Post-harvest costs",String.valueOf(postHarvesCost))));
+        itemLabour.add((new ItemWrapper("Sub-total Post-harvest costs",String.valueOf(postHarvesCost),String.valueOf(postHarvestCostBase))));
 
 
         cost=productionCost+postHarvesCost;
+        double totalCostBase= productionCostBase + postHarvestCostBase;
         double grossMargin = revenue - (cost);
+        double grossMarginBase = Double.valueOf(totalRevenueBase) - totalCostBase;
 
         List<ItemWrapper> itemGM = new ArrayList<ItemWrapper>();
 
-        itemGM.add(new ItemWrapper("Total Expected Costs",String.valueOf(cost)));
-        itemGM.add(new ItemWrapper("Gross Margin ",String.valueOf((yield * price)-cost)));
+        itemGM.add(new ItemWrapper("Total Expected Costs",String.valueOf(cost),String.valueOf(totalCostBase)));
+        itemGM.add(new ItemWrapper("Gross Margin ",String.valueOf((yield * price)-cost),String.valueOf(grossMarginBase)));
 
         itemSum.add(new ItemWrapper(production[4], String.valueOf(cost)));
         itemSum.add(new ItemWrapper(production[5], String.valueOf(grossMargin)));

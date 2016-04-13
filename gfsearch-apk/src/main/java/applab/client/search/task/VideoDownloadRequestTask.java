@@ -123,7 +123,7 @@ public class VideoDownloadRequestTask extends AsyncTask<Payload, Object, Payload
                                 Log.d("TMEDIA: Video Download", "Getting " + videoId);
 
                                 String url = SettingsManager.getInstance().getValue(SettingsConstants.KEY_SERVER);
-
+                                System.out.println("url :" + url);
                                 VideosRequestWrapper request = new VideosRequestWrapper();
                                 request.setRequest(SettingsConstants.REQUEST_DOWNLOAD_VIDEOS);
                                 request.setImei(DeviceMetadata.getDeviceImei(ApplicationRegistry.getApplicationContext()));
@@ -143,7 +143,7 @@ public class VideoDownloadRequestTask extends AsyncTask<Payload, Object, Payload
                                     InputStream inputStream = HttpHelpers.postJsonRequestAndGetStream(url, networkTimeout, params);
 
                                     String jsonResponse = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
-
+                                    System.out.println("response " + jsonResponse);
                                     if (jsonResponse.length() > 4972) {
                                         VideosResponseWrapper res = gson.fromJson(jsonResponse, VideosResponseWrapper.class);
                                         FileOutputStream out = null;

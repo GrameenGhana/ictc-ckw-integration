@@ -520,7 +520,8 @@ public class SynchronizationManager {
                         } else if (keywordObject instanceof String && keywordType.equalsIgnoreCase("images")) {
                             imageIdz.add((String) keywordObject);
                         } else if (keywordObject instanceof String && keywordType.equalsIgnoreCase("videos")) {
-                            videoIdz.add((String) keywordObject);
+                           // videoIdz.add((String) keywordObject);
+                            videoIdz.add("00P25000000x5UMEAY");
                         } else if (keywordObject instanceof String && keywordType.equalsIgnoreCase("deletedImages")) {
                             deleteImageIz.add((String) keywordObject);
                         } else if (keywordObject instanceof String && keywordType.equalsIgnoreCase("deletedVideos")) {
@@ -1610,10 +1611,12 @@ public class SynchronizationManager {
 
                     p =jObj.getJSONObject("baselineproduction");
                     baselineProduction = p.toString();
-
+                   // System.out.println("baselineproduction results " + baselineProduction);
 
                     p =jObj.getJSONObject("baselinepostharvest");
                     baselinePostHarvest = p.toString();
+
+                    System.out.println("baselinePost Harvest " + baselinePostHarvest);
 
                     p =jObj.getJSONObject("profiling");
                     String techNeeds = p.toString();
@@ -1622,7 +1625,7 @@ public class SynchronizationManager {
                     p =jObj.getJSONObject("baselinepostharvestbudget");
 
 
-                    System.out.println("P  baselinepostharvestbudget: "+p.toString());
+                  //  System.out.println("P  baselinepostharvestbudget: "+p.toString());
                     String baselinepostharvestbudget = p.toString();
 
 
@@ -1667,7 +1670,7 @@ public class SynchronizationManager {
 
                     farmerImages.add(farmerId+".jpg");
 
-                    Log.i(this.getClass().getName(),production);
+                    Log.i(this.getClass().getName(),baselineProduction);
 
                     try{
                         JSONArray meetings = jObj.getJSONArray("meeting");

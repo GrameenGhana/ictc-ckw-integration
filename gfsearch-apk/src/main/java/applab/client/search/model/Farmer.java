@@ -589,7 +589,7 @@ public class Farmer extends ListObject {
     }
 
     public JSONObject getProductionJSON(){
-        Log.i(this.getClass().getName(),"roduucti "+getProduction());
+        Log.i(this.getClass().getName(),"Production "+getProduction());
         try {
          return   new JSONObject(getProduction());
         }catch (Exception e ){
@@ -620,6 +620,14 @@ public class Farmer extends ListObject {
         return null;
     }
 
+    public JSONObject getProductionBudgetJSON(){
+        try {
+            return new JSONObject(getFmpproductionbudget());
+        }catch (Exception e ){
+
+        }
+        return null;
+    }
 
     public String getBaselinePostHarvesBudgetItem(String name){
         return  getJSONItem(getBaselinePostHarvestBudgetJSON(),name);
@@ -643,6 +651,7 @@ public class Farmer extends ListObject {
 
     }
      public String getBaselinePostHarvestItem(String name){
+         System.out.println("Baseline Post Harvest " + getBaselinePostHarvestJSON());
         return  getJSONItem(getBaselinePostHarvestJSON(),name);
      }
 
