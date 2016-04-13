@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 import applab.client.search.ApplicationRegistry;
@@ -21,6 +22,8 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -123,7 +126,7 @@ public class VideoDownloadRequestTask extends AsyncTask<Payload, Object, Payload
                                 Log.d("TMEDIA: Video Download", "Getting " + videoId);
 
                                 String url = SettingsManager.getInstance().getValue(SettingsConstants.KEY_SERVER);
-                                System.out.println("url :" + url);
+
                                 VideosRequestWrapper request = new VideosRequestWrapper();
                                 request.setRequest(SettingsConstants.REQUEST_DOWNLOAD_VIDEOS);
                                 request.setImei(DeviceMetadata.getDeviceImei(ApplicationRegistry.getApplicationContext()));
@@ -135,6 +138,7 @@ public class VideoDownloadRequestTask extends AsyncTask<Payload, Object, Payload
                                     Gson gson = new Gson();
                                     String jsonRequest = gson.toJson(request);
 
+
                                     int networkTimeout = 10 * 60 * 1000;
                                     List<NameValuePair> params = new ArrayList<NameValuePair>(2);
                                     params.add(new BasicNameValuePair(SettingsConstants.REQUEST_METHODNAME,
@@ -143,17 +147,19 @@ public class VideoDownloadRequestTask extends AsyncTask<Payload, Object, Payload
                                     InputStream inputStream = HttpHelpers.postJsonRequestAndGetStream(url, networkTimeout, params);
 
                                     String jsonResponse = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
-                                    System.out.println("response " + jsonResponse);
+                                    Log.d("TMEDIA: Video Download", "Response " + jsonResponse);
+
                                     if (jsonResponse.length() > 4972) {
-                                        VideosResponseWrapper res = gson.fromJson(jsonResponse, VideosResponseWrapper.class);
+                                        //VideosResponseWrapper res = gson.fromJson(jsonResponse, VideosResponseWrapper.class);
                                         FileOutputStream out = null;
 
-                                        if (res != null && res.getResultCode().equals("0")) {
-                                            for (VideoData video : res.getVideoResults()) {
-                                                byte[] arr = Base64.decode((video.getVideoData()), Base64.DEFAULT);
+                                        //if (res != null && res.getResultCode().equals("0")) {
+                                        //    for (VideoData video : res.getVideoResults()) {
+                                               // byte[] arr = Base64.decode((video.getVideoData()), Base64.DEFAULT);
+                                        byte[] arr = Base64.decode(jsonResponse, Base64.DEFAULT);
                                                 out = new FileOutputStream(new File(MediaUtils.MEDIA_ROOT, videoId + ".mp4"));
                                                 out.write(arr);
-                                            }
+                                        //    }
                                             if (out != null) {
                                                 out.close();
                                             }
@@ -162,16 +168,16 @@ public class VideoDownloadRequestTask extends AsyncTask<Payload, Object, Payload
                                             }
                                             payload.setResult(true);
                                             payload.setResultResponse(videoId);
-                                        } else {
-                                            payload.setResultResponse(res.getResultMassage());
-                                        }
+                                        //} else {
+                                        //    payload.setResultResponse(res.getResultMassage());
+                                       // }
                                     } else {
                                         Log.e(TAG, "TMEDIA: Could not find file "+videoId);
                                     }
                                 } catch (Exception ex) {
                                     payload.setResult(false);
                                     payload.setResultResponse(ex.getMessage());
-                                    //Log.e(TAG, "TMEDIA: Video parsing Error", ex);
+                                    Log.e(TAG, "TMEDIA: Video parsing Error", ex);
                                     updateNotification(0,0,true);
                                 }
                             }
