@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import applab.client.search.ApplicationRegistry;
+import applab.client.search.utils.ApplicationRegistry;
 import applab.client.search.R;
 import applab.client.search.ui.ThumbnailTask;
 import applab.client.search.ui.ThumbnailViewHolder;

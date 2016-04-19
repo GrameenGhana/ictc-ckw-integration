@@ -1,6 +1,7 @@
 package applab.client.search.utils;
 
 import android.content.Context;
+import android.util.Log;
 import applab.client.search.storage.DatabaseHelper;
 import org.json.JSONObject;
 
@@ -8,6 +9,9 @@ import org.json.JSONObject;
  * Created by skwakwa on 2/8/16.
  */
 public class BaseLogActivity {
+
+    private static final String TAG = BaseLogActivity.class.getSimpleName();
+
     private Context context;
     private long startTime;
     private String module;
@@ -22,9 +26,9 @@ public class BaseLogActivity {
     boolean saved = false;
 
 
-   public BaseLogActivity(Context context){
+    public BaseLogActivity(Context context){
         this.context = context;
-       this.startTime = System.currentTimeMillis();
+        this.startTime = System.currentTimeMillis();
     }
 
     public void setDetails(DatabaseHelper dh, String module, String page){
@@ -54,30 +58,31 @@ public class BaseLogActivity {
         setImei(IctcCKwUtil.getImei(getContext()));
     }
 
-
     public void save(){
-if(!saved) {
-    JSONObject obj = null;
+        if(!saved) {
+            JSONObject obj = null;
 
-    try {
-        if (getData().isEmpty())
-            obj = new JSONObject();
-        else
-            obj = new JSONObject(getData());
+            try {
+                if (getData().isEmpty())
+                    obj = new JSONObject();
+                else
+                    obj = new JSONObject(getData());
 
-        obj.put("page", getPage());
-        obj.put("section", getSection());
-        obj.put("battery", (getBattery()));
-        obj.put("version", getVersion());
-        obj.put("imei", getImei());
-    } catch (Exception e) {
+                obj.put("page", getPage());
+                obj.put("section", getSection());
+                obj.put("battery", (getBattery()));
+                obj.put("version", getVersion());
+                obj.put("imei", getImei());
 
-    }
-
-    System.out.println("About to save saveBD " + getPage());
-    hp.insertCCHLog(getModule(), obj.toString(), getStartTime(), System.currentTimeMillis());
-    saved = true;
-}
+                System.out.println("About to save saveBD " + getPage());
+                hp.insertCCHLog(getModule(), obj.toString(), getStartTime(), System.currentTimeMillis());
+                saved = true;
+            } catch (NullPointerException e) {
+                Log.e(TAG, e.getMessage());
+            } catch (Exception e) {
+                Log.e(TAG, e.getMessage());
+            }
+        }
     }
 
     public Context getContext() {

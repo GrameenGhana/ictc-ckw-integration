@@ -6,14 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import applab.client.search.ApplicationRegistry;
 import applab.client.search.model.*;
 import applab.client.search.model.wrapper.MeetingSettingWrapper;
 import applab.client.search.utils.IctcCKwUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,9 +35,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        System.out.println("Create DB Started");
         createDatabaseTables(database);
-        System.out.println("After SB Created");
     }
 
     private void createDatabaseTables(SQLiteDatabase database) {
@@ -67,7 +63,6 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         //add test log column
         database.execSQL(getSearchLogTestColumnSql());
 
-        System.out.println("ICTC table L ");
         //Create ICTC FarmerTable
         database.execSQL(getICTCWeather());
         database.execSQL(getICTCUser());
@@ -78,7 +73,9 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         database.execSQL(getICTCFarmInputs());
         database.execSQL(getICTCTrackerTable());
         database.execSQL(getICTCMeetingSettingItem());
-        System.out.println("After table");
+
+        // myAgriHub
+        //database.execSQL(getAGSMOUser());
     }
 
     /**
@@ -92,14 +89,10 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         StringBuilder sqlCommand = new StringBuilder();
         sqlCommand.append("ALTER TABLE ").append(DatabaseHelperConstants.SEARCH_LOG_TABLE_NAME);
         sqlCommand.append(" ADD COLUMN ").append(DatabaseHelperConstants.SEARCH_LOG_TEST_LOG).append(" INTEGER DEFAULT 0;");
-
         return sqlCommand.toString();
     }
 
-    /**
-     *
-     * @return
-     */
+
     private String getICTCFarmerMeetings() {
         StringBuilder sqlCommand = new StringBuilder();
         //
@@ -142,27 +135,18 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
     private String getICTCWeather() {
         StringBuilder sqlCommand = new StringBuilder();
-        //
         sqlCommand.append(" CREATE TABLE IF NOT EXISTS ").append(DatabaseHelperConstants.ICTC_WEATHER_TABLE);
         sqlCommand.append("(");
         sqlCommand.append(DatabaseHelperConstants.ICTC_ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
         sqlCommand.append(DatabaseHelperConstants.ICTC_LOCATION).append(" TEXT,");
         sqlCommand.append(DatabaseHelperConstants.ICTC_TIME).append(" INTEGER DEFAULT 0,");
         sqlCommand.append(DatabaseHelperConstants.ICTC_DETAIL).append(" TEXT DEFAULT '',");
-
         sqlCommand.append(DatabaseHelperConstants.ICTC_ICON).append(" TEXT DEFAULT '' ,");
         sqlCommand.append(DatabaseHelperConstants.ICTC_TEMPERATURE).append(" DOUBLE DEFAULT 0 ,");
         sqlCommand.append(DatabaseHelperConstants.ICTC_MIN_TEMPERATURE).append(" DOUBLE DEFAULT 0 ,");
         sqlCommand.append(DatabaseHelperConstants.ICTC_MAX_TEMPERATURE).append(" DOUBLE DEFAULT 0 " );
         sqlCommand.append(");");
         return sqlCommand.toString();
-
-    }
-
-
-    public void createWeatherTable(){
-
-        this.getWritableDatabase().execSQL(getICTCWeather());
     }
 
     public String getICTCMeetingSettingItem() {
@@ -185,7 +169,6 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return sqlCommand.toString();
 
     }
-
 
     private String getICTCFarmGpsLocation(){
         StringBuilder sqlCommand = new StringBuilder();
@@ -234,7 +217,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return sqlCommand.toString();
 
     }
-    //CREATING THE ICTC FARMER TABLE
+
     private String getICTCFarmerTable() {
         StringBuilder sqlCommand = new StringBuilder();
         sqlCommand.append(" CREATE TABLE IF NOT EXISTS ").append(DatabaseHelperConstants.ICTC_FARMER);
@@ -308,11 +291,9 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return sqlCommand.toString();
     }
 
-
     public void alterFarmerTable(){
         SQLiteDatabase db = getWritableDatabase();
         StringBuilder sqlCommand = new StringBuilder();
-//        db.execSQL("ALTER TABLE ").append(DatabaseHelperConstants.ICTC_FARMER);
 
         try{
             db.execSQL("ALTER TABLE "+DatabaseHelperConstants.ICTC_FARMER+" ADD COLUMN "+DatabaseHelperConstants.ICTC_BASELINE_POST_HARVEST_BADGET+" TEXT DEFAULT '{}'");
@@ -328,13 +309,11 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
         }
     }
+
     public void alterSearchMenuItem(){
-
-
         SQLiteDatabase db = getWritableDatabase();
         StringBuilder sqlCommand = new StringBuilder();
 //        db.execSQL("ALTER TABLE ").append(DatabaseHelperConstants.ICTC_FARMER);
-
         try{
             db.execSQL("ALTER TABLE " +DatabaseHelperConstants.MENU_ITEM_TABLE_NAME+" ADD COLUMN "+DatabaseHelperConstants.MENU_ITEM_HAS_IMAGE+" INTEGER DEFAULT 0 ");
             db.execSQL("ALTER TABLE " + DatabaseHelperConstants.MENU_ITEM_TABLE_NAME + " ADD COLUMN " + DatabaseHelperConstants.MENU_ITEM_HAS_AUDIO+" INTEGER DEFAULT 0 ");
@@ -343,7 +322,6 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
 
         }
     }
-
 
     public void alterUserTable(){
         SQLiteDatabase db = getWritableDatabase();
@@ -379,7 +357,6 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         sqlCommand.append(");");
         return sqlCommand.toString();
     }
-
 
     private String getICTCCropCalendar() {
         /**
@@ -418,8 +395,6 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return sqlCommand.toString();
     }
 
-
-
     private String getICTCTrackerTable() {
         String l_sql = "create table if not exists " + DatabaseHelperConstants.ICTC_TRACKER_LOG_TABLE + " ("
                 + DatabaseHelperConstants.ICTC_ID + " integer primary key autoincrement, "
@@ -452,11 +427,6 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return sqlCommand.toString();
     }
 
-    /**
-     * Returns the SQL string for Menu Table creation
-     *
-     * @return String
-     */
     private String getMenuTableInitializationSql() {
         StringBuilder sqlCommand = new StringBuilder();
         sqlCommand
@@ -467,11 +437,6 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return sqlCommand.toString();
     }
 
-    /**
-     * Returns the SQL string for MenuItem Table creation
-     *
-     * @return String
-     */
     private String getMenuItemTableInitializationSql() {
 
         StringBuilder sqlCommand = new StringBuilder();
@@ -501,11 +466,6 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return sqlCommand.toString();
     }
 
-    /**
-     * Returns the SQL string for AvailableFarmerId Table creation
-     *
-     * @return String
-     */
     private String getAvailableFarmerIdTableInitializationSql() {
 
         StringBuilder sqlCommand = new StringBuilder();
@@ -519,11 +479,6 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return sqlCommand.toString();
     }
 
-    /**
-     * Returns the SQL string for FarmerLocalCache Table creation
-     *
-     * @return String
-     */
     private String getFarmerLocalCacheTableInitializationSql() {
 
         StringBuilder sqlCommand = new StringBuilder();
@@ -541,11 +496,6 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return sqlCommand.toString();
     }
 
-    /**
-     * Returns the SQL string for FarmerLocalDatabase Table creation
-     *
-     * @return String
-     */
     private String getAllFarmersLocalDatabaseTableInitializationSql() {
 
         StringBuilder sqlCommand = new StringBuilder();
@@ -564,8 +514,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase database, int oldVersion,
-                          int newVersion) {
+    public void onUpgrade(SQLiteDatabase database, int oldVersion, int newVersion) {
         Log.w("DatabaseHelper", "***Upgrading database from version*** "
                 + oldVersion + " to " + newVersion
                 + ", which will destroy all old data");
@@ -573,11 +522,6 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         createDatabaseTables(database);
     }
 
-    /**
-     * gets the sql dml statement for creating the favourite record table.
-     *
-     * @return
-     */
     public String getFavouriteTableInitializationSql() {
         StringBuilder sqlCommand = new StringBuilder();
         sqlCommand.append("CREATE TABLE IF NOT EXISTS ").append(DatabaseHelperConstants.FAVOURITE_RECORD_TABLE_NAME);
@@ -592,9 +536,6 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         return sqlCommand.toString();
     }
 
-    /**
-     *
-     */
     public Farmer saveFarmer(String firstName, String lastName, String nickname, String community, String village, String district,
                              String region, String age, String gender, String maritalStatus, String numberOfChildren, String numberOfDependants,
                              String education, String cluster, String farmID) {
@@ -730,30 +671,18 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
     public  long saveGPSLocation(double lat,double longitude,String farmerId){
 
         SQLiteDatabase db = getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(DatabaseHelperConstants.ICTC_LATITUDE, lat);
         values.put(DatabaseHelperConstants.ICTC_LONGITUDE, longitude);
         values.put(DatabaseHelperConstants.ICTC_FARMER_ID, farmerId);
 
-
        return  db.insert(DatabaseHelperConstants.ICTC_GPS_LOCATION, null, values);
-
-//        return  null;
     }
 
-
-    /**
-     * Delete the GPS Coordinates for a farmer to enable new ones be saved
-     * @param farmer
-     * @return
-     */
     public boolean deleteFarmerGPS(String farmer){
-
         return deleteQuery(DatabaseHelperConstants.ICTC_GPS_LOCATION,DatabaseHelperConstants.ICTC_FARMER_ID,farmer);
     }
 
@@ -877,7 +806,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         }catch(Exception e){
 
         }
-return 0l;
+        return 0l;
     }
 
     public List<MeetingSettingWrapper> getAllMeetingSettings(){
@@ -1732,5 +1661,29 @@ type+=" ";
     }
 
 
+    // myAgriHub module methods
+    public boolean needDataUpdate() {
+        return false;
+    }
+
+
+    private String getAGSMOUser() {
+        StringBuilder sqlCommand = new StringBuilder();
+        sqlCommand.append(" CREATE TABLE IF NOT EXISTS ").append(DatabaseHelperConstants.AGSMO_USER_TABLE);
+        sqlCommand.append("(");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_ID).append(" INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        sqlCommand.append(DatabaseHelperConstants.AGSMO_USER_TYPE).append(" text,");
+        sqlCommand.append(DatabaseHelperConstants.AGSMO_USER_NAME).append(" text ,");
+        sqlCommand.append(DatabaseHelperConstants.AGSMO_USER_FULLNAME).append(" text ,");
+        sqlCommand.append(DatabaseHelperConstants.AGSMO_USER_AGE).append(" integer ,");
+        sqlCommand.append(DatabaseHelperConstants.AGSMO_USER_GENDER).append(" text ,");
+        sqlCommand.append(DatabaseHelperConstants.AGSMO_USER_PHONE).append(" text ,");
+        sqlCommand.append(DatabaseHelperConstants.AGSMO_USER_MOBILE).append(" text ,");
+        sqlCommand.append(DatabaseHelperConstants.AGSMO_USER_EMAIL).append(" text ,");
+        sqlCommand.append(DatabaseHelperConstants.AGSMO_USER_LOCATION).append(" text ,");
+        sqlCommand.append(DatabaseHelperConstants.AGSMO_LAST_MODIFIED_DATE).append(" text");
+        sqlCommand.append(");");
+        return sqlCommand.toString();
+    }
 
 }

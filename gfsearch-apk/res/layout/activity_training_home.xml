@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <include layout="@layout/topbar" />
+
+    </LinearLayout>
+
+    <applab.client.agrihub.ui.view.PagerSlidingTabStrip
+        android:id="@+id/activity_view_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/white"
+        app:pstsDividerPadding="16dp"
+        app:pstsDividerWidth="0dp"
+        app:pstsIndicatorHeight="2dp"
+        app:pstsIndicatorColor="@color/material_light_blue_300"
+        app:pstsTabTextColor="@color/material_grey_700" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/background_floating_material_light" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/activity_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

@@ -1,6 +1,5 @@
 package applab.client.search.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,15 +9,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.adapters.FarmersAdapter;
-import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.model.Farmer;
-import applab.client.search.model.FarmerInputs;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.storage.DatabaseHelperConstants;
-import android.text.TextWatcher;
 
 
 import java.util.ArrayList;

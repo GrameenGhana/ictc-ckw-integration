@@ -3,7 +3,7 @@ package applab.client.search.settings;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import applab.client.search.ApplicationRegistry;
+import applab.client.search.utils.ApplicationRegistry;
 import applab.client.search.R;
 
 /**

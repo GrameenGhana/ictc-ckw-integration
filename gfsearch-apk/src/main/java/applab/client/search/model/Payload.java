@@ -1,9 +1,5 @@
 package applab.client.search.model;
 
-/**
- * Created by skwakwa on 8/4/15.
- */
-
 import java.util.ArrayList;
 
 public class Payload {
@@ -14,8 +10,7 @@ public class Payload {
     private ArrayList<Object> responseData = new ArrayList<Object>();
     private String url;
 
-    public Payload() {
-    }
+    public Payload() { }
 
     public Payload(String url) {
         this.setUrl(url);

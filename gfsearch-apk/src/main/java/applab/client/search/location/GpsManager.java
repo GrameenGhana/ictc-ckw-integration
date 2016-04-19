@@ -18,7 +18,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
-import applab.client.search.ApplicationRegistry;
+import applab.client.search.utils.ApplicationRegistry;
 
 import java.util.Date;
 

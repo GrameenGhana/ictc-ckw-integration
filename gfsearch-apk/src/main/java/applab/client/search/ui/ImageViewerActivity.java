@@ -86,6 +86,8 @@ public class ImageViewerActivity extends BaseActivity implements View.OnTouchLis
         super.setContentView(view);
     }
 
+    public void onRefresh() {}
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         ImageView view = (ImageView) v;

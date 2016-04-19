@@ -3,14 +3,9 @@ package applab.client.search.synchronization;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.ContactsContract;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Toast;
-import applab.client.search.ApplicationRegistry;
+import applab.client.search.utils.ApplicationRegistry;
 import applab.client.search.R;
 import applab.client.search.location.GpsManager;
 import applab.client.search.model.*;
@@ -71,7 +66,6 @@ public class SynchronizationManager {
 
     private SynchronizationManager() {
         applicationContext = ApplicationRegistry.getApplicationContext();
-
     }
 
     public static SynchronizationManager getInstance() {
@@ -81,8 +75,7 @@ public class SynchronizationManager {
     /**
      * called to initialize the synchronization manager.
      */
-    public synchronized void initialize() {
-    }
+    public synchronized void initialize() { }
 
     /**
      * called to start the synchronization process in a new

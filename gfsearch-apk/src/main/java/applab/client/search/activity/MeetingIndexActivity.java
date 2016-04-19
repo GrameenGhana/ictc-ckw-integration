@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.model.Farmer;
@@ -174,7 +173,7 @@ if(meetings.get(i).isCurrentlyAvailable()) {
                 if(type.equalsIgnoreCase("C")) {
 
 
-//                    Intent intent = new Intent(MeetingIndexActivity.this, MainActivity.class);
+//                    Intent intent = new Intent(MeetingIndexActivity.this, CKWSearchActivity.class);
 //                    startActivity(intent);
 
                     if(meetingType.toLowerCase().contains("multi")){
@@ -191,7 +190,7 @@ if(meetings.get(i).isCurrentlyAvailable()) {
 
 
                         if(justBrowse.equalsIgnoreCase("Y")) {
-                            Intent intent= new Intent(MeetingIndexActivity.this, MainActivity.class);
+                            Intent intent= new Intent(MeetingIndexActivity.this, CKWSearchActivity.class);
                             intent.putExtra("farmer","");
                             intent.putExtra("SEARCH_CROP","");
                             intent.putExtra("SEARCH_TITLE","");

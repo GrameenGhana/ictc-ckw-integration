@@ -258,7 +258,7 @@ v="Saved Successfully";
 
 
 
-//                    Intent intent = new Intent(MeetingIndexActivity.this, MainActivity.class);
+//                    Intent intent = new Intent(MeetingIndexActivity.this, CKWSearchActivity.class);
 //                    startActivity(intent);
 
                 Intent intent = new Intent(FarmerInputActivty.this, FarmerDetailActivity.class);

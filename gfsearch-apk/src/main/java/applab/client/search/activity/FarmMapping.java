@@ -16,7 +16,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
-import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.model.FarmGPSLocation;
 import applab.client.search.model.Farmer;
@@ -622,7 +621,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
             }
 
        } catch (Exception ex) {
-            Log.e(MainActivity.class.getName(), "", ex);
+            Log.e(CKWSearchActivity.class.getName(), "", ex);
         }
 
         return true;

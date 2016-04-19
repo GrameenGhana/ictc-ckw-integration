@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <applab.client.agrihub.ui.font.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="24dp"
+            android:text="Business Management"
+            android:textColor="@color/main_color_500"
+            android:textSize="16sp"
+            app:typeface="robotoLight" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/main_color_500" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp">
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/a"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/a" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/b"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/a" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/c"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/c" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/d"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/d" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/e"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/e" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/f"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/f" />
+        </LinearLayout>
+
+
+        <applab.client.agrihub.ui.font.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="24dp"
+            android:text="Managing Stocks"
+            android:textColor="@color/main_color_500"
+            android:textSize="16sp"
+            app:typeface="robotoLight" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/main_color_500" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/baloon"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/baloon" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/pig"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/pig" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/play"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/play" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/rewind"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/rewind" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/soundcloud"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/soundcloud" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/speaker"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/speaker" />
+        </LinearLayout>
+
+        <applab.client.agrihub.ui.font.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="24dp"
+            android:text="Selling and Marketing"
+            android:textColor="@color/main_color_500"
+            android:textSize="16sp"
+            app:typeface="robotoLight" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/main_color_500" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/bag"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/bag" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/basket"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/basket" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/cart"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/cart" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/cupshop"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/cupshop" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/dollar"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/dollar" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/heksagonal"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/heksagonal" />
+        </LinearLayout>
+
+        <applab.client.agrihub.ui.font.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="24dp"
+            android:text="Basic Record Keeping"
+            android:textColor="@color/main_color_500"
+            android:textSize="16sp"
+            app:typeface="robotoLight" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/main_color_500" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/camera"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/camera" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/heart"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/heart" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/like"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/like" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/shit"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/shit" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/speach_cloud"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/speach_cloud" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/star"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/star" />
+        </LinearLayout>
+
+        <applab.client.agrihub.ui.font.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="24dp"
+            android:text="Costing and Pricing"
+            android:textColor="@color/main_color_500"
+            android:textSize="16sp"
+            app:typeface="robotoLight" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/main_color_500" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/cloud"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/cloud" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/cup"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/cup" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/house"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/house" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/pin"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/pin" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/suitcase"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/suitcase" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                android:id="@+id/truck"
+                style="@style/ImageViewStyle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="30dp"
+                android:layout_weight="1"
+                app:siShape="@raw/truck" />
+        </LinearLayout>
+
+
+        <applab.client.agrihub.ui.font.RobotoTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="24dp"
+                android:text="Managing Business Relations"
+                android:textColor="@color/main_color_500"
+                android:textSize="16sp"
+                app:typeface="robotoLight" />
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@color/main_color_500" />
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp" >
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                    android:id="@+id/cloud2"
+                    style="@style/ImageViewStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="30dp"
+                    android:layout_weight="1"
+                    app:siShape="@raw/cloud" />
+
+            <applab.client.agrihub.ui.view.siv.ShapeImageView
+                    android:id="@+id/cup2"
+                    style="@style/ImageViewStyle"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="30dp"
+                    android:layout_weight="1"
+                    app:siShape="@raw/cup" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

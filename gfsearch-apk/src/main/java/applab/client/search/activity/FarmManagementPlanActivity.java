@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
-import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.adapters.ParentExpandableListAdapter;
 import applab.client.search.model.Farmer;
@@ -111,7 +110,7 @@ DatabaseHelper dbHelper=new DatabaseHelper(getBaseContext());
     }
 
     public void ckwClick(View view){
-        Intent i = new Intent(FarmManagementPlanActivity.this,MainActivity.class);
+        Intent i = new Intent(FarmManagementPlanActivity.this,CKWSearchActivity.class);
         i.putExtra("farmer",farmer);
         i.putExtra("SEARCH_CROP",farmer.getMainCrop());
         i.putExtra("SEARCH_TITLE","");

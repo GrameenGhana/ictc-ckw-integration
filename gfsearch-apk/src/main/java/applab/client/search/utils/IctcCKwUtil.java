@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.BatteryManager;
 import android.telephony.TelephonyManager;
@@ -14,13 +13,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import applab.client.search.ApplicationRegistry;
-import applab.client.search.GlobalConstants;
-import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.activity.FarmerDetailActivity;
 import applab.client.search.model.Farmer;
-import applab.client.search.model.ListObject;
 import applab.client.search.model.Meeting;
 import applab.client.search.model.UserDetails;
 import applab.client.search.storage.DatabaseHelper;
@@ -35,7 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 /**
  * Created by skwakwa on 9/10/15.
@@ -53,21 +47,20 @@ public class IctcCKwUtil {
     public static final String APP_VERSION="1.1.4";
 
     public static Date formatDateTime(String timeToFormat) {
-
         return formatDateTime(timeToFormat,"yyyyMMddHHmmss");
-
     }
 
     public static String getReadableDate(String timeToFormat) {
-if(!timeToFormat.isEmpty()) {
-    Date dt = formatDateTime(timeToFormat, "YYYY-mm-dd");
-    return formatStringDateTime(dt, "dd MMM, YYYY");
-}return  "";
+        if(!timeToFormat.isEmpty()) {
+            Date dt = formatDateTime(timeToFormat, "YYYY-mm-dd");
+            return formatStringDateTime(dt, "dd MMM, YYYY");
+        }
+        return  "";
     }
+
     public static Date formatSlashDates(String timeToFormat) {
         return formatDateTime(timeToFormat,"dd/MM/yyyy");
     }
-
 
     public static Date formatDateTime(String timeToFormat,String format) {
 
@@ -94,12 +87,10 @@ if(!timeToFormat.isEmpty()) {
     }
 
     public static String formatStringDateTime(Date timeToFormat) {
-
         return formatStringDateTime(timeToFormat,"yyyyMMddHHmmss");
     }
 
     public static String formatStringDateTime(Date timeToFormat,String  dateFormat) {
-
         String finalDateTime = "";
         String date = "";
         try {
@@ -121,7 +112,6 @@ if(!timeToFormat.isEmpty()) {
 
         return date;
     }
-
 
     public static  String getNextDate(int dayOfWeek){
         Date date  = new Date();
@@ -147,7 +137,6 @@ if(!timeToFormat.isEmpty()) {
         return replaceWith;
     }
 
-
     public static  String getNextDate(int dayOfWeek,int weeksMore){
         Date date  = new Date();
         Calendar cal = Calendar.getInstance();
@@ -167,34 +156,21 @@ if(!timeToFormat.isEmpty()) {
         return replaceWith;
     }
 
-
     public static String formatDouble(double amt){
-
         DecimalFormat df = new DecimalFormat("#.000");
-
-        return df.format(amt);
-    } public static String formatDoubleNoDecimal(double amt){
-
-        DecimalFormat df = new DecimalFormat("#");
-
         return df.format(amt);
     }
 
+    public static String formatDoubleNoDecimal(double amt){
+        DecimalFormat df = new DecimalFormat("#");
+        return df.format(amt);
+    }
 
     public static String formatDouble(String amt){
-
         DecimalFormat df = new DecimalFormat("#.000");
-
-        try {
-            return df.format(Double.parseDouble(amt));
-
-        }catch (Exception e){
-
-
-        }
-
+        try { return df.format(Double.parseDouble(amt)); }catch (Exception e){ }
         return "0.0";
-        }
+    }
 
     public static float getBatteryLevel(Context context){
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
@@ -205,14 +181,11 @@ if(!timeToFormat.isEmpty()) {
         float batteryPct = level / (float)scale;
         return batteryPct*100;
     }
+
     public static String getImei(Context context){
-
         TelephonyManager telephonyManager = (TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
-
         return  telephonyManager.getDeviceId();
     }
-
-
 
     public static String getAppVersion()
     {
@@ -220,7 +193,6 @@ if(!timeToFormat.isEmpty()) {
     }
 
     public static String getAppVersion(Context context){
-
         try {
 
             String versionName =(String) ApplicationRegistry.retrieve(KEY_VERSION);
@@ -237,7 +209,6 @@ if(!timeToFormat.isEmpty()) {
         return APP_VERSION;
     }
 
-
     public static void setFarmerDetails(Activity container,int parentID,String farmerName, final Farmer farmer, boolean clickable){
         setFarmerDetails(container.getWindow().getDecorView().getRootView(),parentID,farmerName,farmer,clickable);
     }
@@ -246,10 +217,7 @@ if(!timeToFormat.isEmpty()) {
 
         LinearLayout ll =  (LinearLayout)container.findViewById(parentID);
 
-
         if(!farmerName.isEmpty()){
-//            tv.setText(farmerName);
-
             String farmerId = farmer.getFarmID();
             ImageView img = (ImageView) container.findViewById(R.id.farmerImg);
 
@@ -359,32 +327,15 @@ if(!timeToFormat.isEmpty()) {
 
         }
     }
+
     public static void setFarmerDetails(View container,int parentID,String farmerName, final Farmer farmer){
         setFarmerDetails(container,parentID,farmerName,farmer,false);
-
     }
-
 
     public static void  processFarmerSelect(View container,Farmer f){
         Intent t = new Intent(container.getContext(),FarmerDetailActivity.class);
         t.putExtra("farmerId", f.getFarmID());
         container.getContext().startActivity(t);
-    }
-
-    public static void startCKWIntent(View container, Farmer f){
-        Intent intent = new Intent(container.getContext(),MainActivity.class);
-        intent.putExtra("farmer",f.getFullname());
-        intent.putExtra("SEARCH_CROP",f.getMainCrop());
-        intent.putExtra("SEARCH_TITLE","");
-        intent.putExtra("farmerId", f.getFarmID());
-
-        container.getContext().startActivity(intent);
-
-    }
-
-
-    public void setTitleClickable(View view){
-
     }
 
     public static List<Meeting> sortMeeting(List<Meeting> arr) {
@@ -424,90 +375,64 @@ if(!timeToFormat.isEmpty()) {
     }
 
     public static UserDetails getUser(Context c){
-
-
         Activity activity = (Activity) c;
-
-
         SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
         String username = sharedPref.getString(c.getResources().getString(R.string.username), "guest");
         String fullname = sharedPref.getString(c.getResources().getString(R.string.fullname),"guest");
-
-
         UserDetails user = new UserDetails();
         user.setFullName(fullname);
         user.setUserName(username);
-
         return  user;
-
     }
 
     public static void setUserDetails(Context c , UserDetails u){
-        Activity activity = (Activity) c;
         try {
             ApplicationRegistry.setApplicationContext(c);
-//        ApplicationRegistry.setMainActivity(this);
-
-
-            //caching the device imie in the application registry
             ApplicationRegistry.register(GlobalConstants.KEY_CACHED_DEVICE_IMEI,
                     DeviceMetadata.getDeviceImei(c));
-
-            //register application version in registry
             ApplicationRegistry.register(GlobalConstants.KEY_CACHED_APPLICATION_VERSION,
-                    c.getResources().getString(R.string.app_name) + "/"
-                            + c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionName);
-            ApplicationRegistry.register(IctcCKwUtil.KEY_FULNAME,u.getFullName()
-            );
+                    c.getResources().getString(R.string.app_name) + "/" + c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionName);
+            ApplicationRegistry.register(IctcCKwUtil.KEY_FULNAME,u.getFullName() );
 
-            ApplicationRegistry.register(IctcCKwUtil.KEY_VERSION,c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionName
-            );
+            ApplicationRegistry.register(IctcCKwUtil.KEY_VERSION,c.getPackageManager().getPackageInfo(c.getPackageName(), 0).versionName );
             ApplicationRegistry.register(IctcCKwUtil.KEY_USER_NAME, u.getUserName());
-        }catch(Exception e){
+        }catch(Exception e) {
 
         }
     }
-
 
     public static  void setActionbarUserDetails(Context c, View mCustomView){
 
         boolean showDetails = true;
         String username = (String)ApplicationRegistry.retrieve(IctcCKwUtil.KEY_USER_NAME);
+
         if(null==username){
             UserDetails u = new DatabaseHelper(c).getUserItem();
             if(u!=null)
             setUserDetails(c,u);
             else
                 showDetails=false;
-
         }
-    if(showDetails) {
 
-        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.user_fullname);
-        UserDetails us = getUser(c);
-        mTitleTextView.setText(((String) ApplicationRegistry.retrieve(IctcCKwUtil.KEY_FULNAME)).replace(" lastname", ""));
-
-        mTitleTextView = (TextView) mCustomView.findViewById(R.id.user_username);
-    mTitleTextView.setText("[" + username + "]");
-    }
+        if(showDetails) {
+            TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.user_fullname);
+            UserDetails us = getUser(c);
+            mTitleTextView.setText(((String) ApplicationRegistry.retrieve(IctcCKwUtil.KEY_FULNAME)).replace(" lastname", ""));
+            mTitleTextView = (TextView) mCustomView.findViewById(R.id.user_username);
+            mTitleTextView.setText("[" + username + "]");
+        }
     }
 
     public  static String getUsername(){
         return (String)ApplicationRegistry.retrieve(IctcCKwUtil.KEY_USER_NAME);
-
     }
 
     public static double meterSqdToAcre(double m2){
         double m2toARation=0.000247105;
-
         return m2toARation*m2;
-
-
     }
 
-    public static String cropToCKWLabel(String crop){
-
-
+    public static String cropToCKWLabel(String crop) {
         String ckwCrop = crop;
         if(crop.equalsIgnoreCase("maize"))
             ckwCrop = "b. "+crop+" (ADVANCE)";
@@ -518,9 +443,6 @@ if(!timeToFormat.isEmpty()) {
         else if(crop.equalsIgnoreCase("cassava"))
             return "E. "+crop;
 
-
         return ckwCrop;
-
     }
-
 }

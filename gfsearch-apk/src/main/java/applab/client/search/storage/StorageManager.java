@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import applab.client.search.ApplicationRegistry;
+import applab.client.search.utils.ApplicationRegistry;
 import applab.client.search.storage.search.Search;
 
 /**
@@ -25,7 +25,6 @@ public class StorageManager {
         this.context = ApplicationRegistry.getApplicationContext();
         this.databaseHelper = new DatabaseHelper(this.context);
         this.database = databaseHelper.getWritableDatabase();
-
         this.sqLiteSearchProcessor = new SQLiteSearchProcessor(this.database);
     }
 

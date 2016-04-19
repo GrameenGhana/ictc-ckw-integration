@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/farming"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="40dp" >
+
+    <!-- Login progress -->
+    <LinearLayout
+            android:id="@+id/login_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone" >
+
+        <ProgressBar
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp" />
+
+        <TextView
+                android:id="@+id/login_status_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Signing in..."
+                android:textAppearance="?android:attr/textAppearanceMedium" />
+    </LinearLayout>
+
+
+    <!-- Login form -->
+    <LinearLayout
+            android:id="@+id/login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_background_login"
+            android:layout_weight="0"
+            android:orientation="vertical"
+            android:padding="20dp" >
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="32dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <applab.client.agrihub.ui.font.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/username"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:typeface="robotoLight" />
+
+        <EditText
+            android:id="@+id/edit_us_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@android:color/transparent"
+            android:backgroundTintMode="@android:color/transparent"
+            android:cursorVisible="true"
+            android:drawableBottom="@android:color/transparent"
+            android:ems="10"
+            android:hint="@string/username"
+            android:inputType="textNoSuggestions"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:textSize="35sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white" />
+    </LinearLayout>
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical" >
+
+        <applab.client.agrihub.ui.font.RobotoTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="Password"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            app:typeface="robotoLight" />
+
+        <EditText
+            android:id="@+id/user_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:backgroundTint="@android:color/transparent"
+            android:backgroundTintMode="@android:color/transparent"
+            android:drawableBottom="@android:color/transparent"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textNoSuggestions"
+            android:password="true"
+            android:singleLine="true"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:textSize="35sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/white" />
+    </LinearLayout>
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="right" >
+
+        <applab.client.agrihub.ui.font.RobotoTextView
+            android:id="@+id/main_button_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/transparent_button_selector"
+            android:paddingBottom="12dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="12dp"
+            android:text="Login"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            app:typeface="robotoMedium" />
+
+    </LinearLayout>
+
+ i  </LinearLayout>
+
+    <!-- Logo -->
+    <LinearLayout
+            android:id="@+id/login_logo"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" android:weightSum="1">
+
+        <ImageView
+                android:layout_width="463dp"
+                android:layout_height="162dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/smartex"
+                android:layout_marginTop="0dp"
+        />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

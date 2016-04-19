@@ -16,7 +16,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import applab.client.search.ApplicationRegistry;
+import applab.client.search.utils.ApplicationRegistry;
 import applab.client.search.R;
 import applab.client.search.interactivecontent.ContentUtils;
 import applab.client.search.model.ListObject;

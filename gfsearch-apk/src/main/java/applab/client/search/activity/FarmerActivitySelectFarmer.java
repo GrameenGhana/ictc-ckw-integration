@@ -1,7 +1,6 @@
 package applab.client.search.activity;
 
 import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -10,14 +9,12 @@ import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
-import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.adapters.FarmersAdapter;
 import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelper;
 import android.text.TextWatcher;
 
-import applab.client.search.storage.DatabaseHelperConstants;
 import applab.client.search.utils.IctcCKwUtil;
 
 import java.util.ArrayList;
@@ -304,7 +301,7 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
             startActivity(intent);
         }else if(type.equalsIgnoreCase("ckw")){
 
-            Intent intent= new Intent(FarmerActivitySelectFarmer.this, MainActivity.class);
+            Intent intent= new Intent(FarmerActivitySelectFarmer.this, CKWSearchActivity.class);
             intent.putExtra("farmer",farmer);
 
             intent.putExtra("SEARCH_CROP", IctcCKwUtil.cropToCKWLabel(farmer.getMainCrop()));

@@ -4,15 +4,12 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
-import applab.client.search.ApplicationRegistry;
+import applab.client.search.utils.ApplicationRegistry;
 import applab.client.search.model.Payload;
-import applab.client.search.model.wrapper.VideoData;
 import applab.client.search.model.wrapper.VideoRequestData;
 import applab.client.search.model.wrapper.VideosRequestWrapper;
-import applab.client.search.model.wrapper.VideosResponseWrapper;
 import applab.client.search.settings.SettingsConstants;
 import applab.client.search.settings.SettingsManager;
 import applab.client.search.synchronization.SynchronizationManager;
@@ -22,8 +19,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.*;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,8 +141,9 @@ public class VideoDownloadRequestTask extends AsyncTask<Payload, Object, Payload
                                     params.add(new BasicNameValuePair(SettingsConstants.REQUEST_DATA, jsonRequest));
                                     InputStream inputStream = HttpHelpers.postJsonRequestAndGetStream(url, networkTimeout, params);
 
-                                    String jsonResponse = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
-                                    //Log.d("TMEDIA: Video Download", "Response " + jsonResponse);
+                                    //String jsonResponse = new java.util.Scanner(inputStream).useDelimiter("\\A").next();
+                                    String jsonResponse = ConnectionUtil.convertInputStreamToString(inputStream);
+                                    Log.d("TMEDIA: Video Download", "Response " + jsonResponse);
 
                                     if (jsonResponse.length() > 4972) {
                                         //VideosResponseWrapper res = gson.fromJson(jsonResponse, VideosResponseWrapper.class);

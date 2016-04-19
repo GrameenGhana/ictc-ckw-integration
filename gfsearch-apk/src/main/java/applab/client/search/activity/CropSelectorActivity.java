@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
-import applab.client.search.MainActivity;
 import applab.client.search.R;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.model.Farmer;
@@ -97,7 +96,7 @@ public class CropSelectorActivity extends Activity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 if(type.equalsIgnoreCase("CKW")) {
-                    Intent intent = new Intent(CropSelectorActivity.this, MainActivity.class);
+                    Intent intent = new Intent(CropSelectorActivity.this, CKWSearchActivity.class);
                     intent.putExtra("farmer", farmer);
                     intent.putExtra("SEARCH_CROP", titles[i]);
                     intent.putExtra("SEARCH_TITLE", detail);

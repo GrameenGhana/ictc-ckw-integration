@@ -3,8 +3,8 @@ package applab.client.search.synchronization;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import applab.client.search.ApplicationRegistry;
-import applab.client.search.GlobalConstants;
+import applab.client.search.utils.ApplicationRegistry;
+import applab.client.search.utils.GlobalConstants;
 import applab.client.search.R;
 import applab.client.search.utils.DeviceMetadata;
 

@@ -27,8 +27,6 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
-import applab.client.search.ApplicationRegistry;
-import applab.client.search.GlobalConstants;
 
 import java.io.*;
 import java.net.*;

@@ -34,6 +34,12 @@ public class IctcCkwIntegrationSync {
     public static final String WEATHER_URL = ICTC_SERVER_URL_ROOT+"weather";
     public static String LOGIN ="login";
 
+    /** AGSMO End points **/
+    public static final String AGSMO_API = "http://chnonthego.org/smartex/";
+    public static final String AGSMO_LOGIN_API = AGSMO_API+"?action=authenticate&";
+    public static final String AGSMO_GOODS_API = AGSMO_API+"?action=goods&";
+    /** END **/
+
     public static void syncFarmerDetails() {
         int networkTimeout = 10 * 60 * 1000;
 

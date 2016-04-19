@@ -1,16 +1,19 @@
 package applab.client.search.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 import android.widget.Toast;
-import applab.client.search.activity.DashboardActivity;
+import applab.client.search.R;
 import applab.client.search.model.Farmer;
 import applab.client.search.model.Payload;
 import applab.client.search.model.UserDetails;
@@ -18,7 +21,6 @@ import applab.client.search.model.Weather;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import applab.client.search.task.IctcTrackerLogTask;
-//import com.google.android.gms.ads.formats.NativeAd;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -29,28 +31,100 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * Created by skwakwa on 9/4/15.
- */
 public class ConnectionUtil {
 
-    public static void refreshFarmerInfo(){
-
+    public static void setUser(Activity act, String id, String username, String type, String name, int age, String gender, String mobile, String phone, String location, String email) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(act.getBaseContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("prefs_user_id", id);
+        editor.putString("prefs_user_type", type);
+        editor.putString("prefs_user_name", username);
+        editor.putString("prefs_display_name", name);
+        editor.putInt("prefs_age", age);
+        editor.putString("prefs_gender", gender);
+        editor.putString("prefs_phone_number", phone);
+        editor.putString("prefs_mobile_number", mobile);
+        editor.putString("prefs_location", location);
+        editor.putString("prefs_email", email);
+        editor.commit();
     }
+
+    public static void unSetUser(Activity act) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(act.getBaseContext());
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("prefs_user_id", "");
+        editor.putString("prefs_user_type", "");
+        editor.putString("prefs_user_name", "");
+        editor.putString("prefs_display_name", "");
+        editor.putInt("prefs_age", 0);
+        editor.putString("prefs_gender", "");
+        editor.putString("prefs_phone_number", "");
+        editor.putString("prefs_mobile_number", "");
+        editor.putString("prefs_location", "");
+        editor.putString("prefs_email", "");
+        editor.commit();
+    }
+
+    public static boolean isLoggedIn(Activity act) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act.getBaseContext());
+        String username = prefs.getString("prefs_user_name", "");
+        return (!username.trim().equals(""));
+    }
+
+    public static boolean isSmartExAgent(Activity act) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act.getBaseContext());
+        String username = prefs.getString("prefs_user_type", "");
+        return username.trim().equals("SmartEx Agent");
+    }
+
+    public static String currentUsername(Activity act) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act.getBaseContext());
+        return prefs.getString(act.getString(R.string.prefs_username), "");
+    }
+
+    public static String currentUserType(Activity act) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act.getBaseContext());
+        return prefs.getString("prefs_user_type", "");
+    }
+
+    public static String currentUserFullName(Activity act) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act.getBaseContext());
+        return prefs.getString("prefs_display_name", "");
+    }
+
+    public static boolean isOnWifi(Context ctx) {
+        ConnectivityManager conMan = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = conMan.getActiveNetworkInfo();
+        return (!(netInfo == null || netInfo.getType() != ConnectivityManager.TYPE_WIFI));
+    }
+
+    public static boolean isNetworkConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return (cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isAvailable() && cm
+                .getActiveNetworkInfo().isConnected());
+    }
+
+    public static String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line;
+        String result = "";
+        while((line = bufferedReader.readLine()) != null){
+            result += line;
+        }
+        inputStream.close();
+        return result;
+    }
+
+    // TODO: Move to Synchronization Manager
     public static void refreshFarmerInfo(final Context context,final Intent intent, final String queryString, final String type,String msg ) {
-
-        // String url="http://sandbox-ictchallenge.cs80.force.com/getTest";
         final  DatabaseHelper databaseHelper = new DatabaseHelper(context);
-        Toast.makeText(context, msg,
-                Toast.LENGTH_SHORT).show();
-
-
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
         Thread background = new Thread(new Runnable() {
-            @Override
             public void run() {
 
                 try {
@@ -125,7 +199,7 @@ public class ConnectionUtil {
                                 if ((null != aResponse)) {
                                     JSONObject resp = new JSONObject(aResponse);
                                     if(resp.getString("rc").equalsIgnoreCase("00")){
-                                        // Intent intent1 = new Intent(,DashboardActivity.class);
+                                        // Intent intent1 = new Intent(,DashboardSmartExActivity.class);
                                         Toast.makeText(context,"Login Successful",Toast.LENGTH_LONG).show();
                                         refreshFarmerInfo(context,intent, "us=", "details","Login Successful, Loading Agent Data");
                                         context.startActivity(intent);
@@ -397,9 +471,9 @@ public class ConnectionUtil {
     }
 
     public static void refreshWeather(final Context context, final String type,String msg) {
-
         refreshWeather(context, type, msg, null);
     }
+
     public static void refreshWeather(final Context context, final String type,String msg, final FragmentStatePagerAdapter pager) {
 
         // String url="http://sandbox-ictchallenge.cs80.force.com/getTest";
@@ -409,7 +483,6 @@ public class ConnectionUtil {
 
 
         Thread background = new Thread(new Runnable() {
-            @Override
             public void run() {
 
                 try {      /* TODO output your page here. You may use following sample code. */
@@ -544,18 +617,5 @@ public class ConnectionUtil {
 
         background.start();
         // return  serverResponse;
-    }
-
-
-
-    private boolean isInternetConnectionActive(Context context) {
-        NetworkInfo networkInfo = ((ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE))
-                .getActiveNetworkInfo();
-
-        if(networkInfo == null || !networkInfo.isConnected()) {
-            return false;
-        }
-        return true;
     }
 }

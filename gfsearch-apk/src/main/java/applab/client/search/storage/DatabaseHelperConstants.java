@@ -94,6 +94,22 @@ public final class DatabaseHelperConstants {
     public static final int DATABASE_VERSION = 4;
 
     // ICTC Stuff
+
+    // AGSMO User
+    public static final String AGSMO_USER_TABLE = "agsmo_user";
+    public static final String AGSMO_USER_TYPE = "user_type";
+    public static final String AGSMO_USER_NAME= "username";
+    public static final String AGSMO_USER_FULLNAME = "name";
+    public static final String AGSMO_USER_AGE = "age";
+    public static final String AGSMO_USER_GENDER = "gender";
+    public static final String AGSMO_USER_PHONE ="phone";
+    public static final String AGSMO_USER_MOBILE ="mobile";
+    public static final String AGSMO_USER_EMAIL ="email";
+    public static final String AGSMO_USER_LOCATION ="location";
+    public static final String AGSMO_LAST_MODIFIED_DATE ="lastModifiedDate";
+
+
+
     public static final String ICTC_FARMER = "ictc_farmer";
     public static final String FIRST_NAME = "fname";
     public static final String OTHER_NAMES = "lname";
@@ -112,7 +128,6 @@ public final class DatabaseHelperConstants {
     public static final String CLUSTER = "cluster";
 
 
-
     public static final String ICTC_FARMER_MEETING= "ictc_meeting";
     public static final String ICTC_FARMER_MEETING_SETTINGS= "ictc_meeting_settings";
     public static final String ICTC_TYPE= "meeting_type";
@@ -129,8 +144,6 @@ public final class DatabaseHelperConstants {
     public static final String ICTC_FARMER_MEETING_PROCEDURE= "ictc_meeting_PROCEDURE";
 
 
-
-
     public static final String ICTC_FARMER_POSTHARVEST= "postharvest";
     public static final String ICTC_FARMER_PRODUCTION= "production";
     public static final String ICTC_FARMER_BASELINEPOSTHARVEST= "baselinepostharvest";
@@ -140,11 +153,9 @@ public final class DatabaseHelperConstants {
     public static final String ICTC_TECH_NEEDS= "technical_needs";
 
     public static final String ICTC_BASELINE_POST_HARVEST_BADGET= "baselinepostharvestbadget";
-    //tracker
 
 
     public static final String ICTC_TRACKER_LOG_TABLE= "ictc_tracker";
-
     public static final String ICTC_TRACKER_SUBMITTED_DATE= "submitted_date";
     public static final String ICTC_USER_ID= "user_id";
     public static final String ICTC_TRACKER_MODULE = "module";
@@ -155,11 +166,7 @@ public final class DatabaseHelperConstants {
     public static final String ICTC_TRACKER_INPROGRESS = "inprogress";
 
 
-
-
-
     public static final String ICTC_WEATHER_TABLE= "ictc_weather";
-
     public static final String ICTC_LOCATION= "location";
     public static final String ICTC_DETAIL= "detail";
     public static final String ICTC_ICON = "icon";
@@ -182,7 +189,6 @@ public final class DatabaseHelperConstants {
     public static final String TECH_NEEDS_I = "techneed1";
     public static final String TECH_NEEDS_II = "techneed2";
     public static final String FARMER_BASE_ORG = "fbo";
-    //    public static final String REGION = "reg";
     public static final String PLANTING_DATE = "date_plant";
     public static final String LAND_AREA = "landarea";
     public static final String DATE_MANUAL_WEEDING = "date_man_weed";
@@ -194,7 +200,6 @@ public final class DatabaseHelperConstants {
 
 
     //User
-
     public static final String ICTC_USER_DETAIL_TABLE = "ictc_user_detail_table";
     public static final String ICTC_LOGIN_TIME= "login_time";
     public static final String ICTC_USER_NAME= "username";

@@ -23,17 +23,17 @@
             android:icon="@drawable/app_icon_new"
             android:label="SmartEX"
             android:theme="@style/AppTheme" >
-        <activity
-                android:name=".MainActivity"
-                android:launchMode="singleTop" >
 
-            <!--
+        <activity android:name=".activity.StartUpActivity" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            -->
+        </activity>
+
+        <activity
+                android:name=".activity.CKWSearchActivity"
+                android:launchMode="singleTop" >
         </activity>
 
         <!--<meta-data
@@ -49,57 +49,53 @@
         <activity
                 android:name=".settings.SettingsActivity"
                 android:icon="@drawable/action_settings"
-                android:parentActivityName=".MainActivity" >
+                android:parentActivityName=".activity.CKWSearchActivity" >
             <intent-filter>
                 <action android:name="applab.client.search.settings.SettingsActivity" />
-
                 <category android:name="android.intent.category.PREFERENCE" />
             </intent-filter>
 
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="applab.client.search.MainActivity" />
+                    android:value=".activity.CKWSearchActivity" />
         </activity>
         <activity
                 android:name=".ui.AboutActivity"
                 android:icon="@drawable/action_about"
-                android:parentActivityName=".MainActivity" >
+                android:parentActivityName=".activity.CKWSearchActivity" >
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="applab.client.search.MainActivity" />
+                    android:value=".activity.CKWSearchActivity" />
         </activity>
         <activity
                 android:name=".ui.SearchMenuItemActivity"
                 android:icon="@drawable/collections_view_as_list"
-                android:parentActivityName=".MainActivity" >
+                android:parentActivityName=".activity.CKWSearchActivity" >
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="applab.client.search.MainActivity" />
+                    android:value=".activity.CKWSearchActivity" />
         </activity>
         <activity
                 android:name=".ui.ImageViewerActivity"
                 android:icon="@drawable/mobile_app_icon"
-                android:parentActivityName=".MainActivity" >
+                android:parentActivityName=".activity.CKWSearchActivity" >
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="applab.client.search.MainActivity" />
+                    android:value=".activity.CKWSearchActivity" />
         </activity>
         <activity
                 android:name=".interactivecontent.ContentViewerActivity"
                 android:icon="@drawable/mobile_app_icon"
-                android:parentActivityName=".MainActivity" >
+                android:parentActivityName=".activity.CKWSearchActivity" >
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="applab.client.search.MainActivity" />
+                    android:value=".activity.CKWSearchActivity" />
         </activity>
-        <activity android:name=".activity.StartUpActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.DashboardActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name="applab.client.agrihub.activity.DashboardMainActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name="applab.client.agsmo.activity.TrainingActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name=".activity.DashboardSmartExActivity" android:configChanges="keyboardHidden|orientation|screenSize" />
+        <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.PricesActivity" />
         <activity android:name=".activity.ClusterActivity" />
         <activity android:name=".activity.FarmerDetailActivity" />

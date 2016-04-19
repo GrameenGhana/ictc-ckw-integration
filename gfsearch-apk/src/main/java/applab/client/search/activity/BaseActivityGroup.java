@@ -68,7 +68,7 @@ public class BaseActivityGroup extends ActivityGroup {
 
     public void showHome(View view){
 
-        Intent t =  new Intent(view.getContext(),DashboardActivity.class);
+        Intent t =  new Intent(view.getContext(),DashboardSmartExActivity.class);
         view.getContext().startActivity(t);
     }
 }
