@@ -83,6 +83,7 @@
         <enum name="miter" value="1" />
         <enum name="round" value="2" />
     </attr>
+
     <declare-styleable name="ShaderImageView">
         <attr name="siSquare" format="boolean" />
         <attr name="siBorderColor" format="color" />
@@ -101,6 +102,15 @@
         <attr name="siStrokeCap"/>
         <attr name="siStrokeJoin"/>
         <attr name="siStrokeMiter" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="CircularImageView">
+        <attr name="civ_border" format="boolean"/>
+        <attr name="civ_border_width" format="dimension"/>
+        <attr name="civ_border_color" format="color"/>
+        <attr name="civ_shadow" format="boolean"/>
+        <attr name="civ_shadow_color" format="color"/>
+        <attr name="civ_shadow_radius" format="float"/>
     </declare-styleable>
 
 </resources>

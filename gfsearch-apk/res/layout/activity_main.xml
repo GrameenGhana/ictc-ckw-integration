@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/ScrollView1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/bg_radial">
+    <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:padding="20dp">
+
+        <ImageView
+                android:layout_width="700dp"
+                android:layout_height="300dp"
+                android:id="@+id/imageView"
+                android:src="@drawable/smartex" android:layout_alignParentTop="true"
+                android:layout_marginTop="66dp" android:layout_alignParentRight="true"/>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:layout_below="@+id/imageView"
+                android:gravity="center"
+                android:padding="2dp" android:id="@+id/linearLayout3" android:layout_centerHorizontal="true">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:id="@+id/text_log_error"
+                    android:textColor="#f900" android:textSize="17dp"
+
+                    android:typeface="monospace" android:visibility="gone" android:background="#ffffffff"/>
+            <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/ic_username"
+                    android:id="@+id/edit_us_name"
+                     android:textColor="#ffffffff" android:hint="Username "/>
+            <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:drawableLeft="@drawable/ic_user_password"
+                    android:ems="10"
+                    android:id="@+id/user_pwd"
+                    android:textColor="#ffffffff" android:hint="Password"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:paddingTop="50dp">
+                <Button
+                        style="?android:attr/buttonStyleSmall"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Login"
+                        android:id="@+id/main_button_login"
+                        android:background="#ff03342a"
+                        android:textSize="19dp" android:textColor="#ffffffff"/>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/txt_pass_response" android:layout_above="@+id/linearLayout3"
+                android:layout_centerHorizontal="true" android:textColor="#ffff2804"/>
+    </RelativeLayout>
+</ScrollView>

@@ -3,7 +3,7 @@
     <color name="myPrimaryDarkColor">#512DA8</color>
     <color name="myPrimaryLightColor">#D1C4E9</color>
     <color name="myAccentColor">#FF4081</color>
-
+    <color name="apptheme_color">#ff065319</color>
     <color name="amber">#FFC107</color>
     <color name="amberDark">#FFA000</color>
 
