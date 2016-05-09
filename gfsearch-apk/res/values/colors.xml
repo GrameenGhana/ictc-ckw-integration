@@ -6,6 +6,8 @@
     <color name="apptheme_color">#ff065319</color>
     <color name="amber">#FFC107</color>
     <color name="amberDark">#FFA000</color>
+    <color name="green">#00FF00</color>
+    <color name="thumbColor">#66aaaaaa</color>
 
     <color name="myDrawerBackground">#FFF</color>
     <color name="myWindowBackground">#FFF</color>

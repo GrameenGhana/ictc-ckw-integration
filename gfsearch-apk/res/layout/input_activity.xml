@@ -6,11 +6,11 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" android:gravity="center_vertical">
         <include layout="@layout/cluster_child_single" />
     </LinearLayout>
-    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:weightSum="1"
-                 >
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:weightSum="1"
+                  android:gravity="center_vertical">
     <CheckBox
             android:layout_width="118dp"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             android:id="@+id/textView6" android:layout_weight="0.18"/>
 </LinearLayout>
 
-    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:weightSum="1">
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:weightSum="1">
         <CheckBox
                 android:layout_width="118dp"
                 android:layout_height="wrap_content"
@@ -54,7 +54,8 @@
     </LinearLayout>
 
 
-    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:weightSum="1">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:weightSum="1"
+                  android:gravity="center_vertical">
         <CheckBox
                 android:layout_width="118dp"
                 android:layout_height="wrap_content"

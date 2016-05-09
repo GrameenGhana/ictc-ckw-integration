@@ -45,8 +45,8 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
 
 
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
         LayoutInflater mInflater = LayoutInflater.from(this);
 
         helper = new DatabaseHelper(getBaseContext());
@@ -57,6 +57,7 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
         instructions_button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 detail = extras.getString("detail");
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(FarmerActivitySelectFarmer.this);
                 builder.setTitle("Meeting Instructions");
 
@@ -192,7 +193,7 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
 
         }
 
-        mTitleTextView.setText("Select Farmer for "+detail);
+        mActionBar.setTitle("Select Farmer for "+detail);
 
 
 
@@ -222,8 +223,8 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
             ids[cnt] = f.getId();
             cnt++;
         }
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
+      //  mActionBar.setCustomView(mCustomView);
+       // mActionBar.setDisplayShowCustomEnabled(true);
         list = (ListView) findViewById(R.id.lst_farmer_fsf);
         final FarmersAdapter adapter = new FarmersAdapter(FarmerActivitySelectFarmer.this, names, locations, mainCrops, groups,myFarmers);
         list.setAdapter(adapter);
@@ -278,8 +279,6 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
                 // TODO Auto-generated method stub
 
             }
-
-
         });
 
     }

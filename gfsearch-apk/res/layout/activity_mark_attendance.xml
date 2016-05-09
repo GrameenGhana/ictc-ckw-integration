@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="vertical"
@@ -10,29 +11,42 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
         <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                      android:layout_height="wrap_content">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
-                      android:text="Meeting" android:textSize="20sp"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New Text"
-                      android:id="@+id/txt_meeting_attendance_header"/>
-        </LinearLayout>
+                      android:layout_height="wrap_content" android:background="@drawable/header">
+            <applab.client.agrihub.ui.font.RobotoTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                      android:text="  Meeting:"
+                    android:drawableLeft="@drawable/ic_meetings"
+                      android:textSize="20sp"
+                      android:textColor="#ffffffff"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="New Text"
+                  android:id="@+id/txt_meeting_attendance_header"
+                android:textColor="#ffffffff"/>
+    </LinearLayout>
         <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                      android:layout_height="fill_parent">
+                      android:layout_height="fill_parent" android:weightSum="3">
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Meeting Date"
-                    android:onClick="showDatePickerDialog" android:id="@+id/md"/>
+                    android:drawableLeft="@drawable/ic_date"
+                    android:onClick="showDatePickerDialog" android:id="@+id/md" android:layout_weight="1"/>
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Meeting Time"
-                    android:onClick="showTimePickerDialog" android:id="@+id/sit"/>
+                    android:drawableLeft="@drawable/ic_time"
+                    android:onClick="showTimePickerDialog" android:id="@+id/sit" android:layout_weight="1"/>
             <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="End time"
-                    android:onClick="showTimePickerDialog" android:id="@+id/eit"/>
+                    android:drawableLeft="@drawable/ic_time"
+                    android:onClick="showTimePickerDialog" android:id="@+id/eit" android:layout_weight="1"/>
             <!-- <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
                        android:text="Meeting Date" android:textSize="20sp" />
              <DatePicker
@@ -79,6 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="markAttendanceSelect"
+            android:drawableLeft="@drawable/ic_mark_attendance"
             android:text="Click to register Attendance" />
 
     <ListView android:id="@+id/lst_attendance" android:layout_width="fill_parent"

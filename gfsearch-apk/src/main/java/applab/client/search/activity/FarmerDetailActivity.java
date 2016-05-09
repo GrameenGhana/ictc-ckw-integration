@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import applab.client.search.R;
+import applab.client.search.adapters.ListWithThumbnailAdapter;
 import applab.client.search.adapters.MeetingInvAdapter;
 import applab.client.search.adapters.UnitsListAdapter;
 import applab.client.search.model.Farmer;
@@ -41,17 +42,24 @@ public class FarmerDetailActivity extends BaseActivityGroup {
     List<FarmerInputs> myInputs =new ArrayList<FarmerInputs>();
     private TabHost tabHost;
     private LinearLayout linearlayout_crop;
+    private ListView listView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_farmer_summary);
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Farmer Details");
         LayoutInflater mInflater = LayoutInflater.from(this);
-        tabHost = (TabHost) findViewById(R.id.tabHost3);
-        linearlayout_crop=(LinearLayout) findViewById(R.id.linearlayout_crops);
+        //tabHost = (TabHost) findViewById(R.id.tabHost3);
+        listView=(ListView) findViewById(R.id.listView);
+        String[] items={"Farmer Profile","Farm Management Plan","Farm Input","Farmer Budget"};
+        int[] thumbs={R.drawable.famer_profile,R.drawable.farmer_management_plan,R.drawable.farm_input,R.drawable.farmer_budget};
+        ListWithThumbnailAdapter adapter= new ListWithThumbnailAdapter(FarmerDetailActivity.this,items,thumbs);
+        listView.setAdapter(adapter);
+        //linearlayout_crop=(LinearLayout) findViewById(R.id.linearlayout_crops);
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Farmer Details");
@@ -98,52 +106,50 @@ public class FarmerDetailActivity extends BaseActivityGroup {
             }
         });
         final Farmer myFarmer = farmer;
-        mActionBar.setCustomView(mCustomView);
         myInputs =  dbHelper.getIndividualFarmerInputs(farmer.getFarmID());
-        mActionBar.setDisplayShowCustomEnabled(true);
 
         IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
         TextView names = (TextView) findViewById(R.id.textView_name);
         TextView locations = (TextView) findViewById(R.id.textView_location);
-        TextView mainCrops = (TextView)findViewById(R.id.textView_mainCrop);
         TextView group = (TextView) findViewById(R.id.textView_groups);
         ImageView icon = (ImageView) findViewById(R.id.imageView_icon);
         String crop = farmer.getMainCrop();
-//        if (crop.equalsIgnoreCase("Maize")) {
-//            Drawable drawable = getBaseContext().getResources().getDrawable(R.drawable.ic_maize);
-//            // icon.setBackground(drawable);
-//            mainCrops.setText("Maize");
-//            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
-//        } else if (crop.equalsIgnoreCase("Cassava")) {
-//            Drawable drawable = getBaseContext().getResources().getDrawable(R.drawable.ic_cassava);
-//            mainCrops.setText("Cassava");
-//            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
-//            //icon.setBackgroundDrawable(drawable);
-//        } else if (crop.equalsIgnoreCase("Beans")) {
-//            Drawable drawable = getBaseContext().getResources().getDrawable(R.drawable.ic_beans);
-//            mainCrops.setText("Beans");
-//            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
-//            // icon.setBackgroundDrawable(drawable);
-//        } else if (crop.equalsIgnoreCase("Rice")) {
-//            Drawable drawable = getBaseContext().getResources().getDrawable(R.drawable.ic_rice);
-//            mainCrops.setText("Rice");
-//            mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
-//            // icon.setBackgroundDrawable(drawable);
-//        }
+
 
 
         names.setText(farmer.getLastName() + " " + farmer.getFirstName());
         locations.setText(farmer.getCommunity()+", "+farmer.getDistrict()+", "+farmer.getRegion());
-        // Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_maize);
-        //mainCrops.setText(crop);
-        //mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         group.setText("Farmer");
-//      textViewName=(TextView) findViewById(R.id.textView_name);
-//        textViewName.setText(farmer.getLastName() + " " + farmer.getFirstName());
-//        textViewMainCrop=(TextView) findViewById(R.id.textView_mainCrop);
-//        textViewMainCrop.setText(farmer.getMainCrop());
         textViewProportion = (TextView) findViewById(R.id.textView_proportion);
-//        textViewLocation=(TextView) findViewById(R.id.textView_location);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent;
+                switch (i){
+                    case 0:
+                        intent=new Intent(FarmerDetailActivity.this, FarmerProfileActivity.class);
+                        intent.putExtra("farmer", farmer);
+                        startActivity(intent);
+                        break;
+                    case 1:
+                        intent=new Intent(FarmerDetailActivity.this, FarmManagementPlanActivity.class);
+                        intent.putExtra("farmer", farmer);
+                        intent.putExtra("type", "search");
+                        startActivity(intent);
+                        break;
+                    case 2:
+                        intent=new Intent(FarmerDetailActivity.this, FarmerInputActivty.class);
+                        intent.putExtra("farmer", farmer);
+                        startActivity(intent);
+                        break;
+                    case 3:
+                        intent=new Intent(FarmerDetailActivity.this, FarmBudgetActivity.class);
+                        intent.putExtra("farmer", farmer);
+                        startActivity(intent);
+                        break;
+                }
+            }
+        });
+        /*
         LocalActivityManager mLocalActivityManager = new LocalActivityManager(FarmerDetailActivity.this,false);
         mLocalActivityManager.dispatchCreate(savedInstanceState); // state will be bundle your activity state which you get in onCreate
         tabHost.setup(mLocalActivityManager);
@@ -189,7 +195,7 @@ public class FarmerDetailActivity extends BaseActivityGroup {
                 }
             }
         });
-
+*/
 
         super.setDetails(dbHelper,"Farmer","Farmer Details");
         super.baseLogActivity.setSection(name);
@@ -300,10 +306,6 @@ public class FarmerDetailActivity extends BaseActivityGroup {
 //            textViewProportion.setCompoundDrawablesWithIntrinsicBounds(maize, null, null, null);
 ////            textViewPercentageSold.setText(">80%");
 //        }
-
-
-        setValuesForFields();
-        setMeetingList();
 
 
 //        TabHost tabHost = (TabHost)findViewById(R.id.tabHost3);

@@ -3,7 +3,7 @@
             android:id="@+id/ScrollView1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:background="@drawable/bg_radial">
+            android:background="@drawable/farming">
     <RelativeLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -22,7 +22,8 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent" android:layout_below="@+id/imageView"
                 android:gravity="center"
-                android:padding="2dp" android:id="@+id/linearLayout3" android:layout_centerHorizontal="true">
+                android:padding="2dp" android:id="@+id/linearLayout3" android:layout_centerHorizontal="true"
+                android:background="#15ffffff">
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

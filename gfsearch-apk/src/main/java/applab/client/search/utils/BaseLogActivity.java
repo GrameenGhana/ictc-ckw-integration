@@ -78,9 +78,9 @@ public class BaseLogActivity {
                 hp.insertCCHLog(getModule(), obj.toString(), getStartTime(), System.currentTimeMillis());
                 saved = true;
             } catch (NullPointerException e) {
-                Log.e(TAG, e.getMessage());
+              //  Log.e(TAG, e.getMessage());
             } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
+                //Log.e(TAG, e.getMessage());
             }
         }
     }

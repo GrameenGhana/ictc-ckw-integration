@@ -28,8 +28,9 @@ public class ClientActivity extends BaseActivity {
         setContentView(R.layout.supply_activity);
 
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Clients");
         LayoutInflater mInflater = LayoutInflater.from(this);
 
 
@@ -38,9 +39,9 @@ public class ClientActivity extends BaseActivity {
         mTitleTextView.setText("Clients");
 
         DatabaseHelper dh = new DatabaseHelper(getBaseContext());
-        super.setDetails(dh,"Client","Client Home");
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
+        super.setDetails(dh, "Client", "Client Home");
+       // mActionBar.setCustomView(mCustomView);
+       // mActionBar.setDisplayShowCustomEnabled(true);
 
         IctcCKwUtil.setActionbarUserDetails(this,mCustomView);
         //,, ,

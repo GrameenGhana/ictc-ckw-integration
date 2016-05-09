@@ -41,14 +41,16 @@ public class ParentExpandableListAdapter  extends BaseExpandableListAdapter {
     ExpandableListView list;
     List<ItemWrapper> items= null;
     Map<String, List<ItemWrapper>> listData = null;
+    int[] thumbs;
 
     public int lastExpandedGroupPosition;
 
     public ParentExpandableListAdapter(Context mContext,
-                             List<ItemWrapper> items,ExpandableListView list
+                             List<ItemWrapper> items,ExpandableListView list,int[] thumbnail
     ) {this.list = list;
         this.mContext = mContext;
         this.items = items;
+        this.thumbs=thumbnail;
         minflater = LayoutInflater.from(mContext);
         processData();
 
@@ -133,33 +135,15 @@ public class ParentExpandableListAdapter  extends BaseExpandableListAdapter {
 
     public View getGroupView(int groupPosition, boolean b, View view, ViewGroup viewGroup) {
         if (view == null) {
-            view = minflater.inflate(R.layout.list_simple_text_text_, viewGroup, false);
+            view = minflater.inflate(R.layout.list_item_with_thumbnail, viewGroup, false);
         }
-
-//        RelativeLayout l = (RelativeLayout) view.findViewById(R.id.simp_rel_lay);
-
-        // l.setBackgroundColor(Color.parseColor("#87A03B"));
-//#87A03B
-
-        TextView names = (TextView) view.findViewById(R.id.lst_text_item_titles);
-        TextView icon = (TextView) view.findViewById(R.id.lst_text_item_icon);
-        icon.setVisibility(TextView.GONE);
-//        String [] months = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
         System.out.println("parent Post : "+groupPosition);
         String cluster = listTitles.get(groupPosition);
         System.out.println("parent Titles : "+cluster);
-        names.setText(Html.fromHtml(cluster));
-        names.setPadding(25,0,0,0);
-        names.setTextColor(Color.parseColor("#000000"));
-        names.setTypeface(null, Typeface.BOLD);
-//        ItemWrapper m= listData.get(listTitles.get(groupPosition)).get(0);
-
-//        Calendar cal  = Calendar.getInstance();
-       // cal.setTime(m.getScheduledDate());
-        //icon.setBackgroundColor(Color.parseColor(getColor()));
-//        icon.setText();
-
-
+        TextView title = (TextView) view.findViewById(R.id.text);
+        ImageView thumb=(ImageView) view.findViewById(R.id.thumbnail);
+        title.setText(Html.fromHtml(cluster));
+        thumb.setImageResource(thumbs[groupPosition]);
         return view;
     }
 

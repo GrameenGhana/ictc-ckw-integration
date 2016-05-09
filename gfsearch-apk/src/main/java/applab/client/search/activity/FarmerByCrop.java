@@ -26,8 +26,9 @@ public class FarmerByCrop   extends BaseActivityGroup {
         setContentView(R.layout.farmer_by_crop);
 
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Farmer By Crop");
         LayoutInflater mInflater = LayoutInflater.from(this);
 
 
@@ -57,7 +58,7 @@ public class FarmerByCrop   extends BaseActivityGroup {
         tabHost.setCurrentTab(0);
         DatabaseHelper dh = new DatabaseHelper(getBaseContext());
         super.setDetails(dh,"Client","Farmer By Crop");
-        mActionBar.setCustomView(mCustomView);
+       // mActionBar.setCustomView(mCustomView);
 
         IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
 //        myInputs =  dbHelper.getIndividualFarmerInputs(farmer.getFarmID());

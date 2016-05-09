@@ -2,41 +2,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent" android:background="@color/main_color_grey_100">
 
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:gravity="center_vertical"
-            android:weightSum="4"
-            android:background="@drawable/bg_green_rounded"
-            android:padding="20dp">
+            android:background="@drawable/card_bakground_selector">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center_vertical"
+                android:weightSum="5"
+                android:padding="20dp">
+
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageView_icon"
-                android:layout_weight="1"
-                android:src="@drawable/ic_maize"/>
+                android:src="@drawable/ic_maize" android:layout_weight="1"/>
         <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Medium Text"
                 android:id="@+id/textView_title"
-                android:layout_weight="2"
-                android:paddingLeft="20dp" android:textColor="#ffffffff"/>
+                android:layout_weight="3"
+                android:paddingLeft="20dp"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text=""
                 android:id="@+id/textView_summary"
-                android:paddingLeft="20dp" android:textColor="#ffffffff" android:visibility="visible"/>
+                android:paddingLeft="20dp" android:visibility="visible"/>
         <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/imageView5" android:src="@drawable/ic_down_arrow"/>
+                android:id="@+id/imageView5" android:src="@drawable/ic_down_arrow_dark"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

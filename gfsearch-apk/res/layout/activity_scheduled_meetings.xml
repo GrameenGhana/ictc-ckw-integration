@@ -7,13 +7,15 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
+            android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+            android:background="@drawable/header" android:padding="10dp">
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="View Schedules by individuals and Group"
-                android:id="@+id/textView3"/>
+                android:id="@+id/textView3" android:textColor="#ffffffff" android:textIsSelectable="false"
+                android:textSize="20dp"/>
     </LinearLayout>
     <TabHost
             android:layout_width="match_parent"

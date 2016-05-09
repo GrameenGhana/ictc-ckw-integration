@@ -1,5 +1,6 @@
 package applab.client.search.activity;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -31,7 +32,10 @@ public class FarmBudgetActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.farm_subject_new_activity);
         helper = new DatabaseHelper(getBaseContext());
-
+        ActionBar mActionBar = getActionBar();
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Farmer Budget");
         TableLayout stk = (TableLayout) findViewById(R.id.tb_farm_budget);
 
 

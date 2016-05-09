@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import applab.client.search.R;
+import applab.client.search.adapters.ListWithThumbnailAdapter;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.IctcCKwUtil;
@@ -27,8 +28,9 @@ public class SurveyList extends BaseActivity {
         setContentView(R.layout.supply_activity);
 
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Data Collection");
         LayoutInflater mInflater = LayoutInflater.from(this);
 
 
@@ -36,8 +38,8 @@ public class SurveyList extends BaseActivity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Data Collection");
 
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
+        //mActionBar.setCustomView(mCustomView);
+       // mActionBar.setDisplayShowCustomEnabled(true);
         IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
         //, , Financial Institutions
         final String []   titles = {
@@ -73,8 +75,14 @@ public class SurveyList extends BaseActivity {
 //       {true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true};
 
         list =(ListView)findViewById(R.id.lst_supplier_listings);
+        int[] thumbs=new int[titles.length];
 
-        SimpleTextTextListAdapter adapter = new SimpleTextTextListAdapter(SurveyList.this, titles,firstLetter,enabled, getResources().getStringArray(R.array.text_colors));
+
+        for(int i=0;i<titles.length;i++){
+            thumbs[i]=R.drawable.taroworks;
+        }
+
+        ListWithThumbnailAdapter adapter = new ListWithThumbnailAdapter(SurveyList.this, titles,thumbs);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

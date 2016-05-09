@@ -7,8 +7,8 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:gravity="center" android:background="@drawable/bottom_rounded">
-        <TextView
+            android:layout_height="wrap_content" android:gravity="center" android:background="@drawable/header">
+        <applab.client.agrihub.ui.font.RobotoTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="New Text" android:lineSpacingExtra="10dp"

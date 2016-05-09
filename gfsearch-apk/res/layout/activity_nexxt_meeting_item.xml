@@ -7,14 +7,14 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:padding="5dp" android:gravity="center" android:background="@drawable/bg_green_rounded">
+            android:layout_height="165dp" android:padding="5dp" android:gravity="center" android:background="@drawable/header">
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text=""
                 android:id="@+id/txt_nxt_header"
-                android:textColor="#f0f0f0"/>
+                android:textColor="#ffffffff"/>
     </LinearLayout>
     <LinearLayout
             android:orientation="vertical"

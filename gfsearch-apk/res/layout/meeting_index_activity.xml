@@ -7,19 +7,23 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:background="@drawable/bg_green_rounded" android:gravity="center" android:padding="5dp">
-        <TextView
+            android:layout_height="165dp" android:background="@drawable/header" android:padding="5dp"
+            android:weightSum="3">
+        <applab.client.agrihub.ui.font.RobotoTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Activities For Meeting"
-                android:id="@+id/act_4_meeting" android:textColor="#f0f0f0" android:textSize="20dp"/>
+                android:id="@+id/act_4_meeting" android:textColor="#f0f0f0" android:textSize="20dp"
+                android:layout_weight="2"/>
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Meeting attendance"
+                android:drawableLeft="@drawable/ic_mark_attendance"
                 android:onClick="processMakeAttendance"
-                android:id="@+id/btn_nxt_mark_attendance" android:layout_gravity="right"/>
+                android:id="@+id/btn_nxt_mark_attendance" android:layout_gravity="right" android:layout_weight="1"
+                android:textColor="#ffffffff"/>
     </LinearLayout>
     <LinearLayout
             android:orientation="vertical"

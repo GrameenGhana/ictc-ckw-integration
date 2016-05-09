@@ -37,8 +37,9 @@ public class FarmerDetailedProfile extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_farmer_detailed_profile);
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Farmer Details");
         LayoutInflater mInflater = LayoutInflater.from(this);
         helper = new DatabaseHelper(getBaseContext());
 
@@ -58,7 +59,7 @@ public class FarmerDetailedProfile extends BaseActivity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Farmer Details");
 
-        mActionBar.setCustomView(mCustomView);
+        //mActionBar.setCustomView(mCustomView);
 //        myInputs =  dbHelper.getIndividualFarmerInputs(farmer.getFarmID());
         mActionBar.setDisplayShowCustomEnabled(true);
 

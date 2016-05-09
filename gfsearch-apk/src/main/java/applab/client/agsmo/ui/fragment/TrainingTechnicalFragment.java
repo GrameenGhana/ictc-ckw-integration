@@ -52,7 +52,7 @@ public class TrainingTechnicalFragment extends Fragment implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(getContext(), "Going to course", Toast.LENGTH_SHORT).show();
+        Toast.makeText(super.getActivity(), "Going to course", Toast.LENGTH_SHORT).show();
     }
 
 }

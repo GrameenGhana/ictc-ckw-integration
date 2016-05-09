@@ -25,8 +25,8 @@ public class CropSelectorActivity extends Activity {
 
 
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
         LayoutInflater mInflater = LayoutInflater.from(this);
 
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
@@ -74,12 +74,12 @@ public class CropSelectorActivity extends Activity {
         }
 
         System.out.println("MeetingIDx : "+meetingIndex);
-        TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
+       // TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
 
-        mTitleTextView.setText("Select Crop "+detail);
-
-        mTitleTextView =(TextView) findViewById(R.id.fsf_act_title);
-        mTitleTextView.setText(detail);
+        //mTitleTextView.setText("Select Crop "+detail);
+        mActionBar.setTitle("Select Crop "+ detail);
+        //mTitleTextView =(TextView) findViewById(R.id.fsf_act_title);
+        //mTitleTextView.setText(detail);
 
         final String[] titles =
                 {"Maize","Cassava","Yam","Rice"};

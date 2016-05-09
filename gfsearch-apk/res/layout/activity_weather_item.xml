@@ -27,8 +27,8 @@
                     android:padding="10dp" android:gravity="center_vertical" android:orientation="vertical"
                     >
                 <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
                         android:id="@+id/img_weather_icon"
                         android:src="@drawable/ic_cloudy"/>
                 <TextView
@@ -37,9 +37,9 @@
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="26 °C"
                         android:id="@+id/txt_weather_temp"
-                        android:textSize="60dp"
-                        android:textColor="#ffffffff"
-                        android:paddingLeft="70dp"/>
+                        android:textSize="25dp"
+                        android:textColor="#ff0c0c0c"
+                        android:paddingLeft="50dp"/>
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

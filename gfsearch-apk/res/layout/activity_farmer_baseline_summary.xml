@@ -9,11 +9,11 @@
     <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:paddingTop="30dp" >
+                android:layout_height="fill_parent" android:paddingTop="30dp" android:padding="20dp">
         <ExpandableListView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/elv_elp"/>
+                android:id="@+id/elv_elp" android:divider="#eee"/>
         <ListView
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"

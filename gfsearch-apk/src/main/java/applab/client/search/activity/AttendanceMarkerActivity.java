@@ -38,17 +38,16 @@ public class AttendanceMarkerActivity extends BaseFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mark_attendance);
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Mark Attendance");
         LayoutInflater mInflater = LayoutInflater.from(this);
-
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Mark Attendance");
-
         helper = new DatabaseHelper(getBaseContext());
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
+        //mActionBar.setCustomView(mCustomView);
+       // mActionBar.setDisplayShowCustomEnabled(true);
         list = (ListView) findViewById(R.id.lst_attendance);
 
 

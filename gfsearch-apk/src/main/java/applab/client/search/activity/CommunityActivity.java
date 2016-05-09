@@ -28,8 +28,9 @@ public class CommunityActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_communities);
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Communities");
         LayoutInflater mInflater = LayoutInflater.from(this);
 
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
@@ -38,8 +39,8 @@ public class CommunityActivity extends BaseActivity {
        IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
 
         helper = new DatabaseHelper(getBaseContext());
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
+       // mActionBar.setCustomView(mCustomView);
+        //mActionBar.setDisplayShowCustomEnabled(true);
         list = (ListView) findViewById(R.id.listView);
         final List<CommunityCounterWrapper> comWr = helper.farmerCountByCommunityGroup();
         String[] names = new String[comWr.size()];

@@ -6,19 +6,20 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="156dp" android:background="@drawable/header"
+            android:layout_gravity="center_vertical" android:padding="5dp">
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Activity"
                 android:padding="5dp"
-                android:id="@+id/textView23"/>
+                android:id="@+id/textView23" android:textColor="#ffffffff"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Activity Title"
-                android:id="@+id/fsf_act_title"/>
+                android:id="@+id/fsf_act_title" android:textColor="#ffffffff"/>
     </LinearLayout>
 
     <ListView

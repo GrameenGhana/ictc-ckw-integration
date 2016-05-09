@@ -1,5 +1,6 @@
 package applab.client.search.activity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -35,20 +36,18 @@ ListView list;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fmp);
-       // ActionBar mActionBar = getActionBar();
-        //mActionBar.setDisplayShowHomeEnabled(false);
-        //mActionBar.setDisplayShowTitleEnabled(false);
+       ActionBar mActionBar = getActionBar();
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Farmer Management Plan");
         LayoutInflater mInflater = LayoutInflater.from(this);
 
 //        helper = new DatabaseHelper(getBaseContext());
 
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
-        mTitleTextView.setText("Farmer Management Plan");
+      //  mTitleTextView.setText("Farmer Management Plan");
         setContentView(R.layout.activity_fmp);
-
-       // mActionBar.setDisplayShowHomeEnabled(false);
-       // mActionBar.setDisplayShowTitleEnabled(false);
 
         try {
             Bundle extras = getIntent().getExtras();
@@ -79,6 +78,7 @@ ListView list;
 
 
         textViewName = (TextView) findViewById(R.id.textView_fmp_name);
+        textViewName.setText(farmer.getLastName() + ", " + farmer.getFirstName());
         System.out.println("text view name" + farmer.getLastName() + ", " + farmer.getFirstName());
         try {
             System.out.println("Text View : " + textViewName.toString());
@@ -94,7 +94,8 @@ ListView list;
 DatabaseHelper dbHelper=new DatabaseHelper(getBaseContext());
         //dbHelper.getIndividualFarmerInputs(farmer.getFarmID())
         List<ItemWrapper> wr = FarmerUtil.getFarmManagementPlan(farmer,dbHelper.getIndividualFarmerInputs(farmer.getFarmID()));
-        ParentExpandableListAdapter adapter = new ParentExpandableListAdapter(FarmManagementPlanActivity.this,wr,expList);
+        int[] thumbs={R.drawable.production,R.drawable.harvest,R.drawable.farm_input,R.drawable.farmer_budget};
+        ParentExpandableListAdapter adapter = new ParentExpandableListAdapter(FarmManagementPlanActivity.this,wr,expList,thumbs);
         expList.setAdapter(adapter);
         super.setDetails(dbHelper, "Farmer", "Farmer Management Plan");
         super.baseLogActivity.setSection(farmer.getFullname());

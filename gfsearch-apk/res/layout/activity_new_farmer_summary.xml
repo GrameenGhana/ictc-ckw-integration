@@ -1,170 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView" android:fillViewport="false">
-<LinearLayout
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="match_parent"
-              android:gravity="center"
-              android:weightSum="4"
+              android:weightSum="3"
               android:padding="5dp">
 
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:id="@+id/profile_container" android:background="#fff0f0f0">
-        <include layout="@layout/cluster_child_single"/>
+            android:layout_height="185dp" android:id="@+id/profile_container" android:background="#fff0f0f0"
+            >
+        <include layout="@layout/cluster_child_single" android:layout_height="match_parent"
+                 android:layout_width="match_parent"/>
         </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:visibility="gone">
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:weightSum="4"
-                android:layout_weight="1"
-                >
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView4"
-                    android:src="@drawable/ic_person"
-                    android:layout_weight="1"/>
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="2" android:gravity="center">
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Kojo Antwi"
-                        android:id="@+id/textView_name"
-                        android:layout_gravity="center_horizontal"/>
-                <View android:layout_width="300dp"
-                      android:layout_height="5dp"
-                      android:background="#ff0d481b"
-                        ></View>
-            </LinearLayout>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceSmall"
-                    android:text=""
-                    android:layout_weight="1"
-                    android:id="@+id/textView_mainCrop"/>
-        </LinearLayout>
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:gravity="left|center" android:paddingBottom="10dp">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:drawableLeft="@drawable/ic_location"
-                    android:text=" Location: "
-                    android:id="@+id/textView12" android:textColor="#ff0e4918" android:textStyle="bold"
-                    android:paddingLeft="20dp"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:id="@+id/textView_location" android:textStyle="italic"/>
-        </LinearLayout>
-    </LinearLayout>
-    <TabHost
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="2"
-            android:id="@+id/tabHost3">
-        <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical">
-            <TabWidget
-                    android:id="@android:id/tabs"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content">
-            </TabWidget>
-            <FrameLayout
-                    android:id="@android:id/tabcontent"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-                <LinearLayout
-                        android:id="@+id/linearLayout7"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:orientation="vertical">
-                </LinearLayout>
-                <LinearLayout
-                        android:id="@+id/linearLayout8"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:orientation="vertical">
-                </LinearLayout>
-                <LinearLayout
-                        android:id="@+id/linearLayout9"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:orientation="vertical">
-                </LinearLayout>
-            </FrameLayout>
-        </LinearLayout>
-    </TabHost>
     <LinearLayout
-            android:id="@+id/linearlayout_crops"
             android:orientation="vertical"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:gravity="center" android:minHeight="450dp">
-        <LinearLayout android:orientation="horizontal"
-                      android:layout_width="fill_parent"
-                      android:weightSum="2"
-                      android:layout_height="450dp" android:minHeight="450dp">
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="fill_parent"
-                    android:layout_weight="1"
-                    android:layout_height="fill_parent" android:minHeight="450dp">
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Agents Visits"
-                        android:id="@+id/textView43" android:textColor="#ff07530f" android:textStyle="italic"/>
-                <ListView android:layout_width="wrap_content"
-                          android:layout_height="418dp"
-                          android:id="@+id/list_ind_meet"
-                          android:headerDividersEnabled="true" android:minHeight="450dp"/>
-            </LinearLayout>
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="fill_parent"
-                    android:layout_weight="1"
-                    android:layout_height="fill_parent">
-                <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Inputs Given"
-                        android:id="@+id/textView33" android:onClick="selectFarmInput"
-                        android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="#ff07530f" android:textStyle="italic"
-                        android:clickable="true"/>
-                <ListView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/lst_inputs">
-                        </ListView>
-            </LinearLayout>
-        </LinearLayout>
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:layout_weight="2" android:padding="10dp"
+            android:paddingTop="20dp">
+        <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/listView" android:dividerHeight="10dp" android:divider="#eee"
+                />
     </LinearLayout>
 
 </LinearLayout>
-</ScrollView>

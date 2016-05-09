@@ -30,8 +30,8 @@ public class FarmerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_communities);
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
         LayoutInflater mInflater = LayoutInflater.from(this);
 
         helper = new DatabaseHelper(getBaseContext());
@@ -49,8 +49,9 @@ public class FarmerActivity extends BaseActivity {
             }
         });
         mTitleTextView.setText("Farmers");
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
+        mActionBar.setTitle("Farmers");
+       // mActionBar.setCustomView(mCustomView);
+       // mActionBar.setDisplayShowCustomEnabled(true);
 
         IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
         String type = "farmer";

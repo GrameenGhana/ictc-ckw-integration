@@ -1,5 +1,6 @@
 package applab.client.search.activity;
 
+import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.Context;
 import android.content.Intent;
@@ -33,7 +34,7 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_smartex);
         super.setDetails(Db(), "SmartEx Dashboard","Startup");
-
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         try {
             ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
             ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
@@ -60,16 +61,17 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
     private void createActionBar() {
         try {
             mActionBar = getActionBar();
-            mActionBar.setDisplayShowHomeEnabled(false);
-            mActionBar.setDisplayShowTitleEnabled(false);
+            mActionBar.setDisplayShowHomeEnabled(true);
+            mActionBar.setDisplayShowTitleEnabled(true);
             LayoutInflater mInflater = LayoutInflater.from(this);
 
             mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
             TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
+            mActionBar.setTitle("Dashboard");
             mTitleTextView.setText("Dashboard");
 
-            mActionBar.setCustomView(mCustomView);
-            mActionBar.setDisplayShowCustomEnabled(true);
+            //mActionBar.setCustomView(mCustomView);
+            //mActionBar.setDisplayShowCustomEnabled(true);
             Button mButton = (Button) mCustomView.findViewById(R.id.search_btn);
             mButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
@@ -211,7 +213,7 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
                 Weather w = new Weather();
                 w.setLocation("No Weather Data Found");
                 w.setDetail("no update");
-                w.setIcon("50n");
+                w.setIcon("01d");
                 w.setTemprature(0);
                 w.setMinTemprature(0);
                 w.setMaxTemprature(0);
@@ -252,6 +254,7 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
         Context ctx;
 
         public WeatherSummary() {}
+        @SuppressLint("ValidFragment")
         public WeatherSummary(Context c, Weather w){ this.ctx = c; this.weather = w; }
 
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

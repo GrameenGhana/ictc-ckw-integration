@@ -1,5 +1,6 @@
 package applab.client.search.activity;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,7 +37,10 @@ public class FarmerInputActivty extends BaseActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.input_activity);
-
+        ActionBar mActionBar = getActionBar();
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Farmer Input");
         helper = new DatabaseHelper(getBaseContext());
         boolean includeHeader = false;
         try {

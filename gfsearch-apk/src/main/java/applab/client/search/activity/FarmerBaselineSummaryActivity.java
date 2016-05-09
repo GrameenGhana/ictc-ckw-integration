@@ -1,5 +1,6 @@
 package applab.client.search.activity;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -37,15 +38,16 @@ public class FarmerBaselineSummaryActivity extends BaseActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_farmer_baseline_summary);
     // ActionBar mActionBar = getActionBar();
-    //mActionBar.setDisplayShowHomeEnabled(false);
-    //mActionBar.setDisplayShowTitleEnabled(false);
+    //mActionBar.setDisplayShowHomeEnabled(true);
+    //mActionBar.setDisplayShowTitleEnabled(true);
+     //   mActionBar.setTitle("Farmer Management Plan");
     LayoutInflater mInflater = LayoutInflater.from(this);
 
 //        helper = new DatabaseHelper(getBaseContext());
 
     final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
-    TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
-    mTitleTextView.setText("Farmer Management Plan");
+   // TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
+   // mTitleTextView.setText("Farmer Management Plan");
 
 
     // mActionBar.setDisplayShowHomeEnabled(false);
@@ -84,7 +86,7 @@ public class FarmerBaselineSummaryActivity extends BaseActivity {
     try {
         System.out.println("Text View : " + textViewName.toString());
     } catch (Exception e) {
-        System.out.println("Excception e: " + e.getLocalizedMessage());
+        System.out.println("Exception e: " + e.getLocalizedMessage());
     }
 
 
@@ -95,7 +97,14 @@ public class FarmerBaselineSummaryActivity extends BaseActivity {
     DatabaseHelper dbHelper=new DatabaseHelper(getBaseContext());
     //dbHelper.getIndividualFarmerInputs(farmer.getFarmID())
     List<ItemWrapper> wr = FarmerUtil.getFarmerBaseline(farmer, dbHelper.getIndividualFarmerInputs(farmer.getFarmID()));
-        ParentExpandableListAdapter adapter = new ParentExpandableListAdapter(FarmerBaselineSummaryActivity.this,wr,expList);
+        int[] thumbs=new int[wr.size()];
+
+
+        for(int i=0;i<wr.size();i++){
+            thumbs[i]=R.drawable.farm_input;
+        }
+
+        ParentExpandableListAdapter adapter = new ParentExpandableListAdapter(FarmerBaselineSummaryActivity.this,wr,expList,thumbs);
         expList.setAdapter(adapter);
     super.setDetails(dbHelper, "Farmer", "Previous Performance");
     super.baseLogActivity.setSection(farmer.getFullname());

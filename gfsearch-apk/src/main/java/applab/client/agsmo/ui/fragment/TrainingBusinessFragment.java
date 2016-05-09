@@ -64,7 +64,7 @@ public class TrainingBusinessFragment extends Fragment implements View.OnClickLi
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(getContext(), "Going to course", Toast.LENGTH_SHORT).show();
+        Toast.makeText(super.getActivity(), "Going to course", Toast.LENGTH_SHORT).show();
     }
 
 

@@ -24,14 +24,15 @@ public class ScheduledMeetingsActivity extends BaseActivityGroup {
 
         setContentView(R.layout.activity_scheduled_meetings);
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Meeting Schedule");
         LayoutInflater mInflater = LayoutInflater.from(this);
 
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Meeting Schedule");
-        mActionBar.setCustomView(mCustomView);
+       // mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
         IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
         TabHost tabHost = (TabHost)findViewById(R.id.tabHost);

@@ -30,8 +30,9 @@ public class ClusterActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clusters);
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Clusters");
         LayoutInflater mInflater = LayoutInflater.from(this);
 
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
@@ -40,8 +41,8 @@ public class ClusterActivity extends BaseActivity {
          IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
 
 
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
+        //mActionBar.setCustomView(mCustomView);
+       // mActionBar.setDisplayShowCustomEnabled(true);
         DatabaseHelper helper = new DatabaseHelper(getBaseContext());
         list = (ExpandableListView) findViewById(R.id.expandableListView);
         list.setGroupIndicator(null);
@@ -65,7 +66,7 @@ public class ClusterActivity extends BaseActivity {
         String[] locations = {"Kejebi", "Ejisu", "Kintampo", "Makroase", "Mampong", "Hohoe", "Juapong"};
         String[] mainCrops = {"Maize", "Cassava", "Rice", "Beans", "Maize", "Maize", "Cassava"};
         String[] groups = {"Hohoe", "Lead Farmers", "Early Adopter, Lead Farmers", "Hohoe, Lead Farmers", "Early Adopters, Hohoe, Lead Farmers", "Early Adopters, Hohoe, Lead Farmers", "Early Adopters, Hohoe, Lead Farmers"};
-        int[] icons = {R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster, R.drawable.ic_cluster};
+        int[] icons = {R.drawable.ic_cluster_single, R.drawable.ic_cluster_single, R.drawable.ic_cluster_single, R.drawable.ic_cluster_single, R.drawable.ic_cluster_single};
         String[] groupTitles = {"Cluster 1", "Cluster 2", "Cluster 3", "Cluster 4"};
 
 

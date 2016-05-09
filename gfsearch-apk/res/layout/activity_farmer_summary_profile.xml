@@ -2,16 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent" android:weightSum="2">
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-    </LinearLayout>
     <TabHost
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/tabHost5" android:layout_gravity="center_horizontal" >
+            android:layout_height="wrap_content" android:id="@+id/tabHost5" android:layout_gravity="center_horizontal"
+            android:layout_weight="1">
         <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -24,26 +20,56 @@
             <FrameLayout
                     android:id="@android:id/tabcontent"
                     android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
+                    android:layout_height="wrap_content">
                 <LinearLayout
                         android:id="@+id/linearLayout13"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
                 </LinearLayout>
                 <LinearLayout
                         android:id="@+id/linearLayout14"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
                 </LinearLayout>
                 <LinearLayout
                         android:id="@+id/linearLayout15"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
     </TabHost>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_weight="1">
+        <LinearLayout android:id="@+id/linearlayout_crops" android:orientation="vertical" android:layout_weight="1"
+                      android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+                      android:minHeight="450dp" android:visibility="visible">
+            <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:weightSum="2"
+                          android:layout_height="wrap_content">
+                <LinearLayout android:orientation="vertical" android:layout_width="fill_parent"
+                              android:layout_weight="1" android:layout_height="wrap_content">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:textAppearance="?android:attr/textAppearanceLarge" android:text="Agents Visits"
+                              android:id="@+id/textView" android:textColor="#ff07530f" android:textStyle="italic"/>
+                    <ListView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/list_ind_meet" android:headerDividersEnabled="true"
+                              android:minHeight="450dp"/>
+                </LinearLayout>
+                <LinearLayout android:orientation="vertical" android:layout_width="fill_parent"
+                              android:layout_weight="1" android:layout_height="wrap_content">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:text="Inputs Given" android:id="@+id/textView2" android:onClick="selectFarmInput"
+                              android:textAppearance="?android:attr/textAppearanceLarge" android:textColor="#ff07530f"
+                              android:textStyle="italic" android:clickable="true"/>
+                    <ListView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                              android:id="@+id/lst_inputs"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

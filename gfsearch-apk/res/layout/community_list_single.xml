@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent" android:background="@drawable/bg_green_rounded">
+              android:layout_height="match_parent" android:background="@drawable/card_bakground_selector">
 
     <LinearLayout
             android:orientation="vertical"
@@ -19,13 +19,17 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="Community:"
-                        android:id="@+id/textView46" android:textColor="#ffffffff" android:textStyle="bold|italic"/>
+                        android:id="@+id/textView46"
+                        android:drawableLeft="@drawable/ic_comm"
+                        android:textColor="#ff0c0c0c"
+
+                        android:textStyle="bold|italic" android:layout_gravity="center_vertical"/>
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text=""
-                        android:id="@+id/textView_community" android:textColor="#ffffffff"/>
+                        android:id="@+id/textView_community" android:textColor="#ff161616"/>
             </TableRow>
             <TableRow
                     android:layout_width="fill_parent"
@@ -35,13 +39,14 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceLarge"
                         android:text="No of Farmers:  "
-                        android:id="@+id/textView48" android:textColor="#ffffffff" android:textStyle="bold|italic"/>
+                        android:drawableLeft="@drawable/ic_farmer"
+                        android:id="@+id/textView48" android:textColor="#ff1b1b1b" android:textStyle="bold|italic"/>
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text=""
-                        android:id="@+id/textView_farmers" android:textColor="#ffffffff"/>
+                        android:id="@+id/textView_farmers" android:textColor="#ff171717"/>
             </TableRow>
         </TableLayout>
     </LinearLayout>

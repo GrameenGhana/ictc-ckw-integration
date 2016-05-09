@@ -15,8 +15,6 @@ public class IndividualMeetingByCrop  extends ActivityGroup {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.individual_meeting_by_group_activity);
-
-
         TabHost tabHost = (TabHost)findViewById(R.id.tabHost2);
         tabHost.setup(this.getLocalActivityManager());
         String []  crops = {"Maize","Cassava","Yam","Rice"};
