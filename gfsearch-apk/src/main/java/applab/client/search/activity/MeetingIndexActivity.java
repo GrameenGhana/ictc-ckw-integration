@@ -41,8 +41,9 @@ public class MeetingIndexActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.meeting_index_activity);
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Meeting Activity");
         LayoutInflater mInflater = LayoutInflater.from(this);
 
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
@@ -54,8 +55,8 @@ public class MeetingIndexActivity extends BaseActivity {
 
 isFarmerSelected= true;
         helper = new DatabaseHelper(getBaseContext());
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
+        //mActionBar.setCustomView(mCustomView);
+       // mActionBar.setDisplayShowCustomEnabled(true);
         list = (ListView) findViewById(R.id.lst_meeting_index);
         Bundle extras = getIntent().getExtras();
         int meetingIndex = 0;

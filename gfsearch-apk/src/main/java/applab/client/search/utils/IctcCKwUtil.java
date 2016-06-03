@@ -426,6 +426,11 @@ public class IctcCKwUtil {
     public  static String getUsername(){
         return (String)ApplicationRegistry.retrieve(IctcCKwUtil.KEY_USER_NAME);
     }
+    public  static String getFullName(Context c){
+
+        UserDetails u = new DatabaseHelper(c).getUserItem();
+            return (String) u.getFullName();
+    }
 
     public static double meterSqdToAcre(double m2){
         double m2toARation=0.000247105;

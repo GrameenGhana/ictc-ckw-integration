@@ -13,31 +13,93 @@
     <LinearLayout android:orientation="vertical" android:layout_width="fill_parent"
                   android:layout_height="wrap_content">
         <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                      android:layout_height="wrap_content">
+                      android:layout_height="wrap_content" android:weightSum="3">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
-                      android:text="Meeting" android:textSize="20sp"/>
+                      android:text="Meeting" android:textSize="20sp" android:layout_weight="1"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New Text"
-                      android:id="@+id/meetingName"/>
+                      android:id="@+id/meetingName" android:layout_weight="2"/>
         </LinearLayout>
         <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                      android:layout_height="wrap_content">
+                      android:layout_height="wrap_content" android:weightSum="3">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
-                      android:text="Farmer" android:textSize="20sp"/>
+                      android:text="Farmer" android:textSize="20sp" android:layout_weight="1"/>
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New Text"
-                      android:id="@+id/farmerName"/>
+                      android:id="@+id/farmerName" android:layout_weight="2"/>
         </LinearLayout>
-        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                      android:layout_height="fill_parent">
-            <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Meeting Date"
-                    android:onClick="showDatePickerDialog"/>
-            <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Start time"
-                    android:onClick="showTimePickerDialog"/>
-            <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="End time"
-                    android:onClick="showTimePickerDialog"/>
+        <LinearLayout android:orientation="horizontal"
+                      android:layout_width="fill_parent"
+                      android:layout_height="fill_parent"
+                      android:weightSum="3">
+            <Button android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Meeting Date"
+                    android:drawableLeft="@drawable/ic_date"
+                    android:onClick="showDatePickerDialog"
+                    android:layout_weight="1"/>
+            <Button android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start time"
+                    android:drawableLeft="@drawable/ic_time"
+                    android:onClick="showTimePickerDialog"
+                    android:layout_weight="1"/>
+            <Button android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="End time"
+                    android:drawableLeft="@drawable/ic_time"
+                    android:onClick="showTimePickerDialog"
+                    android:layout_weight="1"/>
         </LinearLayout>
-        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                      android:layout_height="fill_parent"/>
-        <Button android:id="@+id/button" android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:onClick="markAttendanceSelect" android:text="Click to map Attendance"/>
+        <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:weightSum="3">
+            <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:weightSum="2" android:layout_weight="1">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Meeting Date: "
+                        android:id="@+id/textView8" android:layout_weight="1"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/meeting_date" android:layout_weight="1"/>
+            </TableRow>
+            <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:layout_weight="1" android:weightSum="2">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Start Time"
+                        android:id="@+id/textView10" android:layout_weight="1"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/start_time" android:layout_weight="1"/>
+            </TableRow>
+            <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent" android:layout_weight="1" android:weightSum="2">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="End Time"
+                        android:id="@+id/textView29" android:layout_weight="1"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/end_time" android:layout_weight="1"/>
+            </TableRow>
+        </TableLayout>
+        <Button android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="markAttendanceSelect"
+                android:drawableLeft="@drawable/ic_mark_attendance"
+                android:text="Click to mark Attendance"/>
     </LinearLayout>
 </LinearLayout>

@@ -41,15 +41,16 @@ public class IndividualMeetingAAttendance extends BaseActivity {
 
 
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Mark Attendance");
         LayoutInflater mInflater = LayoutInflater.from(this);
 
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Mark Attendance");
 
-        IctcCKwUtil.setActionbarUserDetails(this,mCustomView);
+        //IctcCKwUtil.setActionbarUserDetails(this,mCustomView);
         helper = new DatabaseHelper(getBaseContext());
 
 
@@ -65,8 +66,8 @@ public class IndividualMeetingAAttendance extends BaseActivity {
 
         v =(TextView) findViewById(R.id.farmerName);
         v.setText(farm.getFullname());
-        mActionBar.setCustomView(mCustomView);
-        mActionBar.setDisplayShowCustomEnabled(true);
+      //  mActionBar.setCustomView(mCustomView);
+      //  mActionBar.setDisplayShowCustomEnabled(true);
 String title="";
         if(null==farm)
             title="";

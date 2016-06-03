@@ -32,8 +32,9 @@ public class NextMeetingActivity extends BaseActivity {
         setContentView(R.layout.activity_nexxt_meeting_item);
 
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(false);
-        mActionBar.setDisplayShowTitleEnabled(false);
+        mActionBar.setDisplayShowHomeEnabled(true);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setTitle("Next Meeting Activity");
         LayoutInflater mInflater = LayoutInflater.from(this);
 
 
@@ -44,7 +45,7 @@ public class NextMeetingActivity extends BaseActivity {
         IctcCKwUtil.setActionbarUserDetails(this,mCustomView);
         DatabaseHelper dh = new DatabaseHelper(getBaseContext());
         super.setDetails(dh, "Client", "Next Activity Item", "", "");
-        mActionBar.setCustomView(mCustomView);
+       // mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
 
 

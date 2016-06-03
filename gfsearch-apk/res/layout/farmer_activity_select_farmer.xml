@@ -2,13 +2,14 @@
  <LinearLayout
             android:orientation="vertical" xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+            android:layout_height="fill_parent" android:weightSum="7">
 
 
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="156dp" android:background="@drawable/header" android:padding="5dp">
+            android:layout_height="156dp" android:background="@drawable/header" android:padding="5dp"
+            android:weightSum="1" android:layout_weight="1">
         <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
@@ -31,7 +32,7 @@
     <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content" android:weightSum="1" android:layout_weight="1">
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -53,16 +54,16 @@
     <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="385dp" >
+                android:layout_height="460dp" android:layout_weight="4.48" android:padding="10dp">
             <ListView
                     android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/lst_farmer_fsf"/>
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lst_farmer_fsf" android:dividerHeight="10dp" android:divider="#ffffffff"/>
         </LinearLayout>
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:gravity="center_horizontal">
+            android:layout_height="wrap_content" android:gravity="center_horizontal" android:layout_weight="1">
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

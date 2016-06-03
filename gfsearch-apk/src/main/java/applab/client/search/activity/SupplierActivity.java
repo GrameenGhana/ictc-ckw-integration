@@ -36,7 +36,7 @@ public static String DETAILS_COMING_SOON="Details Coming Soon";
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Suppliers");
         IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
-                mActionBar.setCustomView(mCustomView);
+               // mActionBar.setCustomView(mCustomView);
         mActionBar.setDisplayShowCustomEnabled(true);
 
         //, , Financial Institutions

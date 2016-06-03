@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import applab.client.search.R;
+import applab.client.search.adapters.ListWithThumbnailAdapter;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.model.MeetingActivity;
 import applab.client.search.storage.DatabaseHelper;
@@ -56,8 +57,8 @@ public class ClientActivity extends BaseActivity {
         boolean[] enabled = {true, true, true,true,true};
 
         list = (ListView) findViewById(R.id.lst_supplier_listings);
-
-        SimpleTextTextListAdapter adapter = new SimpleTextTextListAdapter(ClientActivity.this, titles, firstLetter, enabled, getResources().getStringArray(R.array.text_colors));
+        int[] thumbnails={R.drawable.ic_data_collection,R.drawable.ic_cluster_clients,R.drawable.ic_meetings_clients,R.drawable.ic_farmer_records,R.drawable.ic_communities};
+        ListWithThumbnailAdapter adapter = new ListWithThumbnailAdapter(ClientActivity.this, titles,thumbnails);
         if(null == adapter)
             System.out.println("Adapter Null");
         if(null== list)

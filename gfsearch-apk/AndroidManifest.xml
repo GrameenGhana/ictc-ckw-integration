@@ -22,7 +22,7 @@
             android:allowBackup="true"
             android:icon="@drawable/app_icon_new"
             android:label="SmartEX"
-            android:theme="@style/AppBaseTheme" >
+            android:theme="@style/Theme.Ictc" >
 
         <activity android:name=".activity.StartUpActivity" >
             <intent-filter>

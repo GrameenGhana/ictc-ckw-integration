@@ -14,9 +14,13 @@ import android.view.*;
 import android.widget.*;
 import applab.client.search.*;
 import applab.client.search.adapters.DashboardMenuAdapter;
+import applab.client.search.model.Payload;
 import applab.client.search.model.Weather;
 import applab.client.search.services.MenuItemService;
+import applab.client.search.settings.SettingsActivity;
+import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
+import applab.client.search.task.IctcTrackerLogTask;
 import applab.client.search.utils.*;
 import java.util.Date;
 import java.util.List;
@@ -28,13 +32,18 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
     ViewPager mViewPager;
     ActionBar mActionBar;
     SectionsPagerAdapter mSectionsPagerAdapter=null;
+    private TextView username;
+    private EditText search_text;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_smartex);
-        super.setDetails(Db(), "SmartEx Dashboard","Startup");
+        super.setDetails(Db(), "SmartEx Dashboard", "Startup");
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        username=(TextView) findViewById(R.id.user_username);
+       // username.setText("Welcome " + IctcCKwUtil.getFullName(DashboardSmartExActivity.this));
+        search_text=(EditText) findViewById(R.id.search_text);
         try {
             ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
             ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
@@ -285,4 +294,56 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
             return rootView;
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        try {
+            if(item.getItemId()==R.id.search_user){
+                SearchView user_search = (SearchView) item.getActionView();
+
+                user_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        Toast.makeText(DashboardSmartExActivity.this,query,Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(DashboardSmartExActivity.this, FarmerActivity.class);
+                        intent.putExtra("type", "search");
+                        String q = query;
+                        intent.putExtra("q", q);
+                        startActivity(intent);
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String text) {
+                        return true;
+                    }
+                });
+            }
+            else if (item.getItemId() == R.id.action_settings) {
+                Intent intent = new Intent().setClass(this, SettingsActivity.class);
+                startActivityForResult(intent, 0);
+
+            } else if (item.getItemId() == R.id.action_about) {
+                Intent intent = new Intent().setClass(this, AboutActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                startActivity(intent);
+
+            } else if (item.getItemId() == android.R.id.home) {
+                Intent intent = new Intent().setClass(this, DashboardSmartExActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                startActivity(intent);
+            }
+
+        } catch (Exception ex) {
+            Log.e(TAG, ex.getMessage());
+        }
+
+        return true;
+    }
 }
+

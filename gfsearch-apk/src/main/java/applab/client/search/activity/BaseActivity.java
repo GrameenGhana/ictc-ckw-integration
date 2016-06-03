@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.SearchView;
 import android.widget.Toast;
 import applab.client.agrihub.activity.DashboardMainActivity;
 import applab.client.search.utils.ApplicationRegistry;
@@ -208,13 +210,11 @@ public class BaseActivity extends Activity {
                             AlertDialog alertDialog = new AlertDialog.Builder(BaseActivity.this).create();
                             alertDialog.setMessage(throwable.getMessage());
                             alertDialog.setIcon(android.R.drawable.stat_sys_warning);
-
                             alertDialog.setTitle("Error");
                             alertDialog.setCancelable(true);
                             alertDialog.show();
                         }
                     });
-
                     SynchronizationManager.getInstance().unRegisterListener(this);
                 }
             });
@@ -295,7 +295,29 @@ public class BaseActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         try {
-            if (item.getItemId() == R.id.action_settings) {
+            if(item.getItemId()==R.id.search_user){
+                SearchView user_search = (SearchView) item.getActionView();
+
+                user_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+                        Toast.makeText(BaseActivity.this,query,Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(BaseActivity.this, FarmerActivity.class);
+                        intent.putExtra("type", "search");
+                        String q = query;
+                        intent.putExtra("q", q);
+                        startActivity(intent);
+                        return true;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String text) {
+                        return true;
+                    }
+                });
+            }
+            else if (item.getItemId() == R.id.action_settings) {
                 Intent intent = new Intent().setClass(this, SettingsActivity.class);
                 startActivityForResult(intent, 0);
 

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.*;
 import applab.client.search.R;
 import applab.client.search.adapters.FarmersAdapter;
@@ -42,7 +43,7 @@ public class FarmerActivitySelectFarmer extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.farmer_activity_select_farmer);
-
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         ActionBar mActionBar = getActionBar();
         mActionBar.setDisplayShowHomeEnabled(true);
