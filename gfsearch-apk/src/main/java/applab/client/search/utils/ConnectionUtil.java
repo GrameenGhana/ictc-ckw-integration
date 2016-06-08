@@ -184,10 +184,10 @@ public class ConnectionUtil {
 
 
                                         JSONObject jObj =  farmer.getJSONObject("farmer");
-                                        Log.i(this.getClass().getName(),"Serrver Rsponse   farmer farmer");
+                                        Log.i(this.getClass().getName(),"Server Response   farmer farmer");
 //                                      JSONArray bioDatas  = jObj.getJSONArray("biodata");
 
-                                        Log.i(this.getClass().getName(),"Serrver Rsponse   farmer farmer");
+                                        Log.i(this.getClass().getName(),"Server Response   farmer farmer");
 
 //                                        Log.i(this.getClass().getName(),"Serrver Rsponse   biodata farmer : "+bioDatas.length());
                                         JSONObject bioData  =jObj;// bioDatas.getJSONObject(0);
@@ -202,7 +202,7 @@ public class ConnectionUtil {
                                         int cnt = 0;
                                         for(int b: bioDataIndex){
                                             try {
-                                                Log.i(this.getClass().getName(),"Serrver URL Item : "+keys[b]+" - ");
+                                                Log.i(this.getClass().getName(),"Serrver URL Item : "+keys[b]+" - "+ bioData.getString(keys[b]));
                                                 vals[b] = bioData.getString(keys[b]);
                                             } catch (Exception e) {
                                                 vals[b] = "";

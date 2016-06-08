@@ -21,17 +21,19 @@ public class FarmerUtil {
 
     public static Map<String,List<ItemWrapper>> getFarmerDetails(Farmer f){
 
+        System.out.println("In farmer details");
         Map<String,List<ItemWrapper>> itmWrap = new HashMap<String, List<ItemWrapper>>();
 
 
 
         List<ItemWrapper> wr = new ArrayList<ItemWrapper>();
+
         wr.add(new ItemWrapper("Surname",f.getLastName()));
         wr.add(new ItemWrapper("Othernames",f.getFirstName()));
         wr.add(new ItemWrapper("Nickname",f.getNickname()));
         wr.add(new ItemWrapper("Cluster",f.getCluster()));
-        wr.add(new ItemWrapper("District",f.getDistrict()));
-        wr.add(new ItemWrapper("Community",f.getCommunity()));
+        wr.add(new ItemWrapper("District",f.getVillage()));
+        wr.add(new ItemWrapper("Community",f.getVillage()));
         wr.add(new ItemWrapper("Age",f.getAge()));
         wr.add(new ItemWrapper("Gender",f.getGender()));
 
@@ -64,7 +66,7 @@ public class FarmerUtil {
         wr.add(new ItemWrapper("Nickname",f.getNickname()));
         wr.add(new ItemWrapper("Region",f.getRegion()));
         wr.add(new ItemWrapper("District",f.getDistrict()));
-        wr.add(new ItemWrapper("Community",f.getCommunity()));
+        wr.add(new ItemWrapper("Community",f.getVillage()));
         wr.add(new ItemWrapper("Age",f.getAge()));
         wr.add(new ItemWrapper("Gender",f.getGender()));
         itmWrap.put("Biodata",wr);
@@ -409,7 +411,7 @@ public class FarmerUtil {
         wr.add(new ItemWrapper("Nickname",f.getNickname()));
         wr.add(new ItemWrapper("Cluster",f.getCluster()));
         wr.add(new ItemWrapper("District",f.getDistrict()));
-        wr.add(new ItemWrapper("Community",f.getCommunity()));
+        wr.add(new ItemWrapper("Community",f.getVillage()));
         wr.add(new ItemWrapper("Age",f.getAge()));
         wr.add(new ItemWrapper("Gender",f.getGender()));
 //        wr.add(new ItemWrapper("Land Size",IctcCKwUtil.formatDouble(f.getTargetArea())));
@@ -715,8 +717,31 @@ public class FarmerUtil {
         //baseline calculations
         String totalAreaBase =  f.getBaselineProductionItem("area_cultivated_base");
         String totalYieldBase =  f.getBaselinePostHarvestItem("bagspostprocessing");
+        try{
+            if(totalYieldBase.equalsIgnoreCase(""))
+                totalYieldBase ="0.0";
+        }catch(Exception e){
+            totalYieldBase="0.0";
+            e.printStackTrace();
+        }
+        try{
+            if(totalAreaBase.equalsIgnoreCase(""))
+                totalAreaBase="0.0";
+        }catch(Exception e){
+            totalAreaBase="0.0";
+            e.printStackTrace();
+        }
         String totalRevenueBase = String.valueOf(Double.valueOf(totalYieldBase)*getDoubleFromJSON(jOb,"priceatmostsaledate"));
         String rentBase = f.getgetBaselineProductionBudgetItem("land_rent_base");
+        try{
+            if(rentBase.equalsIgnoreCase(""))
+                rentBase="0.0";
+        }catch(Exception e){
+            rentBase="0.0";
+            e.printStackTrace();
+        }
+
+
         String seedBase =String.valueOf(getDoubleFromJSON(jOb,"seedplanting_material_cost_base") * Double.valueOf(totalAreaBase));
         String prePlantHerbicideBase = String.valueOf(getDoubleFromJSON(jOb,"quantity_of_preplant_herbicide_base") * Double.valueOf(totalAreaBase)*getDoubleFromJSON(jOb,"price_of_herbicide_base"));
         String prePlantingHerbicideApplicationBase = String.valueOf(getDoubleFromJSON(jOb,"herbicide_application_cost_base")*Double.valueOf(totalAreaBase));
@@ -730,8 +755,30 @@ public class FarmerUtil {
         String postPlantHerbicideApplicationBase = String.valueOf(
                 getDoubleFromJSON(jOb,"postplantherbicide1apply")+ (getDoubleFromJSON(jOb,"postplantherbicide2apply"))*Double.valueOf(totalAreaBase));
         String organicFertilizerUsedBase = f.getgetBaselineProductionBudgetItem("organicfertilizerqty");
+        try{
+            if(organicFertilizerUsedBase.equalsIgnoreCase(""))
+                organicFertilizerUsedBase="0.0";
+        }catch(Exception e){
+            organicFertilizerUsedBase="0.0";
+            e.printStackTrace();
+        }
+
         String organicFertilizerUsedCostBase = f.getgetBaselineProductionBudgetItem("orgfertilizerprice");
         String organicFertilizerAppCostBase = f.getgetBaselineProductionBudgetItem("organicfertilizerappcost");
+        try{
+            if(organicFertilizerUsedCostBase.equalsIgnoreCase(""))
+                organicFertilizerUsedCostBase="0.0";
+        }catch(Exception e){
+            organicFertilizerUsedCostBase="0.0";
+            e.printStackTrace();
+        }
+        try{
+            if(organicFertilizerAppCostBase.equalsIgnoreCase(""))
+                organicFertilizerAppCostBase="0.0";
+        }catch(Exception e){
+            organicFertilizerAppCostBase="0.0";
+            e.printStackTrace();
+        }
         String inorganicFertilizerUsed = String.valueOf(getDoubleFromJSON(jOb,"qty_of_bfert_base") * Double.valueOf(totalAreaBase));
         String inorganicFertilizerUsedCost = String.valueOf(getDoubleFromJSON(jOb, "price_of_basal_fertilizer_base") * Double.valueOf(totalAreaBase)*Double.valueOf(inorganicFertilizerUsed));
         String inorganicFertilizerAppCostBase =  String.valueOf(getDoubleFromJSON(jOb,"fertilizer_app_labour_cost_base") * Double.valueOf(totalAreaBase));
@@ -781,11 +828,6 @@ public class FarmerUtil {
         String commercialStorage = getStringFromJSON(postharvest,"unit_cost_of_warehouse_base");
         String transportToMarket = getStringFromJSON(postharvest,"transportcostmarket");
 
-        double postHarvestCostBase= Double.valueOf(processingCostBase)+Double.valueOf(transportationBase)+
-                Double.valueOf(dehuskingBase)+Double.valueOf(dryingOfCobsBase)+
-                Double.valueOf(threshingBase)+Double.valueOf(dryinggrainBase)+
-                Double.valueOf(winnowingBase)+Double.valueOf(storageBase)+Double.valueOf(storageChemical)
-                + Double.valueOf(bagging)+ Double.valueOf(commercialStorage)+Double.valueOf(transportToMarket);
 
       //  String manualweedControl =
 
@@ -938,6 +980,11 @@ public class FarmerUtil {
 
 
 
+        double postHarvestCostBase= Double.valueOf(processingCostBase)+Double.valueOf(transportationBase)+
+                Double.valueOf(dehuskingBase)+Double.valueOf(dryingOfCobsBase)+
+                Double.valueOf(threshingBase)+Double.valueOf(dryinggrainBase)+
+                Double.valueOf(winnowingBase)+Double.valueOf(storageBase)+Double.valueOf(storageChemical)
+                + Double.valueOf(bagging)+ Double.valueOf(commercialStorage)+Double.valueOf(transportToMarket);
 
 
 

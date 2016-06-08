@@ -55,6 +55,7 @@ public class FarmerProfileSecionActivity extends Activity {
         list.setGroupIndicator(null);
         final List<String> sections = new ArrayList<String>();
         sections.add(sectionName);
+      //  System.out.println("Farmer village " + farmer.getVillage());
         Map<String,List<ItemWrapper>> wr = FarmerUtil.getFarmerDetails(farmer);
 
 

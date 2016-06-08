@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import applab.client.search.R;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
 import applab.client.search.model.MeetingActivity;
@@ -67,7 +68,16 @@ public class ClientActivity extends BaseActivity {
                 Intent intent = null;
                 switch (i){
                     case 0:
-                        intent = new Intent(ClientActivity.this, SurveyList.class);
+                        //intent = new Intent(ClientActivity.this, SurveyList.class)
+                        try {
+                            //Intent launchIntent =
+                                    intent =getPackageManager().getLaunchIntentForPackage("org.grameen.taro");
+                            //launchIntent.putExtra("survey_name",titles[i]);
+                            //startActivity(launchIntent);
+                        }catch(Exception e){
+                            Toast.makeText(view.getContext(), "Tarowokrs not installed", Toast.LENGTH_LONG);
+
+                        }
 
                     break;
                     case 1:
@@ -88,8 +98,12 @@ public class ClientActivity extends BaseActivity {
                         break;
 
                 }
+                try{
                 startActivity(intent);
-
+                }catch (Exception e)
+                {
+                    Toast.makeText(view.getContext(), "Tarowokrs not installed", Toast.LENGTH_LONG);
+                }
 //                Intent intent = new Intent(ClientActivity.this, BlankActivityView.class);
 //                intent.putExtra("title", titles[i]);
 //                intent.putExtra("desc", DETAILS_COMING_SOON + "  " + titles[i]);

@@ -154,7 +154,7 @@ public class FarmerDetailActivity extends BaseActivityGroup {
         tabHost.addTab(spec);
 
         spec = tabHost.newTabSpec("tag1");
-        spec.setIndicator("Farm Management Plan");
+        spec.setIndicator("Farm Plan");
         spec.setContent(new Intent(FarmerDetailActivity.this, FarmManagementPlanActivity.class)
                 .putExtra("type", "search")
                 .putExtra("farmer", farmer));

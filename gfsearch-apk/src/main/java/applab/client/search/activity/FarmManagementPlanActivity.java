@@ -97,7 +97,7 @@ DatabaseHelper dbHelper=new DatabaseHelper(getBaseContext());
         List<ItemWrapper> wr = FarmerUtil.getFarmManagementPlan(farmer,dbHelper.getIndividualFarmerInputs(farmer.getFarmID()));
         ParentExpandableListAdapter adapter = new ParentExpandableListAdapter(FarmManagementPlanActivity.this,wr,expList);
         expList.setAdapter(adapter);
-        super.setDetails(dbHelper, "Farmer", "Farmer Management Plan");
+        super.setDetails(dbHelper, "Farmer", "Farm Management Plan");
         super.baseLogActivity.setSection(farmer.getFullname());
 
     }

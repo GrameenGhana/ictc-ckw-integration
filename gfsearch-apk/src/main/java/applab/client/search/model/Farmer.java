@@ -170,7 +170,9 @@ public class Farmer extends ListObject {
 
 
         System.out.println("Main crop  : " + firstName + " \t:\t" + mainCrop);
+
         this.village = village;
+        System.out.println("Village  : " + firstName + " \t:\t" +village);
         this.nickname = nickname;
         this.community = community;
         this.district = district;
@@ -236,6 +238,7 @@ public class Farmer extends ListObject {
     }
 
     public String getVillage() {
+        System.out.println("villagio--------------- " + village);
         return village;
     }
 

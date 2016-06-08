@@ -306,7 +306,7 @@ public class  AgentVisitUtil {
 
         String []   titles = {
                 "",
-                "PRE-VISIT",
+                "GROUP MEETING",
                 "VISIT 1 (Registration, Profiling,etc)",
                 "VISIT 2 (Farm Planning)",
                 "VISIT 3 (Field Measurement, Plan Update 1)",

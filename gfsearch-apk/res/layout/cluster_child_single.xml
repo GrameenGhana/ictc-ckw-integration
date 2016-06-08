@@ -77,7 +77,7 @@
                                     android:text="Groups: "
                                     android:drawableLeft="@drawable/ic_groups"
                                     android:id="@+id/textView11" android:textStyle="bold" android:textColor="#ff0e4918"
-                                    android:paddingLeft="20dp"/>
+                                    android:paddingLeft="20dp" android:visibility="gone"/>
                             <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

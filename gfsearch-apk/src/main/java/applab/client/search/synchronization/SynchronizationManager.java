@@ -1575,7 +1575,7 @@ public class SynchronizationManager {
                     int cnt = 0;
                     for(int b: bioDataIndex){
                         try {
-                            Log.i(this.getClass().getName(),"Serrver URL Item : "+keys[b]+" - ");
+                            Log.i(this.getClass().getName(),"Server URL Item : "+keys[b]+" - "+bioData.getString(keys[b]));
                             vals[b] = bioData.getString(keys[b]);
                         } catch (Exception e) {
                             vals[b] = "";
@@ -1583,6 +1583,7 @@ public class SynchronizationManager {
 
                     }
 
+                    System.out.println("Farmer details "+  bioData.getString("village") );
                     long lm= 0l;
 
                     try {

@@ -46,7 +46,7 @@ public class FarmerByCrop   extends BaseActivityGroup {
         mTitleTextView.setText("Farmers");
         TabHost tabHost = (TabHost)findViewById(R.id.tab_farmer_by_crop);
         tabHost.setup(this.getLocalActivityManager());
-        String []  crops = {"Maize","Cassava","Yam","Rice"};
+        String []  crops = {"Maize","Cassava","Yam","Rice","Soybean"};
         Intent gencal  = null;
         for (String crop:crops){
             gencal  = new Intent(FarmerByCrop.this, FarmersCrop.class);
