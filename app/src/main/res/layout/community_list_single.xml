@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:background="@drawable/card_bakground_selector">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:padding="20dp">
+        <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Community:"
+                        android:id="@+id/textView46"
+                        android:drawableLeft="@mipmap/ic_comm"
+                        android:textColor="#ff0c0c0c"
+
+                        android:textStyle="bold|italic" android:layout_gravity="center_vertical"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text=""
+                        android:id="@+id/textView_community" android:textColor="#ff161616"/>
+            </TableRow>
+            <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="No of Farmers:  "
+                        android:drawableLeft="@mipmap/ic_farmer"
+                        android:id="@+id/textView48" android:textColor="#ff1b1b1b" android:textStyle="bold|italic"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text=""
+                        android:id="@+id/textView_farmers" android:textColor="#ff171717"/>
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+</LinearLayout>

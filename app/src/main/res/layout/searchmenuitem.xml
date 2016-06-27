@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:id="@+id/item_layout" xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:orientation="vertical" android:scrollbars="vertical">
+
+    <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical" android:padding="10dp" android:paddingLeft="20dp" android:paddingRight="20dp">
+
+            <TextView android:id="@+id/item_content_title" android:text="No Content"
+                      android:textStyle="normal"
+                      android:textSize="40sp"
+                      android:layout_height="wrap_content"
+                      android:layout_width="fill_parent"
+                      android:padding="3dip"  android:lineSpacingExtra="10dp"  android:layout_gravity="center_vertical|right"
+                      android:textColor="#333333"/>
+            <TextView android:id="@+id/item_content" android:text="No Content"
+                                                             android:textStyle="normal"
+                                                             android:textSize="30sp"
+                                                             android:layout_height="wrap_content"
+                                                             android:layout_width="fill_parent"
+                                                             android:padding="3dip"  android:lineSpacingExtra="10dp"  android:layout_gravity="center_vertical|right"
+                                                             android:textColor="#666666"/>
+
+            <HorizontalScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/horizontalScrollView">
+                <applab.client.search.utils.PinchZoom android:id="@+id/item_img"
+                                                      android:layout_height="match_parent"
+                           android:layout_width="wrap_content"
+                           android:scaleType="matrix"
+                                                      android:layout_marginTop="10dip"  />
+            </HorizontalScrollView>
+
+
+            <ImageView android:id="@+id/item_vid_placeholder"
+                       android:layout_centerInParent="true"
+                       android:layout_height="wrap_content"
+                       android:layout_width="wrap_content"
+                       android:scaleType="matrix"
+                       android:onClick="viewVideo"
+                       android:layout_centerVertical="true"
+                       android:layout_marginTop="10dip"/>
+
+            <ImageView android:id="@+id/item_aud_placeholder"
+                       android:layout_centerInParent="true"
+                       android:layout_height="wrap_content"
+                       android:layout_width="wrap_content"
+                       android:scaleType="matrix"
+                       android:onClick="viewAudio"
+                       android:layout_centerVertical="true"
+                       android:layout_marginTop="10dip"/>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

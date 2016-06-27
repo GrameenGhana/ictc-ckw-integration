@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="180dp" >
+
+    <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/farming" />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical" >
+
+        <ImageView
+                android:id="@+id/main_avatar_image"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="16dp" />
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginLeft="4dp"
+                android:gravity="center_vertical"
+                android:orientation="vertical" >
+
+            <applab.client.agrihub.ui.font.RobotoTextView
+                    android:id="@+id/main_first_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    app:typeface="robotoRegular" />
+
+            <applab.client.agrihub.ui.font.RobotoTextView
+                    android:id="@+id/main_second_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    app:typeface="robotoLight" />
+
+            <applab.client.agrihub.ui.font.RobotoTextView
+                    android:id="@+id/main_third_line"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="8sp"
+                    app:typeface="robotoLight" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="8dp"
+            android:background="@drawable/search_bar_background"
+            android:gravity="center_vertical" >
+
+        <applab.client.agrihub.ui.font.MaterialDesignIconsTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/fontello_search"
+                android:textColor="@color/material_blue_grey_800"
+                android:textSize="18dp"
+                tools:ignore="SpUsage" />
+
+        <EditText
+                android:id="@+id/search_field"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:inputType="text"
+                android:textColor="@color/material_blue_grey_800" />
+
+        <applab.client.agrihub.ui.font.MaterialDesignIconsTextView
+                android:id="@+id/search_microfon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/fontello_microfon"
+                android:textColor="@color/material_blue_grey_800"
+                android:textSize="18dp"
+                tools:ignore="SpUsage" />
+
+        <applab.client.agrihub.ui.font.MaterialDesignIconsTextView
+                android:id="@+id/search_x"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/fontello_x_mark"
+                android:textColor="@color/material_blue_grey_800"
+                android:textSize="18dp"
+                tools:ignore="SpUsage" />
+    </LinearLayout>
+
+</RelativeLayout>
+   <!-- <View
+        android:id="@+id/divider_top"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/imageView1"
+        android:background="@color/material_blue_600" /> -->

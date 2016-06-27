@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:weightSum="3">
+
+    <ExpandableListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/exp_comm_sch"
+        android:layout_weight="2"
+        android:dividerHeight="5dp"
+        android:divider="#eee"
+        android:childDivider="#eee" />
+    <applab.client.agrihub.ui.font.RobotoTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="More Information Call: 057665186"
+            android:onClick="callNo"
+            app:typeface="robotoLight"
+            android:id="@+id/txt_call_meida_lines"
+        android:drawableLeft="@mipmap/ic_phone"
+            android:textColor="#ff3d8438"
+          android:linksClickable="true"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_gravity="center_vertical" />
+</LinearLayout>

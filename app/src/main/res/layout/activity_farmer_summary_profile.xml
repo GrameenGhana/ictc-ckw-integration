@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:weightSum="5">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="200dp" android:id="@+id/default_view_profile_item">
+        <include layout="@layout/cluster_child_single"   />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/act_farmer_details"/>
+    </LinearLayout>
+    <TabHost
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/tabHost5" android:layout_gravity="center_horizontal"
+            android:layout_weight="1">
+        <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+            <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+            </TabWidget>
+            <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                <LinearLayout
+                        android:id="@+id/linearLayout13"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                </LinearLayout>
+                <LinearLayout
+                        android:id="@+id/linearLayout14"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                </LinearLayout>
+                <LinearLayout
+                        android:id="@+id/linearLayout15"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_weight="2">
+        <LinearLayout android:id="@+id/linearlayout_crops" android:orientation="vertical"
+            android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+                      android:minHeight="450dp" android:visibility="visible"></LinearLayout>
+    </LinearLayout>
+</LinearLayout>

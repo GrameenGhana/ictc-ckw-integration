@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:padding="10dp" android:background="#ffffffff">
+
+    <ImageView android:id="@+id/about_img"
+               android:src="@mipmap/app_icon_new"
+               android:layout_centerInParent="true"
+               android:layout_height="100dip"
+               android:layout_width="100dip"
+               android:scaleType="center"
+               android:layout_alignParentTop="true"
+               android:layout_centerVertical="true"
+               android:paddingTop="50dip" android:paddingBottom="20dip"/>
+
+    <TextView android:id="@+id/about_version" android:text="@string/app_version_about"
+              android:textStyle="bold"
+              android:layout_centerInParent="true"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_below="@id/about_img"
+              android:layout_marginBottom="3dip"/>
+
+    <TextView android:id="@+id/about_copyright" android:text="\u00A9 2015 Grameen Foundation"
+              android:textStyle="bold"
+              android:layout_centerInParent="true"
+              android:layout_height="wrap_content"
+              android:layout_width="wrap_content"
+              android:layout_centerVertical="true"
+              android:layout_below="@id/about_version"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="This application was developed by Grameen Foundation. Content contributions were made by Farm Radio International and Digital Green The application was developed with funding from USAID for the ICT Challenge Project"
+            android:id="@+id/textView5" android:layout_below="@+id/about_copyright"
+            android:layout_centerHorizontal="true" android:gravity="center_horizontal" android:padding="10dp"/>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+             android:layout_centerHorizontal="true"
+            android:layout_below="@+id/textView5"
+            android:gravity="center_vertical|center_horizontal">
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView2" android:src="@mipmap/usaid" android:paddingRight="10dp"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView3"
+                android:src="@mipmap/gflogo"/>
+    </LinearLayout>
+
+</RelativeLayout>

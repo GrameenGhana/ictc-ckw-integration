@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"   android:minHeight="2350dp"
+            >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:id="@+id/default_view_profile_item">
+        <include layout="@layout/cluster_child_single"   />
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/act_farmer_details"/>
+    </LinearLayout>
+    <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:weightSum="2" android:gravity="center_vertical"
+        android:visibility="gone">
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:text="Map Farm"
+                    android:id="@+id/button2"
+                    android:drawableLeft="@mipmap/ic_location" android:onClick="mapFarm" android:layout_weight="1"/>
+            <Button android:layout_width="wrap_content" android:layout_height="60dp" android:text="Technical Assistance"
+                    android:id="@+id/ckw_profile_btn" android:drawableLeft="@mipmap/app_logo" android:onClick="ckwClick"
+                    android:layout_weight="1"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent" android:paddingTop="30dp" android:padding="20dp">
+            <ExpandableListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/exp_fmp" android:layout_gravity="center_horizontal" android:divider="#eee"
+                    android:dividerHeight="1dp"/>
+            <ListView
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/lst_fmp_item"
+
+                    />
+        </LinearLayout>
+
+
+    </LinearLayout>

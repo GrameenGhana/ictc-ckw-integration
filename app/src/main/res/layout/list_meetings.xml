@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="6dip" android:id="@+id/relativityMeetings"
+    android:background="@drawable/card_bakground_selector">
+
+    <TextView
+            android:id="@+id/list_view_month"
+            android:layout_width="55dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:focusable="false"
+            android:text=" Jun    "
+            android:textSize="20dp"
+            android:padding="5dp"
+            android:textColor="#fff9fbff" android:background="#ff596aff"/>
+    <TextView
+        android:id="@+id/list_event_day"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="01,15"
+        android:layout_below="@+id/list_view_month"
+        android:layout_alignParentRight="true" android:textColor="#ff1d0005"/>
+
+    <TextView
+            android:id="@+id/list_event_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/list_view_month"
+            android:layout_toRightOf="@+id/list_view_month"
+            android:paddingLeft="3dp"
+            android:text="Efg"
+            android:layout_alignTop="@+id/list_view_month" android:layout_alignParentRight="true"/>
+    <TextView android:id="@+id/lst_event_detail" android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:layout_below="@+id/list_event_name"
+              android:layout_toRightOf="@+id/list_view_month"
+              android:paddingLeft="3dp" android:text="Detail"
+            />
+
+
+</RelativeLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" android:id="@+id/default_view_profile">
+            <include layout="@layout/cluster_child_single" />
+        </LinearLayout>
+        <ListView android:id="@+id/main_list"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:layout_weight="1"
+                  android:divider="#dddddd"
+                  android:dividerHeight="0.5dp"
+                  android:footerDividersEnabled="true"
+                  android:headerDividersEnabled="false"
+                  android:layout_alignParentTop="true" android:addStatesFromChildren="true"/>
+    </LinearLayout>
+</RelativeLayout>

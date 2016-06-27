@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_weight="1"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:weightSum="4"
+    android:dividerPadding="10dp">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:background="@mipmap/bg" android:weightSum="2">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="match_parent"
+                android:weightSum="2" android:layout_weight="1"
+            android:gravity="center|center_vertical">
+            <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView8"
+                    android:src="@drawable/ic_farmer_user"
+                    android:layout_weight="1"/>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                    android:padding="10dp"
+                    android:layout_weight="1"
+                android:weightSum="2" android:layout_gravity="center_vertical"
+                android:gravity="center">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Welcome Karufi"
+                        android:id="@+id/username"
+                        android:textColor="#ffffffff"
+                        android:textSize="20dp"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SmartEx Agent"
+                    android:textColor="#ffffffff"
+                    android:id="@+id/user_type"
+                    android:textSize="17dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:id="@+id/vid"
+                android:padding="10dp" android:layout_weight="1">
+
+            <android.support.v4.view.ViewPager
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/weather_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent"
+                   >
+            </android.support.v4.view.ViewPager>
+        </LinearLayout>
+    </LinearLayout>
+    <View android:layout_width="match_parent"
+          android:layout_height="10dp"></View>
+    <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="2"
+            android:verticalSpacing="30dp"
+            android:visibility="gone">
+        <LinearLayout
+                android:background="@drawable/bg_edittext"
+                android:padding="5dp"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_columnSpan="2"
+                android:id="@+id/fd">
+            <TextView
+                    android:text=" Prices for maize in Ejura: 200
+                                         Prices for maize in Fankyenebra: 300
+                                         Prices for Rice in Kintampo: 350
+                                         Prices for Rice in Ejura: 200
+                                         Prices for Beans in Ejura: 200
+                                         Prices for Rice in Fankyenebra: 300
+                                         Prices for maize in Fankyenebra: 300
+                                         Prices for Rice in Fankyenebra: 300   "
+                    android:id="@+id/MarqueeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="81dp"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="false"
+                    android:paddingLeft="15dip"
+                    android:paddingRight="15dip"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:freezesText="true"
+                    android:drawableLeft="@mipmap/ic_star"
+                    android:textColor="#ffffffff"
+                    android:textStyle="bold|italic"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="20dp"/>
+        </LinearLayout>
+    </GridLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:padding="10dp" android:layout_weight="2">
+        <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:weightSum="3">
+            <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:weightSum="2" android:layout_weight="1">
+                <LinearLayout
+                              android:orientation="vertical"
+                              android:layout_width="match_parent"
+                              android:layout_height="match_parent"
+                              android:gravity="center"
+                              android:background="@drawable/bg_edittext"
+                              android:layout_weight="1"
+                              android:id="@+id/clients">
+
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:src="@mipmap/farmer_icon"
+                            android:layout_marginTop="10dp"
+                            />
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#ff006400" />
+                </LinearLayout>
+                <Space
+                        android:layout_width="5px"
+                        android:layout_height="match_parent"
+                        />
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@drawable/bg_edittext"
+                        android:layout_weight="1"
+                        android:id="@+id/meetings">
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/meeting_icon"
+                            android:layout_marginTop="10dp"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#ff006400"/>
+                </LinearLayout>
+            </TableRow>
+            <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:weightSum="2"
+                    android:paddingTop="10dp" android:layout_weight="1">
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@drawable/bg_edittext"
+                        android:layout_weight="1"
+                        android:id="@+id/suppliers">
+
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/lorrygreen"
+                            android:layout_marginTop="10dp"/>
+                </LinearLayout>
+
+                <Space
+                        android:layout_width="20px"
+                        android:layout_height="match_parent"
+                        />
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@drawable/bg_edittext"
+                        android:layout_weight="1"
+                        android:id="@+id/markets">
+
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/markets"
+                            android:layout_marginTop="10dp"/>
+                </LinearLayout>
+            </TableRow>
+            <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:weightSum="2"
+                    android:paddingTop="10dp"
+                    android:background="#0cffffff" android:layout_weight="1">
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:background="@drawable/bg_edittext"
+                        android:layout_weight="1"
+                        android:id="@+id/technical"
+                        android:weightSum="1">
+
+                    <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@mipmap/repair"
+                            android:layout_marginTop="10dp"
+                            />
+                </LinearLayout>
+                <Space
+                    android:layout_width="20px"
+                    android:layout_height="match_parent"
+                    />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:background="@drawable/bg_edittext"
+                    android:layout_weight="1"
+                    android:id="@+id/farmerSearch"
+                    android:weightSum="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/farmer_search"
+                        android:layout_marginTop="10dp"
+                       />
+                </LinearLayout>
+            </TableRow>
+        </TableLayout>
+        <GridView
+                android:layout_width="wrap_content"
+                android:layout_height="740dp"
+                android:id="@+id/gridView"
+                android:numColumns="2"
+                android:verticalSpacing="30dp"
+                android:horizontalSpacing="30dp"
+                android:visibility="gone"/>
+    </LinearLayout>
+
+
+</LinearLayout>
