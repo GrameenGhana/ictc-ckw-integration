@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:id="@+id/vv" android:weightSum="1">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+        <include layout="@layout/cluster_child_single" />
+    </LinearLayout>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:weightSum="1"
+                 >
+    <CheckBox
+            android:layout_width="118dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/seedBox" android:checked="false"/>
+    <TextView
+            android:layout_width="116dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Seed"
+            android:id="@+id/textView15"/>
+    <EditText
+            android:layout_width="93dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/seedbags" android:layout_gravity="center_horizontal" android:phoneNumber="true"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="33dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="bags"
+            android:id="@+id/textView6" android:layout_weight="0.18"/>
+</LinearLayout>
+
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:weightSum="1">
+        <CheckBox
+                android:layout_width="118dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/fertilizercheckbox" android:checked="false"/>
+        <TextView android:layout_width="117dp" android:layout_height="wrap_content"
+                  android:textAppearance="?android:attr/textAppearanceLarge" android:text="Fertiliser"
+                  android:id="@+id/textView17"/>
+        <EditText
+                android:layout_width="91dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/fertilizerbags" android:layout_gravity="center_horizontal" android:phoneNumber="true"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="33dp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="bags"
+                android:id="@+id/textView7" android:layout_weight="0.18"/>
+    </LinearLayout>
+
+
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:weightSum="1">
+        <CheckBox
+                android:layout_width="118dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/ploughingBox" android:checked="false"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Plough"
+                android:id="@+id/textView21"/>
+
+    </LinearLayout>
+    <Button
+            android:layout_width="165dp"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:id="@+id/btnInputSave" android:layout_gravity="right"/>
+
+</LinearLayout>

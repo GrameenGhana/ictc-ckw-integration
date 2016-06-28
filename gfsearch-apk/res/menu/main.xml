@@ -1,0 +1,41 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--<item
+            android:id="@+id/action_nav_forward"
+            android:orderInCategory="100" android:showAsAction="always"
+            android:title="@string/action_forward" android:icon="@drawable/navigation_forward"
+            android:visible="false"/>-->
+    <!--<item android:id="@+id/action_synchronise"-->
+          <!--android:showAsAction="never"-->
+          <!--android:title="@string/synchronise"-->
+          <!--android:icon="@drawable/ic_refresh"/>-->
+    <item android:id="@+id/home"
+          android:showAsAction="never"
+          android:title="@string/home"
+          android:icon="@drawable/ic_refresh"/>
+
+    <item android:id="@+id/action_refresh_farmer"
+          android:showAsAction="never"
+          android:title="Refresh Farmer data"
+          android:icon="@drawable/ic_refresh"/>
+    <item
+            android:id="@+id/action_settings"
+            android:showAsAction="never"
+            android:title="@string/action_settings"
+            android:icon="@drawable/action_settings"/>
+
+    <item android:id="@+id/action_about"
+          android:showAsAction="never"
+          android:title="@string/action_about"
+          android:icon="@drawable/action_about"/>
+
+<!--
+    <item android:id="@+id/action_meeting_items"
+          android:showAsAction="never"
+          android:title="Meetings"
+          android:icon="@drawable/ic_refresh"/>-->
+    <item android:id="@+id/action_logout"
+          android:showAsAction="never"
+          android:title="Logout"
+          android:icon="@drawable/ic_refresh"/>
+</menu>

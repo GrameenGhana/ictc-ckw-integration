@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:gravity="center_vertical">
+
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="#ff065319"
+            android:weightSum="7"
+            android:gravity="center_vertical"
+            android:padding="10dp">
+        <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:id="@+id/imageView9"
+                android:src="@drawable/app_icon_new"
+                android:layout_weight="1" android:clickable="true"  android:onClick="showHome"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/textView_title"
+                android:textColor="#ffffffff"
+                android:layout_weight="1"
+                android:paddingRight="30dp" android:clickable="true"  android:onClick="showHome"  />
+        <EditText
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:id="@+id/bar_search_text"
+                android:background="@drawable/bg_edittext"
+                android:textColor="#ffffffff"
+                android:focusable="true"
+                android:ems="10"
+                android:layout_weight="2"
+                android:focusableInTouchMode="true"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:drawableRight="@drawable/ic_action_search"
+                android:id="@+id/search_btn"/>
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView10" android:src="@drawable/ic_action_person"/>
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Guest"
+
+                    android:id="@+id/user_fullname" android:textColor="#ffffffff" android:textSize="14dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Guest ID"
+                    android:id="@+id/user_username" android:textColor="#ffffffff" android:textSize="14dp"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

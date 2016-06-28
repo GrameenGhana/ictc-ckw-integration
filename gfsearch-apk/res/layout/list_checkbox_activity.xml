@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="6dip"
+                android:descendantFocusability="blocksDescendants">
+
+<CheckBox
+        android:id="@+id/lst_chk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:text=""
+        android:clickable="true"
+        android:focusable="false"/>
+
+    <ImageView
+            android:id="@+id/lst_farmer_initial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/lst_chk"
+            android:layout_toRightOf="@+id/lst_chk"
+            android:layout_alignTop="@+id/lst_chk"
+            android:src="@drawable/ic_person"
+           />
+    <TextView
+        android:id="@+id/lst_farmer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/lst_farmer_initial"
+        android:layout_toRightOf="@+id/lst_farmer_initial"
+        android:text=""
+        android:layout_alignTop="@+id/lst_farmer_initial"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>
