@@ -94,7 +94,7 @@ public class BaseFragmentActivity extends FragmentActivity {
     protected void createProgressBar() {
         handler.post(new Runnable() {
             public void run() {
-                progressDialog = new ProgressDialog(getBaseContext());
+                progressDialog = new ProgressDialog(BaseFragmentActivity.this);
                 progressDialog.setTitle("Updating");
                 progressDialog.setCancelable(false);
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);

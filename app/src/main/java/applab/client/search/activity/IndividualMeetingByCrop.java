@@ -26,7 +26,7 @@ public class IndividualMeetingByCrop  extends BaseActivity {
         setContentView(R.layout.individual_meeting_by_group_activity);
         grid = (GridView) findViewById(R.id.gridView2);
         thumbs = new int[]{R.mipmap.maize, R.mipmap.cassava, R.mipmap.yam, R.mipmap.rice,R.mipmap.soyabean};
-        text = new String[]{"Maize", "Cassava", "Yam", "Rice","Soyabeans"};
+        text = new String[]{"Maize", "Cassava", "Yam", "Rice","Soyabean"};
         adapter = new GridMenuAdapter(IndividualMeetingByCrop.this, thumbs, text);
         grid.setAdapter(adapter);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {

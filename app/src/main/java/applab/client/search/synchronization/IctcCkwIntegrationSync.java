@@ -1,7 +1,13 @@
 package applab.client.search.synchronization;
 
 import android.content.ContentValues;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
 import applab.client.search.model.Farmer;
+import applab.client.search.settings.SettingsActivity;
+import applab.client.search.settings.SettingsConstants;
+import applab.client.search.settings.SettingsManager;
 import applab.client.search.storage.DatabaseHelperConstants;
 import applab.client.search.storage.StorageManager;
 import applab.client.search.utils.HttpHelpers;
@@ -24,7 +30,9 @@ public class IctcCkwIntegrationSync {
 
     //104.236.220.225:45805
     ///http://104.236.220.225:8080
-    public static   String ICTC_SERVER_MAIN_URL="http://104.236.220.225:45805/";
+
+    //public static   String ICTC_SERVER_MAIN_URL="http://104.236.220.225:45805/";
+    public static   String ICTC_SERVER_MAIN_URL= SettingsManager.getInstance().getValue(SettingsConstants.ICTC_KEY_SERVER);
     public static   String ICTC_SERVER_CONTEXT_PATH="ICTC/";
     public static String ICTC_SERVER_URL_ROOT_2= ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"MobileController?";//http://104.236.220.225:8080
     static String ICTC_SERVER_URL_ROOT = ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"api/v1/";
@@ -42,7 +50,7 @@ public class IctcCkwIntegrationSync {
 
     public static void syncFarmerDetails() {
         int networkTimeout = 10 * 60 * 1000;
-
+        SettingsManager.getInstance().getValue(SettingsConstants.ICTC_KEY_SERVER);
         try {
             System.out.println("Main Int Ltd");
             //   if(FarmerServiceUtil.getFarmerCount()<=0) {
@@ -53,8 +61,6 @@ public class IctcCkwIntegrationSync {
                         networkTimeout);
                 StringBuilder stringBuilder = HttpHelpers.getUncompressedResponseString(new BufferedReader(
                         new InputStreamReader(inputStream)));
-
-
                 String responseJson = stringBuilder.toString();
                 System.out.println("JSON Received  : " + responseJson);
                 saveReceivedString(responseJson);

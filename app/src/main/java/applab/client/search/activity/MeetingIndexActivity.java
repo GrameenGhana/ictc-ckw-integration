@@ -52,11 +52,8 @@ public class MeetingIndexActivity extends BaseActivity {
 
         IctcCKwUtil.setActionbarUserDetails(this,mCustomView);
         LinearLayout ll = (LinearLayout)findViewById(R.id.default_view_profile_item);
-
-isFarmerSelected= true;
+        isFarmerSelected= true;
         helper = new DatabaseHelper(getBaseContext());
-        //mActionBar.setCustomView(mCustomView);
-       // mActionBar.setDisplayShowCustomEnabled(true);
         list = (ListView) findViewById(R.id.lst_meeting_index);
         Bundle extras = getIntent().getExtras();
         int meetingIndex = 0;
@@ -66,23 +63,17 @@ isFarmerSelected= true;
             meetingIndex = (Integer) extras.get("mi");
             titler = (String) extras.get("mt");
             justBrowse = (String) extras.get("jb");
-
-
             if(null == justBrowse || justBrowse.isEmpty())
                 justBrowse="N";
-
             farmerId = (String) extras.get("farmerId");
             String meetId = (String) extras.get("mid");
              mtype = (String) extras.get("mtype");
             int atd = (Integer) extras.get("atd");
             if(null != farmerId && farmerId.length()>0 && titler.toLowerCase().contains("visit")) {
-
                 farmer = helper.findFarmer(farmerId);
                 isFarmerSelected=true;
                 String part = (atd==1)?" [Already Attended]":"";
                 TextView title = (TextView) findViewById(R.id.act_farmer_details);
-
-
                 title.setText("Farmer >> "+farmer.getFullname() +part);
                 title.setVisibility(View.GONE);
                 System.out.println("Meeting Id : " + meetingIndex);
@@ -107,9 +98,6 @@ isFarmerSelected= true;
                 }else
                     b.setVisibility(Button.VISIBLE);
 //                }
-
-
-
             }else{
                 ll.setVisibility(View.GONE);
 
@@ -135,8 +123,6 @@ isFarmerSelected= true;
             enabled[cnt] = act.isCurrentlyAvailable();
             cnt++;
         }
-
-
         SimpleTextTextListAdapter adapter = new SimpleTextTextListAdapter(MeetingIndexActivity.this, titles,icons,enabled,getResources().getStringArray(R.array.text_colors));
         list.setAdapter(adapter);
 
@@ -267,7 +253,6 @@ if(meetings.get(i).isCurrentlyAvailable()) {
                 }
                 else if(type.equalsIgnoreCase("A")){
                     Intent intent = new Intent(MeetingIndexActivity.this, FarmerActivitySelectFarmer.class);
-
                     intent.putExtra("index",idx);
                     intent.putExtra("title",meetTitle);
                     intent.putExtra("detail",title);

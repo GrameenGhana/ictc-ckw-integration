@@ -425,7 +425,6 @@ public class ConnectionUtil {
                                                     }
                                                     title = AgentVisitUtil.getMeetingTitle(AgentVisitUtil.getMeetingPosition(meet.getInt("midx"),typeMeet));
                                                     databaseHelper.saveMeeting("",
-
                                                             meet.getString("ty"),
                                                             title,
                                                             IctcCKwUtil.formatSlashDates(meet.getString("sd")),

@@ -45,7 +45,7 @@ import java.util.*;
  * and provides methods to initiate the synchronization.
  */
 public class SynchronizationManager {
-    private final static String XML_NAME_SPACE = "http://schemas.applab.org/2010/07/search";
+    private final static String XML_NAME_SPACE = "http://schemas.applab.org/2/07/search";
     private final static String REQUEST_ELEMENT_NAME = "GetKeywordsRequest";
     private final static String VERSION_ELEMENT_NAME = "localKeywordsVersion";
     private final static String IMAGES_VERSION_ELEMENT_NAME = "localImagesVersion";
@@ -825,7 +825,7 @@ public class SynchronizationManager {
                         } else if (key.equals("farmerVersion")) {
                             farmersVersion[0] = value.toString();
                         } else if (key.equals("farmerCount")) {
-                            farmersCount[0] = Integer.parseInt(value.toString());
+                                farmersCount[0] = Integer.parseInt(value.toString());
 
                             notifySynchronizationListeners("synchronizationUpdate", farmersCounter++, farmersCount[0],
                                     ApplicationRegistry.getApplicationContext().

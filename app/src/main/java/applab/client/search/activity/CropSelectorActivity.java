@@ -22,13 +22,10 @@ public class CropSelectorActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.crop_selector_activity);
-
-
         ActionBar mActionBar = getActionBar();
         mActionBar.setDisplayShowHomeEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(true);
         LayoutInflater mInflater = LayoutInflater.from(this);
-
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         Button mButton = (Button) mCustomView.findViewById(R.id.search_btn);
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -39,52 +36,25 @@ public class CropSelectorActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-
-
-
-
         Bundle extras = getIntent().getExtras();
         try {
             type = extras.getString("type");
-
-
             detail = extras.getString("detail");
             try {
                 typeItem = extras.getString("typeItem");
             }catch(Exception e ){
                 typeItem="Group";
             }
-
-
-
-
-
-
-
-
-
-
             System.out.println("Type Itemd : "+typeItem);
             farmer = (Farmer) extras.get("farmer");
             meetingIndex =(Integer) extras.get("index");
         } catch (Exception e) {
-
-
-
+            e.printStackTrace();
         }
-
         System.out.println("MeetingIDx : "+meetingIndex);
-       // TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
-
-        //mTitleTextView.setText("Select Crop "+detail);
         mActionBar.setTitle("Select Crop "+ detail);
-        //mTitleTextView =(TextView) findViewById(R.id.fsf_act_title);
-        //mTitleTextView.setText(detail);
-
         final String[] titles =
                 {"Maize","Cassava","Yam","Rice"};
-
-
         final String[] firstLetter = {"M", "C", "Y","R"};
         boolean[] enabled = {true, true, true,true};
 

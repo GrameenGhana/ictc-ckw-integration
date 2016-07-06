@@ -282,24 +282,18 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             try {
                 rootView = inflater.inflate(R.layout.activity_weather_item, null, false);
-
                 TextView v = (TextView) rootView.findViewById(R.id.txt_weather_city);
                 v.setText(weather.getLocation());
-
                 v = (TextView) rootView.findViewById(R.id.txt_weather_temp);
                 v.setText(String.valueOf(weather.getTemprature()) + " C ");
                 Date i = new Date(weather.getTime() * 1000);
-
                 v = (TextView) rootView.findViewById(R.id.txt_weather_description);
                 v.setText(String.valueOf(weather.getDetail()) + "");
-
                 ImageView iv = (ImageView) rootView.findViewById(R.id.img_weather_icon);
                 String mDrawableName = "w_" + weather.getIcon();
                 int resID = getResources().getIdentifier(mDrawableName, "drawable", ctx.getPackageName());
                 iv.setImageResource(resID);
-
                 v = (TextView) rootView.findViewById(R.id.txt_weather_time);
-
                 if (weather.getTime() == 0l)
                     v.setText("-");
                 else
@@ -308,11 +302,9 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
                 e.printStackTrace();
             }
                 return rootView;
-
         }
-
     }
-    @Override
+   /* @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
         return true;
@@ -322,9 +314,7 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
         try {
             if(item.getItemId()==R.id.search_user){
                 SearchView user_search = (SearchView) item.getActionView();
-
                 user_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
                     @Override
                     public boolean onQueryTextSubmit(String query) {
                         Toast.makeText(DashboardSmartExActivity.this,query,Toast.LENGTH_LONG).show();
@@ -335,7 +325,6 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
                         startActivity(intent);
                         return true;
                     }
-
                     @Override
                     public boolean onQueryTextChange(String text) {
                         return true;
@@ -360,6 +349,6 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
         }
 
         return true;
-    }
+    }*/
 }
 

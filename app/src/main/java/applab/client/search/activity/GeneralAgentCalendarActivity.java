@@ -40,12 +40,11 @@ public class GeneralAgentCalendarActivity extends BaseActivity {
 //        mActionBar.setDisplayShowCustomEnabled(true);
         list = (ListView) findViewById(R.id.lst_agent_lst_view);
 
-        final String []   titles = AgentVisitUtil.getGroupMeetingTitles(true);
-
-
+        final String []   titles = AgentVisitUtil.getMeetingTitles(true);
         final String []   firstLetter = {"1","2","3","4","5","6","7","8","9","10","11"};
         boolean [] enabled={true,true,true,true,true,true,true,true,true,true,true};
-
+        //final String []   firstLetter = {"1","2","3","4"};
+        //boolean [] enabled={true,true,true,true};
 
 
         SimpleTextTextListAdapter adapter = new SimpleTextTextListAdapter(GeneralAgentCalendarActivity.this, titles,firstLetter,enabled, getResources().getStringArray(R.array.text_colors));
