@@ -423,7 +423,7 @@ public class ConnectionUtil {
                                                         title = grpCnt + " " + typeMeet.toUpperCase() + " Meeting";
                                                         grpCnt++;
                                                     }
-                                                    title = AgentVisitUtil.getMeetingTitle(AgentVisitUtil.getMeetingPosition(meet.getInt("midx"),typeMeet));
+                                                    title = AgentVisitUtil.getMeetingTitle(AgentVisitUtil.getMeetingPosition(meet.getInt("midx"),typeMeet),typeMeet);
                                                     databaseHelper.saveMeeting("",
                                                             meet.getString("ty"),
                                                             title,

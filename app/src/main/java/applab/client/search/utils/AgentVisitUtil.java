@@ -113,9 +113,6 @@ public class  AgentVisitUtil {
 
 
         else if(7==meetingIndex){
-
-
-
             activities.add(new applab.client.search.model.MeetingActivity("Update Farm Plan(Post-harvest)","G","T",1,LAUNCH_TAROWORKS));
             activities.add(new applab.client.search.model.MeetingActivity("Update Farm Plan(After Selling)","G","T",1,LAUNCH_TAROWORKS));
             activities.add(new applab.client.search.model.MeetingActivity("Update Farm Plan(Farm Credit)","G","T",1,LAUNCH_TAROWORKS));
@@ -140,7 +137,6 @@ public class  AgentVisitUtil {
 
 
         else if(9==meetingIndex){
-
             activities.add(new applab.client.search.model.MeetingActivity(TAKE_ATTENDANCE+" Initial","G","A",1,ATTENDANCE));
             activities.add(new applab.client.search.model.MeetingActivity("Provide input package", "I", "A",2,"Collect Payments"));
             activities.add(new applab.client.search.model.MeetingActivity("Radio program on fertilizer","I","A",3,"Collect Farmer Feedback"));
@@ -188,64 +184,59 @@ public class  AgentVisitUtil {
         }
         return 1;
     }
-    public static  String getMeetingTitle(int index)
+    public static  String getMeetingTitle(int index, String meeting_type)
     {
-        return getMeetingTitles()[index];
+        return getMeetingTitles(meeting_type)[index];
 
     }
-    public static MeetingActivity getMeetingDetails(int index)
+    public static MeetingActivity getMeetingDetails(int index,String meeting_type)
     {
         if(index==1)
-            return new MeetingActivity(getMeetingTitle(index),"Group",1);
+            return new MeetingActivity(getMeetingTitle(index,meeting_type),"Group",1);
         else if(index==2)
-            return new MeetingActivity(getMeetingTitle(index),"Individual",1);
+            return new MeetingActivity(getMeetingTitle(index,meeting_type),"Individual",1);
         else if(index==3)
-            return new MeetingActivity(getMeetingTitle(index),"Group",2);
+            return new MeetingActivity(getMeetingTitle(index,meeting_type),"Group",2);
         else if(index==4)
-            return new MeetingActivity(getMeetingTitle(index),"Individual",2);
+            return new MeetingActivity(getMeetingTitle(index,meeting_type),"Individual",2);
         else if(index==5)
-            return new MeetingActivity(getMeetingTitle(index),"Group",3);
+            return new MeetingActivity(getMeetingTitle(index,meeting_type),"Group",3);
         else
-            return new MeetingActivity(getMeetingTitle(index),"Group",4);
+            return new MeetingActivity(getMeetingTitle(index,meeting_type),"Group",4);
 
     }
 
-    public static String  [] getMeetingTitles() {
-        return getMeetingTitles(false);
+    public static String  [] getMeetingTitles(String meeting_type) {
+        return getMeetingTitles(false, meeting_type);
     }
 
-    public static String  [] getMeetingTitles(boolean withFirst){
+    public static String  [] getMeetingTitles(boolean withFirst, String meeting_type){
 
         //PRE-VISIT	VISIT 1	VISIT 2	VISIT 3	VISIT 4	VIS
         // IT 5		VISIT 6
-
-        String []   titles = {
-                "",
-                "PRE-VISIT",
-                "VISIT 1 (Registration, Profiling,etc)",
-                "VISIT 2 (Farm Planning)",
-                "VISIT 3 (Field Measurement, Plan Update 1)",
-                "VISIT 4 (Field Assessment)",
-                "VISIT 5 (Fertilizer Application)",
-                "VISIT 6 (Farm Plan Update 3, 4 5) ",
-                "MULTIMEDIA MEETING  1 (Preparing To Plant)",
-                "MULTIMEDIA MEETING  2 (Fertilizer Application)",
-                "MULTIMEDIA MEETING  3 (Fertilizer Application)",
-                "MULTIMEDIA MEETING  4 (Harvest And Post Harvest)",};
+        String [] titles = new String[0];
+        if(meeting_type.equalsIgnoreCase("group")){
+            titles = new String []{
+                    "",
+                    "MULTIMEDIA MEETING  1 (Preparing To Plant)",
+                    "MULTIMEDIA MEETING  2 (Fertilizer Application)",
+                    "MULTIMEDIA MEETING  3 (Fertilizer Application)",
+                    "MULTIMEDIA MEETING  4 (Harvest And Post Harvest)",};
+        }else if (meeting_type.equalsIgnoreCase("individual")) {
+             titles = new String[]{
+                    "",
+                    "PRE-VISIT",
+                    "VISIT 1 (Registration, Profiling,etc)",
+                    "VISIT 2 (Farm Planning)",
+                    "VISIT 3 (Field Measurement, Plan Update 1)",
+                    "VISIT 4 (Field Assessment)",
+                    "VISIT 5 (Fertilizer Application)",
+                    "VISIT 6 (Farm Plan Update 3, 4 5) ",};
+        }
         //MULTIMEDIA MEETING 1
         if(withFirst){
             titles = Arrays.copyOfRange(titles,1,titles.length);
         }
-
-
-//        final String []   titles = {
-//                "",
-//                "Initial Group Meeting",
-//                "1st Individual Meeting",
-//                "2nd Group Meeting",
-//                "2nd Individual Meeting",
-//                "3rd Group Meeting",
-//                "4th Group Meeting"};
         return titles;
     }
 

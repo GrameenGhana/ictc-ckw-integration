@@ -60,6 +60,7 @@ public class IndividualMeetingAAttendance extends BaseActivity {
             title = (String) extras.get("title");
             meetingIndex = (Integer) extras.get("index");
              farm= (Farmer) extras.get("farmer");
+            meetingType=(String) extras.get("type");
         }
 
         TextView v =(TextView) findViewById(R.id.meetingName);
@@ -98,7 +99,7 @@ String title="";
 
         String attendended =" '"+farm.getFarmID()+"'";
 
-        MeetingActivity  mt = AgentVisitUtil.getMeetingDetails(meetingIndex);
+        MeetingActivity  mt = AgentVisitUtil.getMeetingDetails(meetingIndex,meetingType);
 
         System.out.println("Attendance  : "+(mt.getMeetingIndex())+"  | "+attendended+" | Individual ");
         helper.markAttendanceByMeetingIndex(String.valueOf(mt.getMeetingIndex()), attendended, "individual", 1);

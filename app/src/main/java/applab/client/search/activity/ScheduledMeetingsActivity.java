@@ -39,14 +39,13 @@ public class ScheduledMeetingsActivity extends BaseActivityGroup {
         tabHost.setup(this.getLocalActivityManager());
 
         Intent  gencal  = new Intent(ScheduledMeetingsActivity.this, GeneralAgentCalendarActivity.class);
+        gencal.putExtra("type","group");
         TabHost.TabSpec spec =tabHost.newTabSpec("Meetings").setIndicator("Meetings").setContent(gencal);
         tabHost.addTab(spec);
         gencal  = new Intent(ScheduledMeetingsActivity.this, IndividualMeetingByCrop.class);
         gencal.putExtra("type","individual");
         spec =tabHost.newTabSpec("Individual").setIndicator("Individual").setContent(gencal);
-
         tabHost.addTab(spec);
-
         tabHost.setCurrentTab(0);
         super.setDetails(new DatabaseHelper(getBaseContext()),"Meeting","List of Meetings");
 //        TabHost.TabSpec spec =

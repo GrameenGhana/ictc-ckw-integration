@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="applab.client.search"
-    android:versionCode="23"
-    android:versionName="1.1.9">
+    android:versionCode="24"
+    android:versionName="1.2">
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -50,7 +50,7 @@
             tools:replace="android:value" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDRv4VkNNAdydQ5M21ov0aVB_q0vOpvTd4" />
+            android:value="AIzaSyB60ikg204YnVdcgOPYHOe24bwSU-umkF4" />
 
         <activity
             android:name=".settings.SettingsActivity"

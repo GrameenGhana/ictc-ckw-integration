@@ -22,7 +22,8 @@
                 android:textSize="20dp"
                 android:textColor="#fff9fbff"
                 android:background="@drawable/text_icon_design"
-                android:gravity="center"/>
+                android:gravity="center" />
+
         <applab.client.agrihub.ui.font.RobotoTextView
                 android:id="@+id/lst_text_item_titles"
                 android:layout_width="fill_parent"

@@ -35,31 +35,31 @@ public class IndividualMeetingByCrop  extends BaseActivity {
                 Intent intent;
                 switch (i) {
                     case 0:
-                        intent = new Intent(IndividualMeetingByCrop.this, AgentMeetings.class);
+                        intent = new Intent(IndividualMeetingByCrop.this, GeneralAgentCalendarActivity.class);
                         intent.putExtra("type", "individual");
                         intent.putExtra("crop", text[i]);
                         startActivity(intent);
                         break;
                     case 1:
-                        intent = new Intent(IndividualMeetingByCrop.this, AgentMeetings.class);
+                        intent = new Intent(IndividualMeetingByCrop.this, GeneralAgentCalendarActivity.class);
                         intent.putExtra("type", "individual");
                         intent.putExtra("crop", text[i]);
                         startActivity(intent);
                         break;
                     case 2:
-                        intent = new Intent(IndividualMeetingByCrop.this, AgentMeetings.class);
+                        intent = new Intent(IndividualMeetingByCrop.this, GeneralAgentCalendarActivity.class);
                         intent.putExtra("type", "individual");
                         intent.putExtra("crop", text[i]);
                         startActivity(intent);
                         break;
                     case 3:
-                        intent = new Intent(IndividualMeetingByCrop.this, AgentMeetings.class);
+                        intent = new Intent(IndividualMeetingByCrop.this, GeneralAgentCalendarActivity.class);
                         intent.putExtra("type", "individual");
                         intent.putExtra("crop", text[i]);
                         startActivity(intent);
                         break;
                     case 4:
-                        intent = new Intent(IndividualMeetingByCrop.this, AgentMeetings.class);
+                        intent = new Intent(IndividualMeetingByCrop.this, GeneralAgentCalendarActivity.class);
                         intent.putExtra("type", "individual");
                         intent.putExtra("crop", text[i]);
                         startActivity(intent);

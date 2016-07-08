@@ -93,7 +93,7 @@ public class AgentMeetings extends BaseActivity {
                 Intent intent = new Intent(AgentMeetings.this, MeetingIndexActivity.class);
                 int act = AgentVisitUtil.getMeetingPosition(m.getMeetingIndex(),type);
 
-                MeetingActivity  met = AgentVisitUtil.getMeetingDetails(act);
+                MeetingActivity  met = AgentVisitUtil.getMeetingDetails(act,type);
                 intent.putExtra("mi",act);
                 intent.putExtra("mt", met.getActivityName());
                 intent.putExtra("farmerId", m.getFarmer());

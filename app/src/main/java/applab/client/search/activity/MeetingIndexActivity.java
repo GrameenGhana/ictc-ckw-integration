@@ -78,22 +78,19 @@ public class MeetingIndexActivity extends BaseActivity {
                 title.setVisibility(View.GONE);
                 System.out.println("Meeting Id : " + meetingIndex);
                 System.out.println("mtyppe Id : "+mtype);
-                MeetingActivity meetingActivity = AgentVisitUtil.getMeetingDetails(meetingIndex);
+                MeetingActivity meetingActivity = AgentVisitUtil.getMeetingDetails(meetingIndex,mtype);
                 Meeting meeting  = helper.getFarmerMeetings(farmer.getFarmID(), meetingActivity.getMeetingIndex());
 //if(null!=meeting){
                 System.out.println("meeting not not null");
                 ViewGroup view = (ViewGroup)getWindow().getDecorView();
                 IctcCKwUtil.setFarmerDetails(view,R.id.default_view_profile_item,farmer.getFullname(),farmer,true);
 //                if(mtype.toLowerCase().contains("ind")){
-
-
                 System.out.println("Meeting Found : "+meeting);
                 if(null!=meeting){
                     System.out.println("Meeting Details : "+meeting.getAttended());
                 }
                 if(null != meeting && meeting.getAttended()==1){
                     b.setVisibility(Button.GONE);
-
                     xtraTitle=" {{Already Attended}}";
                 }else
                     b.setVisibility(Button.VISIBLE);
@@ -108,7 +105,8 @@ public class MeetingIndexActivity extends BaseActivity {
 
         super.setDetails(new DatabaseHelper(getBaseContext()),"Meeting","Meeting Index");
         TextView title = (TextView) findViewById(R.id.act_4_meeting);
-        title.setText(AgentVisitUtil.getMeetingTitle(meetingIndex)+" "+xtraTitle);
+       // title.setText(AgentVisitUtil.getMeetingTitle(meetingIndex,mtype)+" "+xtraTitle);
+        title.setText(titler+ " "+xtraTitle);
 
         final List<applab.client.search.model.MeetingActivity> meetings = AgentVisitUtil.getMeetingActivity(meetingIndex);
         final String []   titles = new String[meetings.size()];
@@ -273,7 +271,6 @@ if(meetings.get(i).isCurrentlyAvailable()) {
                 dialog.dismiss();
             }
         });
-
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
         {
             @Override
@@ -285,9 +282,6 @@ if(meetings.get(i).isCurrentlyAvailable()) {
 
         builder.show();
     }
-
-
-
     public Intent processOnClickRequest(String type){
         if(type.equalsIgnoreCase("farm-map")){
             Intent intent= new Intent(MeetingIndexActivity.this, FarmMapping.class);

@@ -65,7 +65,7 @@ public class NextMeetingActivity extends BaseActivity {
 
             TextView tv= (TextView)findViewById(R.id.txt_nxt_header);
             System.out.println("Meeting Index : "+meetingIndex+" - "+meetingType);
-            MeetingActivity details = AgentVisitUtil.getMeetingDetails(meetingIndex);
+            MeetingActivity details = AgentVisitUtil.getMeetingDetails(meetingIndex,meetingType);
             tv.setText(details.getActivityName()+" Next Activities");
 
             if(null == f){
