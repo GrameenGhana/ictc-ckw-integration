@@ -9,12 +9,25 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.*;
 import android.widget.*;
+
+import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.Duration;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import applab.client.search.*;
 import applab.client.search.adapters.DashboardMenuAdapter;
 import applab.client.search.adapters.GridMenuAdapter;
+import applab.client.search.adapters.UpcomingMeetingsAdapter;
+import applab.client.search.adapters.WeatherListAdapter;
+import applab.client.search.model.Meeting;
 import applab.client.search.model.Payload;
 import applab.client.search.model.Weather;
 import applab.client.search.services.MenuItemService;
@@ -22,6 +35,8 @@ import applab.client.search.settings.SettingsActivity;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import applab.client.search.utils.*;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,10 +46,15 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
     View mCustomView;
     ViewPager mViewPager;
     ActionBar mActionBar;
-    SectionsPagerAdapter mSectionsPagerAdapter=null;
+    //SectionsPagerAdapter mSectionsPagerAdapter=null;
     private TextView username;
     private EditText search_text;
     private TextView user_type;
+    private ListView upcoming_meetings;
+    private List<Meeting> meetinglist;
+    private List<Meeting> upcomingDates;
+    private DateTime today;
+    private RecyclerView horizontalGridView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,24 +62,50 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
         setContentView(R.layout.activity_dashboard_smartex);
         super.setDetails(Db(), "SmartEx Dashboard", "Startup");
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        today =new DateTime();
         username=(TextView) findViewById(R.id.username);
         user_type=(TextView) findViewById(R.id.user_type);
         username.setText(ConnectionUtil.currentUserFullName(DashboardSmartExActivity.this));
         user_type.setText(ConnectionUtil.currentUserType(DashboardSmartExActivity.this));
+        upcoming_meetings=(ListView) findViewById(R.id.upcoming_meetings);
+        horizontalGridView = (RecyclerView)findViewById(R.id.horizontal_recycler_view);
+        displayWeather(horizontalGridView);
        // search_text=(EditText) findViewById(R.id.search_text);
         try {
             ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
-            ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
+            // DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
+            //DateTime dt = formatter.parseDateTime(super.Db().getUserItem().getLastModifiedDate());
+            //Duration duration = new Duration(dt, today);
+           // System.out.println("Number of minutes since last sync: "+duration.getStandardMinutes());
+          //if(duration.getStandardMinutes()>20){
+               // ConnectionUtil.refreshFarmerInfo(DashboardSmartExActivity.this, null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
+          //  }
+
 
             if (super.Db().farmerCount() > 0) {
                 if (super.Db().getMeetingSettingCount() == 0) {
                     AgentVisitUtil.setMeetingSettings(super.Db());
                 }
             }
+            meetinglist=super.Db().meetingTimes();
+            upcomingDates=new ArrayList<Meeting>();
+            for(int i=0;i<meetinglist.size();i++){
+                DateTime meetingDate=new DateTime(Long.valueOf(meetinglist.get(i).getScheduledMeetingDate()));
 
+                Meeting m=new Meeting();
+                //System.out.println(Days.daysBetween(meetingDate.toLocalDate(), today.toLocalDate()).getDays());
+                if(Days.daysBetween(today.toLocalDate(), meetingDate.toLocalDate()).getDays()>30){
+                    m.setType(meetinglist.get(i).getType());
+                    m.setTitle(meetinglist.get(i).getTitle());
+                    m.setScheduledMeetingDate(meetinglist.get(i).getScheduledMeetingDate());
+                    upcomingDates.add(m);
+                }
+            }
+            UpcomingMeetingsAdapter ad=new UpcomingMeetingsAdapter(DashboardSmartExActivity.this,upcomingDates);
+            upcoming_meetings.setAdapter(ad);
             new MenuItemService().processMultimediaContent();
             createActionBar();
-            createPageAdaptor();
+           // createPageAdaptor();
             createGrid();
 
         } catch (NullPointerException e) {
@@ -76,14 +122,10 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
             mActionBar.setDisplayShowHomeEnabled(true);
             mActionBar.setDisplayShowTitleEnabled(true);
             LayoutInflater mInflater = LayoutInflater.from(this);
-
             mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
             TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
             mActionBar.setTitle("Dashboard");
             mTitleTextView.setText("Dashboard");
-
-            //mActionBar.setCustomView(mCustomView);
-            //mActionBar.setDisplayShowCustomEnabled(true);
             Button mButton = (Button) mCustomView.findViewById(R.id.search_btn);
             mButton.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
@@ -104,7 +146,7 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
         }
     }
 
-    private void createPageAdaptor() {
+   /* private void createPageAdaptor() {
         try {
             IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
             List<Weather> weathers = super.Db().getWeatherByCommunity();
@@ -118,7 +160,7 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
         } catch(NullPointerException ex) {
             Log.d(TAG, ex.getMessage());
         }
-    }
+    }*/
     private void createGrid() {
         try {
             String[] titles = {"Farmers", "Meetings", "Suppliers", "Markets","Technical Assistance", "Farmer Search"};
@@ -217,7 +259,7 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
         }
     }
 
-    private class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+   /*private class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
         List<Weather> weathers;
 
@@ -303,52 +345,63 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
             }
                 return rootView;
         }
-    }
-   /* @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search_menu, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        try {
-            if(item.getItemId()==R.id.search_user){
-                SearchView user_search = (SearchView) item.getActionView();
-                user_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                    @Override
-                    public boolean onQueryTextSubmit(String query) {
-                        Toast.makeText(DashboardSmartExActivity.this,query,Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(DashboardSmartExActivity.this, FarmerActivity.class);
-                        intent.putExtra("type", "search");
-                        String q = query;
-                        intent.putExtra("q", q);
-                        startActivity(intent);
-                        return true;
-                    }
-                    @Override
-                    public boolean onQueryTextChange(String text) {
-                        return true;
-                    }
-                });
-            }
-            else if (item.getItemId() == R.id.action_settings) {
-                Intent intent = new Intent().setClass(this, SettingsActivity.class);
-                startActivityForResult(intent, 0);
-
-            } else if (item.getItemId() == R.id.action_about) {
-                Intent intent = new Intent().setClass(this, AboutActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-                startActivity(intent);
-
-            } else if (item.getItemId() == android.R.id.home) {
-               finish();
-            }
-
-        } catch (Exception ex) {
-            Log.e(TAG, ex.getMessage());
-        }
-
-        return true;
     }*/
+
+
+    public void displayWeather(RecyclerView g){
+        List<Weather> weathers = super.Db().getWeatherByCommunity();
+        if(weathers.isEmpty()){
+
+            if(ConnectionUtil.isNetworkConnected(getApplicationContext())){
+                ConnectionUtil.refreshWeather(getBaseContext(),"weather","Get latest weather report",null);
+            }
+
+            Weather w = new Weather();
+            w.setLocation("No Weather Data");
+            w.setDetail("no update");
+            w.setIcon("10d");
+            w.setTemprature(0);
+            w.setMinTemprature(0);
+            w.setMaxTemprature(0);
+            w.setTime(1471008957);
+            weathers.add(w);
+
+            w = new Weather();
+            w.setLocation("No Weather Data");
+            w.setDetail("no update");
+            w.setIcon("01d");
+            w.setTemprature(0);
+            w.setMinTemprature(0);
+            w.setMaxTemprature(0);
+            w.setTime(1471008957);
+            weathers.add(w);
+
+            w = new Weather();
+            w.setLocation("No Weather Data");
+            w.setDetail("no update");
+            w.setIcon("01d");
+            w.setTemprature(0);
+            w.setMinTemprature(0);
+            w.setMaxTemprature(0);
+            weathers.add(w);
+
+            w = new Weather();
+            w.setLocation("No Weather Data");
+            w.setDetail("no update");
+            w.setIcon("01d");
+            w.setTemprature(0);
+            w.setMinTemprature(0);
+            w.setMaxTemprature(0);
+            weathers.add(w);
+
+
+        }
+        WeatherListAdapter adapter=new WeatherListAdapter(DashboardSmartExActivity.this,weathers);
+
+        LinearLayoutManager horizontalLayoutManagaer
+                = new LinearLayoutManager(DashboardSmartExActivity.this, LinearLayoutManager.HORIZONTAL, false);
+        g.setLayoutManager(horizontalLayoutManagaer);
+        g.setAdapter(adapter);
+    }
 }
 

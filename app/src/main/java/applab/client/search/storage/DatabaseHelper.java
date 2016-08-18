@@ -264,7 +264,7 @@ public final class DatabaseHelper extends SQLiteOpenHelper {
         sqlCommand.append(DatabaseHelperConstants.ICTC_FARMER_BASELINEPRODUCTION).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.ICTC_TECH_NEEDS).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.ICTC_BASELINE_POST_HARVEST_BADGET).append(" TEXT DEFAULT '',");
-        sqlCommand.append(DatabaseHelperConstants.ICTC_BASELINE_PRODUCTION_BADGET).append(" TEXT DEFAULT ''");
+        sqlCommand.append(DatabaseHelperConstants.ICTC_BASELINE_PRODUCTION_BADGET).append(" TEXT DEFAULT '',");
         sqlCommand.append(DatabaseHelperConstants.PHONENUMBER).append(" TEXT DEFAULT ''");
 
 /**
@@ -878,8 +878,6 @@ e.printStackTrace();
     }
 
     private  MeetingProcedure getMeetingProcedure(Cursor localCursor){
-
-
         MeetingProcedure met = new MeetingProcedure(
                 localCursor.getInt(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
                 localCursor.getInt(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
@@ -889,7 +887,7 @@ e.printStackTrace();
                 localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
                 localCursor.getInt(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME))
         );
-//        localCursor.close();
+        //localCursor.close();
         return  met;
     }
 
@@ -981,8 +979,6 @@ e.printStackTrace();
         System.out.println("Meeting Cnt  : "+response.size());
         return response;
     }
-
-
     public List<Meeting> getIndividualMeetings(String crop,String index){
         String q="select * from "+DatabaseHelperConstants.ICTC_FARMER_MEETING+" WHERE "+DatabaseHelperConstants.ICTC_TYPE+" ='individual'  and  "+DatabaseHelperConstants.ICTC_CROP+"='"+crop+"' and "+DatabaseHelperConstants.ICTC_MEEING_INDEX+"= "+index+"  and "+DatabaseHelperConstants.ICTC_FARMER_ID+" is not null order by "+DatabaseHelperConstants.ICTC_ATTENDED+"  ASC ";
         System.out.println("Query  : "+q);
@@ -990,17 +986,14 @@ e.printStackTrace();
         List<Meeting> response = new ArrayList<Meeting>();
         try {
         while (localCursor.moveToNext()) {
-
                 Meeting  m = getMeeting(localCursor);
                 if(m.getFarmerDetails()!=null)
                     response.add(m);
-
         }
     }finally {
             System.out.println("Closed for "+crop+"  -- "+index);
                 localCursor.close();
         }
-
         System.out.println("Meeting Cnt  : "+response.size());
         return response;
     }public List<Meeting> getGroupMeetings(String crop,String index){
@@ -1042,11 +1035,7 @@ return mt;
 
     public Meeting getFarmerMeetings(String farmer,int meetingIndex){
         String q = findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING) + " WHERE " + DatabaseHelperConstants.ICTC_FARMER_ID + " ='" + farmer + "'  and "+DatabaseHelperConstants.ICTC_MEEING_INDEX+"="+meetingIndex+" and "+DatabaseHelperConstants.ICTC_TYPE+" ='individual' ";
-
-
         List<Meeting> mt = getMeetings(q);
-
-
         if(mt.size()>0)
         return     mt.get(0);
         return  null;
@@ -1054,7 +1043,6 @@ return mt;
 
     public Meeting getFarmerMeetingsById(String id){
         List<Meeting> mt = getMeetings(findAllQuery(DatabaseHelperConstants.ICTC_FARMER_MEETING) + " WHERE " + DatabaseHelperConstants.ICTC_ID + " =" + id );
-
         if(mt.size()>0)
             mt.get(0);
         return  null;
@@ -1062,23 +1050,14 @@ return mt;
     public int getMeetingsAttended(String farmer){
         return getAggregateValue("SELECT count(*) FROM " + DatabaseHelperConstants.ICTC_FARMER_MEETING + " WHERE " + DatabaseHelperConstants.ICTC_FARMER + " ='" + farmer + "' and attended=1");
     }
-
 /**
      * @return
      */
-
-
-
-
-
     public List<Farmer> getFarmersSearch(String query) {
         Cursor localCursor = this.getWritableDatabase().rawQuery(query+" order by "+DatabaseHelperConstants.OTHER_NAMES+" asc ,"+DatabaseHelperConstants.FIRST_NAME+" asc", null);
         List<Farmer> response = new ArrayList<Farmer>();
         try {
-
-
         while (localCursor.moveToNext()) {
-
             System.out.println("MM : " + localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.MAIN_CROP)));
            Farmer f  = new Farmer(
                     localCursor.getString(localCursor.getColumnIndex(DatabaseHelperConstants.FIRST_NAME)),
@@ -1174,15 +1153,11 @@ if(!f.getBaselinepostharvestBudget().isEmpty())
     /**
      * @return
      */
-
-
     public int farmerCount() {
         String query =getGeneralCountQuery(DatabaseHelperConstants.ICTC_FARMER )+"  ";
         return getAggregateValue(query);
 
     }
-
-
     public int farmerCount(String searchBy, String searchValue) {
         String query =getGeneralCountQuery(DatabaseHelperConstants.ICTC_FARMER)+ "  where   " + searchBy + " = '" + searchValue + "'";
 
@@ -1275,6 +1250,53 @@ if(!f.getBaselinepostharvestBudget().isEmpty())
             Farmer response = null;
             while (localCursor.moveToNext()) {
                 wr.add(new CommunityCounterWrapper(localCursor.getString(1), localCursor.getInt(0)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            localCursor.close();
+        }
+        return wr;
+    }
+
+    public List<Community> farmerCountByCommunityGroupName() {
+        List<Community> wr = new ArrayList<Community>();
+
+        String query = " select  count(*)," + DatabaseHelperConstants.VILLAGE + " from " + DatabaseHelperConstants.ICTC_FARMER + "  group by    " + DatabaseHelperConstants.VILLAGE;
+        Cursor localCursor = this.getWritableDatabase().rawQuery(query, null);
+        localCursor.moveToFirst();
+        try {
+            Farmer response = null;
+            while (localCursor.isAfterLast()==false) {
+                Community c=new Community();
+                c.setName(localCursor.getString(1));
+                c.setMemberCount(localCursor.getString(0));
+                wr.add(c);
+                localCursor.moveToNext();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            localCursor.close();
+        }
+        return wr;
+    }
+
+    public List<Meeting> meetingTimes() {
+        List<Meeting> wr = new ArrayList<Meeting>();
+
+        String query = " select  * from " +DatabaseHelperConstants.ICTC_FARMER_MEETING;
+        Cursor localCursor = this.getWritableDatabase().rawQuery(query, null);
+        localCursor.moveToFirst();
+        try {
+            Farmer response = null;
+            while (localCursor.isAfterLast()==false) {
+                Meeting m=new Meeting();
+                m.setScheduledMeetingDate(localCursor.getString(6));
+                m.setType(localCursor.getString(2));
+                m.setTitle(localCursor.getString(4));
+                wr.add(m);
+                localCursor.moveToNext();
             }
         } catch (Exception e) {
             e.printStackTrace();

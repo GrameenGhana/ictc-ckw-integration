@@ -13,6 +13,11 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+
 import applab.client.search.R;
 import applab.client.search.model.Farmer;
 import applab.client.search.model.Payload;
@@ -21,6 +26,9 @@ import applab.client.search.model.Weather;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import applab.client.search.task.IctcTrackerLogTask;
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import cz.msebera.android.httpclient.Header;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -37,6 +45,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class ConnectionUtil {
+
+    private static SweetAlertDialog pDialog;
 
     public static void setUser(Activity act, String id, String username, String type, String name, int age, String gender, String mobile, String phone, String location, String email) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(act.getBaseContext());
@@ -119,9 +129,295 @@ public class ConnectionUtil {
         inputStream.close();
         return result;
     }
-
     // TODO: Move to Synchronization Manager
     public static void refreshFarmerInfo(final Context context,final Intent intent, final String queryString, final String type,String msg ) {
+        final  DatabaseHelper databaseHelper = new DatabaseHelper(context);
+        databaseHelper.alterFarmerTable();
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
+        UserDetails u = databaseHelper.getUserItem();
+        String serverResponse = "";
+        String url = IctcCkwIntegrationSync.ICTC_SERVER_URL + "action="+type+"&a="+u.getSalesForceId()+"&lm="+u.getLastModifiedDate();
+        AsyncHttpClient client=new AsyncHttpClient();
+        client.get(url, new JsonHttpResponseHandler() {
+
+            @Override
+            public void onStart() {
+                if(type.equalsIgnoreCase("login")){
+
+                }else {
+                    pDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
+                    pDialog.setTitleText("Retrieving farmer info...");
+                    pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                        }
+                    });
+                    pDialog.show();
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                //pDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
+                pDialog.setTitleText("Retrieving farmer details...");
+                pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                    }
+                });
+                pDialog.show();
+               if(type.equalsIgnoreCase(IctcCkwIntegrationSync.GET_FARMER_DETAILS)){
+                   // pDialog.dismissWithAnimation();
+
+                    ArrayList<Object> farmerImages = new ArrayList<Object>();
+
+                    ImageDownloader imageDownloader = new ImageDownloader();
+                    Log.i(this.getClass().getName(),"Serrver Rsponse  farmer Details  :  fd"+type);
+                    if ((null != response)) {
+                        Log.i(this.getClass().getName(),"Serrver Rsponse  farmer Details  :  fnot NUll");
+                        try {
+                            //JSONArray farmers = new JSONArray(response);
+                            Log.i(this.getClass().getName(),"Serrver Rsponse   FEM : "+response.length());
+                            int farmersCnt = 0;
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject farmer = response.getJSONObject(i);
+                                //Log.i(this.getClass().getName(),"Serrver Rsponse   Selected : "+farmer.toString());
+                                String[] keys
+                                        = {
+                                        "firstname",   "lastname",   "nickname",    "community",   "village",   "district",  "region",
+                                        "age",   "gender",    "maritalstatus",    "numberofchildren",   "numberofdependants", "education",
+                                        "cluster",   "Id",    "sizeplot",   "labour",   "date_land_ident",   "loc_land",   "target_area",
+                                        "exp_price_ton",     "variety",    "target_nxt_season",   "techneed1",   "techneed2",  "fbo",
+                                        "farmarea",    "date_plant",     "date_man_weed",    "pos_contact",    "mon_sell_start", "mon_fin_pro_sold",
+                                        "majorcrop",    "telephonenumber", };
+                                JSONObject jObj =  farmer.getJSONObject("farmer");
+                                Log.i(this.getClass().getName(),"Serrver Rsponse   farmer farmer");
+                                Log.i(this.getClass().getName(),"Serrver Rsponse   farmer farmer");
+                                JSONObject bioData  =jObj;
+                                // bioDatas.getJSONObject(0);
+                                int  [] bioDataIndex={6,9,4,2,10,32,7,3,8,0,1,11,12,13,14,26};
+                                String[] vals = new String[keys.length];
+                                Arrays.fill(vals,"");
+                                int cnt = 0;
+                                for(int b: bioDataIndex){
+                                    try {
+                                        Log.i(this.getClass().getName(),"Serrver URL Item : "+keys[b]+" - ");
+                                        vals[b] = bioData.getString(keys[b]);
+                                    } catch (Exception e) {
+                                        vals[b] = "";
+                                    }
+
+                                }
+                                long lm= 0l;
+
+                                try {
+                                    lm= bioData.getLong("lm");
+                                }catch(Exception e){
+                                    lm=0l;
+                                }
+                                String production="";
+                                String postHarvest="";String budget="";String baselineProduction="";String baselinePostHarvest="";
+                                JSONObject p =jObj.getJSONObject("production");
+                                production = p.toString();
+                                p =jObj.getJSONObject("postharvest");
+                                postHarvest = p.toString();
+                                p =jObj.getJSONObject("baselineproductionbudget");
+                                budget = p.toString();
+                                p =jObj.getJSONObject("baselineproduction");
+                                baselineProduction = p.toString();
+                                p =jObj.getJSONObject("baselinepostharvest");
+                                baselinePostHarvest = p.toString();
+
+                                p =jObj.getJSONObject("technicalneeds");
+                                String techNeeds = p.toString();
+
+                                p =jObj.getJSONObject("baselinepostharvestbudget");
+
+
+                                //System.out.println("P  baselinepostharvestbudget: "+p.toString());
+                                String baselinepostharvestbudget = p.toString();
+
+
+                                JSONArray gps= jObj.getJSONArray("farmgps");
+                                if(gps.length()>0){
+                                    String fId=bioData.getString("farmerid");;
+                                    int gpsLength = gps.length();
+                                    databaseHelper.deleteFarmerGPS(fId);
+
+                                    for(int kr=0;kr<gpsLength;kr++){
+                                        JSONObject gItem  = gps.getJSONObject(kr);
+                                        String x= gItem.getString("x");
+                                        String y= gItem.getString("y");
+                                        databaseHelper.saveGPSLocation(Double.parseDouble(x),Double.parseDouble(y),fId);
+                                    }
+                                }
+                                Log.i(this.getClass().getName(), "Saving techNees "+vals[0]+" / "+vals[1]+techNeeds);
+                                Log.i(this.getClass().getName(), "Saving farmer "+i);
+                                String farmerId = bioData.getString("Id");
+                                databaseHelper.deleteFarmer(bioData.getString("Id"));
+                                databaseHelper.updateUser(bioData.getString("Id"),lm);
+                               // System.out.println("Production Baseline  : "+bioData.getString("Id")+"---"+baselineProduction);
+                                Farmer f = databaseHelper.saveFarmer(vals[0], vals[1], vals[2], vals[3],
+                                        vals[4], vals[5], vals[6], vals[7], vals[8], vals[9], vals[10], vals[11],
+                                        vals[12], vals[13], vals[14],
+                                        vals[15], vals[16], vals[17], vals[18],
+
+                                        vals[19], vals[20], vals[21], vals[22], vals[23], vals[24],
+                                        vals[25], vals[26], vals[27], vals[28], vals[29], vals[30],
+                                        vals[31], vals[32]
+                                        ,production,postHarvest,budget,baselineProduction,baselinePostHarvest,
+                                        techNeeds,baselinepostharvestbudget,jObj.getString("telephonenumber"));
+                                farmerImages.add(farmerId + ".jpg");
+                                Log.i(this.getClass().getName(),production);
+                                Log.i(this.getClass().getName(),"Saving telephonenumber: "+ jObj.getString("telephonenumber"));
+                                try{
+                                    JSONArray meetings = jObj.getJSONArray("meeting");
+                                    if (meetings != null) {
+
+                                        int grpCnt = 1;
+                                        int individaulCnt = 1;
+                                        for (int k = 0; k < meetings.length(); k++) {
+                                            JSONObject meet = meetings.getJSONObject(k);
+                                            String typeMeet = meet.getString("ty");
+                                            String title = "";
+                                            if (typeMeet.contains("ind")) {
+                                                title = individaulCnt + " " + typeMeet.toUpperCase() + " Meeting";
+                                                individaulCnt++;
+                                            } else {
+
+                                                title = grpCnt + " " + typeMeet.toUpperCase() + " Meeting";
+                                                grpCnt++;
+                                            }
+                                            title = AgentVisitUtil.getMeetingTitle(AgentVisitUtil.getMeetingPosition(meet.getInt("midx"),typeMeet),typeMeet);
+                                            databaseHelper.saveMeeting("",
+                                                    meet.getString("ty"),
+                                                    title,
+                                                    IctcCKwUtil.formatSlashDates(meet.getString("sd")),
+                                                    null,
+                                                    0,// meet.getInt("at"),
+                                                    meet.getInt("midx"),
+                                                    f.getFarmID(),
+                                                    "",
+                                                    f.getMainCrop(), meet.getString("sea")
+                                            );
+                                        }
+                                    }
+                                }catch (Exception e){
+                                    e.printStackTrace();
+                                    if(pDialog!=null){
+                                        pDialog.dismissWithAnimation();
+                                    }
+                                    /*new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                                            .setTitleText("Error")
+                                            .setContentText("Something went wrong")
+                                            .setCancelText("Close")
+                                            .showCancelButton(true)
+                                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                                @Override
+                                                public void onClick(SweetAlertDialog sDialog) {
+                                                    sDialog.dismissWithAnimation();
+                                                }
+                                            })
+                                            .show();*/
+                                }
+
+                                //System.out.println("Farmer After Meeting");
+                                farmersCnt++;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            if(pDialog!=null){
+                                pDialog.dismissWithAnimation();
+                            }
+                            new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText("Error")
+                                    .setContentText("Error processing the data")
+                                    .setCancelText("Close")
+                                    .showCancelButton(true)
+                                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            sDialog.dismissWithAnimation();
+                                        }
+                                    })
+                                    .show();
+                        }
+
+                       //System.out.println("Downloading Images ");
+                        Payload mqp = databaseHelper.getImagePayload(farmerImages);
+                        //System.out.println("Downloading Images ");
+                        IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(context,"pp");
+                        //System.out.println("Payload stask ");
+                        omUpdateCCHLogTask.execute(mqp);
+                       // System.out.println("Payload execute ");
+
+                        if(pDialog!=null){
+                            pDialog.dismissWithAnimation();
+                        }
+                        new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                                .setTitleText("Success")
+                                .setContentText("Data received")
+                                .setConfirmText("Proceed")
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismissWithAnimation();
+                                        if(null != intent) {
+                                            context.startActivity(intent);
+                                        }
+                                    }
+                                })
+                                .show();
+                    } else {
+                        //ALERT MESSAGE
+                        if(pDialog!=null){
+                            pDialog.dismissWithAnimation();
+                        }
+                        new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                                .setTitleText("Error")
+                                .setContentText("No reponse from the server. Try again.")
+                                .setCancelText("Close")
+                                .showCancelButton(true)
+                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sDialog) {
+                                        sDialog.dismissWithAnimation();
+                                    }
+                                })
+                                .show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable e,JSONObject errorResponse) {
+                new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("Error")
+                        .setContentText("No reponse from the server.")
+                        .setCancelText("Close")
+                        .showCancelButton(true)
+                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                            }
+                        })
+                        .show();
+            }
+
+            @Override
+            public void onRetry(int retryNo) {
+                // called when request is retried
+            }
+        });
+
+        // return  serverResponse;
+    }
+
+    // TODO: Move to Synchronization Manager
+   /* public static void refreshFarmerInfo(final Context context,final Intent intent, final String queryString, final String type,String msg ) {
         final  DatabaseHelper databaseHelper = new DatabaseHelper(context);
         databaseHelper.alterFarmerTable();
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
@@ -176,22 +472,16 @@ public class ConnectionUtil {
                     handler.sendMessage(msgObj);
                 }else{
                     Log.i(this.getClass().getName(),"Serrver Rsponse  No Response : -");
-
                 }
             }
-
-
             private final Handler handler;
 
             {
                 handler = new Handler() {
 
                     public void handleMessage(Message msg) {
-
-
                         String type  = msg.getData().getString("type");
                         String aResponse = msg.getData().getString("message");
-
                         if(type.equalsIgnoreCase("login")){
 //
 
@@ -279,11 +569,6 @@ public class ConnectionUtil {
                                                 "majorcrop",
                                                 "telephonenumber",
                                         };
-
-
-
-
-
                                         JSONObject jObj =  farmer.getJSONObject("farmer");
                                         Log.i(this.getClass().getName(),"Serrver Rsponse   farmer farmer");
 //                                      JSONArray bioDatas  = jObj.getJSONArray("biodata");
@@ -406,15 +691,8 @@ public class ConnectionUtil {
                                                 int individaulCnt = 1;
                                                 for (int k = 0; k < meetings.length(); k++) {
                                                     JSONObject meet = meetings.getJSONObject(k);
-
-                                                    //    public Meeting saveMeeting(String id, St
-                                                    // ring type, String title, Date scheduledDate, Date meetingDate, int attended, int meetingIndex, String farmer,
                                                     String typeMeet = meet.getString("ty");
                                                     String title = "";
-                                                    // String remark,String crop,String season){
-
-                                                    //{"ty":"individual","midx":"1","sd":"01/03/2105","sea":"1","ed":"30/03/2015"},{"ty":"group","midx":"4","sd":"01/08/2015","sea":"1","ed":"31/08/2015"},
-                                                    // {"ty":"group","midx":"1","sd":"01/02/2015","sea":"1","ed":"28/02/2015"}
                                                     if (typeMeet.contains("ind")) {
                                                         title = individaulCnt + " " + typeMeet.toUpperCase() + " Meeting";
                                                         individaulCnt++;
@@ -480,7 +758,7 @@ public class ConnectionUtil {
         });
         background.start();
         // return  serverResponse;
-    }
+    }*/
 
     public static void refreshWeather(final Context context, final String type,String msg) {
         refreshWeather(context, type, msg, null);

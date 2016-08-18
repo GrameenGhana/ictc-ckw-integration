@@ -58,7 +58,7 @@ public class  AgentVisitUtil {
             activities.add(new applab.client.search.model.MeetingActivity("Explain Processes and Commitment","I","A",4,"content not available"));
             //activities.add(new applab.client.search.model.MeetingActivity("Explain value proposition","I","A",5, replaceRadioTVSchedule()));
         }else if(2==meetingIndex){
-            activities.add(new applab.client.search.model.MeetingActivity("Enroll and Profile Farmers","I","A",1,LAUNCH_TAROWORKS));
+            activities.add(new applab.client.search.model.MeetingActivity("Enroll and Profile Farmers","I","T",1,LAUNCH_TAROWORKS));
             activities.add(new applab.client.search.model.MeetingActivity("Previous Performance(Producton)", "I", "T",2,LAUNCH_TAROWORKS));
             activities.add(new applab.client.search.model.MeetingActivity("Previous Performance(Producton)", "I", "T",2,LAUNCH_TAROWORKS));
             activities.add(new applab.client.search.model.MeetingActivity("Previous Performance(Farm Credit)", "I", "T",2,LAUNCH_TAROWORKS));
@@ -66,12 +66,12 @@ public class  AgentVisitUtil {
             activities.add(new applab.client.search.model.MeetingActivity("Activities for Next Visit", "I", "A",4,""));
             activities.add(new applab.client.search.model.MeetingActivity("Provide Technical Assistance", "I", "C",3,""));
             activities.add(new applab.client.search.model.MeetingActivity("Provide Key Learning Needs", "I", "C",3,""));
-            activities.add(new applab.client.search.model.MeetingActivity("Share Radio and TV Schedules", "I", "A",4,LAUNCH_TAROWORKS));
+            activities.add(new applab.client.search.model.MeetingActivity("Share Radio and TV Schedules", "I", "A",4,"View Radio and TV Scedules"));
             // activities.add(new applab.client.search.model.MeetingActivity("Document your farmers’ previous performance (BASELINE)","I","A",1,LAUNCH_TAROWORKS));
             // activities.add(new applab.client.search.model.MeetingActivity("Baseline Data Collection", "I", "T",2,LAUNCH_TAROWORKS+" Farmer Baseline Data"));
         }else if(3==meetingIndex){
-            activities.add(new applab.client.search.model.MeetingActivity("Farm Plan(Production)","T","A",1,LAUNCH_TAROWORKS));
-            activities.add(new applab.client.search.model.MeetingActivity("Farm Plan(Post-harvest)","T","A",2,LAUNCH_TAROWORKS));
+            activities.add(new applab.client.search.model.MeetingActivity("Farm Plan(Production)","T","T",1,LAUNCH_TAROWORKS));
+            activities.add(new applab.client.search.model.MeetingActivity("Farm Plan(Post-harvest)","T","T",2,LAUNCH_TAROWORKS));
             activities.add(new applab.client.search.model.MeetingActivity("Previous Performance(Farm Credit)", "I", "T",2,LAUNCH_TAROWORKS));
             activities.add(new applab.client.search.model.MeetingActivity("Provide Input Package", "I", "A",4,""));
             activities.add(new applab.client.search.model.MeetingActivity("Activities for Next Visit", "I", "A",4,""));
@@ -95,7 +95,7 @@ public class  AgentVisitUtil {
         }else if(5==meetingIndex){
 
 
-            activities.add(new applab.client.search.model.MeetingActivity("Crop Assessment","T","A",1,LAUNCH_TAROWORKS));
+            activities.add(new applab.client.search.model.MeetingActivity("Crop Assessment","T","T",1,LAUNCH_TAROWORKS));
             activities.add(new applab.client.search.model.MeetingActivity("Activities for Next Visit","I","A",6,""));
             activities.add(new applab.client.search.model.MeetingActivity("Provide Technical Assistance", "I", "C",2,LAUNCH_CKW));
             activities.add(new applab.client.search.model.MeetingActivity("Provide Key Learning Needs","I","A",7,"to"));

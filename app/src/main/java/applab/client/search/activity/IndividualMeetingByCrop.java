@@ -25,8 +25,8 @@ public class IndividualMeetingByCrop  extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.individual_meeting_by_group_activity);
         grid = (GridView) findViewById(R.id.gridView2);
-        thumbs = new int[]{R.mipmap.maize, R.mipmap.cassava, R.mipmap.yam, R.mipmap.rice,R.mipmap.soyabean};
-        text = new String[]{"Maize", "Cassava", "Yam", "Rice","Soyabean"};
+        thumbs = new int[]{R.mipmap.maize, R.mipmap.rice, R.mipmap.soyabean, R.mipmap.cassava,R.mipmap.yam};
+        text = new String[]{"Maize", "Rice","Soyabean","Cassava", "Yam"};
         adapter = new GridMenuAdapter(IndividualMeetingByCrop.this, thumbs, text);
         grid.setAdapter(adapter);
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -49,7 +49,8 @@ public class IndividualMeetingByCrop  extends BaseActivity {
                     case 2:
                         intent = new Intent(IndividualMeetingByCrop.this, GeneralAgentCalendarActivity.class);
                         intent.putExtra("type", "individual");
-                        intent.putExtra("crop", text[i]);
+                        //intent.putExtra("crop", text[i]);
+                        intent.putExtra("crop", "Soya");
                         startActivity(intent);
                         break;
                     case 3:

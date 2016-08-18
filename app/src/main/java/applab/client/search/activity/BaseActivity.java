@@ -30,6 +30,7 @@ import applab.client.search.synchronization.SynchronizationListener;
 import applab.client.search.synchronization.SynchronizationManager;
 import applab.client.search.task.IctcTrackerLogTask;
 import applab.client.search.utils.*;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -330,14 +331,29 @@ public class BaseActivity extends Activity {
                 startActivity(intent);
 
             } else if (item.getItemId() == R.id.action_refresh_farmer) {
-                Toast.makeText(getBaseContext(),"Synchronising Data Please wait",Toast.LENGTH_LONG).show();
-                DatabaseHelper dbh = new DatabaseHelper(getBaseContext());
-                Payload mqp = dbh.getCCHUnsentLog();
-                IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(this);
-                omUpdateCCHLogTask.execute(mqp);
-                ConnectionUtil.refreshWeather(getBaseContext(),"weather","Get latest weather report");
-                ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
-                startSynchronization();
+                if(IctcCKwUtil.haveNetworkConnection(this)) {
+                    Toast.makeText(getBaseContext(), "Synchronising Data Please wait", Toast.LENGTH_LONG).show();
+                    DatabaseHelper dbh = new DatabaseHelper(getBaseContext());
+                    Payload mqp = dbh.getCCHUnsentLog();
+                    IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(this);
+                    omUpdateCCHLogTask.execute(mqp);
+                    ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
+                    ConnectionUtil.refreshFarmerInfo(BaseActivity.this, null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
+                    startSynchronization();
+                }else{
+                    new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Internet Connection")
+                            .setContentText("Check your internet connection and try again.")
+                            .setCancelText("Close")
+                            .showCancelButton(true)
+                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                }
+                            })
+                            .show();
+                }
 
             } else if (item.getItemId() == R.id.action_logout) {
                 logout();

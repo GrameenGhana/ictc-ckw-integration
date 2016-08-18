@@ -27,6 +27,7 @@ import applab.client.search.task.IctcTrackerLogTask;
 import applab.client.search.utils.AboutActivity;
 import applab.client.search.utils.BaseLogActivity;
 import applab.client.search.utils.ConnectionUtil;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class BaseFragmentActivity extends FragmentActivity {
 
@@ -237,7 +238,7 @@ public class BaseFragmentActivity extends FragmentActivity {
                 IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(this);
                 omUpdateCCHLogTask.execute(mqp);
                 ConnectionUtil.refreshWeather(getBaseContext(),"weather","Get latest weather report");
-                ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
+                ConnectionUtil.refreshFarmerInfo(BaseFragmentActivity.this, null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
                 startSynchronization();
 
             } else if (item.getItemId() == R.id.action_logout) {
@@ -254,7 +255,31 @@ public class BaseFragmentActivity extends FragmentActivity {
         return true;
     }
     protected void logout() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        new SweetAlertDialog(BaseFragmentActivity.this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Logout")
+                .setContentText("Do you want to really log out?")
+                .setConfirmText("Yes")
+                .setCancelText("No")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                        helper.resetFarmer();
+                        ConnectionUtil.unSetUser(BaseFragmentActivity.this);
+                        Intent intent = new Intent().setClass(BaseFragmentActivity.this, StartUpActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.cancel();
+                    }
+                })
+                .show();
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
         builder.setTitle("Logout");
         builder.setMessage("Do you want to really log out?");
@@ -274,7 +299,7 @@ public class BaseFragmentActivity extends FragmentActivity {
                 // do nothing
             }
         });
-        builder.show();
+        builder.show();*/
     }
 
 }

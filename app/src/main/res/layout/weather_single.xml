@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="5dp">
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:id="@+id/img_weather_icon"
+            android:src="@mipmap/ic_cloudy"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Techiman"
+            android:id="@+id/txt_weather_city"
+            android:textColor="#ffffffff"
+            android:textStyle="bold|italic"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="26 °C"
+            android:id="@+id/txt_weather_temp"
+            android:textSize="20dp"
+            android:textColor="#ffffffff"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Mostly cloudy"
+            android:id="@+id/txt_weather_description"
+            android:textColor="#ffffffff"
+            android:textStyle="bold|italic"
+            android:textSize="17dp"/>
+
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/txt_weather_time"
+            android:text="Mostly cloudy"
+            android:textColor="#ffffffff"
+            android:textStyle="bold|italic"/>
+
+    </LinearLayout>
+    <View
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        android:background="#0c0303" />
+
+</LinearLayout>

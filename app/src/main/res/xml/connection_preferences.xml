@@ -15,5 +15,11 @@
                 android:summary="@string/ictc_summary_server_url"
                 android:dialogTitle="@string/ictc_title_server_url"
                 android:defaultValue="@string/ictc_server_url"/>
+        <EditTextPreference
+            android:key="send_measurement_url"
+            android:title="@string/ictc_title_measurement_server_url"
+            android:summary="@string/ictc_summary_server_url"
+            android:dialogTitle="@string/ictc_title_server_url"
+            android:defaultValue="getMeasurement"/>
     </PreferenceCategory>
 </PreferenceScreen>

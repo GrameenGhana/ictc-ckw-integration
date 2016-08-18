@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.BatteryManager;
 import android.telephony.TelephonyManager;
 import android.view.MotionEvent;
@@ -71,17 +73,13 @@ public class IctcCKwUtil {
         try {
 
         SimpleDateFormat iso8601Format = new SimpleDateFormat( format);
-
-
         if (timeToFormat != null) {
             try {
                 date = iso8601Format.parse(timeToFormat);
             } catch (ParseException e) {
                 date = null;
             }
-
         }
-
         }catch(Exception e){
 
         }
@@ -108,18 +106,12 @@ public class IctcCKwUtil {
                 }
             }
         }catch(Exception e){
-
         }
-
-
         return date;
     }
-
     public static  String getNextDate(int dayOfWeek){
         Date date  = new Date();
         Calendar cal = Calendar.getInstance();
-
-
         String replaceWith ="";
         int currentDayofWeek =  cal.get(Calendar.DAY_OF_WEEK);
         if(dayOfWeek == currentDayofWeek)
@@ -142,8 +134,6 @@ public class IctcCKwUtil {
     public static  String getNextDate(int dayOfWeek,int weeksMore){
         Date date  = new Date();
         Calendar cal = Calendar.getInstance();
-
-
         String replaceWith ="";
         int currentDayofWeek =  cal.get(Calendar.DAY_OF_WEEK);
 
@@ -281,6 +271,11 @@ public class IctcCKwUtil {
                 mainCrops.setText("Rice");
                // mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
                 // icon.setBackgroundDrawable(drawable);
+            }else if (crop.contains("soya")) {
+                Drawable drawable = container.getContext().getResources().getDrawable(R.mipmap.ic_rice);
+                mainCrops.setText("Soyabean");
+                // mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+                // icon.setBackgroundDrawable(drawable);
             }
             TextView locView  = (TextView)container.findViewById(R.id.textView12);
 
@@ -295,19 +290,8 @@ public class IctcCKwUtil {
                 //locView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location, 0, 0, 0);
             }else{
                 locations.setTextColor(container.getResources().getColor(R.color.accent_material_light));
-                //locView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location_green,0, 0, 0 );
             }
-//            names.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    processFarmerSelect(view,farmer);
-//
-//                }
-//            });
             locations.setText(farmer.getVillage()+", "+farmer.getRegion());
-            // Drawable drawable = mContext.getResources().getDrawable(R.drawable.ic_maize);
-            //mainCrops.setText(crop);
-            //mainCrops.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
             group.setText(getClusterText(farmer.getCluster()));
 
             if(clickable) {
@@ -320,13 +304,9 @@ public class IctcCKwUtil {
                 }
             });
             }
-//            tv.setOnClickListener();
         }else
         {
-
             ll.setVisibility(View.GONE);
-//            tv.setVisibility(TextView.GONE);
-
         }
     }
    public static String getClusterText(String c){
@@ -347,11 +327,7 @@ public class IctcCKwUtil {
            case "":
                cluster="No Cluster";
                break;
-
-
        }
-
-
        return cluster;
    }
     public static void setFarmerDetails(View container,int parentID,String farmerName, final Farmer farmer){
@@ -365,41 +341,23 @@ public class IctcCKwUtil {
     }
 
     public static List<Meeting> sortMeeting(List<Meeting> arr) {
-
         boolean swapped = true;
-
         int j = 0;
-
         Meeting tmp;
-
         while (swapped) {
-
             swapped = false;
-
             j++;
-
             for (int i = 0; i < arr.size() - j; i++) {
-
                 if (arr.get(i).getMonthMod() > arr.get(i + 1).getMonthMod()) {
-
                     tmp = arr.get(i);
-
                     arr.set(i,arr.get(i + 1));
-
                     arr.set(i + 1,tmp);
-
                     swapped = true;
-
                 }
-
             }
-
         }
-
         return arr;
-
     }
-
     public static UserDetails getUser(Context c){
         Activity activity = (Activity) c;
         SharedPreferences sharedPref = activity.getPreferences(Context.MODE_PRIVATE);
@@ -474,6 +432,23 @@ public class IctcCKwUtil {
         else if(crop.equalsIgnoreCase("cassava"))
             return "E. "+crop;
 
+
         return ckwCrop;
+    }
+    public static boolean haveNetworkConnection(Context c) {
+        boolean haveConnectedWifi = false;
+        boolean haveConnectedMobile = false;
+
+        ConnectivityManager cm = (ConnectivityManager) c.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
+        for (NetworkInfo ni : netInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    haveConnectedWifi = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    haveConnectedMobile = true;
+        }
+        return haveConnectedWifi || haveConnectedMobile;
     }
 }

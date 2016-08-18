@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.*;
 import applab.client.search.R;
 import applab.client.search.adapters.CommunitiesAdapter;
+import applab.client.search.model.Community;
 import applab.client.search.model.CommunityCounterWrapper;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.IctcCKwUtil;
@@ -46,16 +47,17 @@ public class CommunityActivity extends BaseActivity {
        // mActionBar.setCustomView(mCustomView);
         //mActionBar.setDisplayShowCustomEnabled(true);
         list = (ListView) findViewById(R.id.listView);
-        final List<CommunityCounterWrapper> comWr = helper.farmerCountByCommunityGroup();
-        String[] names = new String[comWr.size()];
+        final List<Community> comWr = helper.farmerCountByCommunityGroupName();
+       // List<Community> names = new String[comWr.size()];
         String[] farmers = new String[comWr.size()];
         int cnt = 0;
-        for (CommunityCounterWrapper wr : comWr) {
+       /* for (CommunityCounterWrapper wr : comWr) {
             names[cnt] = wr.getCommunity();
             System.out.println("Name of Community: "+names[cnt]);
             farmers[cnt] = String.valueOf(wr.getCounter());
             cnt++;
-        }
+        }*/
+        System.out.println(comWr.size());
         super.setDetails(helper,"Client","Community");
         Button mButton = (Button) mCustomView.findViewById(R.id.search_btn);
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -67,14 +69,14 @@ public class CommunityActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-        final CommunitiesAdapter adapter = new CommunitiesAdapter(CommunityActivity.this, names, farmers);
+        final CommunitiesAdapter adapter = new CommunitiesAdapter(CommunityActivity.this, comWr);
         list.setAdapter(adapter);
         list.setTextFilterEnabled(true);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(CommunityActivity.this, FarmerActivity.class);
                 intent.putExtra("type", "comm");
-                intent.putExtra("name", comWr.get(i).getCommunity());
+                intent.putExtra("name", comWr.get(i).getName());
                 startActivity(intent);
             }
         });

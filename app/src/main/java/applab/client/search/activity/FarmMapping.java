@@ -24,7 +24,10 @@ import applab.client.search.R;
 import applab.client.search.model.FarmGPSLocation;
 import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import applab.client.search.utils.IctcCKwUtil;
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import cz.msebera.android.httpclient.Header;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -33,11 +36,16 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LinearRing;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
+import com.vividsolutions.jts.geom.impl.PackedCoordinateSequence;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -68,6 +76,10 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
     static final double EARTH_RADIUS = 6371009;
     int gpsCnt = 0;
     int newGps = 0;
+    private double area;
+    private double perimeter;
+    private SweetAlertDialog pDialog;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +88,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
 //        setUpMapIfNeeded();
 //
         dbHelper = new DatabaseHelper(getBaseContext());
+        getActionBar().setTitle("Farm Mapping");
         super.setDetails(dbHelper, "Farmer", "Farm Mapping");
 
         try {
@@ -87,9 +100,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
                 clear = (Integer) extras.get("c");
                 if (null == clear) {
                     clear = 0;
-
                 }
-
                 if (clear == 1)
                     shdClear = true;
                 farmer = dbHelper.findFarmer(farmer.getFarmID());
@@ -101,15 +112,8 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
                 } catch (Exception e) {
 
                 }
-//                fm = (TextView) findViewById(R.id.txt_map_fm_crop);
-//                fm.setText(farmer.getMainCrop());
-//
-//                fm = (TextView) findViewById(R.id.txt_map_fm_loc);
-//                fm.setText(farmer.getCommunity());
                 IctcCKwUtil.setFarmerDetails(getWindow().getDecorView().getRootView(), R.id.ccs_layout, farmer.getFullname(), farmer, true);
-
                 LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
                 if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
                     Toast.makeText(this, "GPS is Enabled in your devide", Toast.LENGTH_SHORT).show();
                 } else {
@@ -126,9 +130,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
                             "\n" +
                             "2. Tap the screen every 5 steps. You must select at least 3 points before you finish walking around the farm. \n" +
                             "\n" +
-                            "3. Once you have gone around the farm, tap and hold the screen until you see a number. That is the area of your farm in square metres. ");
-
-
+                            "3. Once you have gone around the farm, tap and hold the screen until you see a number. That is the area of your farm in acres. ");
                 }
 
                 setUpMapIfNeeded(shdClear);
@@ -159,17 +161,9 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
     private void setUpMapIfNeeded(boolean clear) {
         System.out.println("Clear Coordinates : " + clear);
         List<FarmGPSLocation> gps = dbHelper.getFarmerCoordinates(farmer.getFarmID());
-
-
         System.out.println("GOS  : " + gps.size());
-
-
         gpsCnt = gps.size();
         for (FarmGPSLocation gpsLoc : gps) {
-
-//                    mMap.addMarker(new MarkerOptions()
-//                            .position(new LatLng(gpsLoc.getLatitude(), gpsLoc.getLongitude()))
-//                            .title("Farm Map Point " + farmer.getLandArea()));
             options.add(new LatLng(gpsLoc.getLatitude(), gpsLoc.getLongitude()));
 
         }
@@ -231,9 +225,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
 
     @Override
     public void onMapClick(LatLng latLng) {
-
         try {
-
             Toast.makeText(getApplicationContext(),
                     "" + mMap.getMyLocation().getLatitude() + mMap.getMyLocation().getLongitude(),
                     Toast.LENGTH_LONG).show();
@@ -255,7 +247,6 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
                 mMap.addPolyline(options);
             }
 
-
 //        dbHelper.saveGPSLocation(mMap.getMyLocation().getLatitude(),mMap.getMyLocation().getLongitude(),farmer.getFarmID());
             listed.add(new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()));
             try {
@@ -271,21 +262,14 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
                     .position(new LatLng(mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()))
                     .title("Farm Map Point " + points.size()));
         } catch (Exception e) {
-
-
         }
-
-
     }
-
     public void saveItems() {
         if (points.size() > 0)
             points.add(points.get(0));
         for (Coordinate point : points) {
             System.out.println(point.x + " - " + point.y);
         }
-
-
         if (points.size() > 3) {
             if (gpsCnt == 0) {
                 processSaveCoordinates();
@@ -306,36 +290,27 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
         setUpMapIfNeeded();
 
     }
-
     public void resetMap() {
         points = new ArrayList<Coordinate>();
 
     }
-
     @Override
     public void onMapLongClick(LatLng latLng) {
         saveItems();
 
     }
-
-
     public void locateMe() {
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
         if (location != null)
         {
+
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(location.getLatitude(), location.getLongitude()), 13));
 
@@ -438,53 +413,38 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
 
     public void showDialog(final String title,final String  msg) throws Exception
     {
-        AlertDialog.Builder builder = new AlertDialog.Builder(FarmMapping.this);
-
-        builder.setTitle(title);
-
-        builder.setMessage(msg);
-
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        new SweetAlertDialog(FarmMapping.this, SweetAlertDialog.NORMAL_TYPE)
+                .setTitleText(title)
+                .setContentText(msg).setCancelText("Close")
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-
-                dialog.dismiss();
+            public void onClick(SweetAlertDialog sDialog) {
+                sDialog.dismissWithAnimation();
             }
-        });
-
-//        builder.setNegativeButton("No", new DialogInterface.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which)
-//            {
-//                dialog.dismiss();
-//            }
-//        });
-
-        builder.show();
+        })
+        .show();
     }
 
     private void showGPSDisabledAlertToUser(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("GPS is disabled in your device. Would you like to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Goto Settings Page To Enable GPS",
-                        new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface dialog, int id){
-                                Intent callGPSSettingIntent = new Intent(
-                                        android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                startActivity(callGPSSettingIntent);
-                            }
-                        });
-        alertDialogBuilder.setNegativeButton("Cancel",
-                new DialogInterface.OnClickListener(){
-                    public void onClick(DialogInterface dialog, int id){
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = alertDialogBuilder.create();
-        alert.show();
+         new SweetAlertDialog(FarmMapping.this, SweetAlertDialog.WARNING_TYPE)
+        .setContentText("GPS is disabled in your device. Would you like to enable it?")
+                 .setConfirmText("Goto Settings Page To Enable GPS")
+                 .setCancelText("Close")
+                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                     @Override
+                     public void onClick(SweetAlertDialog sDialog) {
+                         Intent callGPSSettingIntent = new Intent(
+                                 android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                         startActivity(callGPSSettingIntent);
+                     }
+                 }).setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+             @Override
+             public void onClick(SweetAlertDialog sDialog) {
+                 sDialog.dismissWithAnimation();
+             }
+         })
+                 .show();
+
     }
 
 
@@ -509,12 +469,11 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
     }
 
     public void processSaveCoordinates(){
-
         polygon = gf.createPolygon(new LinearRing(new CoordinateArraySequence(points
                 .toArray(new Coordinate[points.size()])), gf), null);
         //double area = (polygon.getArea() * (Math.PI / 180) * 6378137) * 100000;
-        double area = computeSignedArea(listed,EARTH_RADIUS);
-        double perimeter = computeLength(listed);
+        area = computeSignedArea(listed,EARTH_RADIUS);
+        perimeter = computeLength(listed);
 
         area = IctcCKwUtil.meterSqdToAcre(area);
         Toast.makeText(getApplicationContext(),
@@ -540,7 +499,6 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
             System.out.println("Saved GPS: "+l);
             JSONObject obj = new JSONObject();
             try {
-
                 obj.put("x",String.valueOf(coordinate.x));
                 obj.put("y",String.valueOf(coordinate.y));
                 jsonCoordinate.put(obj);
@@ -549,10 +507,8 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
             }
             System.out.println("Done saving  Pnts: "+l);
         }
-
         JSONObject objs = new JSONObject();
         try {
-
             objs.put("user_id",farmer.getFarmID());
             objs.put("page","Farm Map Input");
             objs.put("area",String.valueOf(area));
@@ -563,28 +519,13 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
             objs.put("version",IctcCKwUtil.getAppVersion());
             objs.put("battery",IctcCKwUtil.getBatteryLevel(getBaseContext()));
             dbHelper.insertCCHLog("Farmer",objs.toString(),super.baseLogActivity.getStartTime(), System.currentTimeMillis());
+           // sendCoordinates(String.valueOf(perimeter),String.valueOf(area));
         }catch(Exception e ){
 
         }
-
-
         dbHelper.updateFarmer(farmer.getFarmID(), area,perimeter);
-
-
-
-//        JSONObject l = new JSONObject();
-//        try {
-//            l.put("points",mapPoints);
-//            l.put("area",area);
-//            l.put("perimeter",perimeter);
-////                ConnectionUtil.refreshFarmerInfo(getBaseContext(),null, "fid="+farmer+"&l="+URLEncoder.encode(l.toString()),"fmap","Syncing Farm Mapping");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
         newGps=0;
     }
-
 
 
     @Override
@@ -600,9 +541,6 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         try {
-
-
-
             if (item.getItemId() == R.id.action_calculate_area) {
                 saveItems();
             } else if (item.getItemId() == R.id.action_clear_coordinates) {
@@ -614,13 +552,93 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
                 setUpMapIfNeeded(true);
             }else if (item.getItemId() == R.id.action_show_mapping) {
                 setUpMapIfNeeded();
+            }else if (item.getItemId() == R.id.action_send_coordinates) {
+                sendCoordinates(farmer.getSizePlot(),  farmer.getLandArea());
             }
-
        } catch (Exception ex) {
             Log.e(CKWSearchActivity.class.getName(), "", ex);
         }
 
         return true;
+    }
+
+    public void sendCoordinates(final String perimeter, final String area){
+        try {
+            JSONObject j = new JSONObject();
+            j.put("requestType", "measure");
+            j.put("farmerId", farmer.getFarmID());
+            j.put("area", area);
+            j.put("perimeter", String.valueOf(perimeter));
+            RequestParams params = new RequestParams();
+            params.put("data", j.toString());
+            params.put("method", "measurement");
+            AsyncHttpClient client = new AsyncHttpClient();
+            client.post(IctcCkwIntegrationSync.ICTC_SALESFORCE_SEND_MEASUREMENT_URL, params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onStart() {
+                    pDialog = new SweetAlertDialog(FarmMapping.this, SweetAlertDialog.PROGRESS_TYPE);
+                    pDialog.setTitleText("Sending... \n" + "Area: " + area + "\n" + "Perimeter: " + perimeter);
+                    pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                        }
+                    });
+                    pDialog.show();
+                }
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+                    System.out.println(response.toString());
+                    pDialog.dismissWithAnimation();
+                    new SweetAlertDialog(FarmMapping.this, SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("Success")
+                            .setContentText("Sent successfully!")
+                            .setCancelText("Close")
+                            .showCancelButton(true)
+                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                }
+                            })
+                            .show();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] errorResponse,Throwable e) {
+                    System.out.println(errorResponse.toString());
+                    pDialog.dismissWithAnimation();
+                    new SweetAlertDialog(FarmMapping.this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Error")
+                            .setContentText("Something went wrong")
+                            .setCancelText("Close")
+                            .showCancelButton(true)
+                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismissWithAnimation();
+                                }
+                            })
+                            .show();
+                }
+            });
+
+
+        } catch (Exception e) {
+            pDialog.dismissWithAnimation();
+            new SweetAlertDialog(FarmMapping.this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Error")
+                    .setContentText("Have you calculated the area?")
+                    .setCancelText("Close")
+                    .showCancelButton(true)
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .show();
+        }
     }
 
 }

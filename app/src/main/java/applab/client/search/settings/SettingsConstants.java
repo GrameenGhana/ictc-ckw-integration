@@ -9,6 +9,7 @@ public final class SettingsConstants {
 
     public static final String KEY_SERVER = "server_url";
     public static final String ICTC_KEY_SERVER = "ictc_server_url";
+    public static final String ICTC_SEND_MEASUREMENT_SERVER = "send_measurement_url";
     public static final String KEY_COUNTRY_CODE = "countryCode";
     public static final String KEY_KEYWORDS_VERSION = "keywordsVersion";
     public static final String KEY_FARMERS_VERSION = "farmersVersion";

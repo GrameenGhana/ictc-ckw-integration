@@ -15,6 +15,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 import applab.client.search.R;
 import applab.client.search.model.Payload;
+import applab.client.search.services.TrackerService;
 import applab.client.search.settings.SettingsActivity;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
@@ -22,10 +23,19 @@ import applab.client.search.synchronization.SynchronizationListener;
 import applab.client.search.synchronization.SynchronizationManager;
 import applab.client.search.task.IctcTrackerLogTask;
 import applab.client.search.utils.AboutActivity;
+import applab.client.search.utils.ApplicationRegistry;
 import applab.client.search.utils.BaseLogActivity;
 import applab.client.search.utils.ConnectionUtil;
+import applab.client.search.utils.DeviceMetadata;
+import applab.client.search.utils.GlobalConstants;
+import applab.client.search.utils.IctcCKwUtil;
+import applab.client.search.utils.ImageUtils;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import android.os.Handler;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 /**
  * Created by skwakwa on 10/12/15.
@@ -45,8 +55,48 @@ public class BaseActivityGroup extends ActivityGroup {
         mContext = this;
         baseLogActivity = new BaseLogActivity(getBaseContext());
         helper = new DatabaseHelper(getBaseContext());
+        handler = new Handler();
+        progressDialog = new ProgressDialog(mContext);
         if(getActionBar()!=null){
             getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        if (!imageLoader.isInited()) {
+            imageLoader.init(ImageLoaderConfiguration.createDefault(this));
+        }
+
+        if (!ConnectionUtil.isLoggedIn(this)) {
+            startActivity(new Intent(BaseActivityGroup.this, LoginActivity.class));
+            finish();
+
+        } else {
+            handler = new Handler();
+            createProgressBar();
+
+            // TODO: Move to Manifest start.
+            Intent service = new Intent(this, TrackerService.class);
+            Bundle tb = new Bundle();
+            tb.putBoolean("backgroundData", true);
+            service.putExtras(tb);
+            this.startService(service);
+
+            try {
+                // Register values in cache
+                String username = ConnectionUtil.currentUsername(this);
+                String fullName = ConnectionUtil.currentUserFullName(this);
+
+                ApplicationRegistry.setApplicationContext(this.getApplicationContext());
+                ApplicationRegistry.register(GlobalConstants.KEY_CACHED_DEVICE_IMEI,
+                        DeviceMetadata.getDeviceImei(this.getApplicationContext()));
+                ApplicationRegistry.register(GlobalConstants.KEY_CACHED_APPLICATION_VERSION, getResources().getString(R.string.app_name) + "/"
+                        + getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+                ApplicationRegistry.register(IctcCKwUtil.KEY_USER_NAME, username);
+                ApplicationRegistry.register(IctcCKwUtil.KEY_FULNAME, fullName);
+                ApplicationRegistry.register(IctcCKwUtil.KEY_VERSION, getPackageManager().getPackageInfo(getPackageName(), 0).versionName);
+                ImageUtils.verifyDirectory();
+            } catch (Exception e) {
+                Log.d(TAG, e.getMessage());
+            }
         }
     }
 
@@ -195,16 +245,18 @@ public class BaseActivityGroup extends ActivityGroup {
             });
             SynchronizationManager.getInstance().start();
         } else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setCancelable(false);
-            builder.setTitle("No Internet connection");
-            builder.setMessage("Cannot update data at the moment. Try again when the device is connected.");
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    // do nothing
-                }
-            });
-            builder.show();
+            new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("Internet Connection")
+                    .setContentText("Check your internet connection and try again.")
+                    .setCancelText("Close")
+                    .showCancelButton(true)
+                    .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .show();
         }
     }
     public void onRefresh() {};
@@ -266,14 +318,29 @@ public class BaseActivityGroup extends ActivityGroup {
                 startActivity(intent);
 
             } else if (item.getItemId() == R.id.action_refresh_farmer) {
-                Toast.makeText(getBaseContext(),"Synchronising Data Please wait",Toast.LENGTH_LONG).show();
-                DatabaseHelper dbh = new DatabaseHelper(getBaseContext());
-                Payload mqp = dbh.getCCHUnsentLog();
-                IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(this);
-                omUpdateCCHLogTask.execute(mqp);
-                ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
-                ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
-                startSynchronization();
+               if( IctcCKwUtil.haveNetworkConnection(this)) {
+                    Toast.makeText(getBaseContext(), "Synchronising Data Please wait", Toast.LENGTH_LONG).show();
+                    DatabaseHelper dbh = new DatabaseHelper(getBaseContext());
+                    Payload mqp = dbh.getCCHUnsentLog();
+                    IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(this);
+                    omUpdateCCHLogTask.execute(mqp);
+                    ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
+                    ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
+                    startSynchronization();
+                }else{
+                   new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+                           .setTitleText("Internet Connection")
+                           .setContentText("Check your internet connection and try again.")
+                           .setCancelText("Close")
+                           .showCancelButton(true)
+                           .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                               @Override
+                               public void onClick(SweetAlertDialog sDialog) {
+                                   sDialog.dismissWithAnimation();
+                               }
+                           })
+                           .show();
+               }
 
             } else if (item.getItemId() == R.id.action_logout) {
                 logout();

@@ -132,10 +132,12 @@ public class LoginActivity extends Activity implements APIRequestListener {
                 }
 
                 ConnectionUtil.setUser(this, id, username, type, name, age, gender,mobile,phone, location, email);
+
                 Intent i = new Intent(LoginActivity.this, StartUpActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(i);
-                finish();
+                ConnectionUtil.refreshFarmerInfo(LoginActivity.this,i, "us=", "fdetails","Login Successful, Loading Agent Data");
+                //startActivity(i);
+                //this.finish();
 
             } catch (JSONException e) {
                 Log.e(TAG, e.getMessage());
@@ -159,8 +161,8 @@ public class LoginActivity extends Activity implements APIRequestListener {
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        mUsername = mUsernameView.getText().toString();
-        mPassword = mPasswordView.getText().toString();
+        mUsername = mUsernameView.getText().toString().trim();
+        mPassword = mPasswordView.getText().toString().trim();
 
         boolean cancel = false;
         View focusView = null;

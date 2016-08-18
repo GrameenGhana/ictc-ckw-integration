@@ -31,9 +31,11 @@ public class IctcCkwIntegrationSync {
     //104.236.220.225:45805
     ///http://104.236.220.225:8080
 
-    //public static   String ICTC_SERVER_MAIN_URL="http://104.236.220.225:45805/";
-    public static   String ICTC_SERVER_MAIN_URL= SettingsManager.getInstance().getValue(SettingsConstants.ICTC_KEY_SERVER);
+    public static   String ICTC_SALESFORCE_SEND_MEASUREMENT="http://ictchallenge.force.com/";
+    public static   String ICTC_SALESFORCE_SEND_MEASUREMENT_URL=ICTC_SALESFORCE_SEND_MEASUREMENT+SettingsManager.getInstance().getValue(SettingsConstants.ICTC_SEND_MEASUREMENT_SERVER);
     public static   String ICTC_SERVER_CONTEXT_PATH="ICTC/";
+    public static   String ICTC_SERVER_MAIN_URL= SettingsManager.getInstance().getValue(SettingsConstants.ICTC_KEY_SERVER);
+
     public static String ICTC_SERVER_URL_ROOT_2= ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"MobileController?";//http://104.236.220.225:8080
     static String ICTC_SERVER_URL_ROOT = ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"api/v1/";
     public static String ICTC_SERVER_URL = ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"api/v1?";
@@ -90,11 +92,9 @@ public class IctcCkwIntegrationSync {
         }
         return "";
     }
-
     public static boolean saveFarmer(String firstName, String lastName, String nickname, String community, String village, String district,
                                      String region, String age, String gender, String maritalStatus, String numberOfChildren, String numberOfDependants,
                                      String education, String cluster, String farmID) {
-
 
         ContentValues values = new ContentValues();
         values.put(DatabaseHelperConstants.FIRST_NAME, firstName);

@@ -27,5 +27,9 @@
         android:showAsAction="never"
           android:title="Get Area"
           android:icon="@mipmap/ic_refresh"/>
+    <item android:id="@+id/action_send_coordinates"
+        android:showAsAction="never"
+        android:title="Sync Measured Area"
+        android:icon="@mipmap/ic_refresh"/>
 
 </menu>

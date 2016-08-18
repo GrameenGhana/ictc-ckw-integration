@@ -38,8 +38,8 @@ public class FarmerByCrop   extends BaseActivity{
         mActionBar.setTitle("Farmer By Crop");
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         grid = (GridView) findViewById(R.id.gridView3);
-        thumbs = new int[]{R.mipmap.maize, R.mipmap.cassava, R.mipmap.yam, R.mipmap.rice,R.mipmap.soyabean};
-        text = new String[]{"Maize", "Cassava", "Yam", "Rice","Soyabean"};
+        thumbs = new int[]{R.mipmap.maize, R.mipmap.rice, R.mipmap.soyabean, R.mipmap.cassava,R.mipmap.yam};
+        text = new String[]{"Maize","Rice","Soyabean", "Cassava", "Yam"};
         adapter = new GridMenuAdapter(FarmerByCrop.this, thumbs, text);
         grid.setAdapter(adapter);
         //TabHost tabHost = (TabHost)findViewById(R.id.tab_farmer_by_crop);
@@ -65,10 +65,17 @@ public class FarmerByCrop   extends BaseActivity{
                     case 2:
                         intent = new Intent(FarmerByCrop.this, FarmersCrop.class);
                         intent.putExtra("type", "individual");
-                        intent.putExtra("crop", text[i]);
+                        //intent.putExtra("crop", text[i]);
+                        intent.putExtra("crop","Soya");
                         startActivity(intent);
                         break;
                     case 3:
+                        intent = new Intent(FarmerByCrop.this, FarmersCrop.class);
+                        intent.putExtra("type", "individual");
+                        intent.putExtra("crop", text[i]);
+                        startActivity(intent);
+                        break;
+                    case 4:
                         intent = new Intent(FarmerByCrop.this, FarmersCrop.class);
                         intent.putExtra("type", "individual");
                         intent.putExtra("crop", text[i]);

@@ -18,16 +18,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Area"
-                android:id="@+id/textView27"  android:padding="5dp"/>
+                android:id="@+id/textView27"  android:padding="5dp"
+            android:textStyle="bold" />
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"
-                android:id="@+id/txt_map_fm_area"  android:padding="5dp"/>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="No of Coordinate"
-                  android:id="@+id/textView28" android:padding="5dp"/>
+                android:id="@+id/txt_map_fm_area"
+                android:textColor="#ff0e4918"
+            android:padding="5dp"
+            android:textStyle="bold" />
+        <TextView android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No of Coordinate"
+            android:id="@+id/textView28"
+            android:padding="5dp"
+            android:textStyle="bold" />
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="-"
-                  android:id="@+id/txt_coordinate_no" android:padding="5dp"/>
+                  android:id="@+id/txt_coordinate_no" android:padding="5dp"
+            android:textStyle="bold"
+            android:textColor="#ff0e4918" />
     </LinearLayout>
 
 

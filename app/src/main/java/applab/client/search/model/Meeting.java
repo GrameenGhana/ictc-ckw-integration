@@ -21,12 +21,15 @@ public class Meeting {
     private String remark;
     private String crop;
     private String season;
+    private String scheduledMeetingDate;
 
     private int month;
     int monthMod;
 
     private Farmer  farmerDetails;
+    public Meeting(){
 
+    }
 
     public Meeting(String id, String type, String title, Date scheduledDate, Date meetingDate, int attended, int meetingIndex, String farmer, String remark,String crop,String season) {
         this.id = id;
@@ -168,4 +171,11 @@ public class Meeting {
         this.monthMod = monthMod;
     }
 
+    public String getScheduledMeetingDate() {
+        return scheduledMeetingDate;
+    }
+
+    public void setScheduledMeetingDate(String scheduledMeetingDate) {
+        this.scheduledMeetingDate = scheduledMeetingDate;
+    }
 }

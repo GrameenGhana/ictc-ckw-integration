@@ -1044,7 +1044,8 @@ public class SynchronizationManager {
         String weatherUrl = "api/v1?action=fdetails&a="+u.getSalesForceId();
 
         ArrayList<String> farmerImages = new ArrayList<String>();
-        String url = SettingsManager.getInstance().getValue(SettingsConstants.ICTC_KEY_SERVER);
+        String url = SettingsManager.getInstance().getValue(SettingsConstants.ICTC_KEY_SERVER)+IctcCkwIntegrationSync.ICTC_SERVER_CONTEXT_PATH;
+        System.out.println(url);
         url+=weatherUrl;
 
         System.out.println("Weather Class : "+url);
@@ -1065,9 +1066,7 @@ public class SynchronizationManager {
                 Log.i(this.getClass().getName(),line);
                 serverResponse += line;
             }
-
             ArrayList<Object> arl =   processICTCFarmerData(serverResponse, databaseHelper);
-
             Payload mqp = databaseHelper.getImagePayload(arl);
             System.out.println("Downloading Images ");
             IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(applicationContext,"pp");
