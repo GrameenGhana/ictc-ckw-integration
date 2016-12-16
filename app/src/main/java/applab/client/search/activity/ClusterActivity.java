@@ -1,9 +1,9 @@
 package applab.client.search.activity;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
@@ -29,7 +29,7 @@ public class ClusterActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clusters);
-        ActionBar mActionBar = getActionBar();
+        ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(true);
         mActionBar.setTitle("Clusters");
@@ -80,7 +80,6 @@ public class ClusterActivity extends BaseActivity {
                 Intent intent = new Intent(ClusterActivity.this, FarmerActivity.class);
                 intent.putExtra("type", "search");
                 intent.putExtra("q", ((EditText) mCustomView.findViewById(R.id.bar_search_text)).getText().toString());
-
                 startActivity(intent);
             }
         });

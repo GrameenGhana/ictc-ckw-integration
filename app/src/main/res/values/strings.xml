@@ -148,6 +148,7 @@
 
     <string name="username">username</string>
     <string name="fullname">fullname</string>
+    <string name="about_text">This application was developed by Grameen Foundation. Content contributions were made by Farm Radio International and Digital Green The application was developed with funding from USAID for the ICT Challenge Project.</string>
 
     <string name="login_complete">Logged in</string>
     <string name="error_login">Invalid username/password\nPlease try again</string>

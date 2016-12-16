@@ -1,6 +1,6 @@
 package applab.client.search.activity;
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -28,7 +28,7 @@ public static String DETAILS_COMING_SOON="Details Coming Soon";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.supply_activity);
 
-        ActionBar mActionBar = getActionBar();
+        ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(true);
         LayoutInflater mInflater = LayoutInflater.from(this);

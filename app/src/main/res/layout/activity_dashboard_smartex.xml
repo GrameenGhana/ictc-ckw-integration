@@ -1,309 +1,348 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_weight="1"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:weightSum="4"
-    android:dividerPadding="10dp">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:animateLayoutChanges="true">
+
 
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:background="@mipmap/bg" android:weightSum="2">
+        android:layout_width="match_parent"
+        android:id="@+id/cord_lay"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+
+        >
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:background="@drawable/primary_color_gradient_background"
+    android:layout_height="160dp"
+    android:elevation="7dp"
+    >
+
+    <RelativeLayout
+        android:layout_marginTop="24dp"
+        app:layout_scrollFlags="scroll|enterAlwaysCollapsed"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:paddingLeft="24dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageView8"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            app:civ_border_width="2dp"
+            android:layout_centerVertical="true"
+            app:civ_border_color="@color/white"
+            android:src="@drawable/wallpaper"
+            />
+
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent"
-            android:weightSum="2"
-            android:layout_weight="1">
-
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
-                    android:weightSum="2" android:layout_weight="1"
-                android:gravity="center|center_vertical">
-                <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/imageView8"
-                        android:src="@drawable/ic_farmer_user"
-                        android:layout_weight="1"/>
-                <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="fill_parent"
-                        android:padding="10dp"
-                        android:layout_weight="1"
-                    android:weightSum="2" android:layout_gravity="center_vertical"
-                    android:gravity="center">
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Welcome Karufi"
-                            android:id="@+id/username"
-                            android:textColor="#ffffffff"
-                            android:textSize="20dp"
-                        android:layout_weight="1"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="SmartEx Agent"
-                        android:textColor="#ffffffff"
-                        android:id="@+id/user_type"
-                        android:textSize="17dp"
-                        android:layout_weight="1" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Upcoming Events"
-                    android:id="@+id/textView10"
-                    android:textColor="#ffffff" />
-
-                <ListView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/upcoming_meetings"
-                    android:scrollIndicators="top" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-            android:background="@drawable/bg_weather"
-                android:id="@+id/vid"
-                android:padding="10dp" android:layout_weight="1">
-
-            <android.support.v4.view.ViewPager
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/weather_pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="fill_parent"
-                android:visibility="gone">
-            </android.support.v4.view.ViewPager>
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/horizontal_recycler_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-        </LinearLayout>
-    </LinearLayout>
-    <View android:layout_width="match_parent"
-          android:layout_height="10dp"></View>
-    <GridLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="2"
-            android:verticalSpacing="30dp"
-            android:visibility="gone">
-        <LinearLayout
-                android:background="@drawable/bg_edittext"
-                android:padding="5dp"
-                android:orientation="vertical"
-                android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="24dp"
+            android:layout_toRightOf="@id/imageView8">
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_columnSpan="2"
-                android:id="@+id/fd">
+                android:text="User name"
+                android:id="@+id/username"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:padding="2dp"
+                android:fontFamily="sans-serif"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+
+
+                />
+
             <TextView
-                    android:text=" Prices for maize in Ejura: 200
-                                         Prices for maize in Fankyenebra: 300
-                                         Prices for Rice in Kintampo: 350
-                                         Prices for Rice in Ejura: 200
-                                         Prices for Beans in Ejura: 200
-                                         Prices for Rice in Fankyenebra: 300
-                                         Prices for maize in Fankyenebra: 300
-                                         Prices for Rice in Fankyenebra: 300   "
-                    android:id="@+id/MarqueeText"
-                    android:layout_width="match_parent"
-                    android:layout_height="81dp"
-                    android:singleLine="true"
-                    android:ellipsize="marquee"
-                    android:marqueeRepeatLimit="marquee_forever"
-                    android:scrollHorizontally="false"
-                    android:paddingLeft="15dip"
-                    android:paddingRight="15dip"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:freezesText="true"
-                    android:drawableLeft="@mipmap/ic_star"
-                    android:textColor="#ffffffff"
-                    android:textStyle="bold|italic"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="20dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_type"
+                android:textColor="@color/white"
+                android:padding="2dp"
+                android:fontFamily="sans-serif-light"
+                android:text="User type"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
         </LinearLayout>
-    </GridLayout>
-    <LinearLayout
+    </RelativeLayout>
+
+</LinearLayout>
+
+
+
+
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:padding="10dp" android:layout_weight="2">
-        <TableLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:weightSum="3">
-            <TableRow
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:weightSum="2" android:layout_weight="1">
-                <LinearLayout
-                              android:orientation="vertical"
-                              android:layout_width="match_parent"
-                              android:layout_height="match_parent"
-                              android:gravity="center"
-                              android:background="@drawable/bg_edittext"
-                              android:layout_weight="1"
-                              android:id="@+id/clients">
 
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:src="@mipmap/farmer_icon"
-                            android:layout_marginTop="10dp"
-                            />
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#ff006400" />
-                </LinearLayout>
-                <Space
-                        android:layout_width="5px"
-                        android:layout_height="match_parent"
-                        />
-                <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:background="@drawable/bg_edittext"
-                        android:layout_weight="1"
-                        android:id="@+id/meetings">
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/meeting_icon"
-                            android:layout_marginTop="10dp"/>
-                    <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#ff006400"/>
-                </LinearLayout>
-            </TableRow>
-            <TableRow
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:weightSum="2"
-                    android:paddingTop="10dp" android:layout_weight="1">
-                <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:background="@drawable/bg_edittext"
-                        android:layout_weight="1"
-                        android:id="@+id/suppliers">
+            android:weightSum="2"
+            >
 
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/lorrygreen"
-                            android:layout_marginTop="10dp"/>
-                </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_weight="1"
+                >
 
-                <Space
-                        android:layout_width="20px"
-                        android:layout_height="match_parent"
-                        />
                 <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:background="@drawable/bg_edittext"
-                        android:layout_weight="1"
-                        android:id="@+id/markets">
 
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/markets"
-                            android:layout_marginTop="10dp"/>
-                </LinearLayout>
-            </TableRow>
-            <TableRow
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:weightSum="2"
-                    android:paddingTop="10dp"
-                    android:background="#0cffffff" android:layout_weight="1">
-                <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center"
-                        android:background="@drawable/bg_edittext"
-                        android:layout_weight="1"
-                        android:id="@+id/technical"
-                        android:weightSum="1">
-
-                    <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@mipmap/repair"
-                            android:layout_marginTop="10dp"
-                            />
-                </LinearLayout>
-                <Space
-                    android:layout_width="20px"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    />
-                <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:background="@drawable/bg_edittext"
                     android:layout_weight="1"
-                    android:id="@+id/farmerSearch"
-                    android:weightSum="1">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@mipmap/farmer_search"
-                        android:layout_marginTop="10dp"
-                       />
+                    >
+
+
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/clients_cv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin_half"
+                        android:layout_marginBottom="@dimen/activity_horizontal_margin_half"
+
+
+                        >
+
+
+                        <RelativeLayout
+                            android:id="@+id/clients"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                           >
+
+
+                            <ImageView
+                                android:id="@+id/farmer_icon"
+                                android:src="@drawable/farmer"
+                                android:layout_centerInParent="true"
+                                android:layout_width="@dimen/logo_size"
+                                android:layout_height="@dimen/logo_size"
+                                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                                />
+
+                            <TextView
+                                android:layout_below="@id/farmer_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="Farmers"
+                                android:textSize="@dimen/text_size"
+                                />
+
+                        </RelativeLayout>
+
+
+                    </android.support.v7.widget.CardView>
+
                 </LinearLayout>
-            </TableRow>
-        </TableLayout>
-        <GridView
-                android:layout_width="wrap_content"
-                android:layout_height="740dp"
-                android:id="@+id/gridView"
-                android:numColumns="2"
-                android:verticalSpacing="30dp"
-                android:horizontalSpacing="30dp"
-                android:visibility="gone"/>
+
+
+
+                <LinearLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                   >
+
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/meetings_cv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin_half"
+                        android:layout_marginBottom="@dimen/activity_horizontal_margin_half"
+
+                        >
+
+
+                        <RelativeLayout
+                            android:id="@+id/meetings"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            >
+
+
+                            <ImageView
+                                android:id="@+id/meetings_icon"
+                                android:src="@drawable/meeting"
+                                android:layout_centerInParent="true"
+                                android:layout_width="@dimen/logo_size"
+                                android:layout_height="@dimen/logo_size"
+                                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                                />
+
+
+                            <TextView
+                                android:layout_below="@id/meetings_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="Meetings"
+                                android:textSize="@dimen/text_size"
+                                />
+
+                        </RelativeLayout>
+
+
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_weight="1"
+                >
+
+                <LinearLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                   >
+
+
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/technical_cv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin_half"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin_half"
+
+                        >
+
+
+                        <RelativeLayout
+                            android:id="@+id/technical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:background="?android:attr/selectableItemBackground"
+                            >
+
+
+                            <ImageView
+                                android:id="@+id/technical_icon"
+                                android:src="@drawable/technical"
+                                android:layout_centerInParent="true"
+                                android:layout_width="@dimen/logo_size"
+                                android:layout_height="@dimen/logo_size"
+                                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                                />
+
+                            <TextView
+                                android:layout_below="@id/technical_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="Technical Assistant"
+                                android:textSize="@dimen/text_size"
+                                />
+
+                        </RelativeLayout>
+
+
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+
+                    >
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/farmerSearch_cv"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin_half"
+                        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin_half"
+
+                        >
+
+
+                        <RelativeLayout
+                            android:id="@+id/farmerSearch"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clickable="true"
+                            android:background="?android:attr/selectableItemBackground">
+
+                            <ImageView
+                                android:id="@+id/search_icon"
+                                android:src="@drawable/search"
+                                android:layout_centerInParent="true"
+                                android:layout_width="@dimen/logo_size"
+                                android:layout_height="@dimen/logo_size"
+                                android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                                />
+
+                            <TextView
+                                android:layout_below="@id/search_icon"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="Search"
+                                android:textSize="@dimen/text_size"
+                                />
+
+                        </RelativeLayout>
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
+
+
 
 
 </LinearLayout>

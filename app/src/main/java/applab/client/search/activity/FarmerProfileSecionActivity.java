@@ -3,6 +3,7 @@ package applab.client.search.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ExpandableListView;
 import applab.client.search.R;
@@ -20,7 +21,7 @@ import java.util.Map;
 /**
  * Created by skwakwa on 11/24/15.
  */
-public class FarmerProfileSecionActivity extends Activity {
+public class FarmerProfileSecionActivity extends AppCompatActivity {
     DatabaseHelper dbHelper = null;
     Farmer farmer= null;
 

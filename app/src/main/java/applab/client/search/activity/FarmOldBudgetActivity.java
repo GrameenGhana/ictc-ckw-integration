@@ -2,6 +2,7 @@ package applab.client.search.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import applab.client.search.R;
 import applab.client.search.adapters.ParentListAdapter;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by skwakwa on 11/20/15.
  */
-public class FarmOldBudgetActivity extends Activity {
+public class FarmOldBudgetActivity extends AppCompatActivity {
     DatabaseHelper helper;
 
     private ListView list;
@@ -25,6 +26,8 @@ public class FarmOldBudgetActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.farm_subject_activity);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         helper = new DatabaseHelper(getBaseContext());
 
         list = (ListView) findViewById(R.id.lst_farm_expense);

@@ -2,6 +2,7 @@ package applab.client.search.activity;
 
 import android.annotation.SuppressLint;
 import android.app.*;
+import android.support.v7.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -59,19 +61,26 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme_NoShadow);
         setContentView(R.layout.activity_dashboard_smartex);
         super.setDetails(Db(), "SmartEx Dashboard", "Startup");
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-        today =new DateTime();
+        createActionBar();
+
+        today = new DateTime();
         username=(TextView) findViewById(R.id.username);
         user_type=(TextView) findViewById(R.id.user_type);
         username.setText(ConnectionUtil.currentUserFullName(DashboardSmartExActivity.this));
         user_type.setText(ConnectionUtil.currentUserType(DashboardSmartExActivity.this));
-        upcoming_meetings=(ListView) findViewById(R.id.upcoming_meetings);
-        horizontalGridView = (RecyclerView)findViewById(R.id.horizontal_recycler_view);
-        displayWeather(horizontalGridView);
+        //upcoming_meetings=(ListView) findViewById(R.id.upcoming_meetings);
+
+        /*horizontalGridView = (RecyclerView)findViewById(R.id.horizontal_recycler_view);
+
+        displayWeather(horizontalGridView);*/
+
+
        // search_text=(EditText) findViewById(R.id.search_text);
-        try {
+        /*try {
             ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
             // DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
             //DateTime dt = formatter.parseDateTime(super.Db().getUserItem().getLastModifiedDate());
@@ -104,21 +113,66 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
             UpcomingMeetingsAdapter ad=new UpcomingMeetingsAdapter(DashboardSmartExActivity.this,upcomingDates);
             upcoming_meetings.setAdapter(ad);
             new MenuItemService().processMultimediaContent();
-            createActionBar();
+
            // createPageAdaptor();
-            createGrid();
+            //createGrid();
 
         } catch (NullPointerException e) {
-            Log.d(TAG, e.getMessage());
-
-        } catch (Exception e) {
-            Log.d(TAG, e.getMessage());
+            Log.d(TAG, e.getMessage().toString());
         }
+
+*/
+
+
+
+
+
+
+
+
+
+        RelativeLayout clients=(RelativeLayout) findViewById(R.id.clients);
+        clients.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                //Toast.makeText(DashboardSmartExActivity.this, "Its clickable!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(DashboardSmartExActivity.this, ClientActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+        RelativeLayout meetings =(RelativeLayout) findViewById(R.id.meetings);
+        meetings.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(DashboardSmartExActivity.this, ScheduledMeetingsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        RelativeLayout technical=(RelativeLayout) findViewById(R.id.technical);
+        technical.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(DashboardSmartExActivity.this, CKWSearchActivity.class);
+                startActivity(intent);
+            }
+        });
+        RelativeLayout farmersearch=(RelativeLayout) findViewById(R.id.farmerSearch);
+        farmersearch.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(DashboardSmartExActivity.this, FarmerActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
     }
 
     private void createActionBar() {
         try {
-            mActionBar = getActionBar();
+            mActionBar = getSupportActionBar();
+            mActionBar.setElevation(0);
             mActionBar.setDisplayShowHomeEnabled(true);
             mActionBar.setDisplayShowTitleEnabled(true);
             LayoutInflater mInflater = LayoutInflater.from(this);
@@ -139,10 +193,10 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
             });
 
         } catch(NullPointerException ex) {
-            Log.d(TAG, ex.getMessage());
+            Log.d(TAG, ex.getMessage().toString());
 
         } catch (Exception e) {
-            Log.d(TAG, e.getMessage());
+            Log.d(TAG, e.getMessage().toString());
         }
     }
 
@@ -168,18 +222,30 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
             GridMenuAdapter adapter = new GridMenuAdapter(DashboardSmartExActivity.this, images, titles);
             super.setDetails(super.Db(), "Dashboard","Dashboard");
 
-            GridView grid_menu = (GridView) findViewById(R.id.gridView);
-            grid_menu.setAdapter(adapter);
+            //GridView grid_menu = (GridView) findViewById(R.id.gridView);
+           // grid_menu.setAdapter(adapter);
 
-            LinearLayout clients=(LinearLayout) findViewById(R.id.clients);
+            RelativeLayout clients=(RelativeLayout) findViewById(R.id.clients);
             clients.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
+                    Toast.makeText(DashboardSmartExActivity.this, "Its clickable!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(DashboardSmartExActivity.this, ClientActivity.class);
                     startActivity(intent);
                 }
             });
 
-            LinearLayout meetings =(LinearLayout) findViewById(R.id.meetings);
+
+            CardView clients_cv=(CardView) findViewById(R.id.clients_cv);
+            clients_cv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(DashboardSmartExActivity.this, "Its clickable!", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+
+            RelativeLayout meetings =(RelativeLayout) findViewById(R.id.meetings);
             meetings.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     Intent intent = new Intent(DashboardSmartExActivity.this, ScheduledMeetingsActivity.class);
@@ -187,30 +253,30 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
                 }
             });
 
-            LinearLayout suppliers=(LinearLayout) findViewById(R.id.suppliers);
+            /*LinearLayout suppliers=(LinearLayout) findViewById(R.id.suppliers);
             suppliers.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     Intent intent = new Intent(DashboardSmartExActivity.this, SupplierActivity.class);
                     startActivity(intent);
                 }
-            });
+            });*/
 
-            LinearLayout markets=(LinearLayout) findViewById(R.id.markets);
-            markets.setOnClickListener(new View.OnClickListener() {
+            /*LinearLayout markets=(LinearLayout) findViewById(R.id.markets);
+           markets.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     Intent intent = new Intent(DashboardSmartExActivity.this, MarketActivity.class);
                     startActivity(intent);
                 }
-            });
+            });*/
 
-            LinearLayout technical=(LinearLayout) findViewById(R.id.technical);
+            RelativeLayout technical=(RelativeLayout) findViewById(R.id.technical);
             technical.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     Intent intent = new Intent(DashboardSmartExActivity.this, CKWSearchActivity.class);
                     startActivity(intent);
                 }
             });
-            LinearLayout farmersearch=(LinearLayout) findViewById(R.id.farmerSearch);
+            RelativeLayout farmersearch=(RelativeLayout) findViewById(R.id.farmerSearch);
             farmersearch.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
                     Intent intent = new Intent(DashboardSmartExActivity.this, FarmerActivity.class);
@@ -221,7 +287,7 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
 
             super.Db().alterSearchMenuItem();
 
-            grid_menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+           /* grid_menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Intent intent;
                     switch (i) {
@@ -251,7 +317,7 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
                             break;
                     }
                 }
-            });
+            });*/
         } catch(NullPointerException ex) {
             Log.d(TAG, ex.getMessage());
         } catch(Exception e){

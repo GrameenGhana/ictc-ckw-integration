@@ -1,12 +1,12 @@
 package applab.client.search.activity;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +48,7 @@ public class FarmerProfileActivity extends BaseActivityGroup {
         super.onCreate(savedInstanceState);
 
         dbHelper = new DatabaseHelper(getBaseContext());
-        ActionBar mActionBar = getActionBar();
+        ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(true);
         mActionBar.setTitle("Farmer Profile");

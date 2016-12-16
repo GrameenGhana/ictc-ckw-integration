@@ -23,6 +23,10 @@ public class ListCheckboxAdapter extends BaseAdapter {
     private final boolean [] selected;
     String  [] colors = null;
 
+    ArrayList<String> farmerNames = null;
+
+
+
 
     public ListCheckboxAdapter(Context c, List<Farmer> farmers,String  [] colors) {
         mContext = c;
@@ -77,16 +81,30 @@ public class ListCheckboxAdapter extends BaseAdapter {
         chk.setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View v) {
+
+
+
                         CheckBox cb = (CheckBox) v ;
                         int pos = (Integer) cb.getTag();
-                        System.out.println("List Item : "+pos);
                         Farmer fm = farmers.get(pos);
-                        Toast.makeText(mContext,
+
+                        System.out.println("List Item : "+pos);
+
+
+
+
+
+
+
+
+                        /*Toast.makeText(mContext,
                                 "Clicked on Checkbox: " + fm.getFullname() +
                                         " is " + cb.isChecked(),
                                 Toast.LENGTH_LONG).show();
+*/
+                        selected[pos] = cb.isChecked();
 
-                        selected[pos] =cb.isChecked();
+
                     }
                 });
 
@@ -102,6 +120,14 @@ public class ListCheckboxAdapter extends BaseAdapter {
     }
     public String getColor(){
         return colors[(new Double(Math.floor(Math.random()*colors.length)).intValue())];
+    }
+
+
+
+
+    public List<String> getNamesofAttendees(){
+
+        return farmerNames;
     }
 }
 

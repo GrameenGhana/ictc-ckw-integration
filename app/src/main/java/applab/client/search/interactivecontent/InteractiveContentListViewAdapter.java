@@ -19,6 +19,8 @@ import applab.client.search.utils.ImageUtils;
 /**
  * Custom Adapter that is the backing object of the Main ListView of the application.
  */
+
+
 public class InteractiveContentListViewAdapter extends BaseAdapter {
     protected LayoutInflater layoutInflater;
     private Context context;

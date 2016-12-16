@@ -46,6 +46,8 @@ import java.util.Arrays;
 
 public class ConnectionUtil {
 
+    static Boolean isComplete = null;
+
     private static SweetAlertDialog pDialog;
 
     public static void setUser(Activity act, String id, String username, String type, String name, int age, String gender, String mobile, String phone, String location, String email) {
@@ -130,7 +132,9 @@ public class ConnectionUtil {
         return result;
     }
     // TODO: Move to Synchronization Manager
-    public static void refreshFarmerInfo(final Context context,final Intent intent, final String queryString, final String type,String msg ) {
+    public static Boolean refreshFarmerInfo(final Context context,final Intent intent, final String queryString, final String type,String msg ) {
+
+
         final  DatabaseHelper databaseHelper = new DatabaseHelper(context);
         databaseHelper.alterFarmerTable();
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
@@ -159,6 +163,8 @@ public class ConnectionUtil {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+
+//                if (pDialog != null)pDialog.dismiss();
                 //pDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
                 pDialog.setTitleText("Retrieving farmer details...");
                 pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -168,14 +174,15 @@ public class ConnectionUtil {
                     }
                 });
                 pDialog.show();
-               if(type.equalsIgnoreCase(IctcCkwIntegrationSync.GET_FARMER_DETAILS)){
-                   // pDialog.dismissWithAnimation();
+
+                if(type.equalsIgnoreCase(IctcCkwIntegrationSync.GET_FARMER_DETAILS)){
+                    // pDialog.dismissWithAnimation();
 
                     ArrayList<Object> farmerImages = new ArrayList<Object>();
 
                     ImageDownloader imageDownloader = new ImageDownloader();
                     Log.i(this.getClass().getName(),"Serrver Rsponse  farmer Details  :  fd"+type);
-                    if ((null != response)) {
+                    if ((response != null)) {
                         Log.i(this.getClass().getName(),"Serrver Rsponse  farmer Details  :  fnot NUll");
                         try {
                             //JSONArray farmers = new JSONArray(response);
@@ -258,7 +265,7 @@ public class ConnectionUtil {
                                 String farmerId = bioData.getString("Id");
                                 databaseHelper.deleteFarmer(bioData.getString("Id"));
                                 databaseHelper.updateUser(bioData.getString("Id"),lm);
-                               // System.out.println("Production Baseline  : "+bioData.getString("Id")+"---"+baselineProduction);
+                                // System.out.println("Production Baseline  : "+bioData.getString("Id")+"---"+baselineProduction);
                                 Farmer f = databaseHelper.saveFarmer(vals[0], vals[1], vals[2], vals[3],
                                         vals[4], vals[5], vals[6], vals[7], vals[8], vals[9], vals[10], vals[11],
                                         vals[12], vals[13], vals[14],
@@ -345,13 +352,13 @@ public class ConnectionUtil {
                                     .show();
                         }
 
-                       //System.out.println("Downloading Images ");
+                        //System.out.println("Downloading Images ");
                         Payload mqp = databaseHelper.getImagePayload(farmerImages);
                         //System.out.println("Downloading Images ");
                         IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(context,"pp");
                         //System.out.println("Payload stask ");
                         omUpdateCCHLogTask.execute(mqp);
-                       // System.out.println("Payload execute ");
+                        // System.out.println("Payload execute ");
 
                         if(pDialog!=null){
                             pDialog.dismissWithAnimation();
@@ -364,8 +371,11 @@ public class ConnectionUtil {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
                                         sDialog.dismissWithAnimation();
-                                        if(null != intent) {
+                                        isComplete = true;
+
+                                        if(intent != null) {
                                             context.startActivity(intent);
+
                                         }
                                     }
                                 })
@@ -393,9 +403,10 @@ public class ConnectionUtil {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable e,JSONObject errorResponse) {
+                if(pDialog != null) pDialog.dismiss();
                 new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
                         .setTitleText("Error")
-                        .setContentText("No reponse from the server.")
+                        .setContentText("No response from the server. Click OK to proceed.")
                         .setCancelText("Close")
                         .showCancelButton(true)
                         .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -413,7 +424,7 @@ public class ConnectionUtil {
             }
         });
 
-        // return  serverResponse;
+        return  isComplete;
     }
 
     // TODO: Move to Synchronization Manager
@@ -839,64 +850,64 @@ public class ConnectionUtil {
                         String aResponse = msg.getData().getString("message");
 
 
-                            Log.i(this.getClass().getName(),"Serrver Rsponse  weather Details  :  Weather");
-                            if ((null != aResponse)) {
+                        Log.i(this.getClass().getName(),"Serrver Rsponse  weather Details  :  Weather");
+                        if ((null != aResponse)) {
 
-                                ///  TextView test = (TextView) findViewById(R.id.txtcluster);
+                            ///  TextView test = (TextView) findViewById(R.id.txtcluster);
 
-                                // test.setText(aResponse);
-                                Log.i(this.getClass().getName(),"Serrver Rsponse  weather Details  :  fnot NUll");
-                                try {
+                            // test.setText(aResponse);
+                            Log.i(this.getClass().getName(),"Serrver Rsponse  weather Details  :  fnot NUll");
+                            try {
 //                                    JSONObject resp = new JSONArray(aResponse);
 
-                                    JSONArray weathers = new JSONArray(aResponse);
+                                JSONArray weathers = new JSONArray(aResponse);
 
-                                    Log.i(this.getClass().getName(),"Serrver Rsponse   FEM : "+weathers.length());
-                                    databaseHelper.resetWeather();
-                                    int farmersCnt = 0;
-                                    for (int i = 0; i < weathers.length(); i++) {
-                                        JSONObject weather = weathers.getJSONObject(i);
-                                        Weather w = new Weather();
-                                        w.setTime(weather.getLong("time"));
-                                        w.setLocation(weather.getString("city"));
-                                        w.setDetail(weather.getString("detail"));
-                                        w.setTemprature(weather.getDouble("temp"));
-                                        w.setMaxTemprature(weather.getDouble("max_temp"));
-                                        w.setMinTemprature(weather.getDouble("min_temp"));
-                                        Log.i(this.getClass().getName(),"Serrver Rsponse   Selected : "+weather.toString());
+                                Log.i(this.getClass().getName(),"Serrver Rsponse   FEM : "+weathers.length());
+                                databaseHelper.resetWeather();
+                                int farmersCnt = 0;
+                                for (int i = 0; i < weathers.length(); i++) {
+                                    JSONObject weather = weathers.getJSONObject(i);
+                                    Weather w = new Weather();
+                                    w.setTime(weather.getLong("time"));
+                                    w.setLocation(weather.getString("city"));
+                                    w.setDetail(weather.getString("detail"));
+                                    w.setTemprature(weather.getDouble("temp"));
+                                    w.setMaxTemprature(weather.getDouble("max_temp"));
+                                    w.setMinTemprature(weather.getDouble("min_temp"));
+                                    Log.i(this.getClass().getName(),"Serrver Rsponse   Selected : "+weather.toString());
 //
 
-                                        long wId =   databaseHelper.saveWeather(w);
+                                    long wId =   databaseHelper.saveWeather(w);
 
-                                        System.out.println("Weather ID");
-
-                                    }
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                                // ALERT MESSAGE
-                                Toast.makeText(
-                                        context,
-                                        "Data Recieved  For weather ",
-
-                                        Toast.LENGTH_SHORT).show();
-
-                                try{
-
-                                    if(null!=pager) {
-
-                                        System.out.println("Notifying Pager");
-                                        pager.notifyDataSetChanged();
-                                    }
-                                }catch(Exception e){
+                                    System.out.println("Weather ID");
 
                                 }
-//
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
 
+                            // ALERT MESSAGE
+                            Toast.makeText(
+                                    context,
+                                    "Data Recieved  For weather ",
+
+                                    Toast.LENGTH_SHORT).show();
+
+                            try{
+
+                                if(null!=pager) {
+
+                                    System.out.println("Notifying Pager");
+                                    pager.notifyDataSetChanged();
+                                }
+                            }catch(Exception e){
+
+                            }
+//
                         }
+
+                    }
 
 
 

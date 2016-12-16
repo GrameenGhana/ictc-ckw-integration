@@ -1,66 +1,63 @@
 <resources>
-    <style name="Theme.Ictc" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:actionBarItemBackground">@drawable/selectable_background_ictc</item>
-        <item name="android:popupMenuStyle">@style/PopupMenu.Ictc</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListView.Ictc</item>
-        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Ictc</item>
-        <item name="android:actionDropDownStyle">@style/DropDownNav.Ictc</item>
-        <item name="android:actionBarStyle">@style/ActionBar.Solid.Ictc</item>
-        <item name="android:actionModeBackground">@mipmap/cab_background_top_ictc</item>
-        <item name="android:actionModeSplitBackground">@mipmap/cab_background_bottom_ictc</item>
-        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Ictc</item>
+    <style name="IctcTheme" parent="Theme.AppCompat.Light.DarkActionBar">
 
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
 
     </style>
 
-    <style name="ActionBar.Solid.Ictc" parent="@android:style/Widget.Holo.ActionBar.Solid">
-        <item name="android:background">@drawable/ab_background_textured_ictc</item>
-        <item name="android:backgroundStacked">@mipmap/ab_stacked_solid_ictc</item>
-        <item name="android:backgroundSplit">@drawable/ab_background_textured_ictc</item>
-        <item name="android:progressBarStyle">@style/ProgressBar.Ictc</item>
-        <item name="android:titleTextStyle">@style/Theme.MyAppTheme.ActionBar.TitleTextStyle</item>
+
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
-    <style name="Theme.MyAppTheme.ActionBar.TitleTextStyle" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">#FFFFFF</item>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="android:windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="actionMenuTextColor">@color/text_color</item>
     </style>
 
-    <style name="ActionBar.Transparent.Ictc" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background">@mipmap/ab_transparent_ictc</item>
-        <item name="android:progressBarStyle">@style/ProgressBar.Ictc</item>
+    <style name="AppTheme.NoShadow" parent="IctcTheme">
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- remove shadow below action bar -->
+        <!-- <item name="android:elevation">0dp</item> -->
+        <!-- Support library compatibility -->
+        <item name="elevation">0dp</item>
     </style>
 
-    <style name="PopupMenu.Ictc" parent="@android:style/Widget.Holo.ListPopupWindow">
-        <item name="android:popupBackground">@mipmap/menu_dropdown_panel_ictc</item>
+
+    <style name="AppTheme.Tab" parent="AppTheme">
+        <item name="android:windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+
     </style>
 
-    <style name="DropDownListView.Ictc" parent="@android:style/Widget.Holo.ListView.DropDown">
-        <item name="android:listSelector">@drawable/selectable_background_ictc</item>
+
+    <style name="AppTheme.ActionBar" parent="IctcTheme">
+        <item name="android:textColorSecondary">@color/white</item>
+
     </style>
 
-    <style name="ActionBarTabStyle.Ictc" parent="@android:style/Widget.Holo.ActionBar.TabView">
-        <item name="android:background">@drawable/tab_indicator_ab_ictc</item>
+
+    <style name="CustomTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="DropDownNav.Ictc" parent="@android:style/Widget.Holo.Spinner">
-        <item name="android:background">@drawable/spinner_background_ab_ictc</item>
-        <item name="android:popupBackground">@mipmap/menu_dropdown_panel_ictc</item>
-        <item name="android:dropDownSelector">@drawable/selectable_background_ictc</item>
-    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="ProgressBar.Ictc" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/progress_horizontal_ictc</item>
-    </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="ActionButton.CloseMode.Ictc" parent="@android:style/Widget.Holo.ActionButton.CloseMode">
-        <item name="android:background">@drawable/btn_cab_done_ictc</item>
-    </style>
-
-    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
-    <style name="Theme.Ictc.Widget" parent="@android:style/Theme.Holo">
-        <item name="android:popupMenuStyle">@style/PopupMenu.Ictc</item>
-        <item name="android:dropDownListViewStyle">@style/DropDownListView.Ictc</item>
-    </style>
     <style name="ImageViewStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -98,12 +95,20 @@
         <item name="ripplePersistent">false</item>
         <item name="rippleInAdapter">false</item>
     </style>
-    <!-- Ripple related styles end here -->
-    <!--<style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
-        <item name="android:background">@color/apptheme_color</item>
-        <item name="android:titleTextStyle">@style/Theme.MyAppTheme.ActionBar.TitleTextStyle</item>
+
+
+    <style name="BubbleTheme" parent="TextAppearance.AppCompat">
+
+        <!-- colorControlActivated & colorControlHighlight use the colorAccent color by default -->
+        <item name="colorControlNormal">#dadada</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorAccent</item>
+        <item name="android:textColorHighlight">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColor">@color/white</item>
+
     </style>
-    <style name="Theme.MyAppTheme.ActionBar.TitleTextStyle" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">#FFFFFF</item>
-    </style>-->
+
+
+
 </resources>

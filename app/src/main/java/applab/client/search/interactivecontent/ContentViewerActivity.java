@@ -3,6 +3,7 @@ package applab.client.search.interactivecontent;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.*;
 import android.webkit.WebChromeClient;
@@ -13,7 +14,7 @@ import applab.client.search.R;
 /**
  * Activity for viewing the interactive content
  */
-public class ContentViewerActivity extends Activity {
+public class ContentViewerActivity extends AppCompatActivity {
     public static final String EXTRA_CONTENT_IDENTIFIER = "content_item";
     private WebView webView;
 

@@ -762,6 +762,7 @@ e.printStackTrace();
 
 
         db.insert(DatabaseHelperConstants.ICTC_FARMER_MEETING, null, values);
+        db.close();
 
 
         return new Meeting(id,type,title,scheduledDate,meetingDate,attended,meetingIndex,farmer,remark,crop,season);
@@ -797,6 +798,7 @@ e.printStackTrace();
         System.out.println("Creating Table");
         db.execSQL(getICTCMeetingSettingItem());
 
+        db.close();
         System.out.println("Creating Table After Meeting creation");
 
     }
@@ -817,6 +819,7 @@ e.printStackTrace();
 
         long id = db.insert(DatabaseHelperConstants.ICTC_FARMER_MEETING_SETTINGS, null, values);
 
+        db.close();
         System.out.println("MSettingID : "+id);
     }
 

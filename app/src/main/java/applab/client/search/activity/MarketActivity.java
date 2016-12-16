@@ -1,14 +1,12 @@
 package applab.client.search.activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.TextView;
 import applab.client.search.R;
 import applab.client.search.adapters.SimpleTextTextListAdapter;
@@ -27,16 +25,17 @@ public class MarketActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.supply_activity);
 
-        ActionBar mActionBar = getActionBar();
+
+        ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(true);
         mActionBar.setTitle("Suppliers");
-        LayoutInflater mInflater = LayoutInflater.from(this);
+        /*LayoutInflater mInflater = LayoutInflater.from(this);
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Suppliers");
 
-        IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
+        IctcCKwUtil.setActionbarUserDetails(this, mCustomView);*/
         //mActionBar.setCustomView(mCustomView);
         //mActionBar.setDisplayShowCustomEnabled(true);
         //, , Financial Institutions

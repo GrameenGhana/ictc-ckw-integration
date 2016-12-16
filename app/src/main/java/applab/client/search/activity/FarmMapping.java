@@ -88,7 +88,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
 //        setUpMapIfNeeded();
 //
         dbHelper = new DatabaseHelper(getBaseContext());
-        getActionBar().setTitle("Farm Mapping");
+        getSupportActionBar().setTitle("Farm Mapping");
         super.setDetails(dbHelper, "Farmer", "Farm Mapping");
 
         try {
@@ -523,7 +523,9 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
         }catch(Exception e ){
 
         }
-        dbHelper.updateFarmer(farmer.getFarmID(), area,perimeter);
+
+        dbHelper.updateFarmer(farmer.getFarmID(), area, perimeter);
+
         newGps=0;
     }
 

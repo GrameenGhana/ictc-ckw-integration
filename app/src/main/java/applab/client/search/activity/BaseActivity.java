@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,7 +37,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends AppCompatActivity {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
 
@@ -56,8 +57,9 @@ public class BaseActivity extends Activity {
         baseLogActivity = new BaseLogActivity(getBaseContext());
         helper = new DatabaseHelper(getBaseContext());
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if(getActionBar()!=null){
-            getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
         ImageLoader imageLoader = ImageLoader.getInstance();
@@ -134,6 +136,7 @@ public class BaseActivity extends Activity {
     }
 
     public DatabaseHelper Db() { return helper; }
+
 
     public SharedPreferences Prefs() { return preferences; }
 
@@ -214,7 +217,7 @@ public class BaseActivity extends Activity {
 
                             AlertDialog alertDialog = new AlertDialog.Builder(BaseActivity.this).create();
                             alertDialog.setMessage(throwable.getMessage());
-                            alertDialog.setIcon(android.R.drawable.stat_sys_warning);
+                            alertDialog.setIcon(R.drawable.ic_warning_teal_500_24dp);
                             alertDialog.setTitle("Error");
                             alertDialog.setCancelable(true);
                             alertDialog.show();
@@ -241,7 +244,7 @@ public class BaseActivity extends Activity {
     protected void logout() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
-        builder.setTitle("Logout");
+        builder.setTitle("Log Out");
         builder.setMessage("Do you want to really log out?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -257,6 +260,7 @@ public class BaseActivity extends Activity {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // do nothing
+                dialog.dismiss();
             }
         });
         builder.show();
@@ -266,7 +270,8 @@ public class BaseActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        super.onDestroy();
+        //
+        //super.onDestroy();
         baseLogActivity.save();
     }
 
@@ -274,9 +279,10 @@ public class BaseActivity extends Activity {
     protected void onDestroy() {
         super.onDestroy();
         baseLogActivity.save();
+        //finish();
     }
 
-    @Override
+   /* @Override
     protected void onPause() {
         super.onPause();
     }
@@ -284,12 +290,13 @@ public class BaseActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-    }
+    }*/
 
-    @Override
+   /* @Override
     protected void onStop() {
-        super.onStop();
-    }
+            finish();
+
+        }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -301,6 +308,8 @@ public class BaseActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         try {
             if(item.getItemId()==R.id.search_user){
+
+
                 SearchView user_search = (SearchView) item.getActionView();
                 user_search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
@@ -360,6 +369,8 @@ public class BaseActivity extends Activity {
 
             } else if (item.getItemId() == android.R.id.home) {
                finish();
+
+
             }
 
         } catch (Exception ex) {

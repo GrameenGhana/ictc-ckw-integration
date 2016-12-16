@@ -286,7 +286,7 @@ public class IctcCKwUtil {
                 names.setText(farmer.getFullname());
 
             if(farmer.getLandArea().isEmpty()){
-                locations.setTextColor(container.getResources().getColor(R.color.amber));
+                locations.setTextColor(container.getResources().getColor(R.color.colorAccent));
                 //locView.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_location, 0, 0, 0);
             }else{
                 locations.setTextColor(container.getResources().getColor(R.color.accent_material_light));

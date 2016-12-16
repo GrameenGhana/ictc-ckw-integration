@@ -33,24 +33,35 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This application was developed by Grameen Foundation. Content contributions were made by Farm Radio International and Digital Green The application was developed with funding from USAID for the ICT Challenge Project"
+            android:text="@string/about_text"
             android:id="@+id/textView5" android:layout_below="@+id/about_copyright"
             android:layout_centerHorizontal="true" android:gravity="center_horizontal" android:padding="10dp"/>
+
     <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
              android:layout_centerHorizontal="true"
             android:layout_below="@+id/textView5"
-            android:gravity="center_vertical|center_horizontal">
+        android:gravity="center"
+
+        >
+
         <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageView2" android:src="@mipmap/usaid" android:paddingRight="10dp"/>
+                android:layout_height="match_parent"
+                android:id="@+id/imageView2"
+            android:src="@mipmap/usaid"
+            android:layout_gravity="center"
+            android:layout_centerInParent="true"
+           />
+
         <ImageView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/imageView3"
+            android:layout_gravity="center"
+            android:layout_marginLeft="16dp"
                 android:src="@mipmap/gflogo"/>
     </LinearLayout>
 

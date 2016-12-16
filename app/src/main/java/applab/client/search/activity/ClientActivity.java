@@ -1,6 +1,6 @@
 package applab.client.search.activity;
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +32,7 @@ public class ClientActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.supply_activity);
 
-        ActionBar mActionBar = getActionBar();
+        ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(true);
         mActionBar.setTitle("Clients");
@@ -77,24 +77,28 @@ public class ClientActivity extends BaseActivity {
                 switch (i){
                     case 0:
                         try {
-                            intent =getPackageManager().getLaunchIntentForPackage("org.grameen.taro");
+                            intent = getPackageManager().getLaunchIntentForPackage("org.grameen.taro");
+                            startActivity(intent);
+
                         }catch(Exception e){
-                            Toast.makeText(view.getContext(), "Tarowokrs not installed", Toast.LENGTH_LONG);
+                            Toast.makeText(view.getContext(), "Taro Wokrs not installed", Toast.LENGTH_LONG);
 
                         }
-
                     break;
+
                     case 1:
                         intent = new Intent(ClientActivity.this, ScheduledMeetingsActivity.class);
+                        startActivity(intent);
 
                         break;
                     case 2:
                         intent = new Intent(ClientActivity.this, FarmerRecordsOptionsActivity.class);
+                        startActivity(intent);
 
                         break;
 
                 }
-                startActivity(intent);
+                //startActivity(intent);
 
 //                Intent intent = new Intent(ClientActivity.this, BlankActivityView.class);
 //                intent.putExtra("title", titles[i]);
@@ -105,4 +109,6 @@ public class ClientActivity extends BaseActivity {
 
 
     }
+
+
 }

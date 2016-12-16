@@ -2,6 +2,8 @@ package applab.client.search.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
 import applab.client.search.R;
 import applab.client.search.model.Farmer;
 import applab.client.search.storage.DatabaseHelper;
@@ -11,7 +13,7 @@ import java.util.List;
 /**
  * Created by skwakwa on 10/30/15.
  */
-public class MeetingAttendeeActivity extends Activity {
+public class MeetingAttendeeActivity extends AppCompatActivity {
     String title;
     Farmer f;
     int index;

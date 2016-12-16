@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.*;
 import android.widget.AdapterView;
@@ -34,7 +36,7 @@ import applab.client.search.utils.ApplicationRegistry;
 import applab.client.search.utils.DeviceMetadata;
 import applab.client.search.utils.GlobalConstants;
 
-public class CKWSearchActivity extends Activity implements ActionMode.Callback {
+public class CKWSearchActivity extends AppCompatActivity implements ActionMode.Callback {
     private ProgressDialog progressDialog = null;
     private Handler handler = null;
     private Context activityContext;
@@ -63,10 +65,15 @@ public class CKWSearchActivity extends Activity implements ActionMode.Callback {
             ApplicationRegistry.setMainActivity(this);
 
             setContentView(R.layout.main);
+
+            ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+
             initNavigationDrawer();
 
-            ActionBar actionBar = this.getActionBar();
-            actionBar.setDisplayHomeAsUpEnabled(true);
+            /*ActionBar actionBar = getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);*/
 
             //caching the device imie in the application registry
             ApplicationRegistry.register(GlobalConstants.KEY_CACHED_DEVICE_IMEI,
@@ -448,7 +455,8 @@ public class CKWSearchActivity extends Activity implements ActionMode.Callback {
         };
 */
         drawerLayout.setDrawerListener(drawerToggle);
-        getActionBar().setHomeButtonEnabled(true);
+
+
     }
 
     private void selectItem(int position) {

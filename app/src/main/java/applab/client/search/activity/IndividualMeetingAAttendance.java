@@ -1,6 +1,6 @@
 package applab.client.search.activity;
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -38,18 +38,21 @@ public class IndividualMeetingAAttendance extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.indivvidual_meeting_activity);
 
 
-        ActionBar mActionBar = getActionBar();
+        ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(true);
         mActionBar.setDisplayShowTitleEnabled(true);
         mActionBar.setTitle("Mark Attendance");
-        LayoutInflater mInflater = LayoutInflater.from(this);
+
+
+        /*LayoutInflater mInflater = LayoutInflater.from(this);
 
         final View mCustomView = mInflater.inflate(R.layout.actionbar_layout, null);
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
-        mTitleTextView.setText("Mark Attendance");
+        mTitleTextView.setText("Mark Attendance");*/
 
         //IctcCKwUtil.setActionbarUserDetails(this,mCustomView);
         helper = new DatabaseHelper(getBaseContext());

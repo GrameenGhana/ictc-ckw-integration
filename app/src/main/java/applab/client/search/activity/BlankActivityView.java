@@ -1,8 +1,8 @@
 package applab.client.search.activity;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -11,7 +11,7 @@ import applab.client.search.R;
 /**
  * Created by skwakwa on 9/29/15.
  */
-public class BlankActivityView extends Activity {
+public class BlankActivityView extends AppCompatActivity {
     String title;
     String desc;
     @Override
@@ -20,7 +20,7 @@ public class BlankActivityView extends Activity {
         setContentView(R.layout.blank_activity_view);
 
 
-        ActionBar mActionBar = getActionBar();
+        ActionBar mActionBar = getSupportActionBar();
         mActionBar.setDisplayShowHomeEnabled(false);
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);

@@ -17,13 +17,14 @@ public class DashboardMainActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.IctcTheme);
         setContentView(R.layout.activity_dashboard_main);
         super.setDetails("myAgriHub Dashboard","Startup");
 
         ActionBar mActionBar = getActionBar();
-        mActionBar.setDisplayShowHomeEnabled(true);
-        mActionBar.setDisplayShowTitleEnabled(true);
-        mActionBar.setTitle("myAgriHub");
+//        mActionBar.setDisplayShowHomeEnabled(true);
+       // mActionBar.setDisplayShowTitleEnabled(true);
+       // mActionBar.setTitle("myAgriHub");
 
         ImageView mImage = (ImageView) findViewById(R.id.main_avatar_image);
         TextView mFirstLine = (TextView) findViewById(R.id.main_first_line);

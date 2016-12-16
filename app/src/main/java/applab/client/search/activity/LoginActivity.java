@@ -9,10 +9,14 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -29,7 +33,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class LoginActivity extends Activity implements APIRequestListener {
+public class LoginActivity extends AppCompatActivity implements APIRequestListener {
 
     public static final String TAG = LoginActivity.class.getSimpleName();
 
@@ -43,6 +47,8 @@ public class LoginActivity extends Activity implements APIRequestListener {
     private String mPassword;
 
     // UI references.
+    private TextInputLayout user_layout;
+    private TextInputLayout password_layout;
     private EditText mUsernameView;
     private EditText mPasswordView;
     private View mLoginFormView;
@@ -52,13 +58,24 @@ public class LoginActivity extends Activity implements APIRequestListener {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow(); // in Activity's onCreate() for instance
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_login);
 
         databaseHelper = new DatabaseHelper(getBaseContext());
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        user_layout = (TextInputLayout) findViewById(R.id.username_text_input_layout);
+        password_layout = (TextInputLayout) findViewById(R.id.password_text_input_layout);
+
         mUsernameView = (EditText) findViewById(R.id.edit_us_name);
         mPasswordView = (EditText) findViewById(R.id.user_pwd);
+
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                         if (id == R.id.main_button_login || id == EditorInfo.IME_NULL) {
@@ -83,9 +100,13 @@ public class LoginActivity extends Activity implements APIRequestListener {
             String err = b.getString("err");
 
             if(!err.isEmpty()){
-               mUsernameView.setError(err);
-               mUsernameView.requestFocus();
+
+               //mUsernameView.setError(err);
+               //mUsernameView.requestFocus();
+                user_layout.setError(err);
+                user_layout.getEditText().requestFocus();
             }
+
         } catch(Exception e){ }
 
     }
@@ -118,6 +139,7 @@ public class LoginActivity extends Activity implements APIRequestListener {
                     databaseHelper.resetUser();
                     databaseHelper.saveUserDetail(u);
                     IctcCKwUtil.setUserDetails(LoginActivity.this, u);
+
                 } else {
                     id = user.getString("id");
                     username = user.getString("username");
@@ -135,18 +157,25 @@ public class LoginActivity extends Activity implements APIRequestListener {
 
                 Intent i = new Intent(LoginActivity.this, StartUpActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                ConnectionUtil.refreshFarmerInfo(LoginActivity.this,i, "us=", "fdetails","Login Successful, Loading Agent Data");
+
+                ConnectionUtil.refreshFarmerInfo(LoginActivity.this, i, "us=", "fdetails","Login Successful, Loading Agent Data");
+
                 //startActivity(i);
                 //this.finish();
 
             } catch (JSONException e) {
                 Log.e(TAG, e.getMessage());
-                mUsernameView.setError("Error parsing authentication response");
-                mUsernameView.requestFocus();
+                //mUsernameView.setError("Error parsing authentication response");
+                //mUsernameView.requestFocus();
+
+                user_layout.setError("Error parsing authentication response");
+                user_layout.getEditText().requestFocus();
             }
         } else {
-            mUsernameView.setError(response.getResultResponse());
-            mUsernameView.requestFocus();
+            //mUsernameView.setError(response.getResultResponse());
+           // mUsernameView.requestFocus();
+            user_layout.setError(response.getResultResponse());
+            user_layout.getEditText().requestFocus();
         }
     }
 
@@ -157,42 +186,47 @@ public class LoginActivity extends Activity implements APIRequestListener {
         }
 
         // Reset errors.
-        mUsernameView.setError(null);
-        mPasswordView.setError(null);
+        //mUsernameView.setError(null);
+        //mPasswordView.setError(null);
+
+        user_layout.setError(null);
+        password_layout.setError(null);
 
         // Store values at the time of the login attempt.
-        mUsername = mUsernameView.getText().toString().trim();
-        mPassword = mPasswordView.getText().toString().trim();
+        mUsername = user_layout.getEditText().getText().toString().trim();
+        mPassword = password_layout.getEditText().getText().toString().trim();
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password.
         if (TextUtils.isEmpty(mPassword)) {
-            mPasswordView.setError(getString(R.string.error_field_required));
-            focusView = mPasswordView;
+            //mPasswordView.setError(getString(R.string.error_field_required));
+            password_layout.setError(getString(R.string.error_field_required));
+            focusView = password_layout.getEditText();
             cancel = true;
         } else if (mPassword.length() < 2) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
+            //mPasswordView.setError(getString(R.string.error_invalid_password));
+            password_layout.setError(getString(R.string.error_invalid_password));
+            focusView = password_layout.getEditText();
             cancel = true;
         }
 
         // Check for a valid username address.
         if (TextUtils.isEmpty(mUsername)) {
-            mUsernameView.setError(getString(R.string.error_field_required));
-            focusView = mUsernameView;
+            user_layout.setError(getString(R.string.error_field_required));
+            focusView = user_layout.getEditText();
             cancel = true;
         } else if (mUsername.length() < 3) {
-            mUsernameView.setError("Invalid username");
-            focusView = mUsernameView;
+            user_layout.setError("Invalid username");
+            focusView = user_layout.getEditText();
             cancel = true;
         }
 
         // Check for connection
         if (!ConnectionUtil.isNetworkConnected(this)) {
-            mUsernameView.setError("No internet connection");
-            focusView = mUsernameView;
+            user_layout.setError("No internet connection");
+            focusView = user_layout.getEditText();
             cancel = true;
         }
 
@@ -265,5 +299,13 @@ public class LoginActivity extends Activity implements APIRequestListener {
             mLoginStatusView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+
+        finish();
+
+
     }
 }

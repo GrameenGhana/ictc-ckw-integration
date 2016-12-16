@@ -1,51 +1,73 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:gravity="center"
-              android:background="#ffeeeeee">
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffeeeeee"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <LinearLayout
-            android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                      android:layout_height="wrap_content" android:background="@mipmap/header">
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:orientation="horizontal">
+
             <applab.client.agrihub.ui.font.RobotoTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                      android:text="  Meeting:"
-                android:textSize="20sp"
-                      android:textColor="#ffffffff"/>
-        <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New Text"
-                  android:id="@+id/txt_meeting_attendance_header"
-                android:textColor="#ffffffff"/>
-    </LinearLayout>
-        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                      android:layout_height="fill_parent" android:weightSum="3">
+                android:text="Meeting :"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/txt_meeting_attendance_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="New Text" />
+
+        </LinearLayout>
+
+
+
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
             <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Meeting Date"
-                    android:drawableLeft="@mipmap/ic_date"
-                    android:onClick="showDatePickerDialog" android:id="@+id/md" android:layout_weight="1"/>
+                android:id="@+id/md"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/ic_date"
+                android:onClick="showDatePickerDialog"
+                android:text="Meeting Date" />
+
             <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Meeting Time"
-                    android:drawableLeft="@mipmap/ic_time"
-                    android:onClick="showTimePickerDialog" android:id="@+id/sit" android:layout_weight="1"/>
+                android:id="@+id/sit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/ic_time"
+                android:onClick="showTimePickerDialog"
+                android:text="Meeting Time" />
+
             <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="End time"
-                    android:drawableLeft="@mipmap/ic_time"
-                    android:onClick="showTimePickerDialog" android:id="@+id/eit" android:layout_weight="1"/>
+                android:id="@+id/eit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/ic_time"
+                android:onClick="showTimePickerDialog"
+                android:text="End time" />
             <!-- <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
                        android:text="Meeting Date" android:textSize="20sp" />
              <DatePicker
@@ -57,25 +79,26 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button android:id="@+id/findSelected"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="markAttendanceSelect"
-            android:drawableLeft="@mipmap/ic_mark_attendance"
-            android:text="Click to register Attendance" />
+    <Button
+        android:id="@+id/findSelected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@mipmap/ic_mark_attendance"
+        android:onClick="showSummary"
+        android:text="Click to register Attendance" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="horizontal"
         android:padding="5dp"
         android:weightSum="3">
         <!-- A RecyclerView with some commonly used attributes -->
         <ListView
             android:id="@+id/lst_attendance"
-            android:scrollbars="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
     </LinearLayout>
 
 </LinearLayout>

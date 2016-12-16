@@ -1,134 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="match_parent" android:id="@+id/ccs_layout"
-              android:clickable="false">
+<LinearLayout
+    android:layout_margin="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/card_bakground_selector"
+    android:clickable="false"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center" android:clickable="false" android:background="@drawable/card_bakground_selector">
         <LinearLayout
-                android:orientation="horizontal"
-                android:weightSum="5"
-                android:layout_width="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="6">
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical" android:paddingTop="3dp" android:paddingBottom="12dp">
-            <applab.client.search.utils.CircularImageView
-                    android:layout_width="200dp"
-                    android:layout_height="150dp"
-                    android:layout_weight="1"
+                android:layout_weight="2"
+                >
+
+                <applab.client.search.utils.CircularImageView
+                    android:layout_marginTop="12dp"
                     android:id="@+id/farmerImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/ic_person"
                     app:civ_border_width="4dp"
-
                     app:civ_shadow="true"
-                    app:civ_shadow_radius="10"
-                    app:civ_shadow_color="#8BC34A"
-                    android:src="@mipmap/ic_person"/>
+                    app:civ_shadow_color="#e0b9b9b9"
+                    app:civ_shadow_radius="10" />
 
-            <TableLayout
-                android:layout_width="match_parent"
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="4">
+                android:layout_weight="4"
+                android:layout_marginLeft="16dp"
+                >
 
-                <TableRow
+                <TableLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="2dp">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4">
 
-                    <applab.client.agrihub.ui.font.RobotoTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Name: "
-                        android:id="@+id/textView"
-                        android:textStyle="bold"
-                        app:typeface="robotoBold"
-                        android:textColor="#ff0e4918" />
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="2dp">
 
-                    <applab.client.agrihub.ui.font.RobotoTextView
+                        <applab.client.agrihub.ui.font.RobotoTextView
+                            android:id="@+id/textView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Name: "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#ff0e4918"
+                            android:textStyle="bold"
+                            app:typeface="robotoBold" />
+
+                        <applab.client.agrihub.ui.font.RobotoTextView
+                            android:id="@+id/textView_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="Large Text"
-                            android:id="@+id/textView_name"
-                        app:typeface="robotoBold"
-                        android:textStyle="bold|italic"/>
-                </TableRow>
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textStyle="bold|italic"
+                            app:typeface="robotoBold"
+                            android:scrollHorizontally="true"
+                            />
+                    </TableRow>
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="2dp">
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="2dp">
 
-                    <TextView
+                        <TextView
+                            android:id="@+id/textView12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="0dp"
+                            android:text="Location: "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#ff0e4918"
+                            android:textStyle="bold" />
+
+                        <applab.client.agrihub.ui.font.RobotoTextView
+                            android:id="@+id/textView_location"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Location: "
-                            android:id="@+id/textView12" android:textColor="#ff0e4918" android:textStyle="bold"
-                            android:paddingLeft="0dp"/>
+                            android:textStyle="italic"
+                            app:typeface="robotoRegular" />
+                    </TableRow>
 
-                    <applab.client.agrihub.ui.font.RobotoTextView
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingBottom="2dp">
+
+                        <applab.client.agrihub.ui.font.RobotoTextView
+                            android:id="@+id/textView11"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                        app:typeface="robotoRegular"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:id="@+id/textView_location" android:textStyle="italic"/>
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="2dp">
-
-                    <applab.client.agrihub.ui.font.RobotoTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:paddingLeft="0dp"
                             android:text="Cluster:"
-                        android:id="@+id/textView11"
-                        app:typeface="robotoBold"
-                        android:textStyle="bold" android:textColor="#ff0e4918"
-                            android:paddingLeft="0dp"/>
-
-                    <applab.client.agrihub.ui.font.RobotoTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                        app:typeface="robotoRegular"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:id="@+id/textView_groups" android:textStyle="italic"/>
-                </TableRow>
+                            android:textColor="#ff0e4918"
+                            android:textStyle="bold"
+                            app:typeface="robotoBold" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <applab.client.agrihub.ui.font.RobotoTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Crop: "
-                        android:id="@+id/textView2"
-                        app:typeface="robotoBold"
-                        android:textColor="#ff0e4918"
-                        android:textStyle="bold" />
-
-                    <applab.client.agrihub.ui.font.RobotoTextView
+                        <applab.client.agrihub.ui.font.RobotoTextView
+                            android:id="@+id/textView_groups"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:layout_weight="1"
-                        app:typeface="robotoRegular"
+                            android:textStyle="italic"
+                            app:typeface="robotoRegular" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <applab.client.agrihub.ui.font.RobotoTextView
+                            android:id="@+id/textView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Crop: "
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textColor="#ff0e4918"
+                            android:textStyle="bold"
+                            app:typeface="robotoBold" />
+
+                        <applab.client.agrihub.ui.font.RobotoTextView
                             android:id="@+id/textView_mainCrop"
-                            android:textStyle="italic" />
-                </TableRow>
-            </TableLayout>
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:textStyle="italic"
+                            app:typeface="robotoRegular" />
+                    </TableRow>
+                </TableLayout>
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
-    </LinearLayout>
-
 </LinearLayout>

@@ -1,6 +1,6 @@
 package applab.client.search.activity;
 
-import android.app.ActionBar;
+import android.support.v7.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,6 +37,8 @@ public class GeneralAgentCalendarActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setTheme(R.style.AppTheme);
         setContentView(R.layout.general_agent_calendar_activity);
         list = (ListView) findViewById(R.id.lst_agent_lst_view);
         Bundle extras = getIntent().getExtras();
@@ -67,7 +69,7 @@ public class GeneralAgentCalendarActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                if (titles[i].toLowerCase().contains("visit") ){
                     System.out.println("Individual item");
-                    Intent intent = new Intent(GeneralAgentCalendarActivity.this, FarmerActivitySelectFarmer.class);
+                    Intent intent = new Intent(getApplicationContext(), FarmerActivitySelectFarmer.class);
                     intent.putExtra("mi",Integer.parseInt( firstLetter[i]));
                     intent.putExtra("type","MI");
                     intent.putExtra("detail",titles[i]);
@@ -79,7 +81,7 @@ public class GeneralAgentCalendarActivity extends BaseActivity {
                     startActivity(intent);
                 }else {
                     System.out.println("Other Item");
-                    Intent intent = new Intent(GeneralAgentCalendarActivity.this, MeetingIndexActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), MeetingIndexActivity.class);
                     intent.putExtra("mi",Integer.parseInt(firstLetter[i]));
                     intent.putExtra("mt", titles[i]);
                     intent.putExtra("mid", "1");
@@ -91,6 +93,12 @@ public class GeneralAgentCalendarActivity extends BaseActivity {
             }
         });
 helper = new DatabaseHelper(getBaseContext());
-        super.setDetails(new DatabaseHelper(getBaseContext()),"Client","Agent Calendar");
+        super.setDetails(helper,"Client","Agent Calendar");
     }
+
+
+
+
+
+
 }

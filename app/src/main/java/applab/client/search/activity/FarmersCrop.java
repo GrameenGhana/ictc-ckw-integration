@@ -32,8 +32,8 @@ String crop="";
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.farm_crop);
-        getActionBar().setDisplayShowHomeEnabled(true);
-        getActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         helper = new DatabaseHelper(getBaseContext());
         try {

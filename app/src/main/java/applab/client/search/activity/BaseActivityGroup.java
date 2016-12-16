@@ -1,5 +1,6 @@
 package applab.client.search.activity;
 
+import android.support.v7.app.ActionBar;
 import android.app.ActivityGroup;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,7 +42,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 /**
  * Created by skwakwa on 10/12/15.
  */
-public class BaseActivityGroup extends ActivityGroup {
+public class BaseActivityGroup extends AppCompatActivity {
     BaseLogActivity baseLogActivity;
     private String TAG;
     private DatabaseHelper helper;
@@ -57,8 +59,10 @@ public class BaseActivityGroup extends ActivityGroup {
         helper = new DatabaseHelper(getBaseContext());
         handler = new Handler();
         progressDialog = new ProgressDialog(mContext);
-        if(getActionBar()!=null){
-            getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar!=null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
         }
         ImageLoader imageLoader = ImageLoader.getInstance();
         if (!imageLoader.isInited()) {
@@ -103,7 +107,7 @@ public class BaseActivityGroup extends ActivityGroup {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        super.onDestroy();
+        //super.onDestroy();
 
         //onsaveinstance does not always get called for the ckw list pages uses the destroy for those pages
         if(!this.getLocalClassName().contains("SearchMenuItemActivity")){
@@ -130,7 +134,7 @@ public class BaseActivityGroup extends ActivityGroup {
         }
     }
 
-    @Override
+   /* @Override
     protected void onPause() {
         super.onPause();
     }
@@ -139,11 +143,11 @@ public class BaseActivityGroup extends ActivityGroup {
     protected void onResume() {
         super.onResume();
     }
-
-    @Override
+*/
+    /*@Override
     protected void onStop() {
         super.onStop();
-    }
+    }*/
 
 
     public void showHome(View view){
@@ -216,7 +220,7 @@ public class BaseActivityGroup extends ActivityGroup {
                     handler.post(new Runnable() {
                         public void run() {
                             progressDialog.dismiss();
-                            onRefresh();
+                            //onRefresh();
                         }
                     });
 
@@ -259,7 +263,11 @@ public class BaseActivityGroup extends ActivityGroup {
                     .show();
         }
     }
-    public void onRefresh() {};
+    public void onRefresh() {
+
+
+
+    };
     protected void logout() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
@@ -346,9 +354,11 @@ public class BaseActivityGroup extends ActivityGroup {
                 logout();
 
             } else if (item.getItemId() == android.R.id.home) {
-                Intent intent = new Intent().setClass(this, DashboardSmartExActivity.class);
+               /* Intent intent = new Intent().setClass(this, DashboardSmartExActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-                startActivity(intent);
+                startActivity(intent);*/
+
+                finish();
             }
 
         } catch (Exception ex) {

@@ -6,20 +6,24 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="156dp" android:background="@mipmap/header"
-            android:layout_gravity="center_vertical" android:padding="5dp">
+
+            android:layout_height="wrap_content" android:background="@color/background_grey"
+            android:layout_gravity="center_vertical" android:padding="16dp">
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Activity"
-                android:padding="5dp"
-                android:id="@+id/textView23" android:textColor="#ffffffff"/>
+                android:id="@+id/textView23"
+            android:layout_marginRight="16dp"
+            />
+
+
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Activity Title"
-                android:id="@+id/fsf_act_title" android:textColor="#ffffffff"/>
+                android:id="@+id/fsf_act_title" />
     </LinearLayout>
 
     <ListView

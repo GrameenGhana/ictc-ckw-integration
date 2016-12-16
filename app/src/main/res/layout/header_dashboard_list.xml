@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="74dp"
-    android:background="@color/material_grey_600" >
+    android:background="@color/background_grey" >
 
     <TextView
         android:id="@+id/header_title"
@@ -13,7 +13,6 @@
         android:lines="2"
         android:minLines="2"
         android:paddingLeft="70dp"
-        android:paddingRight="70dp"
-        android:textColor="@android:color/white" />
+        android:paddingRight="70dp" />
 
 </LinearLayout>

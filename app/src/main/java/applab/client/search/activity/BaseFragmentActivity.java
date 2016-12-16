@@ -7,7 +7,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
 import android.support.v4.app.FragmentActivity;
+
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +32,7 @@ import applab.client.search.utils.BaseLogActivity;
 import applab.client.search.utils.ConnectionUtil;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class BaseFragmentActivity extends FragmentActivity {
+public class BaseFragmentActivity extends AppCompatActivity {
 
     BaseLogActivity baseLogActivity;
     private DatabaseHelper helper;
