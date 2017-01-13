@@ -6,7 +6,6 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="applab.client.search.activity.FarmerProfileMeetingActivity">
 
 
@@ -30,8 +29,8 @@
                 android:id="@+id/textView8"
                 android:textColor="#ff07530f"
                 android:textStyle="italic"
-                android:padding="20dp"
-                android:background="@drawable/card_bakground_selector" />
+                android:padding="16dp"
+                 />
 
             <ListView
                 android:layout_width="wrap_content"
@@ -61,8 +60,7 @@
                 android:textColor="#ff07530f"
                 android:textStyle="italic"
                 android:clickable="true"
-                android:padding="20dp"
-                android:background="@drawable/card_bakground_selector" />
+                android:padding="16dp" />
 
             <ListView
                 android:layout_width="wrap_content"

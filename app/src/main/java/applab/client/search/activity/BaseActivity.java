@@ -123,14 +123,18 @@ public class BaseActivity extends AppCompatActivity {
     public void showHome(View view){
         Intent t = (ConnectionUtil.isSmartExAgent(this))
                  ? new Intent(view.getContext(),DashboardSmartExActivity.class)
-                 : new Intent(view.getContext(),DashboardMainActivity.class);
+                 : new Intent(view.getContext(),LoginActivity.class);
+        t.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        t.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         view.getContext().startActivity(t);
     }
 
     public void showHome(Activity act){
         Intent t = (ConnectionUtil.isSmartExAgent(act))
                 ? new Intent(act.getApplicationContext(),DashboardSmartExActivity.class)
-                : new Intent(act.getApplicationContext(),DashboardMainActivity.class);
+                : new Intent(act.getApplicationContext(),LoginActivity.class);
+        t.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        t.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         act.startActivity(t);
         finish();
     }
@@ -346,7 +350,7 @@ public class BaseActivity extends AppCompatActivity {
                     Payload mqp = dbh.getCCHUnsentLog();
                     IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(this);
                     omUpdateCCHLogTask.execute(mqp);
-                    ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
+                   // ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
                     ConnectionUtil.refreshFarmerInfo(BaseActivity.this, null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
                     startSynchronization();
                 }else{

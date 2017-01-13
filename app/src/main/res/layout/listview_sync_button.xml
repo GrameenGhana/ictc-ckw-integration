@@ -2,15 +2,15 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:padding="6dip">
+                android:layout_height="wrap_content" android:padding="6dp">
 
     <Button android:id="@+id/sync_button"
             android:layout_width="fill_parent"
-            android:layout_height="50dip"
-            android:layout_marginRight="6dip"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="6dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentBottom="true"
-            android:padding="3dip"
+            android:padding="3dp"
             android:text="@string/synchronise"
             />
 

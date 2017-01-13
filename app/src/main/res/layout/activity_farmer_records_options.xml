@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/gridView5"
         android:layout_gravity="center_horizontal|top"
-        android:horizontalSpacing="20dp"
+        android:horizontalSpacing="16dp"
         android:numColumns="2"
-        android:verticalSpacing="20dp" />
+        android:verticalSpacing="16dp" />
 </FrameLayout>

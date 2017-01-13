@@ -2,6 +2,8 @@ package applab.client.search.activity;
 
 import android.annotation.SuppressLint;
 import android.app.*;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -36,6 +38,7 @@ import applab.client.search.services.MenuItemService;
 import applab.client.search.settings.SettingsActivity;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
+import applab.client.search.task.IctcTrackerLogTask;
 import applab.client.search.utils.*;
 
 import java.util.ArrayList;
@@ -57,6 +60,8 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
     private List<Meeting> upcomingDates;
     private DateTime today;
     private RecyclerView horizontalGridView;
+    String IS_FARMER_INFO_REFRESHED = "isFarmerInfoRefreshed";
+    SharedPreferences sharedPreferences;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +71,9 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
         super.setDetails(Db(), "SmartEx Dashboard", "Startup");
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         createActionBar();
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
         today = new DateTime();
         username=(TextView) findViewById(R.id.username);
@@ -123,7 +131,24 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
 
 */
 
+      /*  Boolean isRefreshed = sharedPreferences.getBoolean(IS_FARMER_INFO_REFRESHED, false);
+        Log.i("IS Refreshed?", isRefreshed.toString());
 
+        if(IctcCKwUtil.haveNetworkConnection(this)){
+            if(!isRefreshed) {
+
+                Toast.makeText(getBaseContext(), "Synchronising Data Please wait", Toast.LENGTH_LONG).show();
+                DatabaseHelper dbh = new DatabaseHelper(getBaseContext());
+                Payload mqp = dbh.getCCHUnsentLog();
+                IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(this);
+                omUpdateCCHLogTask.execute(mqp);
+                // ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
+                ConnectionUtil.refreshFarmerInfo(this, null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
+                startSynchronization();
+                editor.putBoolean(IS_FARMER_INFO_REFRESHED, true);
+                editor.apply();
+            }
+        }*/
 
 
 

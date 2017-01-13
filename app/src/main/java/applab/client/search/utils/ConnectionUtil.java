@@ -140,17 +140,39 @@ public class ConnectionUtil {
         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
         UserDetails u = databaseHelper.getUserItem();
         String serverResponse = "";
-        String url = IctcCkwIntegrationSync.ICTC_SERVER_URL + "action="+type+"&a="+u.getSalesForceId()+"&lm="+u.getLastModifiedDate();
+        String url;
+
+
+        if(IctcCkwIntegrationSync.ICTC_SERVER_MAIN_URL != null){
+
+
+            url = IctcCkwIntegrationSync.ICTC_SERVER_URL + "action="+type+"&a="+u.getSalesForceId()+"&lm="+u.getLastModifiedDate();
+        }else{
+
+            url = "http://104.236.220.225:45805/" + IctcCkwIntegrationSync.ICTC_SERVER_CONTEXT_PATH
+                    +"api/v1?" + "action="+type+"&a="+u.getSalesForceId()+"&lm="+u.getLastModifiedDate();
+
+        }
+
+
+
+        Log.i("Server Url :", url);
         AsyncHttpClient client=new AsyncHttpClient();
         client.get(url, new JsonHttpResponseHandler() {
 
             @Override
             public void onStart() {
+
                 if(type.equalsIgnoreCase("login")){
+                    Log.i("On Start","type login");
+
 
                 }else {
+                    Log.i("On Start","the else part");
+
                     pDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
                     pDialog.setTitleText("Retrieving farmer info...");
+                    pDialog.setContentText("Might take a while");
                     pDialog.setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sDialog) {
@@ -163,6 +185,7 @@ public class ConnectionUtil {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                Log.i("On Success","Retrieving farmer details...");
 
 //                if (pDialog != null)pDialog.dismiss();
                 //pDialog = new SweetAlertDialog(context, SweetAlertDialog.PROGRESS_TYPE);
@@ -388,12 +411,17 @@ public class ConnectionUtil {
                         new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
                                 .setTitleText("Error")
                                 .setContentText("No reponse from the server. Try again.")
-                                .setCancelText("Close")
+                                .setConfirmText("OK")
                                 .showCancelButton(true)
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sDialog) {
                                         sDialog.dismissWithAnimation();
+
+                                        if(intent != null) {
+                                            context.startActivity(intent);
+
+                                        }
                                     }
                                 })
                                 .show();
@@ -402,20 +430,29 @@ public class ConnectionUtil {
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable e,JSONObject errorResponse) {
+            public void onFailure(int statusCode, Header[] headers, Throwable e, JSONObject errorResponse) {
                 if(pDialog != null) pDialog.dismiss();
-                new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+
+                Log.i("On Failure","Uh-oh, It failed!");
+                /*new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
                         .setTitleText("Error")
                         .setContentText("No response from the server. Click OK to proceed.")
-                        .setCancelText("Close")
+                        .setConfirmText("OK")
                         .showCancelButton(true)
-                        .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
                                 sDialog.dismissWithAnimation();
+
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                               context.startActivity(intent);
                             }
                         })
-                        .show();
+                        .show();*/
+                if(intent != null) {
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                }
             }
 
             @Override

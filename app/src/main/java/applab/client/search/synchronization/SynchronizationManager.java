@@ -959,9 +959,13 @@ public class SynchronizationManager {
     }
 
     protected void downloadCountryCode() {
+
         String countryCode = SettingsManager.getInstance().getValue(SettingsConstants.KEY_COUNTRY_CODE, "NONE");
         if ("NONE".equalsIgnoreCase(countryCode)) {
+
             String url = SettingsManager.getInstance().getValue(SettingsConstants.KEY_SERVER);
+
+            if(url != null)
 
             try {
                 GeneralRequestWrapper request = new GeneralRequestWrapper();
@@ -997,9 +1001,13 @@ public class SynchronizationManager {
     protected void downloadWeatherData(DatabaseHelper databaseHelper) {
         String weatherUrl = "api/v1/weather";
 
-            String url = SettingsManager.getInstance().getValue(SettingsConstants.ICTC_KEY_SERVER);
-            url+=weatherUrl;
 
+            String url = SettingsManager.getInstance().getValue(SettingsConstants.ICTC_KEY_SERVER);
+
+
+        if(url != null)
+            url+=weatherUrl;
+        {
             try {
                 int networkTimeout = 10 * 60 * 1000;
 
@@ -1007,26 +1015,26 @@ public class SynchronizationManager {
                 HttpPost post = new HttpPost(url);
 
 
-                String serverResponse="";
+                String serverResponse = "";
                 HttpResponse resp = client.execute(post);
-                Log.i(this.getClass().getName(),"After icctc send");
+                Log.i(this.getClass().getName(), "After icctc send");
                 BufferedReader rd = new BufferedReader(new InputStreamReader(resp.getEntity().getContent()));
                 //String server="";
-                Log.i(this.getClass().getName(),"Done");
+                Log.i(this.getClass().getName(), "Done");
                 String line = "";
                 while ((line = rd.readLine()) != null) {
-                    Log.i(this.getClass().getName(),line);
+                    Log.i(this.getClass().getName(), line);
                     serverResponse += line;
                 }
 
-                processWeatherResponse(serverResponse,databaseHelper);
+                processWeatherResponse(serverResponse, databaseHelper);
 
 
             } catch (Exception ex) {
                 Log.e(SynchronizationManager.class.getName(), "Error downloading country code", ex);
                 notifySynchronizationListeners("onSynchronizationError", new Throwable(ex));
             }
-
+        }
     }
 
     protected  void uploadICTCLogs(DatabaseHelper databaseHelper){

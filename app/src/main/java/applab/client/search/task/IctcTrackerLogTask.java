@@ -57,15 +57,25 @@ public class IctcTrackerLogTask extends AsyncTask<Payload, Object, Payload> {
         System.out.println("Imags : ");
         List<String>  imageURls = (List<String>) payload.getData();
         HTTPConnectionUtil client = new HTTPConnectionUtil(ctx);
-        String url = ImageUtils.FULL_URL_PROFILE_PIX;
+        String url;
         HttpGet httpGet= null;
         for(String image:imageURls) {
             File f = new File(ImageUtils.FULL_URL_PROFILE_PIX + "/" + image);
             if (!f.exists()) {
 
+                if(IctcCkwIntegrationSync.ICTC_SERVER_MAIN_URL != null){
 
-            url = IctcCkwIntegrationSync.IMAGE_URL + image;
+
+                    url = IctcCkwIntegrationSync.IMAGE_URL + image;
+                }else{
+
+                    url = "http://104.236.220.225:45805/images/" + image;
+
+                }
+
+
             System.out.println("Img url : " + url);
+
             try {
                 httpGet = new HttpGet(url);
                 HttpResponse response = client.execute(httpGet);

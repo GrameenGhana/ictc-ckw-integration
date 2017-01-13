@@ -1,18 +1,27 @@
 package applab.client.agrihub.activity;
 
 import android.app.ActionBar;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import applab.client.agrihub.util.DashboardContent;
 import applab.client.search.R;
 import applab.client.agrihub.ui.adapter.DashboardCategoryAdapter;
 import applab.client.search.activity.BaseActivity;
+import applab.client.search.activity.LoginActivity;
+import applab.client.search.model.Payload;
+import applab.client.search.storage.DatabaseHelper;
+import applab.client.search.synchronization.IctcCkwIntegrationSync;
+import applab.client.search.task.IctcTrackerLogTask;
 import applab.client.search.utils.*;
 
 public class DashboardMainActivity extends BaseActivity {
 
     private ListView mListView;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -20,6 +29,8 @@ public class DashboardMainActivity extends BaseActivity {
         setTheme(R.style.IctcTheme);
         setContentView(R.layout.activity_dashboard_main);
         super.setDetails("myAgriHub Dashboard","Startup");
+
+
 
         ActionBar mActionBar = getActionBar();
 //        mActionBar.setDisplayShowHomeEnabled(true);
@@ -35,6 +46,7 @@ public class DashboardMainActivity extends BaseActivity {
         mFirstLine.setText(ConnectionUtil.currentUserFullName(this));
         mSecondLine.setText(ConnectionUtil.currentUserType(this));
         mThirdLine.setText("");
+
 
         mListView = (ListView) findViewById(R.id.list_view);
         setAdapter(ConnectionUtil.currentUserType(this));

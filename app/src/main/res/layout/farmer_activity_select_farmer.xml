@@ -8,37 +8,36 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@mipmap/header"
+        android:background="#fce0a8"
         android:orientation="vertical"
-        android:padding="5dp"
+        android:gravity="center_vertical"
         android:weightSum="1">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="5dp"
+            android:padding="16dp"
             android:weightSum="2">
 
             <TextView
                 android:id="@+id/textView23"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
                 android:text="Activity"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#ffffffff" />
+                android:layout_marginRight="16dp"
+               />
 
             <TextView
                 android:id="@+id/fsf_act_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
                 android:text="Activity Title"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#ffffffff" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                />
         </LinearLayout>
     </LinearLayout>
 
@@ -53,6 +52,7 @@
             android:id="@+id/textView25"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="8dp"
             android:text="Farmer Search" />
 
         <EditText

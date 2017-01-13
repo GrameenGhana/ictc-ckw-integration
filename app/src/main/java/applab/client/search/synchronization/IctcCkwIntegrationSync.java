@@ -32,14 +32,15 @@ public class IctcCkwIntegrationSync {
     ///http://104.236.220.225:8080
 
     public static   String ICTC_SALESFORCE_SEND_MEASUREMENT="http://ictchallenge.force.com/";
-    public static   String ICTC_SALESFORCE_SEND_MEASUREMENT_URL=ICTC_SALESFORCE_SEND_MEASUREMENT+SettingsManager.getInstance().getValue(SettingsConstants.ICTC_SEND_MEASUREMENT_SERVER);
+    public static   String ICTC_SALESFORCE_SEND_MEASUREMENT_URL = ICTC_SALESFORCE_SEND_MEASUREMENT+SettingsManager.getInstance().getValue(SettingsConstants.ICTC_SEND_MEASUREMENT_SERVER);
     public static   String ICTC_SERVER_CONTEXT_PATH="ICTC/";
     public static   String ICTC_SERVER_MAIN_URL= SettingsManager.getInstance().getValue(SettingsConstants.ICTC_KEY_SERVER);
 
+
     public static String ICTC_SERVER_URL_ROOT_2= ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"MobileController?";//http://104.236.220.225:8080
-    static String ICTC_SERVER_URL_ROOT = ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"api/v1/";
-    public static String ICTC_SERVER_URL = ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH+"api/v1?";
-    public static String IMAGE_URL=ICTC_SERVER_MAIN_URL+"images/";
+    static String ICTC_SERVER_URL_ROOT = ICTC_SERVER_MAIN_URL+ICTC_SERVER_CONTEXT_PATH + "api/v1/";
+    public static String ICTC_SERVER_URL = ICTC_SERVER_MAIN_URL + ICTC_SERVER_CONTEXT_PATH+"api/v1?";
+    public static String IMAGE_URL = ICTC_SERVER_MAIN_URL + "images/";
     public static String GET_FARMER_DETAILS ="fdetails";
     public static final String WEATHER_URL = ICTC_SERVER_URL_ROOT+"weather";
     public static String LOGIN ="login";
@@ -52,7 +53,9 @@ public class IctcCkwIntegrationSync {
 
     public static void syncFarmerDetails() {
         int networkTimeout = 10 * 60 * 1000;
-        SettingsManager.getInstance().getValue(SettingsConstants.ICTC_KEY_SERVER);
+        ICTC_SERVER_MAIN_URL = SettingsManager.getInstance().getValue(SettingsConstants.ICTC_KEY_SERVER);
+
+
         try {
             System.out.println("Main Int Ltd");
             //   if(FarmerServiceUtil.getFarmerCount()<=0) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:layout_margin="16dp"
+    android:layout_margin="8dp"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,7 +15,6 @@
             android:gravity="center"
             android:orientation="horizontal"
             android:weightSum="6">
-
 
             <RelativeLayout
                 android:layout_width="0dp"
@@ -34,7 +33,6 @@
                     app:civ_shadow="true"
                     app:civ_shadow_color="#e0b9b9b9"
                     app:civ_shadow_radius="10" />
-
             </RelativeLayout>
 
 

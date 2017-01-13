@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent" android:padding="20dp" android:background="#ffffffff">
+              android:layout_height="match_parent" android:padding="16dp" android:background="#ffffffff">
 
     <ExpandableListView
             android:layout_width="match_parent"
@@ -10,7 +10,6 @@
             android:id="@+id/expandableListView"
             android:layout_gravity="center_horizontal"
             android:dividerHeight="4dp"
-
             android:divider="#ffffffff"
             android:drawSelectorOnTop="true"/>
 </LinearLayout>

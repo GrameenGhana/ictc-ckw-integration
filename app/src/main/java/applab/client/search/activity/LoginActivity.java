@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import applab.client.search.R;
@@ -57,6 +59,8 @@ public class LoginActivity extends AppCompatActivity implements APIRequestListen
 
     @Override
     public void onCreate(Bundle savedInstanceState){
+        getIntent().setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        getIntent().setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         super.onCreate(savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -78,11 +82,14 @@ public class LoginActivity extends AppCompatActivity implements APIRequestListen
 
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
-                        if (id == R.id.main_button_login || id == EditorInfo.IME_NULL) {
-                            attemptLogin();
+                        InputMethodManager imm = (InputMethodManager) getSystemService(LoginActivity.this.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+
+                            if(PermissionsActivity.launchMultiplePermissions(LoginActivity.this)){
+                                attemptLogin();
+                            }
                             return true;
-                        }
-                        return false;
+
                     }
                 });
         mLoginFormView = findViewById(R.id.login_form);
@@ -91,7 +98,14 @@ public class LoginActivity extends AppCompatActivity implements APIRequestListen
         findViewById(R.id.main_button_login).setOnClickListener(
                 new View.OnClickListener() {
                     public void onClick(View view) {
-                        attemptLogin();
+
+
+                        if(PermissionsActivity.launchMultiplePermissions(LoginActivity.this)){
+
+                            attemptLogin();
+
+                        }
+
                     }
                 });
 
@@ -185,9 +199,7 @@ public class LoginActivity extends AppCompatActivity implements APIRequestListen
             return;
         }
 
-        // Reset errors.
-        //mUsernameView.setError(null);
-        //mPasswordView.setError(null);
+        // Reset errors
 
         user_layout.setError(null);
         password_layout.setError(null);
@@ -212,7 +224,7 @@ public class LoginActivity extends AppCompatActivity implements APIRequestListen
             cancel = true;
         }
 
-        // Check for a valid username address.
+        // Check for a valid username.
         if (TextUtils.isEmpty(mUsername)) {
             user_layout.setError(getString(R.string.error_field_required));
             focusView = user_layout.getEditText();
@@ -238,7 +250,7 @@ public class LoginActivity extends AppCompatActivity implements APIRequestListen
             mLoginStatusMessageView.setText("Signing in...");
             showProgress(true);
 
-            String hash = MD5("ictchallenge"+mPassword.trim()+"2016");
+            String hash = MD5("ictchallenge" + mPassword.trim()+"2016");
             ArrayList<Object> requestData = new ArrayList<Object>();
             requestData.add(mUsername);
             requestData.add(hash);
@@ -303,8 +315,9 @@ public class LoginActivity extends AppCompatActivity implements APIRequestListen
 
     @Override
     public void onBackPressed(){
+        super.onBackPressed();
 
-        finish();
+        LoginActivity.this.finish();
 
 
     }
