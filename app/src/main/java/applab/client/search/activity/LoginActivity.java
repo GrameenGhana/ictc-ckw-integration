@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity implements APIRequestListen
 
                     }
                 });
+
         mLoginFormView = findViewById(R.id.login_form);
         mLoginStatusView = findViewById(R.id.login_status);
         mLoginStatusMessageView = (TextView) findViewById(R.id.login_status_message);
