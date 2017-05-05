@@ -3,18 +3,17 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="6dip"
-    android:id="@+id/simp_rel_lay">
+     android:id="@+id/simp_rel_lay">
 
     <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:weightSum="4" android:gravity="center_vertical">
         <TextView
                 android:id="@+id/lst_text_item_icon1"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/spacing_3"
+                android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:focusable="false"
                 android:text="1"
@@ -24,15 +23,11 @@
                 android:gravity="center"/>
         <applab.client.agrihub.ui.font.RobotoTextView
                 android:id="@+id/lst_text_item_titles1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/lst_text_item_icon1"
-                android:layout_toRightOf="@+id/lst_text_item_icon1"
-                android:padding="5dp"
+                android:padding="@dimen/spacing_normal"
                 android:text="Efg"
-            app:typeface="robotoLight"
-                android:layout_alignTop="@+id/lst_text_item_icon1"
-                android:layout_alignParentRight="true" android:textColor="#ff02070c"/>
+            app:typeface="robotoLight"  android:textColor="#ff02070c"/>
 
     </LinearLayout>
 

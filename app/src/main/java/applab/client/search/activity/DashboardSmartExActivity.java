@@ -3,7 +3,12 @@ package applab.client.search.activity;
 import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +25,11 @@ import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.squareup.picasso.Picasso;
+
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import org.joda.time.Duration;
@@ -31,6 +41,9 @@ import applab.client.search.adapters.DashboardMenuAdapter;
 import applab.client.search.adapters.GridMenuAdapter;
 import applab.client.search.adapters.UpcomingMeetingsAdapter;
 import applab.client.search.adapters.WeatherListAdapter;
+import applab.client.search.interactivecontent.WeatherContract;
+import applab.client.search.interactivecontent.WeatherPresenter;
+import applab.client.search.model.ForcastDay;
 import applab.client.search.model.Meeting;
 import applab.client.search.model.Payload;
 import applab.client.search.model.Weather;
@@ -40,12 +53,21 @@ import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import applab.client.search.task.IctcTrackerLogTask;
 import applab.client.search.utils.*;
+import az.openweatherapi.OWService;
+import az.openweatherapi.listener.OWRequestListener;
+import az.openweatherapi.model.OWResponse;
+import az.openweatherapi.model.gson.common.Coord;
+import az.openweatherapi.model.gson.current_day.CurrentWeather;
+import az.openweatherapi.model.gson.five_day.ExtendedWeather;
+import az.openweatherapi.utils.OWSupportedUnits;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class DashboardSmartExActivity extends BaseFragmentActivity {
+public class DashboardSmartExActivity extends BaseFragmentActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, WeatherContract.View {
     private static final String TAG = DashboardSmartExActivity.class.getSimpleName();
 
     View mCustomView;
@@ -62,6 +84,19 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
     private RecyclerView horizontalGridView;
     String IS_FARMER_INFO_REFRESHED = "isFarmerInfoRefreshed";
     SharedPreferences sharedPreferences;
+    private GoogleApiClient mGoogleApiClient;
+    private Location mLastLocation;
+    double mLongitude = 0.0;
+    double mLatitude = 0.0;
+
+    TextView currentWeatherText;
+    ImageView currentWeatherIcon;
+    WeatherPresenter presenter;
+    LinearLayout weather;
+    TextView city_name;
+    SharedPreferences prefs;
+    String _loc = "";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,85 +107,49 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         createActionBar();
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
+
+        presenter = new WeatherPresenter(this, Locale.getDefault());
+
+
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
 
         today = new DateTime();
         username=(TextView) findViewById(R.id.username);
         user_type=(TextView) findViewById(R.id.user_type);
+
         username.setText(ConnectionUtil.currentUserFullName(DashboardSmartExActivity.this));
         user_type.setText(ConnectionUtil.currentUserType(DashboardSmartExActivity.this));
-        //upcoming_meetings=(ListView) findViewById(R.id.upcoming_meetings);
-
-        /*horizontalGridView = (RecyclerView)findViewById(R.id.horizontal_recycler_view);
-
-        displayWeather(horizontalGridView);*/
 
 
-       // search_text=(EditText) findViewById(R.id.search_text);
-        /*try {
-            ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
-            // DateTimeFormatter formatter = DateTimeFormat.forPattern("dd/MM/yyyy HH:mm:ss");
-            //DateTime dt = formatter.parseDateTime(super.Db().getUserItem().getLastModifiedDate());
-            //Duration duration = new Duration(dt, today);
-           // System.out.println("Number of minutes since last sync: "+duration.getStandardMinutes());
-          //if(duration.getStandardMinutes()>20){
-               // ConnectionUtil.refreshFarmerInfo(DashboardSmartExActivity.this, null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
-          //  }
+        currentWeatherText = (TextView) findViewById(R.id.current_weather_text);
+        currentWeatherIcon = (ImageView) findViewById(R.id.current_weather_icon);
+        city_name = (TextView) findViewById(R.id.city_name);
+
+        currentWeatherText.setText(prefs.getString("lastTempValue", "28"));
+        setupWeatherIcon(currentWeatherIcon, prefs.getString("lastWeatherIcon", "sunny"));
+
+        city_name.setText(prefs.getString("lastCityValue", "Accra, Ghana"));
 
 
-            if (super.Db().farmerCount() > 0) {
-                if (super.Db().getMeetingSettingCount() == 0) {
-                    AgentVisitUtil.setMeetingSettings(super.Db());
-                }
+
+        weather = (LinearLayout) findViewById(R.id.weather);
+        weather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DashboardSmartExActivity.this, WeatherActivity.class));
             }
-            meetinglist=super.Db().meetingTimes();
-            upcomingDates=new ArrayList<Meeting>();
-            for(int i=0;i<meetinglist.size();i++){
-                DateTime meetingDate=new DateTime(Long.valueOf(meetinglist.get(i).getScheduledMeetingDate()));
-
-                Meeting m=new Meeting();
-                //System.out.println(Days.daysBetween(meetingDate.toLocalDate(), today.toLocalDate()).getDays());
-                if(Days.daysBetween(today.toLocalDate(), meetingDate.toLocalDate()).getDays()>30){
-                    m.setType(meetinglist.get(i).getType());
-                    m.setTitle(meetinglist.get(i).getTitle());
-                    m.setScheduledMeetingDate(meetinglist.get(i).getScheduledMeetingDate());
-                    upcomingDates.add(m);
-                }
-            }
-            UpcomingMeetingsAdapter ad=new UpcomingMeetingsAdapter(DashboardSmartExActivity.this,upcomingDates);
-            upcoming_meetings.setAdapter(ad);
-            new MenuItemService().processMultimediaContent();
-
-           // createPageAdaptor();
-            //createGrid();
-
-        } catch (NullPointerException e) {
-            Log.d(TAG, e.getMessage().toString());
-        }
-
-*/
-
-      /*  Boolean isRefreshed = sharedPreferences.getBoolean(IS_FARMER_INFO_REFRESHED, false);
-        Log.i("IS Refreshed?", isRefreshed.toString());
-
-        if(IctcCKwUtil.haveNetworkConnection(this)){
-            if(!isRefreshed) {
-
-                Toast.makeText(getBaseContext(), "Synchronising Data Please wait", Toast.LENGTH_LONG).show();
-                DatabaseHelper dbh = new DatabaseHelper(getBaseContext());
-                Payload mqp = dbh.getCCHUnsentLog();
-                IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(this);
-                omUpdateCCHLogTask.execute(mqp);
-                // ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
-                ConnectionUtil.refreshFarmerInfo(this, null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
-                startSynchronization();
-                editor.putBoolean(IS_FARMER_INFO_REFRESHED, true);
-                editor.apply();
-            }
-        }*/
-
-
+        });
 
 
 
@@ -160,7 +159,10 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
         clients.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 //Toast.makeText(DashboardSmartExActivity.this, "Its clickable!", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(DashboardSmartExActivity.this, ClientActivity.class);
+                //Intent intent = new Intent(DashboardSmartExActivity.this, ClientActivity.class);\
+
+
+                Intent intent = new Intent(DashboardSmartExActivity.this, FarmerRecordsOptionsActivity.class);
                 startActivity(intent);
             }
         });
@@ -218,281 +220,160 @@ public class DashboardSmartExActivity extends BaseFragmentActivity {
             });
 
         } catch(NullPointerException ex) {
-            Log.d(TAG, ex.getMessage().toString());
 
-        } catch (Exception e) {
-            Log.d(TAG, e.getMessage().toString());
+            ex.printStackTrace();
         }
     }
 
-   /* private void createPageAdaptor() {
-        try {
-            IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
-            List<Weather> weathers = super.Db().getWeatherByCommunity();
-
-            // Set up the ViewPager with the sections adapter.
-            mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), weathers, ConnectionUtil.isNetworkConnected(getApplicationContext()));
-            mViewPager = (ViewPager) findViewById(R.id.weather_pager);
-            mViewPager.setAdapter(mSectionsPagerAdapter);
-            mViewPager.setOffscreenPageLimit(weathers.size());
-
-        } catch(NullPointerException ex) {
-            Log.d(TAG, ex.getMessage());
-        }
-    }*/
-    private void createGrid() {
-        try {
-            String[] titles = {"Farmers", "Meetings", "Suppliers", "Markets","Technical Assistance", "Farmer Search"};
-            int[] images = {R.mipmap.farmer_icon, R.mipmap.meeting_icon,R.mipmap.lorrygreen,  R.mipmap.markets,  R.mipmap.repair,R.mipmap.farmer_search};
-            GridMenuAdapter adapter = new GridMenuAdapter(DashboardSmartExActivity.this, images, titles);
-            super.setDetails(super.Db(), "Dashboard","Dashboard");
-
-            //GridView grid_menu = (GridView) findViewById(R.id.gridView);
-           // grid_menu.setAdapter(adapter);
-
-            RelativeLayout clients=(RelativeLayout) findViewById(R.id.clients);
-            clients.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    Toast.makeText(DashboardSmartExActivity.this, "Its clickable!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(DashboardSmartExActivity.this, ClientActivity.class);
-                    startActivity(intent);
-                }
-            });
 
 
-            CardView clients_cv=(CardView) findViewById(R.id.clients_cv);
-            clients_cv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(DashboardSmartExActivity.this, "Its clickable!", Toast.LENGTH_SHORT).show();
-                }
-            });
+    protected void onStart() {
+        mGoogleApiClient.connect();
+        Log.i(TAG, "API client connected");
+        super.onStart();
+    }
+
+    protected void onStop() {
+        mGoogleApiClient.disconnect();
+        Log.i(TAG, "API client disconnected");
+        super.onStop();
+    }
+
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if (mLastLocation != null) {
+
+            mLongitude = mLastLocation.getLongitude();
+            mLatitude = mLastLocation.getLatitude();
 
 
 
-            RelativeLayout meetings =(RelativeLayout) findViewById(R.id.meetings);
-            meetings.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    Intent intent = new Intent(DashboardSmartExActivity.this, ScheduledMeetingsActivity.class);
-                    startActivity(intent);
-                }
-            });
-
-            /*LinearLayout suppliers=(LinearLayout) findViewById(R.id.suppliers);
-            suppliers.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    Intent intent = new Intent(DashboardSmartExActivity.this, SupplierActivity.class);
-                    startActivity(intent);
-                }
-            });*/
-
-            /*LinearLayout markets=(LinearLayout) findViewById(R.id.markets);
-           markets.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    Intent intent = new Intent(DashboardSmartExActivity.this, MarketActivity.class);
-                    startActivity(intent);
-                }
-            });*/
-
-            RelativeLayout technical=(RelativeLayout) findViewById(R.id.technical);
-            technical.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    Intent intent = new Intent(DashboardSmartExActivity.this, CKWSearchActivity.class);
-                    startActivity(intent);
-                }
-            });
-            RelativeLayout farmersearch=(RelativeLayout) findViewById(R.id.farmerSearch);
-            farmersearch.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View view) {
-                    Intent intent = new Intent(DashboardSmartExActivity.this, FarmerActivity.class);
-                    startActivity(intent);
-                }
-            });
 
 
-            super.Db().alterSearchMenuItem();
+            if(IctcCKwUtil.haveNetworkConnection(this)) {
+                if (mLatitude != 0.0 && mLongitude != 0.0) {
 
-           /* grid_menu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    Intent intent;
-                    switch (i) {
-                    case 0:
-                        intent = new Intent(DashboardSmartExActivity.this, ClientActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 1:
-                        intent = new Intent(DashboardSmartExActivity.this, ScheduledMeetingsActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 2:
-                        intent = new Intent(DashboardSmartExActivity.this, SupplierActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 3:
-                        intent = new Intent(DashboardSmartExActivity.this, MarketActivity.class);
-                        startActivity(intent);
-                        break;
-                    case 4:
-                        intent = new Intent(DashboardSmartExActivity.this, CKWSearchActivity.class);
-                        startActivity(intent);
-                        break;
-                        case 5:
-                            intent = new Intent(DashboardSmartExActivity.this, FarmerActivity.class);
-                            startActivity(intent);
-                            break;
+
+                    Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                    try {
+                        List<Address> listAddresses = geocoder.getFromLocation(mLatitude, mLongitude, 1);
+                        if(null!=listAddresses&&listAddresses.size()>0){
+                            String _Location = listAddresses.get(0).getAddressLine(0);
+
+                            _loc = _Location;
+                            Log.i(TAG, "Geocoder location is " + _Location);
+                            prefs.edit().putString("lastCityValue", _Location).apply();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }
-            });*/
-        } catch(NullPointerException ex) {
-            Log.d(TAG, ex.getMessage());
-        } catch(Exception e){
-            Log.d(TAG, e.getMessage());
-        }
-    }
 
-   /*private class SectionsPagerAdapter extends FragmentStatePagerAdapter {
 
-        List<Weather> weathers;
 
-        public SectionsPagerAdapter(FragmentManager fm, List<Weather> weathers , boolean connected) {
 
-            super(fm);
-            this.weathers = weathers;
+                    Log.i(TAG, "Longitude = " + mLongitude + " and Latitude = " + mLatitude);
+                    PreferenceManager.getDefaultSharedPreferences(this).edit().putString("latitude", String.valueOf(mLatitude))
+                            .putString("longitude", String.valueOf(mLongitude)).apply();
 
-            if(weathers.isEmpty()){
 
-                if(connected){
-                    ConnectionUtil.refreshWeather(getBaseContext(),"weather","Get latest weather report",this);
+
+                    WeatherPresenter presenter = new WeatherPresenter(DashboardSmartExActivity.this, Locale.getDefault());
+                    Coord coordinate = new Coord();
+                    coordinate.setLat(mLatitude);
+                    coordinate.setLon(mLatitude);
+                    presenter.getFiveDayForecast(coordinate);
+ 
                 }
 
-                Weather w = new Weather();
-                w.setLocation("No Weather Data Found");
-                w.setDetail("no update");
-                w.setIcon("01d");
-                w.setTemprature(0);
-                w.setMinTemprature(0);
-                w.setMaxTemprature(0);
-                weathers.add(w);
 
-                w = new Weather();
-                w.setLocation("No Weather Data Found -");
-                w.setDetail("no update");
-                w.setIcon("01d");
-                w.setTemprature(0);
-                w.setMinTemprature(0);
-                w.setMaxTemprature(0);
-                weathers.add(w);
+            }else {
+                Toast.makeText(this, "Please check your internet connection to update weather services.", Toast.LENGTH_LONG).show();
             }
+
+
         }
 
-        @Override
-        public Fragment getItem(int position) {
-            Fragment fragment = null;
-            fragment= new WeatherSummary(getApplicationContext(), weathers.get(position));
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            return weathers.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return "OBJECT " + (position + 1);
-        }
     }
 
-    public static class WeatherSummary extends Fragment {
-        View rootView;
-        Weather weather ;
-        Context ctx;
+    @Override
+    public void onConnectionSuspended(int i) {
 
-        public WeatherSummary() {}
-        @SuppressLint("ValidFragment")
-        public WeatherSummary(Context c, Weather w){ this.ctx = c; this.weather = w; }
+    }
 
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            try {
-                rootView = inflater.inflate(R.layout.activity_weather_item, null, false);
-                TextView v = (TextView) rootView.findViewById(R.id.txt_weather_city);
-                v.setText(weather.getLocation());
-                v = (TextView) rootView.findViewById(R.id.txt_weather_temp);
-                v.setText(String.valueOf(weather.getTemprature()) + " C ");
-                Date i = new Date(weather.getTime() * 1000);
-                v = (TextView) rootView.findViewById(R.id.txt_weather_description);
-                v.setText(String.valueOf(weather.getDetail()) + "");
-                ImageView iv = (ImageView) rootView.findViewById(R.id.img_weather_icon);
-                String mDrawableName = "w_" + weather.getIcon();
-                int resID = getResources().getIdentifier(mDrawableName, "drawable", ctx.getPackageName());
-                iv.setImageResource(resID);
-                v = (TextView) rootView.findViewById(R.id.txt_weather_time);
-                if (weather.getTime() == 0l)
-                    v.setText("-");
-                else
-                    v.setText("Up to " + IctcCKwUtil.formatStringDateTime(i, "d MMM hh:mm"));
-            }catch(Exception e){
-                e.printStackTrace();
-            }
-                return rootView;
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+
+
+    @Override
+    public void updateFiveDayForecast(ArrayList<ForcastDay> weatherForecastElement) {
+
+    }
+
+    @Override
+    public void updateCurrentDayExtendedForecast(ArrayList<ForcastDay> currentWeather) {
+
+        Log.i(TAG, "updateCurrentDayExtendedForecast\n");
+
+
+    }
+
+    @Override
+    public void updateTodayForecast(CurrentWeather currentWeather) {
+
+        String city = currentWeather.getName();
+        Double temp = currentWeather.getMain().getTemp();
+        String icon = currentWeather.getWeather().get(0).getIcon();
+        String desc = currentWeather.getWeather().get(0).getDescription();
+
+
+
+        Log.i(TAG, "updateTodayForecast" + " Country and city name " + currentWeather.getSys().getCountry() + ", " + city
+        + " Temp = " + temp + "\n" + "Description = " + desc + "\n" + "Icon = " + icon);
+
+
+
+
+
+
+        int roundedTemp = (int) Math.round(temp);
+        String tempWithDegrees = String.format(getString(R.string.degrees_placeholder), roundedTemp);
+         Log.i(TAG, "Degrees is " + tempWithDegrees);
+
+        currentWeatherText.setText(tempWithDegrees);
+        prefs.edit().putString("lastTempValue", tempWithDegrees).putString("lastWeatherIcon", presenter.parseWeatherDescription(desc)).apply();
+        setupWeatherIcon(currentWeatherIcon, presenter.parseWeatherDescription(desc));
+        city_name.setText(_loc);
+
+
+
+        Log.i(TAG, "Weather Updated");
+
+
+
+    }
+
+    private void setupWeatherIcon(ImageView imageView, String icon) {
+        switch (icon) {
+            case WeatherPresenter.SUNNY:
+                Picasso.with(this).load(R.drawable.sunny).into(imageView);
+                break;
+            case WeatherPresenter.CLOUDY:
+                Picasso.with(this).load(R.drawable.cloudy).into(imageView);
+                break;
+            case WeatherPresenter.PARTIALLY_CLOUDY:
+                Picasso.with(this).load(R.drawable.partially_cloudy).into(imageView);
+                break;
+            case WeatherPresenter.RAINY:
+                Picasso.with(this).load(R.drawable.rainy).into(imageView);
+                break;
         }
-    }*/
-
-
-    public void displayWeather(RecyclerView g){
-        List<Weather> weathers = super.Db().getWeatherByCommunity();
-        if(weathers.isEmpty()){
-
-            if(ConnectionUtil.isNetworkConnected(getApplicationContext())){
-                ConnectionUtil.refreshWeather(getBaseContext(),"weather","Get latest weather report",null);
-            }
-
-            Weather w = new Weather();
-            w.setLocation("No Weather Data");
-            w.setDetail("no update");
-            w.setIcon("10d");
-            w.setTemprature(0);
-            w.setMinTemprature(0);
-            w.setMaxTemprature(0);
-            w.setTime(1471008957);
-            weathers.add(w);
-
-            w = new Weather();
-            w.setLocation("No Weather Data");
-            w.setDetail("no update");
-            w.setIcon("01d");
-            w.setTemprature(0);
-            w.setMinTemprature(0);
-            w.setMaxTemprature(0);
-            w.setTime(1471008957);
-            weathers.add(w);
-
-            w = new Weather();
-            w.setLocation("No Weather Data");
-            w.setDetail("no update");
-            w.setIcon("01d");
-            w.setTemprature(0);
-            w.setMinTemprature(0);
-            w.setMaxTemprature(0);
-            weathers.add(w);
-
-            w = new Weather();
-            w.setLocation("No Weather Data");
-            w.setDetail("no update");
-            w.setIcon("01d");
-            w.setTemprature(0);
-            w.setMinTemprature(0);
-            w.setMaxTemprature(0);
-            weathers.add(w);
-
-
-        }
-        WeatherListAdapter adapter=new WeatherListAdapter(DashboardSmartExActivity.this,weathers);
-
-        LinearLayoutManager horizontalLayoutManagaer
-                = new LinearLayoutManager(DashboardSmartExActivity.this, LinearLayoutManager.HORIZONTAL, false);
-        g.setLayoutManager(horizontalLayoutManagaer);
-        g.setAdapter(adapter);
     }
 }
 

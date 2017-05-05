@@ -132,7 +132,7 @@ public class ConnectionUtil {
         return result;
     }
     // TODO: Move to Synchronization Manager
-    public static Boolean refreshFarmerInfo(final Context context,final Intent intent, final String queryString, final String type,String msg ) {
+    public static Boolean refreshFarmerInfo(final Activity context, final Intent intent, final String queryString, final String type,String msg ) {
 
 
         final  DatabaseHelper databaseHelper = new DatabaseHelper(context);
@@ -286,6 +286,7 @@ public class ConnectionUtil {
                                 Log.i(this.getClass().getName(), "Saving techNees "+vals[0]+" / "+vals[1]+techNeeds);
                                 Log.i(this.getClass().getName(), "Saving farmer "+i);
                                 String farmerId = bioData.getString("Id");
+
                                 databaseHelper.deleteFarmer(bioData.getString("Id"));
                                 databaseHelper.updateUser(bioData.getString("Id"),lm);
                                 // System.out.println("Production Baseline  : "+bioData.getString("Id")+"---"+baselineProduction);
@@ -399,6 +400,7 @@ public class ConnectionUtil {
                                         if(intent != null) {
                                             context.startActivity(intent);
 
+
                                         }
                                     }
                                 })
@@ -420,6 +422,7 @@ public class ConnectionUtil {
 
                                         if(intent != null) {
                                             context.startActivity(intent);
+                                             context.finish();
 
                                         }
                                     }

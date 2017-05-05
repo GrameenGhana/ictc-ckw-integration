@@ -3,7 +3,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="@dimen/spacing_half">
 
     <GridView
         android:layout_width="match_parent"
@@ -11,6 +11,6 @@
         android:id="@+id/gridView2"
         android:layout_gravity="center_horizontal"
         android:numColumns="2"
-        android:verticalSpacing="20dp"
-        android:horizontalSpacing="20dp" />
+        android:verticalSpacing="@dimen/spacing_half"
+        android:horizontalSpacing="@dimen/spacing_half" />
 </LinearLayout>

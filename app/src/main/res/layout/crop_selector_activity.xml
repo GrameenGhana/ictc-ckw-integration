@@ -14,6 +14,7 @@
                 android:layout_height="wrap_content"
                 android:text="Activity"
                 android:id="@+id/textView23"
+                android:textSize="@dimen/text_size_normal"
             android:layout_marginRight="16dp"
             />
 
@@ -23,6 +24,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Activity Title"
+                android:textSize="@dimen/text_size_normal"
                 android:id="@+id/fsf_act_title" />
     </LinearLayout>
 

@@ -18,6 +18,7 @@ public class SettingsActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.IctcTheme);
         setTitle(getResources().getString(R.string.action_settings));
 
 

@@ -11,15 +11,15 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:weightSum="2"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent" >
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_weight="1"
-            android:layout_height="wrap_content" >
+            android:layout_height="match_parent" >
 
             <TextView
                 android:layout_width="match_parent"
@@ -27,44 +27,40 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Agents Visits"
                 android:id="@+id/textView8"
-                android:textColor="#ff07530f"
-                android:textStyle="italic"
-                android:padding="16dp"
+                android:textSize="@dimen/text_size_normal"
+                android:textColor="@color/colorPrimary"
+                 android:padding="16dp"
                  />
 
             <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/lst_inputs"
                 android:headerDividersEnabled="true"
-                android:minHeight="450dp"
-                android:fadeScrollbars="false" />
+                 android:fadeScrollbars="false" />
         </LinearLayout>
 
-        <Space
-            android:layout_width="15px"
-            android:layout_height="20px" />
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_weight="1"
-            android:layout_height="wrap_content" >
+            android:layout_height="match_parent" >
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Inputs Given"
                 android:id="@+id/textView9"
+                android:textSize="@dimen/text_size_normal"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="#ff07530f"
-                android:textStyle="italic"
-                android:clickable="true"
+                android:textColor="@color/colorPrimary"
+                 android:clickable="true"
                 android:padding="16dp" />
 
             <ListView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:id="@+id/list_ind_meet"
                 android:fadeScrollbars="false" />
         </LinearLayout>

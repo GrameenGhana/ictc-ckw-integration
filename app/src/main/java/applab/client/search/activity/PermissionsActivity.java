@@ -27,6 +27,7 @@ public class PermissionsActivity  {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.SEND_SMS,
             Manifest.permission.WRITE_CONTACTS,
             Manifest.permission.READ_CONTACTS };
 
@@ -82,6 +83,7 @@ public class PermissionsActivity  {
         }
         return true;
     }
+
 
 
 

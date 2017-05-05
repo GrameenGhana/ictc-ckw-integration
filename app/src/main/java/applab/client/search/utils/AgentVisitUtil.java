@@ -214,7 +214,7 @@ public class  AgentVisitUtil {
 
         //PRE-VISIT	VISIT 1	VISIT 2	VISIT 3	VISIT 4	VIS
         // IT 5		VISIT 6
-        String [] titles = new String[0];
+        /*String [] titles = new String[0];
         if(meeting_type.equalsIgnoreCase("group")){
             titles = new String []{
                     "",
@@ -232,7 +232,29 @@ public class  AgentVisitUtil {
                     "VISIT 4 (Field Assessment)",
                     "VISIT 5 (Fertilizer Application)",
                     "VISIT 6 (Farm Plan Update 3, 4 5) ",};
+        }*/
+
+        String [] titles = new String[0];
+        if(meeting_type.equalsIgnoreCase("group")){
+            titles = new String []{
+                    "",
+                    "MULTIMEDIA MEETING  1 (Preparing To Plant)",
+                    "MULTIMEDIA MEETING  2 (Fertilizer Application)",
+                    "MULTIMEDIA MEETING  3 (Fertilizer Application)",
+                    "MULTIMEDIA MEETING  4 (Harvest And Post Harvest)",};
+        }else if (meeting_type.equalsIgnoreCase("individual")) {
+            titles = new String[]{
+                    "",
+                    "PRE-VISIT",
+                    "VISIT 1 (Registration & Profiling)",
+                    "VISIT 2 (Farm Planning)",
+                    "VISIT 3 (Farm Plan Update 3, 4 & 5) ",
+            };
         }
+
+
+
+
         //MULTIMEDIA MEETING 1
         if(withFirst){
             titles = Arrays.copyOfRange(titles,1,titles.length);
@@ -248,7 +270,7 @@ public class  AgentVisitUtil {
         helper.saveMeetingSetting("Maize", "Individual", "2", "1", "06", "06", "Harvesting ");
         helper.saveMeetingSetting("Maize", "Group", "3", "3", "07", "07", "Post-harvest processing");
         helper.saveMeetingSetting("Maize", "Group", "4", "4", "09", "09", "");
-        helper.saveMeetingSetting("Cassava", "Group", "1", "1", "02-10", "02-01", "Land Clearing,Land preparation (ploughing)");
+        helper.saveMeetingSetting("Cassava", "Group", "1", "1", "02-10", "02-01", "Land Clearing, Land preparation (ploughing)");
         helper.saveMeetingSetting("Cassava", "Individual", "1", "1", "02-10", "02-01", "Planting,First weed control (if no herbicide applied),Basal Fertilizer application");
         helper.saveMeetingSetting("Cassava", "Group", "2", "2", "02-10", "02-01", "First/Second Weeding,Third Weeding");
         helper.saveMeetingSetting("Cassava", "Individual", "2", "1", "02-10", "02-01", "Harvesting ");

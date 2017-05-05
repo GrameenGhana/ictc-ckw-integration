@@ -8,16 +8,21 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import android.util.Log;
 
 import com.facebook.stetho.Stetho;
 
 import applab.client.search.R;
 import applab.client.search.task.IctcTrackerLogTask;
 import applab.client.search.task.SubmitTrackerMultipleTask;
+import applab.client.search.utils.MediaUtils;
 
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 /**
  * Created by skwakwa on 10/15/15.
@@ -52,6 +57,7 @@ public class IctcCkwIntegration  extends MultiDexApplication {
     }
     public void onCreate() {
         super.onCreate();
+        createNoMediaFile();
         Stetho.initializeWithDefaults(this);
     }
 
@@ -59,6 +65,42 @@ public class IctcCkwIntegration  extends MultiDexApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(  base);
         MultiDex.install(this);
+
+    }
+
+
+    public static void createNoMediaFile() {
+        FileOutputStream out = null;
+
+        try {
+
+            File ROOT = new File(MediaUtils.SMART_EXT_FOLDER);
+
+            if (!ROOT.exists())
+                if (ROOT.mkdirs()){
+
+                    Log.i(TAG, "ROOT dir file created!  " + ROOT);
+
+                }
+
+            File file = new File(ROOT + File.separator, ".nomedia");
+            if (!file.exists()) {
+                out = new FileOutputStream(file);
+                out.write(0);
+                out.close();
+
+
+                Log.i(TAG, "No media file created!  " + file);
+            } else {
+                Log.i(TAG, "No media already exists!!!!!!  " + file);
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
 
     }
 }

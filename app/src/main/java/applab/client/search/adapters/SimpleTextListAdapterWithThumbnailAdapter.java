@@ -33,21 +33,7 @@ public class SimpleTextListAdapterWithThumbnailAdapter  extends BaseAdapter {
     List<Farmer> farmers = new ArrayList<Farmer>();
     public int lastExpandedGroupPosition;
 
-    public SimpleTextListAdapterWithThumbnailAdapter(Context mContext,
-                                     String  []  contents,
-                                     String []  firstLetter,
-                                     String [] colors
-    ) {
-        this.mContext = mContext;
-        this.contents = contents;
-        this.colors = colors;
 
-        System.out.println("Contents  : "+contents.length);
-        this.firstLetter = firstLetter;
-        enabled = new boolean[firstLetter.length];
-        Arrays.fill(enabled,true);
-        minflater = LayoutInflater.from(mContext);
-    }
 
     public SimpleTextListAdapterWithThumbnailAdapter(Context mContext,
                                      String  []  contents,
@@ -65,36 +51,7 @@ public class SimpleTextListAdapterWithThumbnailAdapter  extends BaseAdapter {
         this.enabled = enabled;
         minflater = LayoutInflater.from(mContext);
     }
-    public SimpleTextListAdapterWithThumbnailAdapter(Context mContext,
-                                     String  []  contents,
-                                     String []  firstLetter,
-                                     boolean [] enabled,
 
-
-                                     String [] colors, List<Farmer> farmers
-    ) {
-        this.mContext = mContext;
-        this.contents = contents;
-        this.colors = colors;
-        System.out.println("Contents  : "+contents.length);
-        this.firstLetter = firstLetter;
-        this.enabled = enabled;
-        this.farmers =farmers;
-        minflater = LayoutInflater.from(mContext);
-    }
-    public SimpleTextListAdapterWithThumbnailAdapter(Context mContext,
-                                     String  []  contents,
-                                     String []  firstLetter,String color
-
-
-    ) {
-        this.mContext = mContext;
-        this.contents = contents;;
-        colors[0] =(color);
-        this.firstLetter = firstLetter;
-        Arrays.fill(enabled,true);
-        minflater = LayoutInflater.from(mContext);
-    }
 
     public int getCount() {
         return contents.length;
@@ -115,19 +72,19 @@ public class SimpleTextListAdapterWithThumbnailAdapter  extends BaseAdapter {
         System.out.println("getView");
 
 
-        TextView icon = (TextView) view.findViewById(R.id.lst_text_item_icon);
+       // TextView icon = (TextView) view.findViewById(R.id.lst_text_item_icon);
 
 
-        icon.setText(firstLetter[i]);
+//        icon.setText(firstLetter[i]);
 
         ImageView image=(ImageView) view.findViewById(R.id.imageView11);
         TextView title = (TextView) view.findViewById(R.id.lst_text_item_titles);
 
         if (!enabled[i]) {
             title.setTextColor(Color.parseColor("#cccccc"));
-            icon.setBackgroundColor(Color.parseColor("#cccccc"));
+           // icon.setBackgroundColor(Color.parseColor("#cccccc"));
         } else {
-            icon.setBackgroundColor(Color.parseColor(getColor()));
+           // icon.setBackgroundColor(Color.parseColor(getColor()));
             title.setTextColor(Color.parseColor("#666666"));
             image.setImageResource(thumbs[i]);
         }
@@ -139,7 +96,7 @@ public class SimpleTextListAdapterWithThumbnailAdapter  extends BaseAdapter {
     }
 
     public String getColor(){
-        return colors[(new Double(Math.floor(Math.random()*colors.length)).intValue())];
+        return colors[(Double.valueOf(Math.floor(Math.random()*colors.length)).intValue())];
     }
 }
 

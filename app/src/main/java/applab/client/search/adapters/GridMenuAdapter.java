@@ -18,6 +18,7 @@ public class GridMenuAdapter extends BaseAdapter {
     private final int[] Imageid;
     private final String[] titles;
 
+
     public GridMenuAdapter(Context c, int[] Imageid, String[] titles) {
         mContext = c;
         this.Imageid = Imageid;
@@ -33,23 +34,22 @@ public class GridMenuAdapter extends BaseAdapter {
     @Override
     public Object getItem(int position) {
 
-        return null;
+        return position;
     }
 
     @Override
     public long getItemId(int position) {
 
-        return 0;
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View grid;
         if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) mContext
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            grid = new View(mContext);
-            grid = inflater.inflate(R.layout.meeting_grid_single, null);
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+
+             grid = inflater.inflate(R.layout.meeting_grid_single, parent, false);
 
         } else {
             grid = (View) convertView;
@@ -58,7 +58,6 @@ public class GridMenuAdapter extends BaseAdapter {
         TextView title = (TextView) grid.findViewById(R.id.text);
         title.setText(titles[position]);
         imageView.setImageResource(Imageid[position]);
-        //imageView.setMaxHeight(130);
 
         return grid;
     }

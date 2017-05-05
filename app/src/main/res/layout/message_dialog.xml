@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:id="@+id/custom_alert_dialog"
+              android:layout_height="wrap_content"
+              android:padding="@dimen/spacing_normal"
+
+    >
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This might cost you some money/credits"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
+
+            />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/message_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_half"
+            android:hint="Please Enter sms message"
+            app:errorTextAppearance="@style/ErrorText"
+            android:theme="@style/TextInputLayoutEditText"
+
+            >
+
+            <android.support.design.widget.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Message"
+                android:lines="4"
+                android:maxLines="4"
+
+                android:textColor="@android:color/primary_text_light"
+                android:inputType="textMultiLine"
+                android:drawableTint="@android:color/tertiary_text_light"
+                />
+
+            <requestFocus />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+
+
+    </LinearLayout>
+
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        >
+
+        <TextView
+            android:id="@+id/negative_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CANCEL"
+            android:padding="16dp"
+            android:textColor="@color/colorPrimary"
+            style="@style/TextAppearance.AppCompat.Button"
+            android:background="?attr/selectableItemBackground"
+            />
+
+        <TextView
+            android:id="@+id/positive_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SEND"
+            android:layout_marginRight="16dp"
+            android:padding="16dp"
+            android:textColor="@color/colorPrimary"
+            style="@style/TextAppearance.AppCompat.Button"
+            />
+
+
+    </LinearLayout>
+
+</LinearLayout>

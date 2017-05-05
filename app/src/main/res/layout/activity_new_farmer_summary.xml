@@ -1,33 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:weightSum="3"
-              android:padding="5dp">
+              >
+
+    <LinearLayout
+         android:layout_width="match_parent"
+        android:layout_height="150dp"
+         android:layout_margin="@dimen/spacing_normal"
+        android:id="@+id/profile_container"
+            >
+        <include layout="@layout/cluster_child_single" android:layout_height="wrap_content"
+                 android:layout_width="match_parent"/>
+        </LinearLayout>
 
     <LinearLayout
             android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="185dp"
-        android:id="@+id/profile_container" android:background="#fff0f0f0"
-            >
-        <include layout="@layout/cluster_child_single" android:layout_height="match_parent"
-                 android:layout_width="match_parent"/>
-        </LinearLayout>
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent" android:layout_weight="2" android:padding="10dp"
-            android:paddingTop="16dp">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+             android:padding="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+             >
 
         <ListView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:id="@+id/listView"
-                android:dividerHeight="3dp"
-                android:divider="#eee"
+                 android:dividerHeight="1dp"
+                android:divider="#eeeeee"
                 />
 
     </LinearLayout>

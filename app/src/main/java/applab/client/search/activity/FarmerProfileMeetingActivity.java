@@ -52,6 +52,8 @@ public class FarmerProfileMeetingActivity extends BaseActivity {
                 name = farmer.getLastName() + " , " + farmer.getFirstName();
             }
             mainCrop = farmer.getMainCrop();
+            getSupportActionBar().hide();
+
 
         } catch (Exception e) {
             e.printStackTrace();

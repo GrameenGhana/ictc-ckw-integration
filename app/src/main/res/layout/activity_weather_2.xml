@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+
+
+    <com.flaviofaria.kenburnsview.KenBurnsView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/dusk"
+        />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#81000000"
+        />
+
+    <ProgressBar
+        android:id="@+id/loading_weather_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"
+        />
+
+
+    <TextView
+        android:id="@+id/current_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="100sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:fontFamily="sans-serif-light"
+        android:text="5"
+        android:textColor="@color/white"  />
+
+    <include layout="@layout/day_selection_layout" />
+
+
+    <include layout="@layout/five_day_forecast_layout" />
+
+
+</RelativeLayout>

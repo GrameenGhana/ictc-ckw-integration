@@ -20,4 +20,48 @@
     <dimen name="title_text_size">22sp</dimen>
 
 
+    <dimen name="five_day_forecast_text_size">35sp</dimen>
+    <dimen name="five_day_forecast_day_text_size">15sp</dimen>
+
+    <dimen name="title">17dp</dimen>
+    <dimen name="rating">15dip</dimen>
+    <dimen name="genre">13dip</dimen>
+    <dimen name="year">12dip</dimen>
+
+
+    <dimen name="card_view_width">250dp</dimen>
+
+
+    <dimen name="optionsDialogMargin">130dp</dimen>
+
+    <dimen name="spacing_quarter">4dp</dimen>
+    <dimen name="spacing_half">8dp</dimen>
+    <dimen name="spacing_icons">12dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
+    <dimen name="spacing_2">32dp</dimen>
+    <dimen name="spacing_3">64dp</dimen>
+    <dimen name="login_logo_size">120dp</dimen>
+
+    <dimen name="splash_marginTop">130dp</dimen>
+    <dimen name="splash_marginLeft">110dp</dimen>
+
+    <dimen name="login_logo_background_size">100dp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_normal">16sp</dimen>
+    <dimen name="text_size_medium">18sp</dimen>
+    <dimen name="text_size_large">24sp</dimen>
+    <dimen name="no_session_logo_size">180dp</dimen>
+
+    <dimen name="text_size_tiny">11sp</dimen>
+    <dimen name="text_size_title">24sp</dimen>
+    <dimen name="profile_pic_setup_logo_size">120dp</dimen>
+    <dimen name="drawer_header_height">190dp</dimen>
+    <dimen name="drawer_header_textsize">20sp</dimen>
+    <dimen name="drawer_header_text_spacing">@dimen/spacing_normal</dimen>
+
+    <dimen name="player_controls">60dp</dimen>
+    <dimen name="listview_icon_size">40dp</dimen>
+    <dimen name="image_view_size">110dp</dimen>
+
+
 </resources>

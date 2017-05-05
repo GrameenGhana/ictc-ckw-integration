@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:orientation="horizontal"
+    android:layout_marginBottom="20dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/first_forecast"
+            style="@style/ForecastElement"
+            tools:text="56°" />
+
+        <ImageView
+            android:id="@+id/first_day_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:tint="@color/white"
+            android:src="@drawable/sunny"/>
+
+        <TextView
+            android:id="@+id/first_forecast_day"
+            style="@style/SelectedForecastElementDay"
+            android:text="@string/now"/>
+
+        <TextView
+            android:id="@+id/first_forecast_day_month"
+            style="@style/SelectedForecastElementDay"
+            android:text="@string/now"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/second_forecast"
+            style="@style/ForecastElement"
+            tools:text="56°" />
+
+        <ImageView
+            android:id="@+id/second_day_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:tint="@color/white"
+            android:src="@drawable/sunny"/>
+
+        <TextView
+            android:id="@+id/second_forecast_day"
+            style="@style/ForecastElementDay"
+            tools:text="MON"/>
+
+        <TextView
+            android:id="@+id/second_forecast_day_month"
+            style="@style/ForecastElementDay"
+            tools:text="NOW"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/third_forecast"
+            style="@style/ForecastElement"
+            tools:text="56°" />
+
+        <ImageView
+            android:id="@+id/third_day_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:tint="@color/white"
+            android:src="@drawable/sunny"/>
+
+        <TextView
+            android:id="@+id/third_forecast_day"
+            style="@style/ForecastElementDay"
+            tools:text="MON"/>
+
+        <TextView
+            android:id="@+id/third_forecast_day_month"
+            style="@style/ForecastElementDay"
+            tools:text="NOW"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/fourth_forecast"
+            style="@style/ForecastElement"
+            tools:text="56°" />
+
+        <ImageView
+            android:id="@+id/fourth_day_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:tint="@color/white"
+            android:src="@drawable/sunny"/>
+
+        <TextView
+            android:id="@+id/fourth_forecast_day"
+            style="@style/ForecastElementDay"
+            tools:text="MON"/>
+
+        <TextView
+            android:id="@+id/fourth_forecast_day_month"
+            style="@style/ForecastElementDay"
+            tools:text="NOW"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/fifth_forecast"
+            style="@style/ForecastElement"
+            tools:text="56°" />
+
+        <ImageView
+            android:id="@+id/fifth_day_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:tint="@color/white"
+            android:src="@drawable/sunny"/>
+
+        <TextView
+            android:id="@+id/fifth_forecast_day"
+            style="@style/ForecastElementDay"
+            tools:text="MON"/>
+
+        <TextView
+            android:id="@+id/fifth_forecast_day_month"
+            style="@style/ForecastElementDay"
+            tools:text="NOW"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

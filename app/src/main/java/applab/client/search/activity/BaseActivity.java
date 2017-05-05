@@ -15,12 +15,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.SearchView;
 import android.widget.Toast;
-import applab.client.agrihub.activity.DashboardMainActivity;
-import applab.client.search.utils.ApplicationRegistry;
-import applab.client.search.utils.GlobalConstants;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 import applab.client.search.R;
 import applab.client.search.model.Payload;
 import applab.client.search.services.TrackerService;
@@ -30,24 +30,26 @@ import applab.client.search.synchronization.IctcCkwIntegrationSync;
 import applab.client.search.synchronization.SynchronizationListener;
 import applab.client.search.synchronization.SynchronizationManager;
 import applab.client.search.task.IctcTrackerLogTask;
-import applab.client.search.utils.*;
+import applab.client.search.utils.AboutActivity;
+import applab.client.search.utils.ApplicationRegistry;
+import applab.client.search.utils.BaseLogActivity;
+import applab.client.search.utils.ConnectionUtil;
+import applab.client.search.utils.DeviceMetadata;
+import applab.client.search.utils.GlobalConstants;
+import applab.client.search.utils.IctcCKwUtil;
+import applab.client.search.utils.ImageUtils;
 import cn.pedant.SweetAlert.SweetAlertDialog;
-
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 
 public class BaseActivity extends AppCompatActivity {
 
     private static final String TAG = BaseActivity.class.getSimpleName();
-
+    BaseLogActivity baseLogActivity;
     private Context mContext = null;
     private Handler handler = null;
     private ProgressDialog progressDialog = null;
-
     private DatabaseHelper helper;
     private SharedPreferences preferences;
-    BaseLogActivity baseLogActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,8 @@ public class BaseActivity extends AppCompatActivity {
         helper = new DatabaseHelper(getBaseContext());
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if(getSupportActionBar()!=null){
+
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -102,47 +105,54 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void onRefresh() {};
-
-    public void setDetails(String module, String page){
-        baseLogActivity.setItemValues(helper,module,page,"","");
+    public void onRefresh() {
     }
 
-    public void setDetails(String module, String page,String section,String data){
-        baseLogActivity.setItemValues(helper,module,page,section,data);
+    ;
+
+    public void setDetails(String module, String page) {
+        baseLogActivity.setItemValues(helper, module, page, "", "");
     }
 
-    public void setDetails(DatabaseHelper dh, String module, String page){
-        baseLogActivity.setItemValues(dh,module,page,"","");
+    public void setDetails(String module, String page, String section, String data) {
+        baseLogActivity.setItemValues(helper, module, page, section, data);
     }
 
-    public void setDetails(DatabaseHelper dh, String module, String page,String section,String data){
-        baseLogActivity.setItemValues(dh,module,page,section,data);
+    public void setDetails(DatabaseHelper dh, String module, String page) {
+        baseLogActivity.setItemValues(dh, module, page, "", "");
     }
 
-    public void showHome(View view){
+    public void setDetails(DatabaseHelper dh, String module, String page, String section, String data) {
+        baseLogActivity.setItemValues(dh, module, page, section, data);
+    }
+
+    public void showHome(View view) {
         Intent t = (ConnectionUtil.isSmartExAgent(this))
-                 ? new Intent(view.getContext(),DashboardSmartExActivity.class)
-                 : new Intent(view.getContext(),LoginActivity.class);
+                ? new Intent(view.getContext(), DashboardSmartExActivity.class)
+                : new Intent(view.getContext(), LoginActivity.class);
         t.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         t.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         view.getContext().startActivity(t);
     }
 
-    public void showHome(Activity act){
+    public void showHome(Activity act) {
         Intent t = (ConnectionUtil.isSmartExAgent(act))
-                ? new Intent(act.getApplicationContext(),DashboardSmartExActivity.class)
-                : new Intent(act.getApplicationContext(),LoginActivity.class);
+                ? new Intent(act.getApplicationContext(), DashboardSmartExActivity.class)
+                : new Intent(act.getApplicationContext(), LoginActivity.class);
         t.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         t.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         act.startActivity(t);
         finish();
     }
 
-    public DatabaseHelper Db() { return helper; }
+    public DatabaseHelper Db() {
+        return helper;
+    }
 
 
-    public SharedPreferences Prefs() { return preferences; }
+    public SharedPreferences Prefs() {
+        return preferences;
+    }
 
 
     protected void createProgressBar() {
@@ -219,7 +229,7 @@ public class BaseActivity extends AppCompatActivity {
                                 progressDialog.dismiss();
                             }
 
-                            AlertDialog alertDialog = new AlertDialog.Builder(BaseActivity.this).create();
+                            AlertDialog alertDialog = new AlertDialog.Builder(BaseActivity.this, R.style.alert_dialog).create();
                             alertDialog.setMessage(throwable.getMessage());
                             alertDialog.setIcon(R.drawable.ic_warning_teal_500_24dp);
                             alertDialog.setTitle("Error");
@@ -246,7 +256,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void logout() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.alert_dialog);
         builder.setCancelable(false);
         builder.setTitle("Log Out");
         builder.setMessage("Do you want to really log out?");
@@ -302,6 +312,13 @@ public class BaseActivity extends AppCompatActivity {
 
         }*/
 
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        this.supportFinishAfterTransition();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -311,7 +328,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         try {
-            if(item.getItemId()==R.id.search_user){
+            if (item.getItemId() == R.id.search_user) {
 
 
                 SearchView user_search = (SearchView) item.getActionView();
@@ -319,7 +336,7 @@ public class BaseActivity extends AppCompatActivity {
 
                     @Override
                     public boolean onQueryTextSubmit(String query) {
-                        Toast.makeText(BaseActivity.this,query,Toast.LENGTH_LONG).show();
+                        Toast.makeText(BaseActivity.this, query, Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(BaseActivity.this, FarmerActivity.class);
                         intent.putExtra("type", "search");
                         String q = query;
@@ -333,8 +350,7 @@ public class BaseActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-            }
-            else if (item.getItemId() == R.id.action_settings) {
+            } else if (item.getItemId() == R.id.action_settings) {
                 Intent intent = new Intent().setClass(this, SettingsActivity.class);
                 startActivityForResult(intent, 0);
 
@@ -343,18 +359,26 @@ public class BaseActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                 startActivity(intent);
 
+            } else if (item.getItemId() == R.id.send_bulk_sms) {
+                //Open bulk sms activity
+
+
+                Intent intent = new Intent(this, BulkTextMessageActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                startActivity(intent);
+
             } else if (item.getItemId() == R.id.action_refresh_farmer) {
-                if(IctcCKwUtil.haveNetworkConnection(this)) {
+                if (IctcCKwUtil.haveNetworkConnection(this)) {
                     Toast.makeText(getBaseContext(), "Synchronising Data Please wait", Toast.LENGTH_LONG).show();
                     DatabaseHelper dbh = new DatabaseHelper(getBaseContext());
                     Payload mqp = dbh.getCCHUnsentLog();
                     IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(this);
                     omUpdateCCHLogTask.execute(mqp);
-                   // ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
+                    // ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
                     ConnectionUtil.refreshFarmerInfo(BaseActivity.this, null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
                     startSynchronization();
-                }else{
-                    new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+                } else {
+                    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
                             .setTitleText("Internet Connection")
                             .setContentText("Check your internet connection and try again.")
                             .setCancelText("Close")
@@ -372,7 +396,7 @@ public class BaseActivity extends AppCompatActivity {
                 logout();
 
             } else if (item.getItemId() == android.R.id.home) {
-               finish();
+                finish();
 
 
             }

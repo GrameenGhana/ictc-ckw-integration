@@ -50,7 +50,7 @@ public class MeetingIndexActivity extends BaseActivity {
         TextView mTitleTextView = (TextView) mCustomView.findViewById(R.id.textView_title);
         mTitleTextView.setText("Meeting Activity");
 
-        IctcCKwUtil.setActionbarUserDetails(this,mCustomView);
+        IctcCKwUtil.setActionbarUserDetails(this, mCustomView);
         LinearLayout ll = (LinearLayout)findViewById(R.id.default_view_profile_item);
         isFarmerSelected= true;
         helper = new DatabaseHelper(getBaseContext());
@@ -121,7 +121,7 @@ public class MeetingIndexActivity extends BaseActivity {
             enabled[cnt] = act.isCurrentlyAvailable();
             cnt++;
         }
-        SimpleTextTextListAdapter adapter = new SimpleTextTextListAdapter(MeetingIndexActivity.this, titles,icons,enabled,getResources().getStringArray(R.array.text_colors));
+        SimpleTextTextListAdapter adapter = new SimpleTextTextListAdapter(MeetingIndexActivity.this, titles, icons, enabled, getResources().getStringArray(R.array.text_colors));
         list.setAdapter(adapter);
 
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

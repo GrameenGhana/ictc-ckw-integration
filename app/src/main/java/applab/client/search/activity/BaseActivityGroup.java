@@ -118,7 +118,7 @@ public class BaseActivityGroup extends AppCompatActivity {
     }
 
     public void setDetails(DatabaseHelper dh, String module, String page){
-        baseLogActivity.setItemValues(dh,module,page,"","");
+        baseLogActivity.setItemValues(dh, module, page, "", "");
     }
     public void setDetails(DatabaseHelper dh, String module, String page,String section,String data){
         baseLogActivity.setItemValues(dh, module, page, section, data);
@@ -269,7 +269,7 @@ public class BaseActivityGroup extends AppCompatActivity {
 
     };
     protected void logout() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.alert_dialog);
         builder.setCancelable(false);
         builder.setTitle("Logout");
         builder.setMessage("Do you want to really log out?");
@@ -325,6 +325,13 @@ public class BaseActivityGroup extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
                 startActivity(intent);
 
+            }else if (item.getItemId() == R.id.send_bulk_sms) {
+                //Open bulk sms activity
+
+                Intent intent = new Intent(this, BulkTextMessageActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+                startActivity(intent);
+
             } else if (item.getItemId() == R.id.action_refresh_farmer) {
                if( IctcCKwUtil.haveNetworkConnection(this)) {
                     Toast.makeText(getBaseContext(), "Synchronising Data Please wait", Toast.LENGTH_LONG).show();
@@ -333,7 +340,7 @@ public class BaseActivityGroup extends AppCompatActivity {
                     IctcTrackerLogTask omUpdateCCHLogTask = new IctcTrackerLogTask(this);
                     omUpdateCCHLogTask.execute(mqp);
                     ConnectionUtil.refreshWeather(getBaseContext(), "weather", "Get latest weather report");
-                    ConnectionUtil.refreshFarmerInfo(getBaseContext(), null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
+                    ConnectionUtil.refreshFarmerInfo(this, null, "", IctcCkwIntegrationSync.GET_FARMER_DETAILS, "Refreshing farmer Data");
                     startSynchronization();
                 }else{
                    new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)

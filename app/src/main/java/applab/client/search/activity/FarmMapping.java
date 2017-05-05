@@ -181,6 +181,7 @@ public class FarmMapping extends BaseFragmentActivity implements GoogleMap.OnMap
         fArea = (TextView) findViewById(R.id.txt_coordinate_no);
         fArea.setText(String.valueOf(gps.size()));
         // Do a null check to confirm that we have not already instantiated the map.
+
         if (mMap == null || clear) {
             System.out.println("Clear Item Needed");
             // Try to obtain the map from the SupportMapFragment.

@@ -3,32 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <RelativeLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" android:padding="20dp" android:layout_gravity="center_vertical"
-        android:gravity="center_vertical" android:background="@drawable/card_bakground_selector"
-        android:weightSum="5">
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_half"
+           android:background="?attr/selectableItemBackground"
+         >
+
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/thumbnail" android:src="@mipmap/farmer_budget"
-            android:layout_weight="1" />
+            android:layout_width="@dimen/spacing_3"
+            android:layout_height="@dimen/spacing_3"
+            android:id="@+id/thumbnail"
+            android:padding="@dimen/spacing_half"
+            android:src="@mipmap/farmer_budget"
+            android:layout_centerVertical="true"
+             />
+
         <applab.client.agrihub.ui.font.RobotoTextView
-            android:layout_width="300dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="New Text"
+             android:layout_toRightOf="@id/thumbnail"
             app:typeface="robotoLight"
+            android:maxLines="1"
+            android:layout_marginRight="@dimen/spacing_normal"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/spacing_normal"
             android:id="@+id/text" android:paddingLeft="5dp"
-            android:layout_weight="3" />
+             />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/imageView4"
-            android:src="@mipmap/ic_down_arrow_dark"
-            android:layout_weight="1" />
-    </LinearLayout>
+            android:layout_centerVertical="true"
+             android:layout_alignParentRight="true"
+
+            android:src="@drawable/ic_keyboard_arrow_down_black_24dp"
+             />
+    </RelativeLayout>
 </LinearLayout>

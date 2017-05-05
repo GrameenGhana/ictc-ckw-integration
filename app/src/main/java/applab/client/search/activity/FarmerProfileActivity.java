@@ -63,7 +63,9 @@ public class FarmerProfileActivity extends BaseActivityGroup {
             if(null == farmerId ||farmerId.isEmpty()) {
                 farmer = (Farmer) extras.get("farmer");
                 farmerId = farmer.getFarmID();
+
             }
+
             farmer = dbHelper.findFarmer(farmerId);
             ViewGroup view = (ViewGroup)getWindow().getDecorView();
             IctcCKwUtil.setFarmerDetails(view,R.id.default_view_profile_item,farmer.getFullname(),farmer,true);
@@ -91,6 +93,7 @@ public class FarmerProfileActivity extends BaseActivityGroup {
                 spec.setContent(new Intent(FarmerProfileActivity.this, FarmerBaselineSummaryActivity.class)
                         .putExtra("farmer", farmer)
                         .putExtra("section", section));
+
             }else if (section.equalsIgnoreCase("Meeting Summary")){
                 spec.setContent(new Intent(FarmerProfileActivity.this, FarmerProfileMeetingActivity.class)
                         .putExtra("farmer", farmer)

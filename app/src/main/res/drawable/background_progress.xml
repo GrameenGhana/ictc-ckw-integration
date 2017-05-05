@@ -3,7 +3,7 @@
     <item android:id="@+id/shape_bacground">
         <shape android:shape="rectangle" >
             <corners android:topRightRadius="200dp" android:bottomRightRadius="100dp" />
-            <solid android:color="#1E88E5" />
+            <solid android:color="@color/colorPrimary" />
         </shape>
     </item>
 

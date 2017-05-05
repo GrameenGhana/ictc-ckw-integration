@@ -69,16 +69,17 @@ public class IndividualMeetingAAttendance extends BaseActivity {
         TextView v =(TextView) findViewById(R.id.meetingName);
         v.setText(title);
 
-        v =(TextView) findViewById(R.id.farmerName);
-        v.setText(farm.getFullname());
+       // v =(TextView) findViewById(R.id.farmerName);
+       // v.setText(farm.getFullname());
 
         farm=helper.findFarmer(farm.getFarmID());
         ViewGroup view = (ViewGroup)getWindow().getDecorView();
         IctcCKwUtil.setFarmerDetails(view,R.id.ll_farmer_details,farm.getFullname(),farm,true);
       //  mActionBar.setCustomView(mCustomView);
       //  mActionBar.setDisplayShowCustomEnabled(true);
-String title="";
-        if(null==farm)
+
+        String title = "";
+        if(null == farm)
             title="";
        // IctcCKwUtil.setFarmerDetails(getWindow().getDecorView().getRootView(),R.id.ll_farmer_details,title,farm,true);
         super.setDetails(helper,"Farmer","Farm Individual Meeting");
@@ -100,7 +101,7 @@ String title="";
     public void markAttendanceSelect(View view){
 
 
-        String attendended =" '"+farm.getFarmID()+"'";
+        String attendended = " '" + farm.getFarmID()+"'";
 
         MeetingActivity  mt = AgentVisitUtil.getMeetingDetails(meetingIndex,meetingType);
 

@@ -28,6 +28,13 @@
             app:showAsAction="never"
           android:title="Refresh Farmer data"
           android:icon="@mipmap/ic_refresh"/>
+
+
+    <item android:id="@+id/send_bulk_sms"
+          app:showAsAction="never"
+          android:title="Bulk SMS"
+          android:icon="@drawable/ic_sms_black_24dp"
+        />
     <item
             android:id="@+id/action_settings"
             app:showAsAction="never"
@@ -39,11 +46,6 @@
           android:title="@string/action_about"
           android:icon="@mipmap/action_about"/>
 
-<!--
-    <item android:id="@+id/action_meeting_items"
-          android:showAsAction="never"
-          android:title="Meetings"
-          android:icon="@drawable/ic_refresh"/>-->
     <item android:id="@+id/action_logout"
           app:showAsAction="never"
           android:title="Logout"

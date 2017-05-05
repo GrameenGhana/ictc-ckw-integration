@@ -66,6 +66,7 @@ public class ClientActivity extends BaseActivity {
         list = (GridView) findViewById(R.id.gridView4);
         int[] thumbnails={R.mipmap.taroworks_large,R.mipmap.meeting,R.mipmap.farmer_records};
         GridMenuAdapter adapter = new GridMenuAdapter(ClientActivity.this,thumbnails, titles);
+
         if(null == adapter)
             System.out.println("Adapter Null");
         if(null== list)
@@ -77,6 +78,7 @@ public class ClientActivity extends BaseActivity {
                 switch (i){
                     case 0:
                         try {
+                            //Launch taroworks
                             intent = getPackageManager().getLaunchIntentForPackage("org.grameen.taro");
                             startActivity(intent);
 

@@ -32,7 +32,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
 
             android:textIsSelectable="false"
-            android:textSize="16sp" />
+            android:textSize="@dimen/text_size_normal" />
     </LinearLayout>
 
 

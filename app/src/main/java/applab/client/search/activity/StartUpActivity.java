@@ -21,4 +21,7 @@ public class StartUpActivity extends BaseActivity {
     public void onRefresh() {
         showHome(this);
     }
+
+
+
 }

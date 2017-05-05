@@ -116,7 +116,7 @@ List<Farmer> farmers = new ArrayList<Farmer>();
             TextView icon = (TextView) view.findViewById(R.id.lst_text_item_icon);
 
 
-            icon.setText(firstLetter[i]);
+            icon.setText(contents[(i)].substring(0, 1));
 
 
             TextView title = (TextView) view.findViewById(R.id.lst_text_item_titles);
@@ -136,7 +136,7 @@ List<Farmer> farmers = new ArrayList<Farmer>();
     }
 
     public String getColor(){
-        return colors[(new Double(Math.floor(Math.random()*colors.length)).intValue())];
+        return colors[(Double.valueOf(Math.floor(Math.random()*colors.length)).intValue())];
     }
 }
 

@@ -43,7 +43,7 @@
                     android:layout_marginLeft="0dp"
                     android:layout_marginRight="0dp"
                     android:layout_marginTop="8dp"
-                    android:background="@color/material_indigo_300"
+                    android:background="@color/colorAccent"
                     android:gravity="center_vertical" >
 
                     <LinearLayout
@@ -109,7 +109,7 @@
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
                 android:layout_marginTop="8dp"
-                android:background="@color/material_indigo_300"
+                android:background="@color/colorAccent"
                 android:gravity="center_vertical" >
 
                 <LinearLayout

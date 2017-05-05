@@ -2,31 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:weightSum="7">
-
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="#fce0a8"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:weightSum="1">
+         android:background="@color/sub_layout_background"
+        android:orientation="horizontal"
+         android:padding="@dimen/spacing_normal"
+        android:gravity="center_vertical" >
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp"
-            android:weightSum="2">
 
             <TextView
                 android:id="@+id/textView23"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Activity"
+                android:textSize="@dimen/text_size_normal"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_marginRight="16dp"
                />
@@ -36,56 +28,60 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Activity Title"
+                android:textSize="@dimen/text_size_normal"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 />
-        </LinearLayout>
-    </LinearLayout>
+     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:weightSum="1">
+         android:orientation="vertical" >
 
         <TextView
             android:id="@+id/textView25"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
+            android:padding="@dimen/spacing_half"
             android:text="Farmer Search" />
 
         <EditText
             android:id="@+id/txt_search_fsp"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@mipmap/action_search" />
+            android:layout_marginLeft="@dimen/spacing_normal"
+            android:layout_marginRight="@dimen/spacing_normal"
+            android:drawableRight="@drawable/ic_search_grey_500_24dp" />
 
         <Button
             android:id="@+id/btn_just_browse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+             android:backgroundTint="@color/colorAccent"
+             android:textColor="@color/white"
+             android:layout_gravity="center_horizontal"
             android:onClick="processJustBrowse"
-            android:paddingLeft="20dp"
-            android:text="Just Browse" />
+             android:text="Just Browse" />
+
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="300dp"
-        android:layout_weight="4"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
 
         <ListView
             android:id="@+id/lst_farmer_fsf"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="#eee"
-            android:dividerHeight="5dp"
+            android:dividerHeight="1dp"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:fadeScrollbars="false" />
+
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -101,4 +97,6 @@
             android:text="View Instructions"
             android:visibility="gone" />
     </LinearLayout>
+
+
 </LinearLayout>

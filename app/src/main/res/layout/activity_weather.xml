@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+
+
+    <com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/kbv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/womanfarming"
+
+         />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#81000000"
+        />
+
+    <ProgressBar
+        android:id="@+id/loading_weather_progress"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="visible"
+        />
+
+
+    <RelativeLayout
+        android:id="@+id/current_weather_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        >
+
+        <ImageView
+            android:id="@+id/current_weather_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/sunny"
+            android:padding="@dimen/spacing_quarter"
+            android:tint="@color/white"
+            android:alpha="0.5"  />
+
+        <TextView
+            android:id="@+id/current_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="100sp"
+            android:fontFamily="sans-serif-light"
+            android:layout_toRightOf="@id/current_weather_icon"
+            android:text="5"
+            android:textColor="@color/white"  />
+
+    </RelativeLayout>
+
+
+    <include layout="@layout/day_selection_layout" />
+
+
+    <include layout="@layout/five_day_forecast_layout" />
+
+    <LinearLayout
+        android:id="@+id/extras_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_normal"
+        android:visibility="gone"
+        android:layout_below="@id/current_weather_layout"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/humidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal"
+             />
+
+        <TextView
+            android:id="@+id/atm_pressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+             android:textColor="@color/white"
+            android:textSize="@dimen/text_size_normal"
+            android:layout_marginTop="@dimen/spacing_half"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

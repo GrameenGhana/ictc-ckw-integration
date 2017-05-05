@@ -28,7 +28,7 @@ public class MediaUtils {
 
     public static final String TAG = MediaUtils.class.getSimpleName();
     public static final String MEDIA_ROOT = Environment.getExternalStorageDirectory() + "/gfsearch/";
-    public static final String SMART_EXT_FOLDER = Environment.getExternalStorageDirectory()+"/smartext";
+    public static final String SMART_EXT_FOLDER = Environment.getExternalStorageDirectory()+"/SmartEx";
     private static String[] SUPPORTED_FORMATS = {".jpg", ".jpeg", ".mp4"};
 
     public static boolean storageReady() {

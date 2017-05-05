@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large"
-            android:textSize="16sp"/>
+            android:textSize="@dimen/text_size_normal"/>
     </LinearLayout>
 
     <LinearLayout
@@ -30,7 +30,7 @@
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@mipmap/action_search"
+            android:drawableRight="@drawable/ic_search_grey_500_24dp"
             android:hint="Search" />
 
         <ListView

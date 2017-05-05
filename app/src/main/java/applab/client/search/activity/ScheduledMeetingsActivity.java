@@ -3,6 +3,7 @@ package applab.client.search.activity;
 import android.app.LocalActivityManager;
 import android.content.res.Resources;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.app.Activity;
 import android.app.ActivityGroup;
@@ -29,16 +30,12 @@ public class ScheduledMeetingsActivity extends BaseActivityGroup {
         setContentView(R.layout.activity_scheduled_meetings);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            toolbar.setTitleTextColor(getResources().getColor(R.color.white, getApplicationContext().getTheme()));
-        }else{
-            toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        }
-
-
+            toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
         setSupportActionBar(toolbar);
 
         ActionBar mActionBar = getSupportActionBar();
+
+
 
 
         mActionBar.setDisplayHomeAsUpEnabled(true);
@@ -64,7 +61,7 @@ public class ScheduledMeetingsActivity extends BaseActivityGroup {
         gencal.putExtra("type","group");
 
         TabHost.TabSpec spec = tabHost.newTabSpec("Meetings");
-        spec.setIndicator("Meetings");
+        spec.setIndicator("Group");
         spec.setContent(gencal);
         tabHost.addTab(spec);
 
@@ -79,7 +76,7 @@ public class ScheduledMeetingsActivity extends BaseActivityGroup {
 
 
 
-        super.setDetails(new DatabaseHelper(getBaseContext()),"Meeting","List of Meetings");
+        super.setDetails(new DatabaseHelper(getBaseContext()), "Meeting", "List of Meetings");
 //
     }
 

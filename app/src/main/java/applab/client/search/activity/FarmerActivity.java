@@ -53,6 +53,8 @@ public class FarmerActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+
         mTitleTextView.setText("Farmers");
         mActionBar.setTitle("Farmers");
        // mActionBar.setCustomView(mCustomView);
@@ -96,7 +98,7 @@ public class FarmerActivity extends BaseActivity {
         }
 
         list = (ListView) findViewById(R.id.listView);
-        FarmersAdapter adapter = new FarmersAdapter(FarmerActivity.this, names, locations, mainCrops, groups,myFarmers);
+        FarmersAdapter adapter = new FarmersAdapter(FarmerActivity.this, names, locations, mainCrops, groups, myFarmers);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {

@@ -57,6 +57,8 @@ public class FarmerBaselineSummaryActivity extends BaseActivity {
         }
         mainCrop = farmer.getMainCrop();
 
+        getSupportActionBar().hide();
+
     } catch (Exception e) {
         e.printStackTrace();
     }

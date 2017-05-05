@@ -4,8 +4,12 @@ package applab.client.search.activity;
 import android.app.LocalActivityManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.FragmentTabHost;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
+import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
@@ -18,10 +22,12 @@ import applab.client.search.model.FarmerInputs;
 import applab.client.search.model.Meeting;
 import applab.client.search.storage.DatabaseHelper;
 import applab.client.search.utils.IctcCKwUtil;
+import applab.client.search.utils.SMSUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 
 /**
  * Created by Software Developer on 30/07/2015.
@@ -33,6 +39,7 @@ public class FarmerDetailActivity extends BaseActivityGroup {
     private TextView textViewPercentageSold;
     private String name;
     private String mainCrop;
+    String TAG = FarmerDetailActivity.class.getSimpleName();
     private String location;
     private TextView textViewLocation;
     ListView list;
@@ -56,9 +63,12 @@ public class FarmerDetailActivity extends BaseActivityGroup {
         LayoutInflater mInflater = LayoutInflater.from(this);
         //tabHost = (TabHost) findViewById(R.id.tabHost3);
         listView=(ListView) findViewById(R.id.listView);
-        String[] items={"Farmer Profile","Farm Management Plan","Farm Input","Farmer Budget"};
+        String[] items={"Farmer Profile","Farm Management Plan","Farm Input","Farmer Budget", "Send SMS Message"};
+
         int[] thumbs={R.mipmap.famer_profile,R.mipmap.farmer_management_plan,
-                R.mipmap.farm_input,R.mipmap.farmer_budget};
+                R.mipmap.farm_input,R.mipmap.farmer_budget, R.drawable.sms};
+
+
         ListWithThumbnailAdapter adapter= new ListWithThumbnailAdapter(FarmerDetailActivity.this,items,thumbs);
         listView.setAdapter(adapter);
         //linearlayout_crop=(LinearLayout) findViewById(R.id.linearlayout_crops);
@@ -148,6 +158,11 @@ public class FarmerDetailActivity extends BaseActivityGroup {
                         intent=new Intent(FarmerDetailActivity.this, FarmBudgetActivity.class);
                         intent.putExtra("farmer", farmer);
                         startActivity(intent);
+                        break;
+                    case 4:
+                        //Send sms
+
+                        sendSMSMessage(farmer.getPhoneNumber());
                         break;
                 }
             }
@@ -423,4 +438,70 @@ public class FarmerDetailActivity extends BaseActivityGroup {
         tabHost.setCurrentTab(2);
 
     }
+
+    void sendSMSMessage(String phone_number){
+
+        Log.i(TAG, "sending SMS");
+
+        if(phone_number != null && phone_number.length() >= 9){
+
+            if(phone_number.length() == 9 && !phone_number.substring(0, 1).equals("0")) phone_number = "0" + phone_number;
+
+
+        LayoutInflater layoutInflaterAndroid = LayoutInflater.from(this);
+        View mView = layoutInflaterAndroid.inflate(R.layout.message_dialog, null);
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(this);
+        alertDialogBuilderUserInput.setView(mView);
+
+        final TextInputLayout messageLayout = (TextInputLayout) mView.findViewById(R.id.message_layout);
+
+
+
+        alertDialogBuilderUserInput
+                .setCancelable(false);
+        final AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
+        alertDialogAndroid.show();
+
+            final String finalPhone_number = phone_number;
+
+            Log.i(TAG, "Phone number is " + finalPhone_number);
+
+            mView.findViewById(R.id.positive_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                String message = messageLayout.getEditText().getText().toString().trim();
+                SMSUtils.sendSMS(FarmerDetailActivity.this, finalPhone_number, message);
+                alertDialogAndroid.dismiss();
+
+
+
+
+
+
+            }
+        });
+
+
+        mView.findViewById(R.id.negative_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialogAndroid.dismiss();
+
+            }
+        });
+
+
+    }
+    else{
+            Toast.makeText(this, "Phone number is either invalid or unavailable", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+
+
+
+
 }

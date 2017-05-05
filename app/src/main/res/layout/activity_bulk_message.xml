@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:id="@+id/custom_alert_dialog"
+              android:layout_height="wrap_content"
+              android:padding="@dimen/spacing_normal"
+    >
+
+    <LinearLayout
+        android:id="@+id/text_message_input_layout"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="This might cost you some money/credits"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimaryDark"
+            />
+
+
+
+            <EditText
+                android:id="@+id/enter_bulk_message"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Enter text message"
+                android:lines="4"
+                android:maxLines="4"
+                android:paddingLeft="@dimen/spacing_normal"
+                android:background="@color/sub_layout_background"
+                android:textColor="@android:color/primary_text_light"
+                android:inputType="textMultiLine"
+                style="@style/EditText"
+                 />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/select_all_layout"
+        android:layout_below="@+id/text_message_input_layout"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_alignParentRight="true"
+        android:background="?attr/selectableItemBackground"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select all"
+            android:padding="@dimen/spacing_normal"
+
+            />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/bulk_messages_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/select_all_layout"
+         android:layout_marginBottom="@dimen/spacing_3"
+        >
+
+
+
+
+    </android.support.v7.widget.RecyclerView>
+
+
+
+
+
+    <Button
+        android:id="@+id/send_bulk_sms_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SEND"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        />
+
+
+
+</RelativeLayout>

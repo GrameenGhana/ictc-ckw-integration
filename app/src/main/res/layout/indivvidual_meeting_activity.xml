@@ -1,61 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:id="@+id/ll_farmer_details">
-        <include layout="@layout/cluster_child_single" />
+        android:id="@+id/ll_farmer_details"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/cluster_child_single"/>
     </LinearLayout>
-    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent"
-                  android:layout_height="wrap_content">
-        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                      android:layout_height="wrap_content" android:weightSum="3">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
-                      android:text="Meeting" android:textSize="20sp" android:layout_weight="1"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New Text"
-                      android:id="@+id/meetingName" android:layout_weight="2"/>
-        </LinearLayout>
-        <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent"
-                      android:layout_height="wrap_content" android:weightSum="3"
-            android:visibility="gone">
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:padding="10dp"
-                      android:text="Farmer" android:textSize="20sp" android:layout_weight="1"/>
-            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="New Text"
-                      android:id="@+id/farmerName" android:layout_weight="2"/>
-        </LinearLayout>
-        <LinearLayout android:orientation="horizontal"
-                      android:layout_width="fill_parent"
-                      android:layout_height="fill_parent"
-                      android:weightSum="3">
-            <Button android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Meeting Date"
-                    android:drawableLeft="@mipmap/ic_date"
-                    android:onClick="showDatePickerDialog"
-                    android:layout_weight="1"/>
-            <Button android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Start time"
-                    android:drawableLeft="@mipmap/ic_time"
-                    android:onClick="showTimePickerDialog"
-                    android:layout_weight="1"/>
-            <Button android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="End time"
-                    android:drawableLeft="@mipmap/ic_time"
-                    android:onClick="showTimePickerDialog"
-                    android:layout_weight="1"/>
+
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp" >
+
+            <applab.client.agrihub.ui.font.RobotoTextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_normal"
+                android:text="Meeting :"
+                />
+
+
+            <TextView
+                android:id="@+id/meetingName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:text="New Text" />
+
         </LinearLayout>
 
-        <Button android:id="@+id/button"
-                android:layout_width="match_parent"
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            >
+
+            <Button
+                android:id="@+id/md"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="markAttendanceSelect"
-                android:drawableLeft="@mipmap/ic_mark_attendance"
-                android:text="Click to mark Attendance"/>
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/date"
+                android:drawableTint="@color/colorPrimary"
+                android:backgroundTint="#f1f1f1"
+                android:onClick="showDatePickerDialog"
+                android:text="Meeting Date" />
+
+            <Button
+                android:id="@+id/sit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#f1f1f1"
+                android:drawableTint="@color/colorPrimary"
+                android:drawableLeft="@drawable/present"
+                android:onClick="showTimePickerDialog"
+                android:text="Meeting Time" />
+
+            <Button
+                android:id="@+id/eit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#f1f1f1"
+                android:drawableTint="@color/colorPrimary"
+                android:drawableLeft="@drawable/future"
+                android:onClick="showTimePickerDialog"
+                android:text="End time" />
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:id="@+id/findSelected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_half"
+            android:onClick="markAttendanceSelect"
+            android:background="@color/sub_layout_background"
+            android:padding="@dimen/spacing_half"
+            android:text="Click to register Attendance" />
+
+
+
     </LinearLayout>
 </LinearLayout>

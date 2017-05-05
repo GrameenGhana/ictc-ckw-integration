@@ -86,7 +86,7 @@ public class TVScheduleActivity extends BaseActivity {
         list.setAdapter(adapter);
 
 
-        TextView tv = (TextView) findViewById(R.id.txt_call_meida_lines);
+       /* TextView tv = (TextView) findViewById(R.id.txt_call_meida_lines);
         tv.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 System.out.println("Calling  : 057665186");
@@ -105,7 +105,7 @@ public class TVScheduleActivity extends BaseActivity {
                 System.out.println("Done calling 057665186");
                 startActivity(intent);
             }
-        });
+        });*/
 //
         super.setDetails(new DatabaseHelper(getBaseContext()), "Supplier", "Supplier");
 

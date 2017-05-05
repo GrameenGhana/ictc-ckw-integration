@@ -49,6 +49,15 @@ public class FarmerProfileSecionActivity extends AppCompatActivity {
             farmer = dbHelper.findFarmer(farmerId);
 
 
+
+
+        }
+
+        try{
+            getSupportActionBar().hide();
+
+        }catch(Exception e) {
+            e.printStackTrace();
         }
 
         list = (ExpandableListView) findViewById(R.id.exp_summary_profile);
